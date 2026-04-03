@@ -6,10 +6,11 @@ Scope (MVP):
 - Connect to Solana testnet (RPC) and subscribe to a source account or program events
 - Simulate/execute SPL token transfers/orders on testnet (no mainnet funds)
 - Simple policy: copy market-sized trades, apply per-wallet risk caps
+
+Demo: Run `npm run demo:devnet` to execute the sprint-2 dry-run demo; results are appended to PROOFS.md.
 - CLI to run a dry-run and a live-run (requires keys)
 
 Deliverables:
 - README + TODO + PROOFS
 - Basic TypeScript project with listener + executor + poster (for logging)
 - Unit tests & demo script
-
