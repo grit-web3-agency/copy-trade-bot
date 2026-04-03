@@ -61,17 +61,32 @@
 - **New tests**: `settings.test.ts`, `retry.test.ts`, `trade-executor.test.ts`, `error-handling.test.ts`.
 - **Documentation**: Updated README with full usage guide; this PROOFS.md with E2E checklist.
 
-### Unit Tests
+### Unit Tests (46/46 passing)
 
 ```
- ✓ tests/whale-listener.test.ts   — WhaleListener core
- ✓ tests/watch-command.test.ts    — /watch DB operations
- ✓ tests/copy-policy.test.ts      — Copy policy + processWhaleTrade
- ✓ tests/settings.test.ts         — /settings DB operations
- ✓ tests/retry.test.ts            — withRetry utility
- ✓ tests/trade-executor.test.ts   — TradeExecutor + double-spend guard
- ✓ tests/error-handling.test.ts   — WhaleListener error paths
+ ✓ tests/whale-listener.test.ts   (4 tests)  — WhaleListener core
+ ✓ tests/watch-command.test.ts    (7 tests)  — /watch DB operations
+ ✓ tests/copy-policy.test.ts      (11 tests) — Copy policy + processWhaleTrade
+ ✓ tests/settings.test.ts         (7 tests)  — /settings DB operations
+ ✓ tests/retry.test.ts            (5 tests)  — withRetry utility
+ ✓ tests/trade-executor.test.ts   (5 tests)  — TradeExecutor + double-spend guard
+ ✓ tests/error-handling.test.ts   (7 tests)  — WhaleListener error paths
+
+ Test Files  7 passed (7)
+      Tests  46 passed (46)
+   Duration  <1s
 ```
+
+### Error Handling Coverage
+
+| Module | What's covered |
+|--------|---------------|
+| `bot.ts` | Every command handler wrapped in try-catch; user gets friendly error messages |
+| `index.ts` | `uncaughtException`, `unhandledRejection`, `SIGINT`/`SIGTERM` handlers; listener errors don't crash bot |
+| `trade-executor.ts` | Jupiter retry (3×, exponential backoff); double-spend guard; failed trades recorded to DB |
+| `whale-listener.ts` | `parseTransaction` returns null on bad data; `start()` retries with backoff |
+| `copy-policy.ts` | Per-user errors don't block other users; rejected trades notify user with reason |
+| `wallet-manager.ts` | All functions log with `[WalletManager]` prefix; `getKeypair` returns null on error |
 
 ---
 
@@ -90,19 +105,27 @@ Follow these steps to verify the bot works end-to-end in dry-run mode.
    ```bash
    npm run test
    ```
-   Expected: All tests pass.
+   - [ ] All 46 tests pass
+   - [ ] No errors in output
 
 2. **Run E2E demo script**
    ```bash
    npm run demo
    ```
-   Expected: See output similar to Sprint 3 demo above — two dry-run trades executed, notifications logged.
+   - [ ] Database initializes
+   - [ ] User created with wallet
+   - [ ] Whale added to watch list
+   - [ ] Copy trading enabled
+   - [ ] Whale BUY simulated → copy trade executed (dry-run)
+   - [ ] Whale SELL simulated → copy trade executed (dry-run)
+   - [ ] Summary shows 2 trades
 
 3. **Build the project**
    ```bash
    npm run build
    ```
-   Expected: No TypeScript errors, `dist/` directory created.
+   - [ ] No TypeScript errors
+   - [ ] `dist/` directory created with .js files
 
 4. **Manual Telegram test** (optional, requires BOT_TOKEN)
    ```bash
@@ -110,16 +133,22 @@ Follow these steps to verify the bot works end-to-end in dry-run mode.
    npm run dev
    ```
    Then in Telegram:
-   - Send `/start` — should create wallet and show welcome message
-   - Send `/settings` — should show default settings (0.1 SOL, 100 bps)
-   - Send `/settings max 0.5 slippage 200` — should update and confirm
-   - Send `/settings max 999` — should show validation error
-   - Send `/watch 9WzDXwBbmkg8ZTbNMqUxvQRAyrZzDsGYdLVL9zYtAWWM` — should confirm watching
-   - Send `/copy on` — should enable copy trading
-   - Send `/balance` — should show wallet balance (0 on devnet)
+   - [ ] `/start` → wallet created, welcome message shown
+   - [ ] `/settings` → shows defaults (0.1 SOL, 100 bps)
+   - [ ] `/settings max 0.5 slippage 200` → updates and confirms
+   - [ ] `/settings max 999` → shows validation error
+   - [ ] `/watch 9WzDXwBbmkg8ZTbNMqUxvQRAyrZzDsGYdLVL9zYtAWWM` → confirms watching
+   - [ ] `/copy on` → enables copy trading
+   - [ ] `/balance` → shows wallet balance
+   - [ ] `/help` → shows command list
 
-### Evidence to collect
-- Screenshot or terminal output of `npm run test` (all green)
-- Screenshot or terminal output of `npm run demo` (trades logged)
-- Screenshot or terminal output of `npm run build` (no errors)
-- (Optional) Telegram screenshots of `/settings` command in action
+5. **Error handling verification**
+   - [ ] `/watch invalidaddress` → shows "Invalid Solana address"
+   - [ ] `/settings max abc` → shows "max must be a number"
+   - [ ] `/settings slippage 9999` → shows "slippage must be between 1 and 5000 bps"
+
+### Evidence to capture
+- Terminal output of `npm run test` (all green)
+- Terminal output of `npm run demo` (trades logged)
+- Terminal output of `npm run build` (no errors)
+- (Optional) Telegram screenshots of commands in action
