@@ -12,3 +12,14 @@ RPC: https://api.devnet.solana.com
 - **Trade 3** (follower `63LBD3Kn…`): DRY-RUN — policy passed, tx simulated
 
 > Note: Airdrop/network calls failed; results are dry-run simulations.
+
+## Sprint-2 Demo — 2026-04-03T11:49:36.166Z
+
+Mode: DRY-RUN (network unavailable)
+RPC: https://api.devnet.solana.com
+
+- **Trade 1** (follower `HJ7xhCPi…`): DRY-RUN — policy passed, tx simulated
+- **Trade 2** (follower `C86GFHn5…`): DRY-RUN — policy passed, tx simulated
+- **Trade 3** (follower `BrvNbAiN…`): DRY-RUN — policy passed, tx simulated
+
+> Note: Airdrop/network calls failed; results are dry-run simulations.
