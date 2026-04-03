@@ -4,7 +4,9 @@ import { createTestDb, getOrCreateUser } from '../src/db';
 import { createAndStoreWallet, getKeypair } from '../src/wallet-manager';
 import { executeRealTrade, _getInFlightTrades } from '../src/trade-executor';
 
-describe('TradeExecutor Real (devnet) flow', () => {
+const runReal = process.env.RUN_REAL_NETWORK === '1';
+const realDescribe = runReal ? describe : describe.skip;
+realDescribe('TradeExecutor Real (devnet) flow', () => {
   let db: Database.Database;
   beforeEach(() => {
     db = createTestDb();
