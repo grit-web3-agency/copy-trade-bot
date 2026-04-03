@@ -1,0 +1,29 @@
+{
+  "name": "copy-trade-bot",
+  "version": "0.3.0",
+  "description": "Copy-Trade Bot MVP (Solana) - Telegram bot that monitors whale wallets and auto-copies trades",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx src/index.ts",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "demo": "tsx scripts/e2e-demo.ts"
+  },
+  "keywords": ["solana", "copy-trade", "telegram", "bot"],
+  "license": "MIT",
+  "dependencies": {
+    "grammy": "^1.21.1",
+    "@solana/web3.js": "^1.91.1",
+    "better-sqlite3": "^11.0.0",
+    "bs58": "^5.0.0",
+    "dotenv": "^16.4.5"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.5",
+    "tsx": "^4.7.1",
+    "vitest": "^1.6.0",
+    "@types/better-sqlite3": "^7.6.9",
+    "@types/node": "^20.12.7"
+  }
+}
