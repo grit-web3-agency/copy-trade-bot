@@ -34,7 +34,14 @@ export class WhaleListener extends EventEmitter {
   async start(wsUrl?: string): Promise<void> {
     if (this.running) return;
     this.running = true;
-    console.log(`[WhaleListener] Started monitoring ${this.watchedAddresses.size} addresses`);
+    try {
+      // In production: connect to websocket and handle errors
+      console.log(`[WhaleListener] Started monitoring ${this.watchedAddresses.size} addresses`);
+    } catch (err) {
+      console.error('[WhaleListener] start error:', err);
+      this.running = false;
+      throw err;
+    }
     // In production: connect to Helius websocket and subscribe to account changes
     // For MVP: we emit events manually or via the E2E demo script
   }
@@ -54,32 +61,41 @@ export class WhaleListener extends EventEmitter {
   // Parse a Solana transaction to detect swaps
   // In production, this would parse Jupiter/Raydium swap instructions
   parseTransaction(tx: any): WhaleTradeEvent | null {
-    // Stub: real implementation would decode instruction data
-    // and detect token swap patterns (Jupiter route, Raydium swap, etc.)
-    if (!tx || !tx.signature) return null;
+    try {
+      // Stub: real implementation would decode instruction data
+      // and detect token swap patterns (Jupiter route, Raydium swap, etc.)
+      if (!tx || !tx.signature) return null;
 
-    const signerAddress = tx.feePayer || tx.signer;
-    if (!signerAddress || !this.watchedAddresses.has(signerAddress)) return null;
+      const signerAddress = tx.feePayer || tx.signer;
+      if (!signerAddress || !this.watchedAddresses.has(signerAddress)) return null;
 
-    // For demo/testing: accept pre-parsed trade events
-    if (tx.parsedTrade) {
-      return {
-        whaleAddress: signerAddress,
-        direction: tx.parsedTrade.direction,
-        tokenMint: tx.parsedTrade.tokenMint,
-        amountSol: tx.parsedTrade.amountSol,
-        signature: tx.signature,
-        timestamp: Date.now(),
-      };
+      // For demo/testing: accept pre-parsed trade events
+      if (tx.parsedTrade) {
+        return {
+          whaleAddress: signerAddress,
+          direction: tx.parsedTrade.direction,
+          tokenMint: tx.parsedTrade.tokenMint,
+          amountSol: tx.parsedTrade.amountSol,
+          signature: tx.signature,
+          timestamp: Date.now(),
+        };
+      }
+
+      return null;
+    } catch (err) {
+      console.error('[WhaleListener] parseTransaction error:', err);
+      return null;
     }
-
-    return null;
   }
 
   // Simulate a whale trade event (for testing and demos)
   simulateTrade(event: WhaleTradeEvent) {
-    if (this.watchedAddresses.has(event.whaleAddress)) {
-      this.emit('trade', event);
+    try {
+      if (this.watchedAddresses.has(event.whaleAddress)) {
+        this.emit('trade', event);
+      }
+    } catch (err) {
+      console.error('[WhaleListener] simulateTrade error:', err);
     }
   }
 }

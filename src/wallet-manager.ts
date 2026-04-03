@@ -22,29 +22,49 @@ export function encryptSecret(secret: Uint8Array): string {
 }
 
 export function decryptSecret(encryptedStr: string): Uint8Array {
-  const [ivHex, encHex] = encryptedStr.split(':');
-  const iv = Buffer.from(ivHex, 'hex');
-  const encrypted = Buffer.from(encHex, 'hex');
-  const decipher = crypto.createDecipheriv('aes-256-cbc', ENCRYPTION_KEY, iv);
-  const decrypted = Buffer.concat([decipher.update(encrypted), decipher.final()]);
-  return new Uint8Array(decrypted);
+  try {
+    const [ivHex, encHex] = encryptedStr.split(':');
+    const iv = Buffer.from(ivHex, 'hex');
+    const encrypted = Buffer.from(encHex, 'hex');
+    const decipher = crypto.createDecipheriv('aes-256-cbc', ENCRYPTION_KEY, iv);
+    const decrypted = Buffer.concat([decipher.update(encrypted), decipher.final()]);
+    return new Uint8Array(decrypted);
+  } catch (err) {
+    console.error('[WalletManager] decryptSecret error:', err);
+    throw err;
+  }
 }
 
 export function createAndStoreWallet(database: Database.Database, telegramId: string): string {
-  const { publicKey, secretKey } = createWallet();
-  const encrypted = encryptSecret(secretKey);
-  saveWallet(database, telegramId, publicKey, encrypted);
-  return publicKey;
+  try {
+    const { publicKey, secretKey } = createWallet();
+    const encrypted = encryptSecret(secretKey);
+    saveWallet(database, telegramId, publicKey, encrypted);
+    return publicKey;
+  } catch (err) {
+    console.error('[WalletManager] createAndStoreWallet error:', err);
+    throw err;
+  }
 }
 
 export function getKeypair(database: Database.Database, telegramId: string): Keypair | null {
-  const wallet = getWallet(database, telegramId);
-  if (!wallet) return null;
-  const secret = decryptSecret(wallet.encrypted_secret);
-  return Keypair.fromSecretKey(secret);
+  try {
+    const wallet = getWallet(database, telegramId);
+    if (!wallet) return null;
+    const secret = decryptSecret(wallet.encrypted_secret);
+    return Keypair.fromSecretKey(secret);
+  } catch (err) {
+    console.error('[WalletManager] getKeypair error:', err);
+    return null;
+  }
 }
 
 export async function getBalance(connection: Connection, publicKey: string): Promise<number> {
-  const balance = await connection.getBalance(new PublicKey(publicKey));
-  return balance / LAMPORTS_PER_SOL;
+  try {
+    const balance = await connection.getBalance(new PublicKey(publicKey));
+    return balance / LAMPORTS_PER_SOL;
+  } catch (err) {
+    console.error('[WalletManager] getBalance error:', err);
+    throw err;
+  }
 }

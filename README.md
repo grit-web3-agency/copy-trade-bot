@@ -50,6 +50,7 @@ npm run build    # Compile TypeScript
 | `/copy on\|off` | Toggle copy trading |
 | `/balance` | Check wallet balance |
 | `/help` | Show help message |
+| `/settings` | View or update user settings (max trade size, slippage) |
 
 ## Copy Policy
 
@@ -65,4 +66,10 @@ When a whale trade is detected:
 - [x] Sprint 1: Scaffold + Listener
 - [x] Sprint 2: Wallet + Executor
 - [x] Sprint 3: Copy Logic + Demo
-- [ ] Sprint 4: Polish + Deploy
+- [x] Sprint 4: Polish + Deploy
+
+Sprint 4 details:
+- Added robust error handling across wallet-manager, whale-listener, and trade-executor.
+- Implemented `/settings` command to view/update max_trade_size_sol and slippage_bps (persisted in SQLite per-user).
+- Added PM2 ecosystem config and start script (instructions only; no remote deploy performed).
+- Updated documentation and proofs.

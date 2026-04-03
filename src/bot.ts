@@ -6,6 +6,8 @@ import {
   addWatchedWhale,
   getWatchedWhales,
   getWallet,
+  setUserSettings,
+  getUserSettings,
 } from './db';
 import { createAndStoreWallet, getBalance } from './wallet-manager';
 import { Connection, PublicKey } from '@solana/web3.js';
@@ -131,6 +133,48 @@ export function createBot(token: string, database: Database.Database, rpcUrl?: s
     } catch (err) {
       await ctx.reply(`Wallet: \`${wallet.public_key}\`\nBalance: Unable to fetch (devnet)`, { parse_mode: 'Markdown' });
     }
+  });
+
+  // /settings — view or change user settings (max trade size, slippage)
+  bot.command('settings', async (ctx) => {
+    const telegramId = ctx.from?.id.toString();
+    if (!telegramId) return;
+
+    getOrCreateUser(database, telegramId, ctx.from?.username);
+
+    const text = ctx.message?.text || '';
+    const parts = text.split(/\s+/).slice(1);
+
+    if (parts.length === 0) {
+      const s = getUserSettings(database, telegramId);
+      await ctx.reply(`Current settings:\n- max_trade_size_sol: ${s.max_trade_size_sol} SOL\n- slippage_bps: ${s.slippage_bps} bps`);
+      return;
+    }
+
+    // parse commands: /settings max 0.2 | /settings slippage 150 | combinations
+    let max: number | undefined;
+    let slippage: number | undefined;
+    for (let i = 0; i < parts.length; i++) {
+      const p = parts[i].toLowerCase();
+      if (p === 'max' && parts[i + 1]) {
+        const v = parseFloat(parts[i + 1]);
+        if (!isNaN(v)) max = v;
+        i++;
+      } else if ((p === 'slippage' || p === 'slip') && parts[i + 1]) {
+        const v = parseInt(parts[i + 1], 10);
+        if (!isNaN(v)) slippage = v;
+        i++;
+      }
+    }
+
+    if (typeof max === 'undefined' && typeof slippage === 'undefined') {
+      await ctx.reply('Usage: /settings [max <SOL>] [slippage <bps>]\nExample: /settings max 0.1 slippage 100');
+      return;
+    }
+
+    setUserSettings(database, telegramId, { maxTradeSizeSol: max, slippageBps: slippage });
+    const s = getUserSettings(database, telegramId);
+    await ctx.reply(`Settings updated:\n- max_trade_size_sol: ${s.max_trade_size_sol} SOL\n- slippage_bps: ${s.slippage_bps} bps`);
   });
 
   return bot;

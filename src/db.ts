@@ -98,6 +98,30 @@ export function getCopyEnabledUsers(database: Database.Database): User[] {
   return database.prepare('SELECT * FROM users WHERE copy_enabled = 1').all() as User[];
 }
 
+// New: user settings helpers
+export function setUserSettings(database: Database.Database, telegramId: string, settings: { maxTradeSizeSol?: number; slippageBps?: number }) {
+  const parts: string[] = [];
+  const values: any[] = [];
+  if (typeof settings.maxTradeSizeSol === 'number') {
+    parts.push('max_trade_size_sol = ?');
+    values.push(settings.maxTradeSizeSol);
+  }
+  if (typeof settings.slippageBps === 'number') {
+    parts.push('slippage_bps = ?');
+    values.push(settings.slippageBps);
+  }
+  if (parts.length === 0) return;
+  values.push(telegramId);
+  const sql = `UPDATE users SET ${parts.join(', ')} WHERE telegram_id = ?`;
+  database.prepare(sql).run(...values);
+}
+
+export function getUserSettings(database: Database.Database, telegramId: string): { max_trade_size_sol: number; slippage_bps: number } {
+  const row = database.prepare('SELECT max_trade_size_sol, slippage_bps FROM users WHERE telegram_id = ?').get(telegramId);
+  if (!row) return { max_trade_size_sol: 0.1, slippage_bps: 100 };
+  return { max_trade_size_sol: row.max_trade_size_sol, slippage_bps: row.slippage_bps };
+}
+
 // --- Whale watch operations ---
 
 export interface WatchedWhale {
