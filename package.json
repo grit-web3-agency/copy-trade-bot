@@ -10,20 +10,25 @@
     "test:watch": "vitest",
     "demo": "tsx scripts/e2e-demo.ts"
   },
-  "keywords": ["solana", "copy-trade", "telegram", "bot"],
+  "keywords": [
+    "solana",
+    "copy-trade",
+    "telegram",
+    "bot"
+  ],
   "license": "MIT",
   "dependencies": {
-    "grammy": "^1.21.1",
     "@solana/web3.js": "^1.91.1",
     "better-sqlite3": "^11.0.0",
     "bs58": "^5.0.0",
-    "dotenv": "^16.4.5"
+    "dotenv": "^16.4.5",
+    "grammy": "^1.21.1"
   },
   "devDependencies": {
-    "typescript": "^5.4.5",
-    "tsx": "^4.7.1",
-    "vitest": "^1.6.0",
     "@types/better-sqlite3": "^7.6.9",
-    "@types/node": "^20.12.7"
+    "@types/node": "^20.12.7",
+    "tsx": "^4.7.1",
+    "typescript": "^5.4.5",
+    "vitest": "^3.2.4"
   }
 }
