@@ -232,11 +232,11 @@ export async function executeRealTrade(
         body: JSON.stringify(swapBody),
       });
       if (!resp.ok) throw new Error(`Jupiter swap failed: ${resp.status}`);
-      return await resp.json();
+      return (await resp.json()) as Record<string, unknown>;
     }, { maxRetries: 3, baseDelayMs: 500 });
 
     // Jupiter returns a base64 serialized transaction we must sign and send
-    const swapTxBase64: string | undefined = swapResp?.swapTransaction || swapResp?.serializedTransaction;
+    const swapTxBase64 = (swapResp?.swapTransaction || swapResp?.serializedTransaction) as string | undefined;
     if (!swapTxBase64) {
       return {
         success: false,
