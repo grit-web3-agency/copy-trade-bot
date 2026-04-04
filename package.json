@@ -1,6 +1,6 @@
 {
   "name": "copy-trade-bot",
-  "version": "0.4.0",
+  "version": "0.3.0",
   "description": "Copy-Trade Bot MVP (Solana) - Telegram bot that monitors whale wallets and auto-copies trades",
   "main": "dist/index.js",
   "scripts": {

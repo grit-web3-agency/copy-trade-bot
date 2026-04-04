@@ -1,18 +1,9 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { describe, it, expect, beforeEach } from 'vitest';
 import { checkCopyPolicy, CopyPolicyConfig, processWhaleTrade } from '../src/copy-policy';
 import { WhaleTradeEvent } from '../src/whale-listener';
 import { createTestDb, getOrCreateUser, addWatchedWhale, setCopyEnabled } from '../src/db';
 import { createAndStoreWallet } from '../src/wallet-manager';
 import Database from 'better-sqlite3';
-
-// Mock getJupiterQuote to avoid network calls and retry delays
-vi.mock('../src/trade-executor', async (importOriginal) => {
-  const mod = await importOriginal<typeof import('../src/trade-executor')>();
-  return {
-    ...mod,
-    getJupiterQuote: vi.fn().mockResolvedValue(null),
-  };
-});
 
 const MOCK_TOKEN = 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v'; // USDC mint
 const MOCK_WHALE = '9WzDXwBbmkg8ZTbNMqUxvQRAyrZzDsGYdLVL9zYtAWWM';

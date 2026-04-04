@@ -1,5 +1,4 @@
 import { EventEmitter } from 'events';
-import { withRetry } from './retry';
 
 export interface WhaleTradeEvent {
   whaleAddress: string;
@@ -14,8 +13,6 @@ export class WhaleListener extends EventEmitter {
   private watchedAddresses: Set<string> = new Set();
   private wsConnection: any = null;
   private running = false;
-  private reconnectAttempts = 0;
-  private maxReconnectAttempts = 5;
 
   addAddress(address: string) {
     this.watchedAddresses.add(address);
@@ -33,25 +30,18 @@ export class WhaleListener extends EventEmitter {
     return this.watchedAddresses.has(address);
   }
 
-  // Start listening via Helius websocket (stub for devnet) with retry
+  // Start listening via Helius websocket (stub for devnet)
   async start(wsUrl?: string): Promise<void> {
     if (this.running) return;
-
-    await withRetry(
-      async () => {
-        this.running = true;
-        // In production: connect to websocket and handle errors
-        console.log(`[WhaleListener] Started monitoring ${this.watchedAddresses.size} addresses`);
-      },
-      {
-        maxRetries: 3,
-        baseDelayMs: 1000,
-        onRetry: (attempt, err) => {
-          console.warn(`[WhaleListener] Start retry ${attempt}: ${err}`);
-          this.running = false;
-        },
-      }
-    );
+    this.running = true;
+    try {
+      // In production: connect to websocket and handle errors
+      console.log(`[WhaleListener] Started monitoring ${this.watchedAddresses.size} addresses`);
+    } catch (err) {
+      console.error('[WhaleListener] start error:', err);
+      this.running = false;
+      throw err;
+    }
     // In production: connect to Helius websocket and subscribe to account changes
     // For MVP: we emit events manually or via the E2E demo script
   }
@@ -61,7 +51,6 @@ export class WhaleListener extends EventEmitter {
     if (this.wsConnection) {
       this.wsConnection = null;
     }
-    this.reconnectAttempts = 0;
     console.log('[WhaleListener] Stopped');
   }
 
@@ -70,12 +59,12 @@ export class WhaleListener extends EventEmitter {
   }
 
   // Parse a Solana transaction to detect swaps
+  // In production, this would parse Jupiter/Raydium swap instructions
   parseTransaction(tx: any): WhaleTradeEvent | null {
     try {
-      if (!tx || !tx.signature) {
-        console.warn('[WhaleListener] parseTransaction: missing signature');
-        return null;
-      }
+      // Stub: real implementation would decode instruction data
+      // and detect token swap patterns (Jupiter route, Raydium swap, etc.)
+      if (!tx || !tx.signature) return null;
 
       const signerAddress = tx.feePayer || tx.signer;
       if (!signerAddress || !this.watchedAddresses.has(signerAddress)) return null;

@@ -109,10 +109,10 @@ User (Telegram)
 - [ ] PROOFS.md with demo evidence
 
 ### Sprint 4: Polish + Deploy (วันที่ 7)
-- [x] Error handling
-- [x] /settings command (max size, slippage)
-- [x] Documentation
-- [x] Deploy instructions (PM2)
+- [ ] Error handling
+- [ ] /settings command (max size, slippage)
+- [ ] Documentation
+- [ ] Deploy instructions (PM2)
 
 ---
 

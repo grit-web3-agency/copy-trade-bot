@@ -38,7 +38,6 @@ export function createBot(token: string, database: Database.Database, rpcUrl?: s
       `/watch [address] — Monitor a whale wallet\n` +
       `/copy on|off — Toggle copy trading\n` +
       `/balance — Check your wallet balance\n` +
-      `/settings — Configure max trade size & slippage\n` +
       `/help — Show this message`,
       { parse_mode: 'Markdown' }
     );
@@ -51,8 +50,7 @@ export function createBot(token: string, database: Database.Database, rpcUrl?: s
       `/start — Register & create wallet\n` +
       `/watch [address] — Monitor a whale wallet\n` +
       `/copy on|off — Toggle copy trading\n` +
-      `/balance — Check your wallet balance\n` +
-      `/settings — Configure max trade size & slippage`
+      `/balance — Check your wallet balance`
     );
   });
 
@@ -156,35 +154,17 @@ export function createBot(token: string, database: Database.Database, rpcUrl?: s
     // parse commands: /settings max 0.2 | /settings slippage 150 | combinations
     let max: number | undefined;
     let slippage: number | undefined;
-    const errors: string[] = [];
     for (let i = 0; i < parts.length; i++) {
       const p = parts[i].toLowerCase();
       if (p === 'max' && parts[i + 1]) {
         const v = parseFloat(parts[i + 1]);
-        if (isNaN(v)) {
-          errors.push('max must be a number');
-        } else if (v < 0.001 || v > 10) {
-          errors.push('max must be between 0.001 and 10 SOL');
-        } else {
-          max = v;
-        }
+        if (!isNaN(v)) max = v;
         i++;
       } else if ((p === 'slippage' || p === 'slip') && parts[i + 1]) {
         const v = parseInt(parts[i + 1], 10);
-        if (isNaN(v)) {
-          errors.push('slippage must be a number');
-        } else if (v < 1 || v > 5000) {
-          errors.push('slippage must be between 1 and 5000 bps');
-        } else {
-          slippage = v;
-        }
+        if (!isNaN(v)) slippage = v;
         i++;
       }
-    }
-
-    if (errors.length > 0) {
-      await ctx.reply(`Validation error:\n${errors.join('\n')}`);
-      return;
     }
 
     if (typeof max === 'undefined' && typeof slippage === 'undefined') {
