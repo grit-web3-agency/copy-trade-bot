@@ -117,7 +117,7 @@ export function setUserSettings(database: Database.Database, telegramId: string,
 }
 
 export function getUserSettings(database: Database.Database, telegramId: string): { max_trade_size_sol: number; slippage_bps: number } {
-  const row = database.prepare('SELECT max_trade_size_sol, slippage_bps FROM users WHERE telegram_id = ?').get(telegramId);
+  const row = database.prepare('SELECT max_trade_size_sol, slippage_bps FROM users WHERE telegram_id = ?').get(telegramId) as { max_trade_size_sol: number; slippage_bps: number } | undefined;
   if (!row) return { max_trade_size_sol: 0.1, slippage_bps: 100 };
   return { max_trade_size_sol: row.max_trade_size_sol, slippage_bps: row.slippage_bps };
 }
