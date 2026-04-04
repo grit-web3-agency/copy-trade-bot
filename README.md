@@ -1,15 +1,75 @@
-# Copy-Trade Bot (Solana) — MVP
+# Copy-Trade Bot MVP (Solana)
 
-Purpose: Internal test project to validate agent-driven delivery: end-to-end PoC for a copy-trade bot that listens to a source Solana address (or strategy), replicates trades to follower wallets with risk limits, and logs activity.
+Telegram bot that monitors whale wallets on Solana and auto-copies their trades via Jupiter Aggregator. **Devnet only — no real money.**
 
-Scope (MVP):
-- Connect to Solana testnet (RPC) and subscribe to a source account or program events
-- Simulate/execute SPL token transfers/orders on testnet (no mainnet funds)
-- Simple policy: copy market-sized trades, apply per-wallet risk caps
-- CLI to run a dry-run and a live-run (requires keys)
+## Architecture
 
-Deliverables:
-- README + TODO + PROOFS
-- Basic TypeScript project with listener + executor + poster (for logging)
-- Unit tests & demo script
+```
+User (Telegram)
+  → grammy Bot (/start /watch /copy /balance)
+    → Wallet Manager (create/encrypt/store keypairs)
+    → Whale Listener (Helius websocket → parse txs)
+    → Copy Policy (filter: token match, size limit, slippage)
+    → Trade Executor (Jupiter swap API → sign, dry-run only)
+    → SQLite DB (users, wallets, trades, settings)
+```
 
+## Tech Stack
+
+- **Language:** TypeScript / Node.js
+- **Bot:** grammy
+- **Blockchain:** @solana/web3.js
+- **DEX:** Jupiter Aggregator API
+- **RPC:** Helius (free tier)
+- **Database:** SQLite (better-sqlite3)
+- **Testing:** vitest
+
+## Setup
+
+```bash
+npm install
+cp .env.example .env
+# Edit .env with your BOT_TOKEN and HELIUS_API_KEY
+```
+
+## Commands
+
+```bash
+npm run dev      # Start bot (requires BOT_TOKEN)
+npm run test     # Run unit tests
+npm run demo     # Run E2E dry-run demo
+npm run build    # Compile TypeScript
+```
+
+## Telegram Bot Commands
+
+| Command | Description |
+|---------|-------------|
+| `/start` | Register & create Solana wallet |
+| `/watch [address]` | Add whale address to monitoring |
+| `/copy on\|off` | Toggle copy trading |
+| `/balance` | Check wallet balance |
+| `/help` | Show help message |
+| `/settings` | View or update user settings (max trade size, slippage) |
+
+## Copy Policy
+
+When a whale trade is detected:
+1. Check if token is in whitelist (if configured)
+2. Cap trade size to user's `max_trade_size_sol` (default 0.1 SOL)
+3. Reject dust trades (< 0.001 SOL)
+4. Execute dry-run trade via Jupiter quote API
+5. Record trade in SQLite and notify user via Telegram
+
+## Sprint Progress
+
+- [x] Sprint 1: Scaffold + Listener
+- [x] Sprint 2: Wallet + Executor
+- [x] Sprint 3: Copy Logic + Demo
+- [x] Sprint 4: Polish + Deploy
+
+Sprint 4 details:
+- Added robust error handling across wallet-manager, whale-listener, and trade-executor.
+- Implemented `/settings` command to view/update max_trade_size_sol and slippage_bps (persisted in SQLite per-user).
+- Added PM2 ecosystem config and start script (instructions only; no remote deploy performed).
+- Updated documentation and proofs.
