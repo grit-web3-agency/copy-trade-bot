@@ -93,19 +93,60 @@ When a whale trade is detected:
 
 ## Error Handling
 
-- **Retry with backoff**: RPC and Jupiter API calls automatically retry up to 3 times with exponential backoff (500ms base, 5s max).
-- **Double-spend protection**: In-flight trade guard prevents the same trade (user + token + direction) from executing concurrently.
-- **Structured logging**: All modules log with `[ModuleName]` prefix for easy filtering.
+All errors are handled gracefully — the bot never crashes on user-facing operations.
 
-## Deployment (PM2)
+| Layer | Strategy |
+|-------|----------|
+| **Bot commands** | Each `/command` handler is wrapped in try-catch. Errors return a user-friendly message ("Something went wrong…") and log details with `[Bot]` prefix. |
+| **Whale listener** | `parseTransaction()` returns `null` on malformed data. `start()` retries up to 3× with backoff. Listener errors are caught in `index.ts` so the bot continues running. |
+| **Trade executor** | Jupiter API calls retry 3× with exponential backoff (500ms base, 5s max). In-flight trade guard prevents double-spend. Failed trades are recorded to DB with `dry-run-error` status. |
+| **Copy policy** | Rejected trades are logged and the user is notified with the reason. Processing errors per-user don't block other users. |
+| **Process-level** | `uncaughtException` and `unhandledRejection` handlers prevent silent crashes. `SIGINT`/`SIGTERM` trigger graceful shutdown. |
+| **Structured logging** | All modules log with `[ModuleName]` prefix for easy filtering (e.g., `[Bot]`, `[TradeExecutor]`, `[WhaleListener]`). |
+
+## Deployment
+
+### Local development
 
 ```bash
-npm run build
-pm2 start ecosystem.config.js
-pm2 logs copy-trade-bot
+cp .env.example .env   # set BOT_TOKEN
+npm run dev
 ```
 
-See `ecosystem.config.js` for PM2 configuration.
+### Production (PM2)
+
+```bash
+# 1. Build TypeScript
+npm run build
+
+# 2. Start with PM2
+pm2 start ecosystem.config.js
+
+# 3. Monitor logs
+pm2 logs copy-trade-bot
+
+# 4. Restart / stop
+pm2 restart copy-trade-bot
+pm2 stop copy-trade-bot
+```
+
+**PM2 config** (`ecosystem.config.js`):
+- Auto-restart on crash (max 5 restarts with 5s delay)
+- Log timestamps enabled
+- `NODE_ENV=production`
+
+### Quick start script
+
+```bash
+bash scripts/start_pm2.sh
+```
+
+### Health check
+
+```bash
+pm2 status          # process running?
+pm2 logs --lines 50 # recent output
+```
 
 ## Sprint Progress
 
