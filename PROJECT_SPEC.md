@@ -108,20 +108,12 @@ User (Telegram)
 - [ ] E2E demo (devnet dry-run)
 - [ ] PROOFS.md with demo evidence
 
+
 ### Sprint 4: Polish + Deploy (วันที่ 7)
-<<<<<<< HEAD
 - [x] Error handling
 - [x] /settings command (max size, slippage)
 - [x] Documentation
 - [x] Deploy instructions (PM2)
-=======
-- [ ] Error handling
-- [ ] /settings command (max size, slippage)
-- [ ] Documentation
-- [ ] Deploy instructions (PM2)
->>>>>>> ed57db3 (Sprint 4: settings, retry, error handling, docs, and tests)
-
----
 
 ## 7. Testing
 
