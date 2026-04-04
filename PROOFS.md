@@ -49,38 +49,77 @@
 ============================================================
 ```
 
-### Features Implemented
+---
 
-- [x] Copy policy engine (token whitelist, max trade size, slippage, dust filter)
-- [x] `/watch [address]` — add whale address to monitoring (persisted in SQLite)
-- [x] `/copy on|off` — toggle copy trading per user (persisted in SQLite)
-- [x] Trade Executor with Jupiter quote integration (dry-run)
-- [x] Whale Listener with event-driven architecture
-- [x] Full E2E demo script (`npm run demo`)
-
-### Dashboard Job #21
-
-- Sprint 4 started: POST activity 'sprint_started' and set job #21 -> dev
-- Sprint 4 completed: set job #21 -> done and POST activity 'sprint_done'
-
-Status: Sprint 4 complete — polish, settings, error handling, docs, and deploy notes added.
-
-## Sprint 4: Polish + Deploy (Proof)
+## Sprint 4: Polish + Deploy
 
 ### What changed
-- Robust error handling added to wallet-manager, whale-listener, and trade-executor (try/catch + logs)
-- `/settings` command implemented: users can view and update `max_trade_size_sol` and `slippage_bps` (persisted in SQLite)
-- PM2 ecosystem.config.js and scripts/start_pm2.sh added (deployment instructions only)
+- **Retry with backoff** (`src/retry.ts`): All RPC/Jupiter calls retry up to 3x with exponential backoff.
+- **Double-spend guard** (`src/trade-executor.ts`): In-flight trade set prevents concurrent duplicate trades.
+- **Settings validation** (`src/bot.ts`): `/settings` now validates bounds (max: 0.001–10 SOL, slippage: 1–5000 bps).
+- **Error handling**: Improved logging and error paths across whale-listener, trade-executor, and copy-policy.
+- **New tests**: `settings.test.ts`, `retry.test.ts`, `trade-executor.test.ts`, `error-handling.test.ts`.
+- **Documentation**: Updated README with full usage guide; this PROOFS.md with E2E checklist.
 
 ### Unit Tests
 
-All existing unit tests still pass (22/22).
-
 ```
- ✓ tests/whale-listener.test.ts  (4 tests)
- ✓ tests/watch-command.test.ts   (7 tests)
- ✓ tests/copy-policy.test.ts     (11 tests)
-
- Test Files  3 passed (3)
-      Tests  22 passed (22)
+ ✓ tests/whale-listener.test.ts   — WhaleListener core
+ ✓ tests/watch-command.test.ts    — /watch DB operations
+ ✓ tests/copy-policy.test.ts      — Copy policy + processWhaleTrade
+ ✓ tests/settings.test.ts         — /settings DB operations
+ ✓ tests/retry.test.ts            — withRetry utility
+ ✓ tests/trade-executor.test.ts   — TradeExecutor + double-spend guard
+ ✓ tests/error-handling.test.ts   — WhaleListener error paths
 ```
+
+---
+
+## E2E Dry-Run Checklist
+
+Follow these steps to verify the bot works end-to-end in dry-run mode.
+
+### Prerequisites
+- Node.js 18+
+- `npm install` completed
+- No `BOT_TOKEN` needed for the demo script
+
+### Steps
+
+1. **Run unit tests**
+   ```bash
+   npm run test
+   ```
+   Expected: All tests pass.
+
+2. **Run E2E demo script**
+   ```bash
+   npm run demo
+   ```
+   Expected: See output similar to Sprint 3 demo above — two dry-run trades executed, notifications logged.
+
+3. **Build the project**
+   ```bash
+   npm run build
+   ```
+   Expected: No TypeScript errors, `dist/` directory created.
+
+4. **Manual Telegram test** (optional, requires BOT_TOKEN)
+   ```bash
+   echo "BOT_TOKEN=your_token_here" > .env
+   npm run dev
+   ```
+   Then in Telegram:
+   - Send `/start` — should create wallet and show welcome message
+   - Send `/settings` — should show default settings (0.1 SOL, 100 bps)
+   - Send `/settings max 0.5 slippage 200` — should update and confirm
+   - Send `/settings max 999` — should show validation error
+   - Send `/watch 9WzDXwBbmkg8ZTbNMqUxvQRAyrZzDsGYdLVL9zYtAWWM` — should confirm watching
+   - Send `/copy on` — should enable copy trading
+   - Send `/balance` — should show wallet balance (0 on devnet)
+
+### Evidence to collect
+- Screenshot or terminal output of `npm run test` (all green)
+- Screenshot or terminal output of `npm run demo` (trades logged)
+- Screenshot or terminal output of `npm run build` (no errors)
+- (Optional) Telegram screenshots of `/settings` command in action

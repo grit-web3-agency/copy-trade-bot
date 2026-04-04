@@ -1,5 +1,6 @@
 import { Connection, Keypair, PublicKey, VersionedTransaction } from '@solana/web3.js';
 import { recordTrade } from './db';
+import { withRetry } from './retry';
 import Database from 'better-sqlite3';
 
 export interface SwapQuote {
@@ -23,7 +24,14 @@ const SOL_MINT = 'So11111111111111111111111111111111111111112';
 const JUPITER_QUOTE_URL = 'https://quote-api.jup.ag/v6/quote';
 const JUPITER_SWAP_URL = 'https://quote-api.jup.ag/v6/swap';
 
-// Get a swap quote from Jupiter (works on mainnet API, dry-run only)
+// In-flight trades set to prevent double-spend (keyed by "telegramId:tokenMint:direction")
+const inFlightTrades = new Set<string>();
+
+function tradeKey(telegramId: string, tokenMint: string, direction: string): string {
+  return `${telegramId}:${tokenMint}:${direction}`;
+}
+
+// Get a swap quote from Jupiter with retry
 export async function getJupiterQuote(
   inputMint: string,
   outputMint: string,
@@ -31,21 +39,33 @@ export async function getJupiterQuote(
   slippageBps: number
 ): Promise<SwapQuote | null> {
   try {
-    const params = new URLSearchParams({
-      inputMint,
-      outputMint,
-      amount: amountLamports.toString(),
-      slippageBps: slippageBps.toString(),
-    });
+    return await withRetry(
+      async () => {
+        const params = new URLSearchParams({
+          inputMint,
+          outputMint,
+          amount: amountLamports.toString(),
+          slippageBps: slippageBps.toString(),
+        });
 
-    const response = await fetch(`${JUPITER_QUOTE_URL}?${params}`);
-    if (!response.ok) {
-      console.log(`[TradeExecutor] Jupiter quote failed: ${response.status}`);
-      return null;
-    }
-    return await response.json() as SwapQuote;
+        const response = await fetch(`${JUPITER_QUOTE_URL}?${params}`);
+        if (!response.ok) {
+          const msg = `Jupiter quote failed: ${response.status}`;
+          console.log(`[TradeExecutor] ${msg}`);
+          throw new Error(msg);
+        }
+        return await response.json() as SwapQuote;
+      },
+      {
+        maxRetries: 3,
+        baseDelayMs: 500,
+        onRetry: (attempt, err) => {
+          console.warn(`[TradeExecutor] Jupiter quote retry ${attempt}: ${err}`);
+        },
+      }
+    );
   } catch (err) {
-    console.log(`[TradeExecutor] Jupiter quote error: ${err}`);
+    console.log(`[TradeExecutor] Jupiter quote error after retries: ${err}`);
     return null;
   }
 }
@@ -61,6 +81,21 @@ export async function executeDryRunTrade(
   slippageBps: number,
   keypair?: Keypair
 ): Promise<TradeResult> {
+  const key = tradeKey(telegramId, tokenMint, direction);
+
+  // Double-spend guard: reject if same trade is already in-flight
+  if (inFlightTrades.has(key)) {
+    console.warn(`[TradeExecutor] Duplicate trade blocked: ${key}`);
+    return {
+      success: false,
+      signature: null,
+      quote: null,
+      dryRun: true,
+      error: 'Duplicate trade already in-flight',
+    };
+  }
+
+  inFlightTrades.add(key);
   try {
     const amountLamports = Math.floor(amountSol * 1e9);
 
@@ -95,8 +130,6 @@ export async function executeDryRunTrade(
       };
     }
 
-    // In production: build swap transaction, sign with keypair, and submit
-    // For MVP dry-run: we just record the quote
     console.log(`[TradeExecutor] DRY-RUN ${direction} ${amountSol} SOL → ${tokenMint}`);
     console.log(`[TradeExecutor] Quote: in=${quote.inAmount} out=${quote.outAmount} impact=${quote.priceImpactPct}%`);
 
@@ -121,5 +154,12 @@ export async function executeDryRunTrade(
       dryRun: true,
       error: (err && err.message) || String(err),
     };
+  } finally {
+    inFlightTrades.delete(key);
   }
+}
+
+// Exposed for testing
+export function _getInFlightTrades(): Set<string> {
+  return inFlightTrades;
 }
