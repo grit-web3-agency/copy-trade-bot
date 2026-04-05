@@ -2,15 +2,21 @@
 
 ## Sprint 3: Copy Logic + Demo
 
-### Unit Tests (22/22 passing)
+### Unit Tests (46/46 passing, 1 skipped)
 
 ```
- ✓ tests/whale-listener.test.ts  (4 tests)
- ✓ tests/watch-command.test.ts   (7 tests)
- ✓ tests/copy-policy.test.ts     (11 tests)
+ ✓ tests/whale-listener.test.ts   (4 tests)  — WhaleListener core
+ ✓ tests/error-handling.test.ts   (7 tests)  — WhaleListener error paths
+ ✓ tests/retry.test.ts            (5 tests)  — withRetry utility
+ ✓ tests/settings.test.ts         (7 tests)  — /settings DB operations
+ ✓ tests/watch-command.test.ts    (7 tests)  — /watch DB operations
+ ↓ tests/trade-executor.real.test.ts (1 test | 1 skipped)
+ ✓ tests/copy-policy.test.ts      (11 tests) — Copy policy + processWhaleTrade
+ ✓ tests/trade-executor.test.ts   (5 tests)  — TradeExecutor + double-spend guard
 
- Test Files  3 passed (3)
-      Tests  22 passed (22)
+ Test Files  7 passed | 1 skipped (8)
+      Tests  46 passed | 1 skipped (47)
+   Duration  488ms
 ```
 
 ### E2E Demo Output (Devnet Dry-Run)
@@ -24,7 +30,7 @@
 [2] Registering user (telegram_id=demo_user)...
     User created: demo_user
 [3] Creating Solana wallet...
-    Wallet: GES1e4tUzm299nthVV9ngyG5puhqcE4UTciQZdVkrRCU
+    Wallet: AJC1RE5NDKFEsJrCMwQRKpmxUmPpy8WPwDmz6kh5AHyu
 [4] Adding whale to watch list: 9WzDXwBbmkg8ZTbNMqUxvQRAyrZzDsGYdLVL9zYtAWWM
 [5] Enabling copy trading...
 [6] Starting whale listener...
@@ -32,13 +38,13 @@
 
 [WHALE DETECTED] BUY 2.5 SOL → EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v
     → Copy Policy caps to 0.1 SOL (max_trade_size)
-    → Dry-run trade executed successfully
+    → Dry-run trade executed (dry-run)
 
 [8] Simulating whale SELL event...
 
-[WHALE DETECTED] SELL 1.0 SOL → EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v
+[WHALE DETECTED] SELL 1 SOL → EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v
     → Copy Policy caps to 0.1 SOL (max_trade_size)
-    → Dry-run trade executed successfully
+    → Dry-run trade executed (dry-run)
 
 ============================================================
   DEMO SUMMARY
