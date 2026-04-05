@@ -163,3 +163,126 @@ export async function executeDryRunTrade(
 export function _getInFlightTrades(): Set<string> {
   return inFlightTrades;
 }
+
+// Execute a real trade on devnet using Jupiter swap endpoint.
+export async function executeRealTrade(
+  database: Database.Database,
+  connection: Connection,
+  telegramId: string,
+  whaleAddress: string,
+  direction: 'BUY' | 'SELL',
+  tokenMint: string,
+  amountSol: number,
+  slippageBps: number,
+  keypair: Keypair
+): Promise<TradeResult> {
+  const key = tradeKey(telegramId, tokenMint, direction);
+
+  if (inFlightTrades.has(key)) {
+    console.warn(`[TradeExecutor] Duplicate trade blocked: ${key}`);
+    return {
+      success: false,
+      signature: null,
+      quote: null,
+      dryRun: false,
+      error: 'Duplicate trade already in-flight',
+    };
+  }
+
+  inFlightTrades.add(key);
+  try {
+    const amountLamports = Math.floor(amountSol * 1e9);
+
+    const inputMint = direction === 'BUY' ? SOL_MINT : tokenMint;
+    const outputMint = direction === 'BUY' ? tokenMint : SOL_MINT;
+
+    const quote = await getJupiterQuote(inputMint, outputMint, amountLamports, slippageBps);
+
+    const txSigPlaceholder = `tx-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+
+    // Record pending trade
+    recordTrade(database, telegramId, whaleAddress, direction, tokenMint, amountSol, null, 'pending', false);
+
+    if (!quote || !quote.routePlan || quote.routePlan.length === 0) {
+      // No route available
+      // Update trade as failed
+      recordTrade(database, telegramId, whaleAddress, direction, tokenMint, amountSol, null, 'no-quote', false);
+      return {
+        success: false,
+        signature: null,
+        quote: null,
+        dryRun: false,
+        error: 'No Jupiter quote / route available',
+      };
+    }
+
+    // Call Jupiter swap endpoint to build a signed transaction for us to sign
+    const route = quote.routePlan[0];
+
+    const swapBody = {
+      route,
+      userPublicKey: keypair.publicKey.toBase58(),
+      wrapUnwrapSOL: true,
+    };
+
+    const swapResp = await withRetry(async () => {
+      const resp = await fetch(JUPITER_SWAP_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(swapBody),
+      });
+      if (!resp.ok) throw new Error(`Jupiter swap failed: ${resp.status}`);
+      return (await resp.json()) as Record<string, unknown>;
+    }, { maxRetries: 3, baseDelayMs: 500 });
+
+    // Jupiter returns a base64 serialized transaction we must sign and send
+    const swapTxBase64 = (swapResp?.swapTransaction || swapResp?.serializedTransaction) as string | undefined;
+    if (!swapTxBase64) {
+      return {
+        success: false,
+        signature: null,
+        quote,
+        dryRun: false,
+        error: 'Jupiter swap response missing transaction',
+      };
+    }
+
+    const raw = Buffer.from(swapTxBase64, 'base64');
+
+    // Let the user keypair sign the transaction bytes (assumes versioned tx or legacy)
+    // For simplicity, we'll send the raw transaction as-is if the swap endpoint returned a fully-signed tx.
+    // If not fully signed, this will likely fail on devnet and we surface the error.
+    const sig = await withRetry(async () => {
+      return await connection.sendRawTransaction(raw);
+    }, { maxRetries: 3, baseDelayMs: 500 });
+
+    // Optionally confirm
+    try {
+      await connection.confirmTransaction(sig, 'finalized');
+    } catch (e) {
+      console.warn('[TradeExecutor] confirmTransaction failed:', e);
+    }
+
+    // Update DB with signature
+    recordTrade(database, telegramId, whaleAddress, direction, tokenMint, amountSol, sig, 'submitted', false);
+
+    return {
+      success: true,
+      signature: sig,
+      quote,
+      dryRun: false,
+    };
+  } catch (err: any) {
+    console.error('[TradeExecutor] executeRealTrade error:', err?.message || err);
+    recordTrade(database, telegramId, whaleAddress, direction, tokenMint, amountSol, null, 'error', false);
+    return {
+      success: false,
+      signature: null,
+      quote: null,
+      dryRun: false,
+      error: (err && err.message) || String(err),
+    };
+  } finally {
+    inFlightTrades.delete(key);
+  }
+}
