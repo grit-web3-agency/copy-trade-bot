@@ -102,11 +102,11 @@ User (Telegram)
 - [ ] Unit tests
 
 ### Sprint 3: Copy Logic + Demo (วันที่ 5-6)
-- [ ] Copy policy (when whale buys → bot buys)
-- [ ] /watch [address] command
-- [ ] /copy on/off command
-- [ ] E2E demo (devnet dry-run)
-- [ ] PROOFS.md with demo evidence
+- [x] Copy policy (when whale buys → bot buys)
+- [x] /watch [address] command
+- [x] /copy on/off command
+- [x] E2E demo (devnet dry-run)
+- [x] PROOFS.md with demo evidence
 
 
 ### Sprint 4: Polish + Deploy (วันที่ 7)

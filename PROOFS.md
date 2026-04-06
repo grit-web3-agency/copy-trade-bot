@@ -4,22 +4,26 @@
 
 ### Unit Tests (46/46 passing, 1 skipped)
 
+Run date: 2026-04-07
+
 ```
- ✓ tests/whale-listener.test.ts   (4 tests)  — WhaleListener core
  ✓ tests/error-handling.test.ts   (7 tests)  — WhaleListener error paths
+ ✓ tests/whale-listener.test.ts   (4 tests)  — WhaleListener core
  ✓ tests/retry.test.ts            (5 tests)  — withRetry utility
  ✓ tests/settings.test.ts         (7 tests)  — /settings DB operations
  ✓ tests/watch-command.test.ts    (7 tests)  — /watch DB operations
- ↓ tests/trade-executor.real.test.ts (1 test | 1 skipped)
+ ↓ tests/trade-executor.real.test.ts (1 test | 1 skipped — requires devnet)
  ✓ tests/copy-policy.test.ts      (11 tests) — Copy policy + processWhaleTrade
  ✓ tests/trade-executor.test.ts   (5 tests)  — TradeExecutor + double-spend guard
 
  Test Files  7 passed | 1 skipped (8)
       Tests  46 passed | 1 skipped (47)
-   Duration  488ms
+   Duration  504ms
 ```
 
 ### E2E Demo Output (Devnet Dry-Run)
+
+Run date: 2026-04-07
 
 ```
 ============================================================
@@ -30,7 +34,7 @@
 [2] Registering user (telegram_id=demo_user)...
     User created: demo_user
 [3] Creating Solana wallet...
-    Wallet: AJC1RE5NDKFEsJrCMwQRKpmxUmPpy8WPwDmz6kh5AHyu
+    Wallet: 4VuDHv1xzzXL52BJ43U5Y2ZjHfSPG1tBnqU3tcB14kk2
 [4] Adding whale to watch list: 9WzDXwBbmkg8ZTbNMqUxvQRAyrZzDsGYdLVL9zYtAWWM
 [5] Enabling copy trading...
 [6] Starting whale listener...
@@ -51,6 +55,9 @@
 ============================================================
   Trades executed (dry-run): 2
   Notifications sent: 2
+  Trade 1: success=true sig=dry-run-...-ewe6v4 dryRun=true
+  Trade 2: success=true sig=dry-run-...-dvjbki dryRun=true
+
   All trades were DRY-RUN only. No real transactions sent.
 ============================================================
 ```
