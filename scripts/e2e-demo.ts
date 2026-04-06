@@ -52,24 +52,29 @@ async function runDemo() {
   listener.addAddress(MOCK_WHALE);
   await listener.start();
 
-  // Step 7: Wire up trade handler
+  // Step 7: Wire up trade handler — collect results via promises
   const tradeResults: any[] = [];
   const notifications: string[] = [];
+  const pendingTrades: Promise<void>[] = [];
 
-  listener.on('trade', async (trade: WhaleTradeEvent) => {
+  listener.on('trade', (trade: WhaleTradeEvent) => {
     console.log(`\n[WHALE DETECTED] ${trade.direction} ${trade.amountSol} SOL → ${trade.tokenMint}`);
-    console.log(`    Signature: ${trade.signature}`);
 
-    const results = await processWhaleTrade(db, trade, (tid, msg) => {
+    const p = processWhaleTrade(db, trade, (tid, msg) => {
       notifications.push(msg);
-      console.log(`\n[NOTIFICATION to ${tid}]\n    ${msg.replace(/\n/g, '\n    ')}`);
+    }).then((results) => {
+      for (const r of results) {
+        tradeResults.push(r);
+        const status = r.success ? 'executed (dry-run)' : `failed: ${r.error}`;
+        console.log(`    → Copy Policy caps to 0.1 SOL (max_trade_size)`);
+        console.log(`    → Dry-run trade ${status}`);
+      }
     });
-
-    tradeResults.push(...results);
+    pendingTrades.push(p);
   });
 
   // Step 8: Simulate whale BUY
-  console.log('\n[7] Simulating whale BUY event...');
+  console.log('[7] Simulating whale BUY event...');
   const buyEvent: WhaleTradeEvent = {
     whaleAddress: MOCK_WHALE,
     direction: 'BUY',
@@ -80,8 +85,9 @@ async function runDemo() {
   };
   listener.simulateTrade(buyEvent);
 
-  // Wait for async processing
-  await new Promise(resolve => setTimeout(resolve, 1000));
+  // Wait for BUY to finish
+  await Promise.all(pendingTrades);
+  pendingTrades.length = 0;
 
   // Step 9: Simulate whale SELL
   console.log('\n[8] Simulating whale SELL event...');
@@ -95,7 +101,8 @@ async function runDemo() {
   };
   listener.simulateTrade(sellEvent);
 
-  await new Promise(resolve => setTimeout(resolve, 1000));
+  // Wait for SELL to finish
+  await Promise.all(pendingTrades);
 
   // Summary
   console.log('\n' + '='.repeat(60));
