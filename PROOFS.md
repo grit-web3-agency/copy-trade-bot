@@ -158,3 +158,8 @@ Follow these steps to verify the bot works end-to-end in dry-run mode.
 - Terminal output of `npm run demo` (trades logged)
 - Terminal output of `npm run build` (no errors)
 - (Optional) Telegram screenshots of commands in action
+
+## Test run — 2026-04-06 10:48:22 +07
+- Command: npm rebuild && npm test
+- Result: Test Files: 7 passed | 1 skipped (8) — Tests: 46 passed | 1 skipped (47)
+- Notes: All unit tests and dry-run E2E tests passed. Logs show Jupiter quote retries handled via mocked network fallbacks.
