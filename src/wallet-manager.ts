@@ -4,7 +4,20 @@ import crypto from 'crypto';
 import Database from 'better-sqlite3';
 import { saveWallet, getWallet } from './db';
 
-const ENCRYPTION_KEY = crypto.randomBytes(32); // In production, derive from user password or env
+/**
+ * Derive a deterministic 32-byte AES key from the WALLET_ENCRYPTION_KEY env var.
+ * Falls back to a fixed dev-only key so devnet wallets survive restarts.
+ */
+function deriveEncryptionKey(): Buffer {
+  const envKey = process.env.WALLET_ENCRYPTION_KEY;
+  if (envKey) {
+    return crypto.createHash('sha256').update(envKey).digest();
+  }
+  // Dev-only fallback — NOT for production
+  return crypto.createHash('sha256').update('copy-trade-bot-dev-key').digest();
+}
+
+const ENCRYPTION_KEY = deriveEncryptionKey();
 
 export function createWallet(): { publicKey: string; secretKey: Uint8Array } {
   const keypair = Keypair.generate();
