@@ -165,3 +165,70 @@ Follow these steps to verify the bot works end-to-end in dry-run mode.
 - Terminal output of `npm run demo` (trades logged)
 - Terminal output of `npm run build` (no errors)
 - (Optional) Telegram screenshots of commands in action
+
+---
+
+## Sprint 3 Re-verification — 2026-04-08
+
+### Test run
+```
+$ npm test
+
+ ✓ tests/error-handling.test.ts   (7 tests)  3ms
+ ✓ tests/whale-listener.test.ts   (4 tests)  3ms
+ ✓ tests/retry.test.ts            (5 tests)  12ms
+ ✓ tests/settings.test.ts         (7 tests)  12ms
+ ✓ tests/watch-command.test.ts    (7 tests)  16ms
+ ↓ tests/trade-executor.real.test.ts (1 test | 1 skipped)
+ ✓ tests/copy-policy.test.ts      (11 tests) 65ms
+ ✓ tests/trade-executor.test.ts   (5 tests)  70ms
+
+ Test Files  7 passed | 1 skipped (8)
+      Tests  46 passed | 1 skipped (47)
+   Duration  531ms
+```
+
+### E2E Demo re-run
+```
+$ npm run demo
+
+============================================================
+  COPY-TRADE BOT — E2E DEMO (Devnet Dry-Run)
+============================================================
+
+[1] Initializing in-memory database...
+[2] Registering user (telegram_id=demo_user)...
+    User created: demo_user
+[3] Creating Solana wallet...
+    Wallet: FDjp5Na6aMRui63BAr2VC4RoiMAkAVGLWtAxzjEuDVdW
+[4] Adding whale to watch list: 9WzDXwBbmkg8ZTbNMqUxvQRAyrZzDsGYdLVL9zYtAWWM
+[5] Enabling copy trading...
+[6] Starting whale listener...
+[7] Simulating whale BUY event...
+
+[WHALE DETECTED] BUY 2.5 SOL → EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v
+    → Copy Policy caps to 0.1 SOL (max_trade_size)
+    → Dry-run trade executed (dry-run)
+
+[8] Simulating whale SELL event...
+
+[WHALE DETECTED] SELL 1 SOL → EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v
+    → Copy Policy caps to 0.1 SOL (max_trade_size)
+    → Dry-run trade executed (dry-run)
+
+============================================================
+  DEMO SUMMARY
+============================================================
+  Trades executed (dry-run): 2
+  Notifications sent: 2
+  All trades were DRY-RUN only. No real transactions sent.
+============================================================
+```
+
+### Sprint 3 deliverables verified ✓
+- [x] Copy Policy (max trade size, slippage, token filters, dust rejection)
+- [x] /watch [address] command (add/list/validate whale addresses)
+- [x] /copy on|off command (toggle per-user copy trading)
+- [x] E2E demo script (scripts/e2e-demo.ts) — fully self-contained
+- [x] Unit tests: 46 passed, copy-policy (11), watch-command (7)
+- [x] Integration: processWhaleTrade end-to-end flow
