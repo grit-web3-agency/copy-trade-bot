@@ -88,18 +88,18 @@ User (Telegram)
 ## 6. Sprint Plan
 
 ### Sprint 1: Scaffold + Listener (วันที่ 1-2)
-- [ ] Project scaffold (package.json, tsconfig, folder structure)
-- [ ] Telegram bot basic (/start, /help)
-- [ ] Whale listener (websocket connect + parse transactions)
-- [ ] Unit tests for listener
-- [ ] README.md
+- [x] Project scaffold (package.json, tsconfig, folder structure)
+- [x] Telegram bot basic (/start, /help)
+- [x] Whale listener (websocket connect + parse transactions)
+- [x] Unit tests for listener
+- [x] README.md
 
 ### Sprint 2: Wallet + Executor (วันที่ 3-4)
-- [ ] Wallet create/encrypt/store
-- [ ] /balance command
-- [ ] Jupiter swap integration (dry-run)
-- [ ] Trade executor (sign + submit skeleton)
-- [ ] Unit tests
+- [x] Wallet create/encrypt/store
+- [x] /balance command
+- [x] Jupiter swap integration (dry-run)
+- [x] Trade executor (sign + submit skeleton)
+- [x] Unit tests
 
 ### Sprint 3: Copy Logic + Demo (วันที่ 5-6)
 - [x] Copy policy (when whale buys → bot buys)
