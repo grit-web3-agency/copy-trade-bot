@@ -34,7 +34,7 @@
 
 ### ถ้ามีเวลา (Nice to Have)
 - [ ] Real devnet trading
-- [ ] PnL tracking
+- [x] PnL tracking
 - [ ] Multi-whale support
 - [x] Payment module (ค่าสมาชิก)
 
