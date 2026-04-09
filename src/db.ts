@@ -213,3 +213,60 @@ export function recordTrade(
 
   return database.prepare('SELECT * FROM trades WHERE id = ?').get(result.lastInsertRowid) as Trade;
 }
+
+// --- PnL operations ---
+
+export interface TokenPnL {
+  token_mint: string;
+  total_bought_sol: number;
+  total_sold_sol: number;
+  buy_count: number;
+  sell_count: number;
+  realized_pnl: number;
+}
+
+export interface UserPnL {
+  tokens: TokenPnL[];
+  total_pnl: number;
+  total_trades: number;
+}
+
+export function getUserTrades(database: Database.Database, telegramId: string): Trade[] {
+  return database.prepare(
+    'SELECT * FROM trades WHERE telegram_id = ? ORDER BY created_at ASC'
+  ).all(telegramId) as Trade[];
+}
+
+export function getUserPnL(database: Database.Database, telegramId: string): UserPnL {
+  const rows = database.prepare(`
+    SELECT
+      token_mint,
+      SUM(CASE WHEN direction = 'BUY' THEN amount_sol ELSE 0 END) AS total_bought_sol,
+      SUM(CASE WHEN direction = 'SELL' THEN amount_sol ELSE 0 END) AS total_sold_sol,
+      SUM(CASE WHEN direction = 'BUY' THEN 1 ELSE 0 END) AS buy_count,
+      SUM(CASE WHEN direction = 'SELL' THEN 1 ELSE 0 END) AS sell_count
+    FROM trades
+    WHERE telegram_id = ? AND status NOT IN ('error', 'dry-run-error')
+    GROUP BY token_mint
+  `).all(telegramId) as Array<{
+    token_mint: string;
+    total_bought_sol: number;
+    total_sold_sol: number;
+    buy_count: number;
+    sell_count: number;
+  }>;
+
+  const tokens: TokenPnL[] = rows.map(r => ({
+    token_mint: r.token_mint,
+    total_bought_sol: r.total_bought_sol,
+    total_sold_sol: r.total_sold_sol,
+    buy_count: r.buy_count,
+    sell_count: r.sell_count,
+    realized_pnl: r.total_sold_sol - r.total_bought_sol,
+  }));
+
+  const total_pnl = tokens.reduce((sum, t) => sum + t.realized_pnl, 0);
+  const total_trades = tokens.reduce((sum, t) => sum + t.buy_count + t.sell_count, 0);
+
+  return { tokens, total_pnl, total_trades };
+}

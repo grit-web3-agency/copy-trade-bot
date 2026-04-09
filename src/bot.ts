@@ -8,6 +8,7 @@ import {
   getWallet,
   setUserSettings,
   getUserSettings,
+  getUserPnL,
 } from './db';
 import { createAndStoreWallet, getBalance } from './wallet-manager';
 import { Connection, PublicKey } from '@solana/web3.js';
@@ -40,6 +41,7 @@ export function createBot(token: string, database: Database.Database, rpcUrl?: s
         `/copy on|off — Toggle copy trading\n` +
         `/balance — Check your wallet balance\n` +
         `/settings — Configure max trade size & slippage\n` +
+        `/pnl — View profit & loss\n` +
         `/help — Show this message`,
         { parse_mode: 'Markdown' }
       );
@@ -57,7 +59,8 @@ export function createBot(token: string, database: Database.Database, rpcUrl?: s
       `/watch [address] — Monitor a whale wallet\n` +
       `/copy on|off — Toggle copy trading\n` +
       `/balance — Check your wallet balance\n` +
-      `/settings — Configure max trade size & slippage`
+      `/settings — Configure max trade size & slippage\n` +
+      `/pnl — View profit & loss`
     );
   });
 
@@ -149,6 +152,42 @@ export function createBot(token: string, database: Database.Database, rpcUrl?: s
       );
     } catch (err) {
       await ctx.reply(`Wallet: \`${wallet.public_key}\`\nBalance: Unable to fetch (devnet)`, { parse_mode: 'Markdown' });
+    }
+  });
+
+  // /pnl — show profit & loss summary
+  bot.command('pnl', async (ctx) => {
+    const telegramId = ctx.from?.id.toString();
+    if (!telegramId) return;
+
+    try {
+      getOrCreateUser(database, telegramId, ctx.from?.username);
+      const pnl = getUserPnL(database, telegramId);
+
+      if (pnl.total_trades === 0) {
+        await ctx.reply('No trades recorded yet. Start copy trading to see PnL.');
+        return;
+      }
+
+      const sign = pnl.total_pnl >= 0 ? '+' : '';
+      let msg = `📊 PnL Summary\n\nTotal trades: ${pnl.total_trades}\nTotal PnL: ${sign}${pnl.total_pnl.toFixed(4)} SOL\n`;
+
+      for (const t of pnl.tokens.slice(0, 10)) {
+        const tSign = t.realized_pnl >= 0 ? '+' : '';
+        const mintShort = t.token_mint.length > 8
+          ? `${t.token_mint.slice(0, 4)}...${t.token_mint.slice(-4)}`
+          : t.token_mint;
+        msg += `\n${mintShort}: ${tSign}${t.realized_pnl.toFixed(4)} SOL (${t.buy_count}B/${t.sell_count}S)`;
+      }
+
+      if (pnl.tokens.length > 10) {
+        msg += `\n\n...and ${pnl.tokens.length - 10} more tokens`;
+      }
+
+      await ctx.reply(msg);
+    } catch (err: any) {
+      console.error('[Bot] /pnl error:', err?.message || err);
+      await ctx.reply('Failed to calculate PnL. Please try again.');
     }
   });
 
