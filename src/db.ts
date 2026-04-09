@@ -70,6 +70,12 @@ function initSchema(database: Database.Database) {
       name TEXT
     );
   `);
+
+  // Migration: add quote_out_amount column to trades if missing
+  const tradeColumns = database.pragma('table_info(trades)') as { name: string }[];
+  if (!tradeColumns.some(c => c.name === 'quote_out_amount')) {
+    database.exec(`ALTER TABLE trades ADD COLUMN quote_out_amount TEXT`);
+  }
 }
 
 // --- User operations ---
@@ -193,6 +199,7 @@ export interface Trade {
   tx_signature: string | null;
   status: string;
   dry_run: number;
+  quote_out_amount: string | null;
 }
 
 export function recordTrade(
@@ -204,12 +211,62 @@ export function recordTrade(
   amountSol: number,
   txSignature: string | null,
   status: string,
-  dryRun: boolean
+  dryRun: boolean,
+  quoteOutAmount?: string
 ): Trade {
   const result = database.prepare(`
-    INSERT INTO trades (telegram_id, whale_address, direction, token_mint, amount_sol, tx_signature, status, dry_run)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-  `).run(telegramId, whaleAddress, direction, tokenMint, amountSol, txSignature, status, dryRun ? 1 : 0);
+    INSERT INTO trades (telegram_id, whale_address, direction, token_mint, amount_sol, tx_signature, status, dry_run, quote_out_amount)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `).run(telegramId, whaleAddress, direction, tokenMint, amountSol, txSignature, status, dryRun ? 1 : 0, quoteOutAmount || null);
 
   return database.prepare('SELECT * FROM trades WHERE id = ?').get(result.lastInsertRowid) as Trade;
+}
+
+// --- PnL operations ---
+
+export interface TradeWithQuote extends Trade {
+  quote_out_amount: string | null;
+  created_at: string;
+}
+
+export function getTradesForUser(database: Database.Database, telegramId: string): TradeWithQuote[] {
+  return database.prepare(
+    'SELECT * FROM trades WHERE telegram_id = ? ORDER BY created_at DESC'
+  ).all(telegramId) as TradeWithQuote[];
+}
+
+export function getTradesByToken(database: Database.Database, telegramId: string, tokenMint: string): TradeWithQuote[] {
+  return database.prepare(
+    'SELECT * FROM trades WHERE telegram_id = ? AND token_mint = ? ORDER BY created_at DESC'
+  ).all(telegramId, tokenMint) as TradeWithQuote[];
+}
+
+export function getTradesSummaryByToken(database: Database.Database, telegramId: string): { token_mint: string; buy_count: number; sell_count: number; total_buy_sol: number; total_sell_sol: number }[] {
+  return database.prepare(`
+    SELECT
+      token_mint,
+      SUM(CASE WHEN direction = 'BUY' THEN 1 ELSE 0 END) as buy_count,
+      SUM(CASE WHEN direction = 'SELL' THEN 1 ELSE 0 END) as sell_count,
+      SUM(CASE WHEN direction = 'BUY' THEN amount_sol ELSE 0 END) as total_buy_sol,
+      SUM(CASE WHEN direction = 'SELL' THEN amount_sol ELSE 0 END) as total_sell_sol
+    FROM trades
+    WHERE telegram_id = ? AND status NOT IN ('error', 'dry-run-error')
+    GROUP BY token_mint
+  `).all(telegramId) as any[];
+}
+
+// --- Unwatch operations ---
+
+export function removeWatchedWhale(database: Database.Database, telegramId: string, whaleAddress: string): boolean {
+  const result = database.prepare(
+    'UPDATE watched_whales SET active = 0 WHERE telegram_id = ? AND whale_address = ? AND active = 1'
+  ).run(telegramId, whaleAddress);
+  return result.changes > 0;
+}
+
+export function removeAllWatchedWhales(database: Database.Database, telegramId: string): number {
+  const result = database.prepare(
+    'UPDATE watched_whales SET active = 0 WHERE telegram_id = ? AND active = 1'
+  ).run(telegramId);
+  return result.changes;
 }

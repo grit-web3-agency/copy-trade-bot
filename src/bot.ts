@@ -8,8 +8,11 @@ import {
   getWallet,
   setUserSettings,
   getUserSettings,
+  removeWatchedWhale,
+  removeAllWatchedWhales,
 } from './db';
 import { createAndStoreWallet, getBalance } from './wallet-manager';
+import { calculatePnL, formatPnLMessage } from './pnl-tracker';
 import { Connection, PublicKey } from '@solana/web3.js';
 
 export function createBot(token: string, database: Database.Database, rpcUrl?: string): Bot {
@@ -37,8 +40,10 @@ export function createBot(token: string, database: Database.Database, rpcUrl?: s
         `Your wallet: \`${pubkey}\`\n\n` +
         `Commands:\n` +
         `/watch [address] — Monitor a whale wallet\n` +
+        `/unwatch [address|all] — Stop monitoring\n` +
         `/copy on|off — Toggle copy trading\n` +
         `/balance — Check your wallet balance\n` +
+        `/pnl — View profit/loss summary\n` +
         `/settings — Configure max trade size & slippage\n` +
         `/help — Show this message`,
         { parse_mode: 'Markdown' }
@@ -55,8 +60,10 @@ export function createBot(token: string, database: Database.Database, rpcUrl?: s
       `Copy-Trade Bot Commands:\n\n` +
       `/start — Register & create wallet\n` +
       `/watch [address] — Monitor a whale wallet\n` +
+      `/unwatch [address|all] — Stop monitoring\n` +
       `/copy on|off — Toggle copy trading\n` +
       `/balance — Check your wallet balance\n` +
+      `/pnl — View profit/loss summary\n` +
       `/settings — Configure max trade size & slippage`
     );
   });
@@ -214,6 +221,65 @@ export function createBot(token: string, database: Database.Database, rpcUrl?: s
     } catch (err: any) {
       console.error('[Bot] /settings error:', err?.message || err);
       await ctx.reply('Failed to update settings. Please try again.');
+    }
+  });
+
+  // /unwatch [address|all] — stop watching a whale address
+  bot.command('unwatch', async (ctx) => {
+    const telegramId = ctx.from?.id.toString();
+    if (!telegramId) return;
+
+    try {
+      getOrCreateUser(database, telegramId, ctx.from?.username);
+
+      const text = ctx.message?.text || '';
+      const parts = text.split(/\s+/);
+      const arg = parts[1];
+
+      if (!arg) {
+        await ctx.reply('Usage: /unwatch [solana_address] or /unwatch all');
+        return;
+      }
+
+      if (arg.toLowerCase() === 'all') {
+        const count = removeAllWatchedWhales(database, telegramId);
+        await ctx.reply(count > 0 ? `Removed ${count} whale(s) from watch list.` : 'No whales being watched.');
+        return;
+      }
+
+      // Validate address
+      try {
+        new PublicKey(arg);
+      } catch {
+        await ctx.reply('Invalid Solana address.');
+        return;
+      }
+
+      const removed = removeWatchedWhale(database, telegramId, arg);
+      if (removed) {
+        await ctx.reply(`Stopped watching: \`${arg}\``, { parse_mode: 'Markdown' });
+      } else {
+        await ctx.reply('Address not found in your watch list.');
+      }
+    } catch (err: any) {
+      console.error('[Bot] /unwatch error:', err?.message || err);
+      await ctx.reply('Failed to process unwatch command. Please try again.');
+    }
+  });
+
+  // /pnl — show profit/loss summary
+  bot.command('pnl', async (ctx) => {
+    const telegramId = ctx.from?.id.toString();
+    if (!telegramId) return;
+
+    try {
+      getOrCreateUser(database, telegramId, ctx.from?.username);
+      const summary = calculatePnL(database, telegramId);
+      const message = formatPnLMessage(summary);
+      await ctx.reply(message);
+    } catch (err: any) {
+      console.error('[Bot] /pnl error:', err?.message || err);
+      await ctx.reply('Failed to calculate PnL. Please try again.');
     }
   });
 

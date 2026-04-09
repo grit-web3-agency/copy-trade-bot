@@ -117,7 +117,8 @@ export async function executeDryRunTrade(
       amountSol,
       dryRunSig,
       quote ? 'dry-run-quoted' : 'dry-run-no-quote',
-      true
+      true,
+      quote?.outAmount
     );
 
     if (!quote) {
