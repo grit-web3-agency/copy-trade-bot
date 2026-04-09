@@ -34,9 +34,9 @@
 
 ### ถ้ามีเวลา (Nice to Have)
 - [ ] Real devnet trading
-- [ ] PnL tracking
+- [x] PnL tracking
 - [ ] Multi-whale support
-- [ ] Payment module (ค่าสมาชิก)
+- [x] Payment module (ค่าสมาชิก)
 
 ### ห้ามทำ (Out of Scope)
 - ❌ Frontend web (ใช้ Telegram bot เท่านั้น)
