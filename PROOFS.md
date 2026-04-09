@@ -111,7 +111,7 @@ Follow these steps to verify the bot works end-to-end in dry-run mode.
    ```bash
    npm run test
    ```
-   - [ ] All 46 tests pass
+   - [x] All 77 tests pass
    - [ ] No errors in output
 
 2. **Run E2E demo script**
@@ -163,3 +163,8 @@ Follow these steps to verify the bot works end-to-end in dry-run mode.
 - Command: npm rebuild && npm test
 - Result: Test Files: 7 passed | 1 skipped (8) — Tests: 46 passed | 1 skipped (47)
 - Notes: All unit tests and dry-run E2E tests passed. Logs show Jupiter quote retries handled via mocked network fallbacks.
+
+## Test run — 2026-04-09 07:18 +07
+- Command: npx vitest run
+- Result: Test Files: 10 passed | 1 skipped (11) — Tests: 77 passed | 1 skipped (78) — Duration: 766ms
+- Notes: All Must Have features verified complete. New tests added since last run: db.test.ts (12), wallet-manager.test.ts (8), whale-listener-ws.test.ts (11). All passing.

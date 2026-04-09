@@ -23,14 +23,14 @@
 ## 2. Requirements
 
 ### ต้องทำ (Must Have)
-- [ ] Telegram bot ที่ user interact ได้ (/start, /watch, /copy, /balance)
-- [ ] Monitor whale wallet address บน Solana (websocket)
-- [ ] เมื่อ whale ซื้อ token → bot ซื้อตามอัตโนมัติ (ผ่าน Jupiter API)
-- [ ] เมื่อ whale ขาย → bot ขายตาม
-- [ ] User สร้าง wallet ใน bot ได้
-- [ ] ตั้ง max trade size + slippage ได้
-- [ ] Unit tests ผ่าน
-- [ ] Demo dry-run ทำงานได้
+- [x] Telegram bot ที่ user interact ได้ (/start, /watch, /copy, /balance)
+- [x] Monitor whale wallet address บน Solana (websocket)
+- [x] เมื่อ whale ซื้อ token → bot ซื้อตามอัตโนมัติ (ผ่าน Jupiter API)
+- [x] เมื่อ whale ขาย → bot ขายตาม
+- [x] User สร้าง wallet ใน bot ได้
+- [x] ตั้ง max trade size + slippage ได้
+- [x] Unit tests ผ่าน
+- [x] Demo dry-run ทำงานได้
 
 ### ถ้ามีเวลา (Nice to Have)
 - [ ] Real devnet trading
@@ -88,25 +88,25 @@ User (Telegram)
 ## 6. Sprint Plan
 
 ### Sprint 1: Scaffold + Listener (วันที่ 1-2)
-- [ ] Project scaffold (package.json, tsconfig, folder structure)
-- [ ] Telegram bot basic (/start, /help)
-- [ ] Whale listener (websocket connect + parse transactions)
-- [ ] Unit tests for listener
-- [ ] README.md
+- [x] Project scaffold (package.json, tsconfig, folder structure)
+- [x] Telegram bot basic (/start, /help)
+- [x] Whale listener (websocket connect + parse transactions)
+- [x] Unit tests for listener
+- [x] README.md
 
 ### Sprint 2: Wallet + Executor (วันที่ 3-4)
-- [ ] Wallet create/encrypt/store
-- [ ] /balance command
-- [ ] Jupiter swap integration (dry-run)
-- [ ] Trade executor (sign + submit skeleton)
-- [ ] Unit tests
+- [x] Wallet create/encrypt/store
+- [x] /balance command
+- [x] Jupiter swap integration (dry-run)
+- [x] Trade executor (sign + submit skeleton)
+- [x] Unit tests
 
 ### Sprint 3: Copy Logic + Demo (วันที่ 5-6)
-- [ ] Copy policy (when whale buys → bot buys)
-- [ ] /watch [address] command
-- [ ] /copy on/off command
-- [ ] E2E demo (devnet dry-run)
-- [ ] PROOFS.md with demo evidence
+- [x] Copy policy (when whale buys → bot buys)
+- [x] /watch [address] command
+- [x] /copy on/off command
+- [x] E2E demo (devnet dry-run)
+- [x] PROOFS.md with demo evidence
 
 
 ### Sprint 4: Polish + Deploy (วันที่ 7)
