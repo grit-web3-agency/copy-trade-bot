@@ -69,6 +69,18 @@ function initSchema(database: Database.Database) {
       symbol TEXT,
       name TEXT
     );
+
+    CREATE TABLE IF NOT EXISTS subscriptions (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      telegram_id TEXT NOT NULL,
+      plan TEXT NOT NULL DEFAULT 'free',
+      tx_signature TEXT,
+      paid_sol REAL DEFAULT 0,
+      started_at TEXT DEFAULT (datetime('now')),
+      expires_at TEXT,
+      active INTEGER DEFAULT 1,
+      FOREIGN KEY (telegram_id) REFERENCES users(telegram_id)
+    );
   `);
 }
 
@@ -212,4 +224,46 @@ export function recordTrade(
   `).run(telegramId, whaleAddress, direction, tokenMint, amountSol, txSignature, status, dryRun ? 1 : 0);
 
   return database.prepare('SELECT * FROM trades WHERE id = ?').get(result.lastInsertRowid) as Trade;
+}
+
+// --- Subscription operations ---
+
+export interface Subscription {
+  id: number;
+  telegram_id: string;
+  plan: string;
+  tx_signature: string | null;
+  paid_sol: number;
+  started_at: string;
+  expires_at: string | null;
+  active: number;
+}
+
+export function getActiveSubscription(database: Database.Database, telegramId: string): Subscription | undefined {
+  return database.prepare(
+    `SELECT * FROM subscriptions
+     WHERE telegram_id = ? AND active = 1
+       AND (expires_at IS NULL OR expires_at > datetime('now'))
+     ORDER BY id DESC LIMIT 1`
+  ).get(telegramId) as Subscription | undefined;
+}
+
+export function createSubscription(
+  database: Database.Database,
+  telegramId: string,
+  plan: string,
+  txSignature: string | null,
+  paidSol: number,
+  durationDays: number
+): Subscription {
+  const result = database.prepare(`
+    INSERT INTO subscriptions (telegram_id, plan, tx_signature, paid_sol, expires_at)
+    VALUES (?, ?, ?, ?, datetime('now', '+' || ? || ' days'))
+  `).run(telegramId, plan, txSignature, paidSol, durationDays);
+
+  return database.prepare('SELECT * FROM subscriptions WHERE id = ?').get(result.lastInsertRowid) as Subscription;
+}
+
+export function deactivateSubscriptions(database: Database.Database, telegramId: string) {
+  database.prepare('UPDATE subscriptions SET active = 0 WHERE telegram_id = ?').run(telegramId);
 }

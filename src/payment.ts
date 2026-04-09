@@ -1,0 +1,223 @@
+import Database from 'better-sqlite3';
+import { Connection, PublicKey, LAMPORTS_PER_SOL } from '@solana/web3.js';
+import {
+  getActiveSubscription,
+  createSubscription,
+  deactivateSubscriptions,
+  getWallet,
+} from './db';
+import type { Subscription } from './db';
+
+// --- Plan definitions ---
+
+export interface Plan {
+  id: string;
+  name: string;
+  priceSol: number;
+  durationDays: number;
+  maxWhales: number;
+  maxTradesPerDay: number;
+  description: string;
+}
+
+export const PLANS: Record<string, Plan> = {
+  free: {
+    id: 'free',
+    name: 'Free',
+    priceSol: 0,
+    durationDays: 0, // unlimited
+    maxWhales: 1,
+    maxTradesPerDay: 5,
+    description: 'Watch 1 whale, 5 copy-trades/day',
+  },
+  basic: {
+    id: 'basic',
+    name: 'Basic',
+    priceSol: 0.1,
+    durationDays: 30,
+    maxWhales: 5,
+    maxTradesPerDay: 50,
+    description: 'Watch 5 whales, 50 copy-trades/day',
+  },
+  pro: {
+    id: 'pro',
+    name: 'Pro',
+    priceSol: 0.5,
+    durationDays: 30,
+    maxWhales: 20,
+    maxTradesPerDay: -1, // unlimited
+    description: 'Watch 20 whales, unlimited copy-trades/day',
+  },
+};
+
+// Bot's treasury wallet — users send subscription payments here (devnet)
+const TREASURY_PUBKEY = process.env.TREASURY_WALLET || 'CopyTradeTreasury111111111111111111111111111';
+
+export function getTreasuryAddress(): string {
+  return TREASURY_PUBKEY;
+}
+
+// --- Access control ---
+
+export function getUserPlan(db: Database.Database, telegramId: string): Plan {
+  const sub = getActiveSubscription(db, telegramId);
+  if (!sub || !PLANS[sub.plan]) return PLANS.free;
+  return PLANS[sub.plan];
+}
+
+export function checkWhaleLimit(db: Database.Database, telegramId: string, currentWhaleCount: number): { allowed: boolean; limit: number } {
+  const plan = getUserPlan(db, telegramId);
+  return {
+    allowed: currentWhaleCount < plan.maxWhales,
+    limit: plan.maxWhales,
+  };
+}
+
+export function checkDailyTradeLimit(db: Database.Database, telegramId: string): { allowed: boolean; limit: number; used: number } {
+  const plan = getUserPlan(db, telegramId);
+  if (plan.maxTradesPerDay === -1) return { allowed: true, limit: -1, used: 0 };
+
+  const row = db.prepare(`
+    SELECT COUNT(*) as cnt FROM trades
+    WHERE telegram_id = ? AND created_at > datetime('now', '-1 day')
+  `).get(telegramId) as { cnt: number };
+
+  return {
+    allowed: row.cnt < plan.maxTradesPerDay,
+    limit: plan.maxTradesPerDay,
+    used: row.cnt,
+  };
+}
+
+// --- Payment verification ---
+
+export interface PaymentVerification {
+  valid: boolean;
+  reason?: string;
+}
+
+/**
+ * Verify a SOL transfer on-chain.
+ * Checks that the transaction:
+ * 1. Exists and is confirmed
+ * 2. Contains a transfer to the treasury wallet
+ * 3. Amount meets the plan price
+ */
+export async function verifyPayment(
+  connection: Connection,
+  txSignature: string,
+  expectedSol: number,
+  payerPubkey: string,
+): Promise<PaymentVerification> {
+  try {
+    const tx = await connection.getParsedTransaction(txSignature, {
+      maxSupportedTransactionVersion: 0,
+    });
+
+    if (!tx) {
+      return { valid: false, reason: 'Transaction not found. It may not be confirmed yet.' };
+    }
+
+    if (tx.meta?.err) {
+      return { valid: false, reason: 'Transaction failed on-chain.' };
+    }
+
+    // Look for a SOL transfer to treasury in the transaction's instructions
+    const instructions = tx.transaction.message.instructions;
+    let transferFound = false;
+    const treasuryAddr = getTreasuryAddress();
+
+    for (const ix of instructions) {
+      if ('parsed' in ix && ix.program === 'system' && ix.parsed?.type === 'transfer') {
+        const info = ix.parsed.info;
+        if (
+          info.destination === treasuryAddr &&
+          info.source === payerPubkey &&
+          info.lamports >= Math.floor(expectedSol * LAMPORTS_PER_SOL)
+        ) {
+          transferFound = true;
+          break;
+        }
+      }
+    }
+
+    if (!transferFound) {
+      return { valid: false, reason: 'No matching SOL transfer to treasury found in transaction.' };
+    }
+
+    return { valid: true };
+  } catch (err: any) {
+    return { valid: false, reason: `Verification error: ${err?.message || err}` };
+  }
+}
+
+// --- Subscription management ---
+
+export async function activateSubscription(
+  db: Database.Database,
+  telegramId: string,
+  planId: string,
+  txSignature: string | null,
+  connection?: Connection,
+): Promise<{ success: boolean; subscription?: Subscription; error?: string }> {
+  const plan = PLANS[planId];
+  if (!plan) {
+    return { success: false, error: `Unknown plan: ${planId}` };
+  }
+
+  // Free plan — no payment needed
+  if (planId === 'free') {
+    deactivateSubscriptions(db, telegramId);
+    const sub = createSubscription(db, telegramId, 'free', null, 0, 365 * 100); // effectively permanent
+    return { success: true, subscription: sub };
+  }
+
+  // Paid plan — verify payment
+  if (!txSignature) {
+    return { success: false, error: 'Transaction signature required for paid plans.' };
+  }
+
+  const wallet = getWallet(db, telegramId);
+  if (!wallet) {
+    return { success: false, error: 'No wallet found. Use /start first.' };
+  }
+
+  if (connection) {
+    const verification = await verifyPayment(connection, txSignature, plan.priceSol, wallet.public_key);
+    if (!verification.valid) {
+      return { success: false, error: verification.reason };
+    }
+  }
+
+  // Deactivate old subs, create new one
+  deactivateSubscriptions(db, telegramId);
+  const sub = createSubscription(db, telegramId, planId, txSignature, plan.priceSol, plan.durationDays);
+  return { success: true, subscription: sub };
+}
+
+// --- Formatting ---
+
+export function formatPlans(): string {
+  const lines = Object.values(PLANS).map(p => {
+    const price = p.priceSol === 0 ? 'Free' : `${p.priceSol} SOL/month`;
+    return `*${p.name}* — ${price}\n  ${p.description}`;
+  });
+  return lines.join('\n\n');
+}
+
+export function formatSubscriptionStatus(db: Database.Database, telegramId: string): string {
+  const sub = getActiveSubscription(db, telegramId);
+  const plan = getUserPlan(db, telegramId);
+
+  if (!sub || sub.plan === 'free') {
+    return `Plan: *Free*\nLimits: ${plan.maxWhales} whale, ${plan.maxTradesPerDay} trades/day`;
+  }
+
+  const expires = sub.expires_at ? sub.expires_at.split('T')[0] : 'never';
+  const trades = plan.maxTradesPerDay === -1 ? 'unlimited' : `${plan.maxTradesPerDay}`;
+  return (
+    `Plan: *${plan.name}*\n` +
+    `Expires: ${expires}\n` +
+    `Limits: ${plan.maxWhales} whales, ${trades} trades/day`
+  );
+}

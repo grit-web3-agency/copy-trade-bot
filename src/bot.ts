@@ -11,6 +11,13 @@ import {
 } from './db';
 import { createAndStoreWallet, getBalance } from './wallet-manager';
 import { Connection, PublicKey } from '@solana/web3.js';
+import {
+  PLANS,
+  formatPlans,
+  formatSubscriptionStatus,
+  activateSubscription,
+  getTreasuryAddress,
+} from './payment';
 
 export function createBot(token: string, database: Database.Database, rpcUrl?: string): Bot {
   const bot = new Bot(token);
@@ -40,6 +47,8 @@ export function createBot(token: string, database: Database.Database, rpcUrl?: s
         `/copy on|off — Toggle copy trading\n` +
         `/balance — Check your wallet balance\n` +
         `/settings — Configure max trade size & slippage\n` +
+        `/plan — View subscription plans\n` +
+        `/subscribe [plan] [tx_sig] — Activate a plan\n` +
         `/help — Show this message`,
         { parse_mode: 'Markdown' }
       );
@@ -57,7 +66,9 @@ export function createBot(token: string, database: Database.Database, rpcUrl?: s
       `/watch [address] — Monitor a whale wallet\n` +
       `/copy on|off — Toggle copy trading\n` +
       `/balance — Check your wallet balance\n` +
-      `/settings — Configure max trade size & slippage`
+      `/settings — Configure max trade size & slippage\n` +
+      `/plan — View subscription plans\n` +
+      `/subscribe [plan] [tx_sig] — Activate a plan`
     );
   });
 
@@ -214,6 +225,81 @@ export function createBot(token: string, database: Database.Database, rpcUrl?: s
     } catch (err: any) {
       console.error('[Bot] /settings error:', err?.message || err);
       await ctx.reply('Failed to update settings. Please try again.');
+    }
+  });
+
+  // /plan — show subscription plans and current status
+  bot.command('plan', async (ctx) => {
+    const telegramId = ctx.from?.id.toString();
+    if (!telegramId) return;
+
+    try {
+      getOrCreateUser(database, telegramId, ctx.from?.username);
+      const status = formatSubscriptionStatus(database, telegramId);
+      const plans = formatPlans();
+      const treasury = getTreasuryAddress();
+
+      await ctx.reply(
+        `Your subscription:\n${status}\n\n` +
+        `Available plans:\n${plans}\n\n` +
+        `To subscribe, send SOL to:\n\`${treasury}\`\n` +
+        `Then: /subscribe [plan] [tx_signature]`,
+        { parse_mode: 'Markdown' }
+      );
+    } catch (err: any) {
+      console.error('[Bot] /plan error:', err?.message || err);
+      await ctx.reply('Failed to load plan info. Please try again.');
+    }
+  });
+
+  // /subscribe [plan] [tx_signature] — activate a subscription
+  bot.command('subscribe', async (ctx) => {
+    const telegramId = ctx.from?.id.toString();
+    if (!telegramId) return;
+
+    try {
+      getOrCreateUser(database, telegramId, ctx.from?.username);
+
+      const text = ctx.message?.text || '';
+      const parts = text.split(/\s+/);
+      const planId = parts[1]?.toLowerCase();
+      const txSig = parts[2];
+
+      if (!planId || !PLANS[planId]) {
+        const validPlans = Object.keys(PLANS).join(', ');
+        await ctx.reply(`Usage: /subscribe [plan] [tx_signature]\nPlans: ${validPlans}`);
+        return;
+      }
+
+      if (planId !== 'free' && !txSig) {
+        const plan = PLANS[planId];
+        const treasury = getTreasuryAddress();
+        await ctx.reply(
+          `To activate *${plan.name}*, send ${plan.priceSol} SOL to:\n` +
+          `\`${treasury}\`\n\n` +
+          `Then run: /subscribe ${planId} [tx_signature]`,
+          { parse_mode: 'Markdown' }
+        );
+        return;
+      }
+
+      const result = await activateSubscription(
+        database,
+        telegramId,
+        planId,
+        txSig || null,
+        connection,
+      );
+
+      if (result.success) {
+        const status = formatSubscriptionStatus(database, telegramId);
+        await ctx.reply(`Subscription activated!\n\n${status}`, { parse_mode: 'Markdown' });
+      } else {
+        await ctx.reply(`Subscription failed: ${result.error}`);
+      }
+    } catch (err: any) {
+      console.error('[Bot] /subscribe error:', err?.message || err);
+      await ctx.reply('Failed to process subscription. Please try again.');
     }
   });
 
