@@ -1,4 +1,5 @@
 import 'dotenv/config';
+import { Connection } from '@solana/web3.js';
 import { getDb, getAllWatchedAddresses } from './db';
 import { createBot } from './bot';
 import { WhaleListener } from './whale-listener';
@@ -28,6 +29,9 @@ async function main() {
   const db = getDb();
   console.log('[Main] Database initialized');
 
+  // Create connection for devnet trading
+  const connection = new Connection(rpcUrl);
+
   // Create Telegram bot
   const bot = createBot(botToken, db, rpcUrl);
 
@@ -47,7 +51,7 @@ async function main() {
         bot.api.sendMessage(telegramId, message).catch(err => {
           console.error(`[Main] Failed to notify user ${telegramId}:`, err.message);
         });
-      });
+      }, connection);
     } catch (err: any) {
       console.error('[Main] Error processing whale trade:', err?.message || err);
     }
