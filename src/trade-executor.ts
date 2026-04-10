@@ -255,13 +255,11 @@ export async function executeRealTrade(
       };
     }
 
-    // Call Jupiter swap endpoint to build a signed transaction for us to sign
-    const route = quote.routePlan[0];
-
+    // Call Jupiter swap endpoint with full quoteResponse (V6 API requirement)
     const swapBody = {
-      route,
+      quoteResponse: quote,
       userPublicKey: keypair.publicKey.toBase58(),
-      wrapUnwrapSOL: true,
+      wrapAndUnwrapSol: true,
     };
 
     const swapResp = await withRetry(async () => {
@@ -270,11 +268,14 @@ export async function executeRealTrade(
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(swapBody),
       });
-      if (!resp.ok) throw new Error(`Jupiter swap failed: ${resp.status}`);
+      if (!resp.ok) {
+        const body = await resp.text().catch(() => '');
+        throw new Error(`Jupiter swap failed: ${resp.status} ${body}`);
+      }
       return (await resp.json()) as Record<string, unknown>;
     }, { maxRetries: 3, baseDelayMs: 500 });
 
-    // Jupiter returns a base64 serialized transaction we must sign and send
+    // Jupiter returns a base64 serialized VersionedTransaction
     const swapTxBase64 = (swapResp?.swapTransaction || swapResp?.serializedTransaction) as string | undefined;
     if (!swapTxBase64) {
       return {
@@ -286,13 +287,18 @@ export async function executeRealTrade(
       };
     }
 
-    const raw = Buffer.from(swapTxBase64, 'base64');
+    // Deserialize as VersionedTransaction, sign with user keypair, then send
+    const txBuf = Buffer.from(swapTxBase64, 'base64');
+    const versionedTx = VersionedTransaction.deserialize(txBuf);
+    versionedTx.sign([keypair]);
 
-    // Let the user keypair sign the transaction bytes (assumes versioned tx or legacy)
-    // For simplicity, we'll send the raw transaction as-is if the swap endpoint returned a fully-signed tx.
-    // If not fully signed, this will likely fail on devnet and we surface the error.
+    const raw = versionedTx.serialize();
+
     const sig = await withRetry(async () => {
-      return await connection.sendRawTransaction(raw);
+      return await connection.sendRawTransaction(raw, {
+        skipPreflight: false,
+        maxRetries: 2,
+      });
     }, { maxRetries: 3, baseDelayMs: 500 });
 
     // Optionally confirm
