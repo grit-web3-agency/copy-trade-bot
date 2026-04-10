@@ -170,7 +170,28 @@ export function createBot(token: string, database: Database.Database, rpcUrl?: s
 
       if (parts.length === 0) {
         const s = getUserSettings(database, telegramId);
-        await ctx.reply(`Current settings:\n- max_trade_size_sol: ${s.max_trade_size_sol} SOL\n- slippage_bps: ${s.slippage_bps} bps`);
+        const mode = getTradeMode(database, telegramId);
+        await ctx.reply(
+          `Current settings:\n- max_trade_size_sol: ${s.max_trade_size_sol} SOL\n- slippage_bps: ${s.slippage_bps} bps\n- mode: ${mode}`
+        );
+        return;
+      }
+
+      // /settings set-mode dry-run|devnet — alias for /mode command
+      if (parts[0]?.toLowerCase() === 'set-mode' && parts[1]) {
+        const modeArg = parts[1].toLowerCase();
+        if (modeArg === 'dry-run' || modeArg === 'dryrun' || modeArg === 'dry' || modeArg === 'mock') {
+          setTradeMode(database, telegramId, 'dry-run');
+          await ctx.reply('Trading mode set to DRY-RUN (mock). Trades will be simulated.');
+        } else if (modeArg === 'devnet' || modeArg === 'real') {
+          setTradeMode(database, telegramId, 'devnet');
+          await ctx.reply(
+            'Trading mode set to DEVNET. Trades will be submitted to Solana devnet.\n' +
+            'Make sure your wallet has devnet SOL (use a faucet).'
+          );
+        } else {
+          await ctx.reply('Invalid mode. Usage: /settings set-mode dry-run|devnet');
+        }
         return;
       }
 

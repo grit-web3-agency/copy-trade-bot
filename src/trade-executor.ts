@@ -24,6 +24,43 @@ const SOL_MINT = 'So11111111111111111111111111111111111111112';
 const JUPITER_QUOTE_URL = 'https://quote-api.jup.ag/v6/quote';
 const JUPITER_SWAP_URL = 'https://quote-api.jup.ag/v6/swap';
 
+// Mainnet RPC patterns that must NEVER be used for real trades
+const MAINNET_PATTERNS = [
+  'mainnet-beta',
+  'mainnet.helius',
+  'api.mainnet-beta.solana.com',
+  'solana-mainnet',
+  'mainnet.rpcpool',
+];
+
+// Validate that a Connection is pointing at devnet, not mainnet
+export function assertDevnetConnection(connection: Connection): void {
+  const endpoint = connection.rpcEndpoint.toLowerCase();
+  for (const pattern of MAINNET_PATTERNS) {
+    if (endpoint.includes(pattern)) {
+      throw new Error(
+        `SAFETY: Refusing to trade on mainnet RPC (${connection.rpcEndpoint}). ` +
+        `This bot is devnet-only. Set DEVNET_RPC to a devnet endpoint.`
+      );
+    }
+  }
+}
+
+// Get the devnet RPC URL from environment with safety validation
+export function getDevnetRpcUrl(): string {
+  const devnetRpc = process.env.DEVNET_RPC || process.env.SOLANA_RPC_URL || 'https://api.devnet.solana.com';
+  const lower = devnetRpc.toLowerCase();
+  for (const pattern of MAINNET_PATTERNS) {
+    if (lower.includes(pattern)) {
+      throw new Error(
+        `SAFETY: DEVNET_RPC / SOLANA_RPC_URL points to mainnet (${devnetRpc}). ` +
+        `This bot is devnet-only. Use a devnet endpoint.`
+      );
+    }
+  }
+  return devnetRpc;
+}
+
 // In-flight trades set to prevent double-spend (keyed by "telegramId:tokenMint:direction")
 const inFlightTrades = new Set<string>();
 
@@ -176,6 +213,9 @@ export async function executeRealTrade(
   slippageBps: number,
   keypair: Keypair
 ): Promise<TradeResult> {
+  // SAFETY: reject mainnet connections before doing anything
+  assertDevnetConnection(connection);
+
   const key = tradeKey(telegramId, tokenMint, direction);
 
   if (inFlightTrades.has(key)) {
@@ -198,7 +238,6 @@ export async function executeRealTrade(
 
     const quote = await getJupiterQuote(inputMint, outputMint, amountLamports, slippageBps);
 
-    const txSigPlaceholder = `tx-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
 
     // Record pending trade
     recordTrade(database, telegramId, whaleAddress, direction, tokenMint, amountSol, null, 'pending', false);

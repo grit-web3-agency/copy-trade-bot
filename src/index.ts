@@ -4,6 +4,7 @@ import { getDb, getAllWatchedAddresses } from './db';
 import { createBot } from './bot';
 import { WhaleListener } from './whale-listener';
 import { processWhaleTrade } from './copy-policy';
+import { getDevnetRpcUrl } from './trade-executor';
 
 // Catch unhandled errors to prevent silent crashes
 process.on('uncaughtException', (err) => {
@@ -22,15 +23,16 @@ async function main() {
     process.exit(1);
   }
 
-  const rpcUrl = process.env.SOLANA_RPC_URL || 'https://api.devnet.solana.com';
+  const rpcUrl = getDevnetRpcUrl();
   const wsUrl = process.env.SOLANA_WS_URL;
 
   // Initialize database
   const db = getDb();
   console.log('[Main] Database initialized');
 
-  // Create connection for devnet trading
+  // Create connection for devnet trading (validated as devnet by getDevnetRpcUrl)
   const connection = new Connection(rpcUrl);
+  console.log(`[Main] Devnet RPC: ${rpcUrl}`);
 
   // Create Telegram bot
   const bot = createBot(botToken, db, rpcUrl);

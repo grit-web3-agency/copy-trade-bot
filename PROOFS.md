@@ -168,3 +168,61 @@ Follow these steps to verify the bot works end-to-end in dry-run mode.
 - Command: npx vitest run
 - Result: Test Files: 10 passed | 1 skipped (11) — Tests: 77 passed | 1 skipped (78) — Duration: 766ms
 - Notes: All Must Have features verified complete. New tests added since last run: db.test.ts (12), wallet-manager.test.ts (8), whale-listener-ws.test.ts (11). All passing.
+
+---
+
+## Sprint 5: Real Devnet Trading (Per-User Mode Toggle)
+
+### What changed
+- **Per-user mode flag** (`src/db.ts`): `trade_mode` column (`'dry-run' | 'devnet'`) on users table, default `dry-run`.
+- **`/mode` command** (`src/bot.ts`): `/mode dry-run|devnet` to toggle per-user trading mode.
+- **`/settings set-mode` alias** (`src/bot.ts`): `/settings set-mode devnet|dry-run|mock` as alternative.
+- **`executeRealTrade()`** (`src/trade-executor.ts`): Jupiter quote → `/swap` → sign → submit to devnet RPC → confirm. Full retry + error handling.
+- **Mainnet safety guards** (`src/trade-executor.ts`): `assertDevnetConnection()` rejects mainnet RPC patterns. `getDevnetRpcUrl()` validates `DEVNET_RPC` / `SOLANA_RPC_URL` env vars at startup.
+- **`DEVNET_RPC` env config** (`.env.example`): Explicit devnet RPC URL with mainnet rejection.
+- **Copy policy routing** (`src/copy-policy.ts`): Reads user mode from DB → routes to `executeRealTrade` or `executeDryRunTrade`.
+- **New tests**: `devnet-safety.test.ts` (16 tests), `trade-mode.test.ts` (8 tests), `trade-executor.real.test.ts` (1 skipped — needs `RUN_REAL_NETWORK=1`).
+
+### Unit Tests (101/101 passing, 1 skipped)
+
+```
+ ✓ tests/retry.test.ts              (5 tests)  — withRetry utility
+ ✓ tests/watch-command.test.ts       (7 tests)  — /watch DB operations
+ ✓ tests/db.test.ts                  (12 tests) — CRUD + trade_mode operations
+ ✓ tests/whale-listener-ws.test.ts   (11 tests) — WebSocket parsing
+ ✓ tests/devnet-safety.test.ts       (16 tests) — Mainnet safety guards + DEVNET_RPC config
+ ✓ tests/trade-executor.test.ts      (5 tests)  — Dry-run executor + double-spend guard
+ ✓ tests/wallet-manager.test.ts      (8 tests)  — Encryption/decryption
+ ✓ tests/copy-policy.test.ts         (11 tests) — Copy policy + routing
+ ✓ tests/trade-mode.test.ts          (8 tests)  — Per-user mode toggle + mixed modes
+ ✓ tests/error-handling.test.ts      (7 tests)  — Graceful error handling
+ ✓ tests/settings.test.ts            (7 tests)  — /settings DB operations
+ ✓ tests/whale-listener.test.ts      (4 tests)  — WhaleListener core
+ ↓ tests/trade-executor.real.test.ts (1 test | 1 skipped)
+
+ Test Files  12 passed | 1 skipped (13)
+      Tests  101 passed | 1 skipped (102)
+   Duration  ~2s
+```
+
+### Safety Checks
+
+| Guard | What it does |
+|-------|-------------|
+| `assertDevnetConnection()` | Called before every real trade; rejects mainnet-beta, Helius mainnet, solana-mainnet, rpcpool mainnet URLs |
+| `getDevnetRpcUrl()` | Validates `DEVNET_RPC` / `SOLANA_RPC_URL` env at startup; rejects mainnet patterns |
+| Default mode `dry-run` | New users start in simulation mode; must explicitly opt in to devnet |
+| In-flight guard | Prevents duplicate concurrent trades per user+token+direction |
+
+### Devnet Dry-Run Instructions
+
+1. Run unit tests: `npm test` (all 101 pass, no network needed)
+2. Run E2E demo: `npm run demo` (simulated trades, no BOT_TOKEN needed)
+3. (Optional) Start bot: set `BOT_TOKEN` in `.env`, `npm run dev`
+4. In Telegram: `/mode devnet` → `/copy on` → watch a whale
+5. Fund wallet: use [Solana faucet](https://faucet.solana.com) for devnet SOL
+
+### Test run — 2026-04-11 04:49 +07
+- Command: npx vitest run
+- Result: Test Files: 12 passed | 1 skipped (13) — Tests: 101 passed | 1 skipped (102) — Duration: 2.20s
+- Notes: Added 16 devnet safety tests, 3 trade-mode persistence tests. All mainnet guard tests passing. TypeScript build clean.
