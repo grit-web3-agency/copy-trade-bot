@@ -5,6 +5,7 @@ import { createBot } from './bot';
 import { WhaleListener } from './whale-listener';
 import { processWhaleTrade } from './copy-policy';
 import { getDevnetRpcUrl } from './trade-executor';
+import { validateEnv } from './env-validation';
 
 // Catch unhandled errors to prevent silent crashes
 process.on('uncaughtException', (err) => {
@@ -17,11 +18,20 @@ process.on('unhandledRejection', (reason) => {
 });
 
 async function main() {
-  const botToken = process.env.BOT_TOKEN;
-  if (!botToken) {
-    console.error('[Main] BOT_TOKEN not set in environment');
+  // Validate environment variables at startup
+  const envCheck = validateEnv();
+  for (const w of envCheck.warnings) {
+    console.warn(`[Main] WARNING: ${w}`);
+  }
+  if (!envCheck.valid) {
+    for (const e of envCheck.errors) {
+      console.error(`[Main] ENV ERROR: ${e}`);
+    }
+    console.error('[Main] Fix the above environment errors and restart. See .env.example for reference.');
     process.exit(1);
   }
+
+  const botToken = process.env.BOT_TOKEN!;
 
   const rpcUrl = getDevnetRpcUrl();
   const wsUrl = process.env.SOLANA_WS_URL;
