@@ -5,8 +5,18 @@ import {
   createSubscription,
   deactivateSubscriptions,
   getWallet,
+  recordPaymentEvent,
 } from './db';
 import type { Subscription } from './db';
+
+// --- Payment mode ---
+// 'mock' = no on-chain verification (dev/test), 'live' = verify on-chain (future)
+export type PaymentMode = 'mock' | 'live';
+
+export function getPaymentMode(): PaymentMode {
+  const mode = process.env.PAYMENT_MODE || 'mock';
+  return mode === 'live' ? 'live' : 'mock';
+}
 
 // --- Plan definitions ---
 
@@ -169,6 +179,7 @@ export async function activateSubscription(
   if (planId === 'free') {
     deactivateSubscriptions(db, telegramId);
     const sub = createSubscription(db, telegramId, 'free', null, 0, 365 * 100); // effectively permanent
+    recordPaymentEvent(db, telegramId, 'subscription_activated', 'free', 0, null, 'completed');
     return { success: true, subscription: sub };
   }
 
@@ -182,9 +193,13 @@ export async function activateSubscription(
     return { success: false, error: 'No wallet found. Use /start first.' };
   }
 
-  if (connection) {
+  const mode = getPaymentMode();
+
+  // In live mode, verify on-chain; in mock mode, skip verification
+  if (mode === 'live' && connection) {
     const verification = await verifyPayment(connection, txSignature, plan.priceSol, wallet.public_key);
     if (!verification.valid) {
+      recordPaymentEvent(db, telegramId, 'payment_failed', planId, plan.priceSol, txSignature, 'failed', { reason: verification.reason });
       return { success: false, error: verification.reason };
     }
   }
@@ -192,6 +207,8 @@ export async function activateSubscription(
   // Deactivate old subs, create new one
   deactivateSubscriptions(db, telegramId);
   const sub = createSubscription(db, telegramId, planId, txSignature, plan.priceSol, plan.durationDays);
+  recordPaymentEvent(db, telegramId, 'subscription_activated', planId, plan.priceSol, txSignature, 'completed', { mode });
+  console.log(`[Payment] Subscription activated: user=${telegramId} plan=${planId} mode=${mode}`);
   return { success: true, subscription: sub };
 }
 

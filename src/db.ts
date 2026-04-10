@@ -81,6 +81,19 @@ function initSchema(database: Database.Database) {
       active INTEGER DEFAULT 1,
       FOREIGN KEY (telegram_id) REFERENCES users(telegram_id)
     );
+
+    CREATE TABLE IF NOT EXISTS payment_history (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      telegram_id TEXT NOT NULL,
+      event_type TEXT NOT NULL,
+      plan TEXT,
+      amount_sol REAL DEFAULT 0,
+      tx_signature TEXT,
+      status TEXT NOT NULL DEFAULT 'pending',
+      metadata TEXT,
+      created_at TEXT DEFAULT (datetime('now')),
+      FOREIGN KEY (telegram_id) REFERENCES users(telegram_id)
+    );
   `);
 }
 
@@ -266,4 +279,47 @@ export function createSubscription(
 
 export function deactivateSubscriptions(database: Database.Database, telegramId: string) {
   database.prepare('UPDATE subscriptions SET active = 0 WHERE telegram_id = ?').run(telegramId);
+}
+
+// --- Payment history operations ---
+
+export interface PaymentEvent {
+  id: number;
+  telegram_id: string;
+  event_type: string;
+  plan: string | null;
+  amount_sol: number;
+  tx_signature: string | null;
+  status: string;
+  metadata: string | null;
+  created_at: string;
+}
+
+export function recordPaymentEvent(
+  database: Database.Database,
+  telegramId: string,
+  eventType: string,
+  plan: string | null,
+  amountSol: number,
+  txSignature: string | null,
+  status: string,
+  metadata?: Record<string, unknown>,
+): PaymentEvent {
+  const metaJson = metadata ? JSON.stringify(metadata) : null;
+  const result = database.prepare(`
+    INSERT INTO payment_history (telegram_id, event_type, plan, amount_sol, tx_signature, status, metadata)
+    VALUES (?, ?, ?, ?, ?, ?, ?)
+  `).run(telegramId, eventType, plan, amountSol, txSignature, status, metaJson);
+
+  return database.prepare('SELECT * FROM payment_history WHERE id = ?').get(result.lastInsertRowid) as PaymentEvent;
+}
+
+export function getPaymentHistory(database: Database.Database, telegramId: string, limit = 20): PaymentEvent[] {
+  return database.prepare(
+    'SELECT * FROM payment_history WHERE telegram_id = ? ORDER BY id DESC LIMIT ?'
+  ).all(telegramId, limit) as PaymentEvent[];
+}
+
+export function updatePaymentEventStatus(database: Database.Database, eventId: number, status: string) {
+  database.prepare('UPDATE payment_history SET status = ? WHERE id = ?').run(status, eventId);
 }

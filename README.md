@@ -39,6 +39,8 @@ cp .env.example .env
 | `BOT_TOKEN` | Yes | Telegram bot token from @BotFather |
 | `SOLANA_RPC_URL` | No | Solana RPC endpoint (defaults to devnet) |
 | `SOLANA_WS_URL` | No | Helius websocket URL for whale monitoring |
+| `PAYMENT_MODE` | No | `mock` (default) or `live` — mock skips on-chain verification |
+| `TREASURY_WALLET` | No | Treasury wallet address for subscription payments |
 
 ## Commands
 
@@ -59,6 +61,8 @@ npm run build    # Compile TypeScript
 | `/balance` | Check wallet balance |
 | `/settings [max <SOL>] [slippage <bps>]` | View or update user settings |
 | `/help` | Show help message |
+| `/plan` | View available subscription plans |
+| `/subscribe [plan] [tx_sig]` | Activate a subscription plan |
 
 ### /settings Usage
 
@@ -103,6 +107,53 @@ All errors are handled gracefully — the bot never crashes on user-facing opera
 | **Copy policy** | Rejected trades are logged and the user is notified with the reason. Processing errors per-user don't block other users. |
 | **Process-level** | `uncaughtException` and `unhandledRejection` handlers prevent silent crashes. `SIGINT`/`SIGTERM` trigger graceful shutdown. |
 | **Structured logging** | All modules log with `[ModuleName]` prefix for easy filtering (e.g., `[Bot]`, `[TradeExecutor]`, `[WhaleListener]`). |
+
+## Payment Module (Membership)
+
+The payment module provides subscription plans that control whale monitoring and trade limits. **Runs in mock mode by default — no real money.**
+
+### Plans
+
+| Plan | Price | Whales | Trades/Day |
+|------|-------|--------|------------|
+| Free | 0 SOL | 1 | 5 |
+| Basic | 0.1 SOL/mo | 5 | 50 |
+| Pro | 0.5 SOL/mo | 20 | Unlimited |
+
+### Running in Dev Mode
+
+Set `PAYMENT_MODE=mock` in `.env` (default). This skips on-chain payment verification so you can test subscription flows without real SOL.
+
+### Seed a Test Subscription
+
+```bash
+# Seed a free plan for user 12345
+npm run seed:subscription -- 12345
+
+# Seed a pro plan
+npm run seed:subscription -- 12345 pro
+```
+
+### Run Payment Migrations
+
+If upgrading from an older database without the `payment_history` table:
+
+```bash
+npm run migrate:payments
+# Or specify a custom DB path:
+npm run migrate:payments -- /path/to/copytrade.db
+```
+
+### Webhook Simulation (Dev/Test)
+
+The webhook handler at `src/api/payments/webhook.ts` simulates payment processor callbacks. It validates incoming payloads, records events in `payment_history`, and activates subscriptions on confirmation. This is for dev/test use only.
+
+### Running Payment Tests
+
+```bash
+npm run test              # runs all tests including payment tests
+npm run test -- payment   # run only payment-related tests
+```
 
 ## Deployment
 

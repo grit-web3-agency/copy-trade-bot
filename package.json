@@ -8,7 +8,9 @@
     "dev": "tsx src/index.ts",
     "test": "vitest run",
     "test:watch": "vitest",
-    "demo": "tsx scripts/e2e-demo.ts"
+    "demo": "tsx scripts/e2e-demo.ts",
+    "seed:subscription": "tsx scripts/seed-subscription.ts",
+    "migrate:payments": "tsx scripts/migrate-payments.ts"
   },
   "keywords": [
     "solana",

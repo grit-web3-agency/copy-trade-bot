@@ -5,6 +5,9 @@ import {
   getActiveSubscription,
   createSubscription,
   deactivateSubscriptions,
+  recordPaymentEvent,
+  getPaymentHistory,
+  updatePaymentEventStatus,
 } from '../src/db';
 import { createAndStoreWallet } from '../src/wallet-manager';
 import {
@@ -16,7 +19,14 @@ import {
   formatPlans,
   formatSubscriptionStatus,
   getTreasuryAddress,
+  getPaymentMode,
 } from '../src/payment';
+import {
+  validateWebhookPayload,
+  handlePaymentWebhook,
+  getWebhookHistory,
+} from '../src/api/payments/webhook';
+import type { WebhookPayload } from '../src/api/payments/webhook';
 import type Database from 'better-sqlite3';
 
 let db: Database.Database;
@@ -200,5 +210,143 @@ describe('getTreasuryAddress', () => {
   it('returns a string', () => {
     expect(typeof getTreasuryAddress()).toBe('string');
     expect(getTreasuryAddress().length).toBeGreaterThan(0);
+  });
+});
+
+describe('getPaymentMode', () => {
+  it('defaults to mock', () => {
+    expect(getPaymentMode()).toBe('mock');
+  });
+});
+
+describe('Payment history DB operations', () => {
+  it('records a payment event', () => {
+    const event = recordPaymentEvent(db, '100', 'subscription_activated', 'basic', 0.1, 'sig1', 'completed');
+    expect(event.telegram_id).toBe('100');
+    expect(event.event_type).toBe('subscription_activated');
+    expect(event.plan).toBe('basic');
+    expect(event.amount_sol).toBe(0.1);
+    expect(event.status).toBe('completed');
+  });
+
+  it('records event with metadata', () => {
+    const event = recordPaymentEvent(db, '100', 'webhook_payment_confirmed', 'pro', 0.5, 'sig2', 'processing', { source: 'webhook' });
+    expect(event.metadata).toContain('webhook');
+    const parsed = JSON.parse(event.metadata!);
+    expect(parsed.source).toBe('webhook');
+  });
+
+  it('retrieves payment history in reverse order', () => {
+    recordPaymentEvent(db, '100', 'event1', 'free', 0, null, 'completed');
+    recordPaymentEvent(db, '100', 'event2', 'basic', 0.1, 'sig', 'completed');
+    const history = getPaymentHistory(db, '100');
+    expect(history).toHaveLength(2);
+    expect(history[0].event_type).toBe('event2'); // most recent first
+  });
+
+  it('returns empty array for user with no history', () => {
+    const history = getPaymentHistory(db, '200');
+    expect(history).toHaveLength(0);
+  });
+
+  it('updates payment event status', () => {
+    const event = recordPaymentEvent(db, '100', 'test', 'basic', 0.1, 'sig', 'pending');
+    updatePaymentEventStatus(db, event.id, 'completed');
+    const history = getPaymentHistory(db, '100');
+    expect(history[0].status).toBe('completed');
+  });
+});
+
+describe('Webhook payload validation', () => {
+  it('rejects null payload', () => {
+    expect(validateWebhookPayload(null)).toContain('Invalid payload');
+  });
+
+  it('rejects invalid event type', () => {
+    expect(validateWebhookPayload({ event: 'bad', telegram_id: '1', plan: 'free', tx_signature: 'sig', amount_sol: 0 })).toContain('Invalid event type');
+  });
+
+  it('rejects missing telegram_id', () => {
+    expect(validateWebhookPayload({ event: 'payment.confirmed', plan: 'free', tx_signature: 'sig', amount_sol: 0 })).toContain('telegram_id');
+  });
+
+  it('rejects invalid plan', () => {
+    expect(validateWebhookPayload({ event: 'payment.confirmed', telegram_id: '1', plan: 'diamond', tx_signature: 'sig', amount_sol: 0 })).toContain('Invalid plan');
+  });
+
+  it('rejects missing tx_signature', () => {
+    expect(validateWebhookPayload({ event: 'payment.confirmed', telegram_id: '1', plan: 'basic', amount_sol: 0.1 })).toContain('tx_signature');
+  });
+
+  it('rejects negative amount', () => {
+    expect(validateWebhookPayload({ event: 'payment.confirmed', telegram_id: '1', plan: 'basic', tx_signature: 'sig', amount_sol: -1 })).toContain('amount_sol');
+  });
+
+  it('accepts valid payload', () => {
+    const valid = { event: 'payment.confirmed', telegram_id: '100', plan: 'basic', tx_signature: 'sig123', amount_sol: 0.1 };
+    expect(validateWebhookPayload(valid)).toBeNull();
+  });
+});
+
+describe('Webhook handler', () => {
+  it('handles payment.confirmed and activates subscription', async () => {
+    // user 100 already has a wallet from beforeEach
+    const payload: WebhookPayload = {
+      event: 'payment.confirmed',
+      telegram_id: '100',
+      plan: 'basic',
+      tx_signature: 'webhook-sig-1',
+      amount_sol: 0.1,
+    };
+    const result = await handlePaymentWebhook(db, payload);
+    expect(result.success).toBe(true);
+    expect(result.message).toContain('basic');
+
+    // Verify subscription was activated
+    const plan = getUserPlan(db, '100');
+    expect(plan.id).toBe('basic');
+  });
+
+  it('handles payment.failed and records event', async () => {
+    const payload: WebhookPayload = {
+      event: 'payment.failed',
+      telegram_id: '100',
+      plan: 'pro',
+      tx_signature: 'failed-sig',
+      amount_sol: 0.5,
+    };
+    const result = await handlePaymentWebhook(db, payload);
+    expect(result.success).toBe(true);
+    expect(result.message).toContain('failure recorded');
+
+    // User should still be on free plan
+    const plan = getUserPlan(db, '100');
+    expect(plan.id).toBe('free');
+  });
+
+  it('records payment history on webhook', async () => {
+    const payload: WebhookPayload = {
+      event: 'payment.confirmed',
+      telegram_id: '100',
+      plan: 'pro',
+      tx_signature: 'webhook-sig-2',
+      amount_sol: 0.5,
+    };
+    await handlePaymentWebhook(db, payload);
+    const history = getWebhookHistory(db, '100');
+    expect(history.length).toBeGreaterThan(0);
+    expect(history.some(e => e.event_type.includes('webhook'))).toBe(true);
+  });
+
+  it('creates user if not exists on webhook', async () => {
+    const payload: WebhookPayload = {
+      event: 'payment.confirmed',
+      telegram_id: '999',
+      plan: 'free',
+      tx_signature: 'new-user-sig',
+      amount_sol: 0,
+    };
+    const result = await handlePaymentWebhook(db, payload);
+    expect(result.success).toBe(true);
   });
 });
