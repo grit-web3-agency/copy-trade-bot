@@ -299,3 +299,8 @@ Last 5 trades:
 - Command: npx vitest run && npx tsc --noEmit
 - Result: Test Files: 15 passed (15) — Tests: 134 passed (134). TypeScript build clean.
 - Notes: Added pnl.test.ts (17 tests). All PnL calculations verified with mocked price feeds. No network calls in tests.
+
+### Test run — 2026-04-12 (PR #18 final review)
+- Command: npx tsc --noEmit && npx vitest run
+- Result: Test Files: 15 passed (15) — Tests: 134 passed (134) — Duration: 787ms. TypeScript build clean (zero errors).
+- Notes: Full suite green on feat/pnl-tracking branch. PnL engine (17 tests): cost basis, partial sells, losses, fees, multi-token, unrealized PnL with mocked Jupiter prices, message formatting. /pnl command wired in bot.ts with error handling. No regressions.
