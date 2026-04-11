@@ -111,7 +111,7 @@ Follow these steps to verify the bot works end-to-end in dry-run mode.
    ```bash
    npm run test
    ```
-   - [x] All 77 tests pass
+   - [x] All 117 tests pass
    - [ ] No errors in output
 
 2. **Run E2E demo script**
@@ -178,31 +178,35 @@ Follow these steps to verify the bot works end-to-end in dry-run mode.
 - **`/mode` command** (`src/bot.ts`): `/mode dry-run|devnet` to toggle per-user trading mode.
 - **`/settings set-mode` alias** (`src/bot.ts`): `/settings set-mode devnet|dry-run|mock` as alternative.
 - **`executeRealTrade()`** (`src/trade-executor.ts`): Jupiter quote → `/swap` → sign → submit to devnet RPC → confirm. Full retry + error handling.
+- **Jupiter V6 swap fix** (`src/trade-executor.ts`): Corrected swap body to send `quoteResponse` (not `route`), use `wrapAndUnwrapSol`, deserialize as `VersionedTransaction`, and sign with user keypair before sending.
 - **Mainnet safety guards** (`src/trade-executor.ts`): `assertDevnetConnection()` rejects mainnet RPC patterns. `getDevnetRpcUrl()` validates `DEVNET_RPC` / `SOLANA_RPC_URL` env vars at startup.
+- **Startup env validation** (`src/env-validation.ts`): `validateEnv()` checks BOT_TOKEN, RPC URL placeholders, SOLANA_NETWORK, trade config ranges — exits with clear messages on misconfiguration.
 - **`DEVNET_RPC` env config** (`.env.example`): Explicit devnet RPC URL with mainnet rejection.
 - **Copy policy routing** (`src/copy-policy.ts`): Reads user mode from DB → routes to `executeRealTrade` or `executeDryRunTrade`.
-- **New tests**: `devnet-safety.test.ts` (16 tests), `trade-mode.test.ts` (8 tests), `trade-executor.real.test.ts` (1 skipped — needs `RUN_REAL_NETWORK=1`).
+- **Devnet E2E script** (`scripts/e2e-devnet.ts`): `npm run e2e:devnet` validates RPC, connects to devnet, processes whale trade, verifies mainnet rejection.
+- **New tests**: `devnet-safety.test.ts` (16), `trade-mode.test.ts` (8), `env-validation.test.ts` (11), `trade-executor.real.test.ts` (5 — full VersionedTransaction regression tests).
 
-### Unit Tests (101/101 passing, 1 skipped)
+### Unit Tests (117/117 passing)
 
 ```
- ✓ tests/retry.test.ts              (5 tests)  — withRetry utility
- ✓ tests/watch-command.test.ts       (7 tests)  — /watch DB operations
  ✓ tests/db.test.ts                  (12 tests) — CRUD + trade_mode operations
+ ✓ tests/env-validation.test.ts      (11 tests) — Startup env validation
  ✓ tests/whale-listener-ws.test.ts   (11 tests) — WebSocket parsing
+ ✓ tests/watch-command.test.ts       (7 tests)  — /watch DB operations
+ ✓ tests/trade-executor.real.test.ts (5 tests)  — VersionedTransaction swap flow
  ✓ tests/devnet-safety.test.ts       (16 tests) — Mainnet safety guards + DEVNET_RPC config
- ✓ tests/trade-executor.test.ts      (5 tests)  — Dry-run executor + double-spend guard
  ✓ tests/wallet-manager.test.ts      (8 tests)  — Encryption/decryption
- ✓ tests/copy-policy.test.ts         (11 tests) — Copy policy + routing
  ✓ tests/trade-mode.test.ts          (8 tests)  — Per-user mode toggle + mixed modes
+ ✓ tests/copy-policy.test.ts         (11 tests) — Copy policy + routing
  ✓ tests/error-handling.test.ts      (7 tests)  — Graceful error handling
+ ✓ tests/trade-executor.test.ts      (5 tests)  — Dry-run executor + double-spend guard
  ✓ tests/settings.test.ts            (7 tests)  — /settings DB operations
  ✓ tests/whale-listener.test.ts      (4 tests)  — WhaleListener core
- ↓ tests/trade-executor.real.test.ts (1 test | 1 skipped)
+ ✓ tests/retry.test.ts               (5 tests)  — withRetry utility
 
- Test Files  12 passed | 1 skipped (13)
-      Tests  101 passed | 1 skipped (102)
-   Duration  ~2s
+ Test Files  14 passed (14)
+      Tests  117 passed (117)
+   Duration  <1s
 ```
 
 ### Safety Checks
@@ -216,7 +220,7 @@ Follow these steps to verify the bot works end-to-end in dry-run mode.
 
 ### Devnet Dry-Run Instructions
 
-1. Run unit tests: `npm test` (all 101 pass, no network needed)
+1. Run unit tests: `npm test` (all 117 pass, no network needed)
 2. Run E2E demo: `npm run demo` (simulated trades, no BOT_TOKEN needed)
 3. (Optional) Start bot: set `BOT_TOKEN` in `.env`, `npm run dev`
 4. In Telegram: `/mode devnet` → `/copy on` → watch a whale
@@ -226,3 +230,8 @@ Follow these steps to verify the bot works end-to-end in dry-run mode.
 - Command: npx vitest run
 - Result: Test Files: 12 passed | 1 skipped (13) — Tests: 101 passed | 1 skipped (102) — Duration: 2.20s
 - Notes: Added 16 devnet safety tests, 3 trade-mode persistence tests. All mainnet guard tests passing. TypeScript build clean.
+
+### Test run — 2026-04-11 (PR #17 review)
+- Command: npm test && npm run build
+- Result: Test Files: 14 passed (14) — Tests: 117 passed (117) — Duration: 808ms. Build clean (tsc, no errors).
+- Notes: Added env-validation tests (11), VersionedTransaction regression tests (5). All 117 tests passing, no skipped. TypeScript build clean.
