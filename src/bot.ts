@@ -8,7 +8,10 @@ import {
   getWallet,
   setUserSettings,
   getUserSettings,
+  setTradeMode,
+  getTradeMode,
 } from './db';
+import type { TradeMode } from './db';
 import { createAndStoreWallet, getBalance } from './wallet-manager';
 import { Connection, PublicKey } from '@solana/web3.js';
 
@@ -38,6 +41,7 @@ export function createBot(token: string, database: Database.Database, rpcUrl?: s
         `Commands:\n` +
         `/watch [address] — Monitor a whale wallet\n` +
         `/copy on|off — Toggle copy trading\n` +
+        `/mode dry-run|devnet — Switch trading mode\n` +
         `/balance — Check your wallet balance\n` +
         `/settings — Configure max trade size & slippage\n` +
         `/help — Show this message`,
@@ -56,6 +60,7 @@ export function createBot(token: string, database: Database.Database, rpcUrl?: s
       `/start — Register & create wallet\n` +
       `/watch [address] — Monitor a whale wallet\n` +
       `/copy on|off — Toggle copy trading\n` +
+      `/mode dry-run|devnet — Switch trading mode\n` +
       `/balance — Check your wallet balance\n` +
       `/settings — Configure max trade size & slippage`
     );
@@ -165,7 +170,28 @@ export function createBot(token: string, database: Database.Database, rpcUrl?: s
 
       if (parts.length === 0) {
         const s = getUserSettings(database, telegramId);
-        await ctx.reply(`Current settings:\n- max_trade_size_sol: ${s.max_trade_size_sol} SOL\n- slippage_bps: ${s.slippage_bps} bps`);
+        const mode = getTradeMode(database, telegramId);
+        await ctx.reply(
+          `Current settings:\n- max_trade_size_sol: ${s.max_trade_size_sol} SOL\n- slippage_bps: ${s.slippage_bps} bps\n- mode: ${mode}`
+        );
+        return;
+      }
+
+      // /settings set-mode dry-run|devnet — alias for /mode command
+      if (parts[0]?.toLowerCase() === 'set-mode' && parts[1]) {
+        const modeArg = parts[1].toLowerCase();
+        if (modeArg === 'dry-run' || modeArg === 'dryrun' || modeArg === 'dry' || modeArg === 'mock') {
+          setTradeMode(database, telegramId, 'dry-run');
+          await ctx.reply('Trading mode set to DRY-RUN (mock). Trades will be simulated.');
+        } else if (modeArg === 'devnet' || modeArg === 'real') {
+          setTradeMode(database, telegramId, 'devnet');
+          await ctx.reply(
+            'Trading mode set to DEVNET. Trades will be submitted to Solana devnet.\n' +
+            'Make sure your wallet has devnet SOL (use a faucet).'
+          );
+        } else {
+          await ctx.reply('Invalid mode. Usage: /settings set-mode dry-run|devnet');
+        }
         return;
       }
 
@@ -214,6 +240,40 @@ export function createBot(token: string, database: Database.Database, rpcUrl?: s
     } catch (err: any) {
       console.error('[Bot] /settings error:', err?.message || err);
       await ctx.reply('Failed to update settings. Please try again.');
+    }
+  });
+
+  // /mode dry-run|devnet — switch trading mode
+  bot.command('mode', async (ctx) => {
+    const telegramId = ctx.from?.id.toString();
+    if (!telegramId) return;
+
+    try {
+      getOrCreateUser(database, telegramId, ctx.from?.username);
+
+      const text = ctx.message?.text || '';
+      const parts = text.split(/\s+/);
+      const arg = parts[1]?.toLowerCase();
+
+      if (arg === 'dry-run' || arg === 'dryrun' || arg === 'dry') {
+        setTradeMode(database, telegramId, 'dry-run');
+        await ctx.reply('Trading mode set to DRY-RUN. Trades will be simulated (no real transactions).');
+      } else if (arg === 'devnet' || arg === 'real') {
+        setTradeMode(database, telegramId, 'devnet');
+        await ctx.reply(
+          'Trading mode set to DEVNET. Trades will be submitted to Solana devnet.\n' +
+          'Make sure your wallet has devnet SOL (use a faucet).'
+        );
+      } else {
+        const current = getTradeMode(database, telegramId);
+        await ctx.reply(
+          `Current trading mode: ${current.toUpperCase()}\n` +
+          `Usage: /mode dry-run|devnet`
+        );
+      }
+    } catch (err: any) {
+      console.error('[Bot] /mode error:', err?.message || err);
+      await ctx.reply('Failed to update trading mode. Please try again.');
     }
   });
 
