@@ -1,8 +1,11 @@
 import 'dotenv/config';
+import { Connection } from '@solana/web3.js';
 import { getDb, getAllWatchedAddresses } from './db';
 import { createBot } from './bot';
 import { WhaleListener } from './whale-listener';
 import { processWhaleTrade } from './copy-policy';
+import { getDevnetRpcUrl } from './trade-executor';
+import { validateEnv } from './env-validation';
 
 // Catch unhandled errors to prevent silent crashes
 process.on('uncaughtException', (err) => {
@@ -15,29 +18,42 @@ process.on('unhandledRejection', (reason) => {
 });
 
 async function main() {
-  const botToken = process.env.BOT_TOKEN;
-  if (!botToken) {
-    console.error('[Main] BOT_TOKEN not set in environment');
+  // Validate environment variables at startup
+  const envCheck = validateEnv();
+  for (const w of envCheck.warnings) {
+    console.warn(`[Main] WARNING: ${w}`);
+  }
+  if (!envCheck.valid) {
+    for (const e of envCheck.errors) {
+      console.error(`[Main] ENV ERROR: ${e}`);
+    }
+    console.error('[Main] Fix the above environment errors and restart. See .env.example for reference.');
     process.exit(1);
   }
 
-  const rpcUrl = process.env.SOLANA_RPC_URL || 'https://api.devnet.solana.com';
+  const botToken = process.env.BOT_TOKEN!;
+
+  const rpcUrl = getDevnetRpcUrl();
   const wsUrl = process.env.SOLANA_WS_URL;
 
   // Initialize database
   const db = getDb();
   console.log('[Main] Database initialized');
 
-  // Create Telegram bot
-  const bot = createBot(botToken, db, rpcUrl);
+  // Create connection for devnet trading (validated as devnet by getDevnetRpcUrl)
+  const connection = new Connection(rpcUrl);
+  console.log(`[Main] Devnet RPC: ${rpcUrl}`);
 
   // Create whale listener
   const listener = new WhaleListener();
 
-  // Load existing watched addresses
+  // Load existing watched addresses using batch subscribe
   const addresses = getAllWatchedAddresses(db);
-  addresses.forEach(addr => listener.addAddress(addr));
+  listener.batchSubscribe(addresses);
   console.log(`[Main] Loaded ${addresses.length} watched addresses`);
+
+  // Create Telegram bot (pass listener for dynamic address management)
+  const bot = createBot(botToken, db, rpcUrl, listener);
 
   // Wire up: when whale trades, process copy policy
   listener.on('trade', async (trade) => {
@@ -47,7 +63,7 @@ async function main() {
         bot.api.sendMessage(telegramId, message).catch(err => {
           console.error(`[Main] Failed to notify user ${telegramId}:`, err.message);
         });
-      });
+      }, connection);
     } catch (err: any) {
       console.error('[Main] Error processing whale trade:', err?.message || err);
     }

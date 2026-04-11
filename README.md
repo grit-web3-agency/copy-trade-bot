@@ -10,7 +10,7 @@ User (Telegram)
     → Wallet Manager (create/encrypt/store keypairs)
     → Whale Listener (Helius websocket → parse txs)
     → Copy Policy (filter: token match, size limit, slippage)
-    → Trade Executor (Jupiter swap API → sign, dry-run only)
+    → Trade Executor (Jupiter swap API → sign; dry-run or devnet)
     → SQLite DB (users, wallets, trades, settings)
 ```
 
@@ -39,6 +39,7 @@ cp .env.example .env
 | `BOT_TOKEN` | Yes | Telegram bot token from @BotFather |
 | `SOLANA_RPC_URL` | No | Solana RPC endpoint (defaults to devnet) |
 | `SOLANA_WS_URL` | No | Helius websocket URL for whale monitoring |
+| `DEVNET_RPC` | No | Devnet RPC for real trades (defaults to `https://api.devnet.solana.com`). **Must be a devnet endpoint** — mainnet URLs are rejected at startup. |
 
 ## Commands
 
@@ -56,8 +57,11 @@ npm run build    # Compile TypeScript
 | `/start` | Register & create Solana wallet |
 | `/watch [address]` | Add whale address to monitoring |
 | `/copy on\|off` | Toggle copy trading |
+| `/mode dry-run\|devnet` | Switch trading mode (per-user) |
 | `/balance` | Check wallet balance |
+| `/pnl` | View profit & loss summary (realized, unrealized, positions) |
 | `/settings [max <SOL>] [slippage <bps>]` | View or update user settings |
+| `/settings set-mode dry-run\|devnet` | Alias to switch trading mode |
 | `/help` | Show help message |
 
 ### /settings Usage
@@ -81,6 +85,72 @@ Update both at once:
 ```
 /settings max 0.5 slippage 200
 ```
+
+## Devnet Trading (Per-User Mode Toggle)
+
+Each user can independently choose between **dry-run** (simulation) and **devnet** (real devnet transactions) mode.
+
+### Switching modes
+
+```
+/mode devnet        # enable real devnet trading
+/mode dry-run       # back to simulation (default)
+/settings set-mode devnet   # same thing via /settings
+```
+
+### How it works
+
+1. Default mode is `dry-run` — trades are simulated (Jupiter quote only, no tx sent).
+2. When mode is `devnet`, the bot signs and submits transactions to Solana **devnet** via Jupiter.
+3. **Mainnet safety**: The bot validates all RPC endpoints on startup and before every trade. Any mainnet URL is rejected with an error.
+4. Fund your devnet wallet with the [Solana faucet](https://faucet.solana.com) before switching to devnet mode.
+
+### Running a devnet dry-run demo
+
+```bash
+# 1. Run unit tests (no network needed)
+npm test
+
+# 2. Run E2E demo (simulated, no BOT_TOKEN needed)
+npm run demo
+
+# 3. (Optional) Start bot with devnet trading
+cp .env.example .env
+# Edit .env: set BOT_TOKEN, optionally set DEVNET_RPC
+npm run dev
+# In Telegram: /mode devnet → /copy on → watch a whale
+```
+
+## PnL Tracking
+
+The `/pnl` command shows your profit & loss across all copy trades:
+
+```
+/pnl
+```
+
+Example output:
+```
+📊 PnL Summary
+
+Realized: +1.5000 SOL
+Unrealized: +0.5000 SOL
+Total: +2.0000 SOL
+
+Positions:
+• TokenA...AAAA: 50.0000 qty @ avg 0.010000 | now 0.020000 | PnL: +2.0000
+• TokenB...BBBB: closed | realized: -0.3000
+
+Last 5 trades:
+• BUY TokenA...AAAA 0.1 SOL @ 0.010000 [dry]
+• SELL TokenB...BBBB 0.2 SOL @ 0.005000 [dry]
+```
+
+**How it works:**
+- Uses average cost basis method to compute realized PnL on sells
+- Fetches current token prices from Jupiter Price API for unrealized PnL
+- Tracks positions per token with entry price, quantity, and fees
+- PnL snapshots are persisted in SQLite for fast retrieval
 
 ## Copy Policy
 
@@ -154,3 +224,4 @@ pm2 logs --lines 50 # recent output
 - [x] Sprint 2: Wallet + Executor
 - [x] Sprint 3: Copy Logic + Demo
 - [x] Sprint 4: Polish + Deploy
+- [x] Sprint 6: PnL Tracking
