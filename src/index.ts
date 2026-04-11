@@ -44,16 +44,16 @@ async function main() {
   const connection = new Connection(rpcUrl);
   console.log(`[Main] Devnet RPC: ${rpcUrl}`);
 
-  // Create Telegram bot
-  const bot = createBot(botToken, db, rpcUrl);
-
   // Create whale listener
   const listener = new WhaleListener();
 
-  // Load existing watched addresses
+  // Load existing watched addresses using batch subscribe
   const addresses = getAllWatchedAddresses(db);
-  addresses.forEach(addr => listener.addAddress(addr));
+  listener.batchSubscribe(addresses);
   console.log(`[Main] Loaded ${addresses.length} watched addresses`);
+
+  // Create Telegram bot (pass listener for dynamic address management)
+  const bot = createBot(botToken, db, rpcUrl, listener);
 
   // Wire up: when whale trades, process copy policy
   listener.on('trade', async (trade) => {

@@ -64,6 +64,12 @@ function initSchema(database: Database.Database) {
       FOREIGN KEY (telegram_id) REFERENCES users(telegram_id)
     );
 
+    CREATE INDEX IF NOT EXISTS idx_watched_whales_address
+      ON watched_whales(whale_address);
+
+    CREATE INDEX IF NOT EXISTS idx_watched_whales_telegram
+      ON watched_whales(telegram_id, active);
+
     CREATE TABLE IF NOT EXISTS token_whitelist (
       mint TEXT PRIMARY KEY,
       symbol TEXT,
@@ -186,6 +192,13 @@ export function addWatchedWhale(database: Database.Database, telegramId: string,
   ).get(telegramId, whaleAddress) as WatchedWhale;
 }
 
+export function removeWatchedWhale(database: Database.Database, telegramId: string, whaleAddress: string): boolean {
+  const result = database.prepare(
+    'UPDATE watched_whales SET active = 0 WHERE telegram_id = ? AND whale_address = ? AND active = 1'
+  ).run(telegramId, whaleAddress);
+  return result.changes > 0;
+}
+
 export function getWatchedWhales(database: Database.Database, telegramId: string): WatchedWhale[] {
   return database.prepare(
     'SELECT * FROM watched_whales WHERE telegram_id = ? AND active = 1'
@@ -197,6 +210,13 @@ export function getAllWatchedAddresses(database: Database.Database): string[] {
     'SELECT DISTINCT whale_address FROM watched_whales WHERE active = 1'
   ).all() as { whale_address: string }[];
   return rows.map(r => r.whale_address);
+}
+
+export function isWhaleWatchedByAnyone(database: Database.Database, whaleAddress: string): boolean {
+  const row = database.prepare(
+    'SELECT 1 FROM watched_whales WHERE whale_address = ? AND active = 1 LIMIT 1'
+  ).get(whaleAddress);
+  return !!row;
 }
 
 export function getUsersWatchingWhale(database: Database.Database, whaleAddress: string): User[] {

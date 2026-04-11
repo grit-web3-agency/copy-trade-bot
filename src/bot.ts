@@ -4,6 +4,7 @@ import {
   getOrCreateUser,
   setCopyEnabled,
   addWatchedWhale,
+  removeWatchedWhale,
   getWatchedWhales,
   getWallet,
   setUserSettings,
@@ -11,13 +12,15 @@ import {
   setTradeMode,
   getTradeMode,
   getRecentTrades,
+  isWhaleWatchedByAnyone,
 } from './db';
 import { getPnlSummary, formatPnlMessage } from './pnl';
 import type { TradeMode } from './db';
 import { createAndStoreWallet, getBalance } from './wallet-manager';
 import { Connection, PublicKey } from '@solana/web3.js';
+import type { WhaleListener } from './whale-listener';
 
-export function createBot(token: string, database: Database.Database, rpcUrl?: string): Bot {
+export function createBot(token: string, database: Database.Database, rpcUrl?: string, listener?: WhaleListener): Bot {
   const bot = new Bot(token);
   const connection = new Connection(rpcUrl || 'https://api.devnet.solana.com');
 
@@ -41,7 +44,8 @@ export function createBot(token: string, database: Database.Database, rpcUrl?: s
         `Welcome to Copy-Trade Bot!\n\n` +
         `Your wallet: \`${pubkey}\`\n\n` +
         `Commands:\n` +
-        `/watch [address] — Monitor a whale wallet\n` +
+        `/watch [addr1] [addr2] ... — Monitor whale wallets\n` +
+        `/unwatch [addr1] [addr2] ... — Stop monitoring\n` +
         `/copy on|off — Toggle copy trading\n` +
         `/mode dry-run|devnet — Switch trading mode\n` +
         `/balance — Check your wallet balance\n` +
@@ -61,7 +65,8 @@ export function createBot(token: string, database: Database.Database, rpcUrl?: s
     await ctx.reply(
       `Copy-Trade Bot Commands:\n\n` +
       `/start — Register & create wallet\n` +
-      `/watch [address] — Monitor a whale wallet\n` +
+      `/watch [addr1] [addr2] ... — Monitor whale wallets\n` +
+      `/unwatch [addr1] [addr2] ... — Stop monitoring\n` +
       `/copy on|off — Toggle copy trading\n` +
       `/mode dry-run|devnet — Switch trading mode\n` +
       `/balance — Check your wallet balance\n` +
@@ -70,7 +75,7 @@ export function createBot(token: string, database: Database.Database, rpcUrl?: s
     );
   });
 
-  // /watch [address] — add whale address to monitoring
+  // /watch [address ...] — add one or more whale addresses to monitoring
   bot.command('watch', async (ctx) => {
     const telegramId = ctx.from?.id.toString();
     if (!telegramId) return;
@@ -79,14 +84,13 @@ export function createBot(token: string, database: Database.Database, rpcUrl?: s
       getOrCreateUser(database, telegramId, ctx.from?.username);
 
       const text = ctx.message?.text || '';
-      const parts = text.split(/\s+/);
-      const address = parts[1];
+      const parts = text.split(/\s+/).slice(1); // skip command
 
-      if (!address) {
+      if (parts.length === 0) {
         // Show current watched addresses
         const whales = getWatchedWhales(database, telegramId);
         if (whales.length === 0) {
-          await ctx.reply('No whale addresses being watched.\nUsage: /watch [solana_address]');
+          await ctx.reply('No whale addresses being watched.\nUsage: /watch [address1] [address2] ...');
         } else {
           const list = whales.map((w, i) => `${i + 1}. \`${w.whale_address}\``).join('\n');
           await ctx.reply(`Watched whales:\n${list}`, { parse_mode: 'Markdown' });
@@ -94,19 +98,77 @@ export function createBot(token: string, database: Database.Database, rpcUrl?: s
         return;
       }
 
-      // Validate Solana address format
-      try {
-        new PublicKey(address);
-      } catch {
-        await ctx.reply('Invalid Solana address. Please provide a valid base58 address.');
-        return;
+      // Validate all addresses first
+      const invalid: string[] = [];
+      const valid: string[] = [];
+      for (const addr of parts) {
+        try {
+          new PublicKey(addr);
+          valid.push(addr);
+        } catch {
+          invalid.push(addr);
+        }
       }
 
-      const whale = addWatchedWhale(database, telegramId, address);
-      await ctx.reply(`Now watching whale: \`${address}\``, { parse_mode: 'Markdown' });
+      if (invalid.length > 0) {
+        await ctx.reply(`Invalid address(es): ${invalid.join(', ')}\nSkipped. Provide valid base58 Solana addresses.`);
+        if (valid.length === 0) return;
+      }
+
+      // Add all valid addresses
+      const added: string[] = [];
+      for (const addr of valid) {
+        addWatchedWhale(database, telegramId, addr);
+        if (listener) listener.addAddress(addr);
+        added.push(addr);
+      }
+
+      const list = added.map(a => `\`${a}\``).join('\n');
+      await ctx.reply(`Now watching ${added.length} whale(s):\n${list}`, { parse_mode: 'Markdown' });
     } catch (err: any) {
       console.error('[Bot] /watch error:', err?.message || err);
       await ctx.reply('Failed to process watch command. Please try again.');
+    }
+  });
+
+  // /unwatch [address ...] — remove one or more whale addresses
+  bot.command('unwatch', async (ctx) => {
+    const telegramId = ctx.from?.id.toString();
+    if (!telegramId) return;
+
+    try {
+      getOrCreateUser(database, telegramId, ctx.from?.username);
+
+      const text = ctx.message?.text || '';
+      const parts = text.split(/\s+/).slice(1);
+
+      if (parts.length === 0) {
+        await ctx.reply('Usage: /unwatch [address1] [address2] ...');
+        return;
+      }
+
+      const removed: string[] = [];
+      const notFound: string[] = [];
+      for (const addr of parts) {
+        const ok = removeWatchedWhale(database, telegramId, addr);
+        if (ok) {
+          removed.push(addr);
+          // Remove from listener if no other user watches this address
+          if (listener && !isWhaleWatchedByAnyone(database, addr)) {
+            listener.removeAddress(addr);
+          }
+        } else {
+          notFound.push(addr);
+        }
+      }
+
+      const lines: string[] = [];
+      if (removed.length > 0) lines.push(`Unwatched: ${removed.map(a => `\`${a}\``).join(', ')}`);
+      if (notFound.length > 0) lines.push(`Not found/already removed: ${notFound.join(', ')}`);
+      await ctx.reply(lines.join('\n'), { parse_mode: 'Markdown' });
+    } catch (err: any) {
+      console.error('[Bot] /unwatch error:', err?.message || err);
+      await ctx.reply('Failed to process unwatch command. Please try again.');
     }
   });
 
