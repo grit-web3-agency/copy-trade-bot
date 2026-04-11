@@ -69,12 +69,36 @@ function initSchema(database: Database.Database) {
       symbol TEXT,
       name TEXT
     );
+
+    CREATE TABLE IF NOT EXISTS pnl_snapshots (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      telegram_id TEXT NOT NULL,
+      token_mint TEXT NOT NULL,
+      realized_pnl REAL DEFAULT 0,
+      avg_entry_price REAL DEFAULT 0,
+      quantity_held REAL DEFAULT 0,
+      last_updated TEXT DEFAULT (datetime('now')),
+      FOREIGN KEY (telegram_id) REFERENCES users(telegram_id),
+      UNIQUE(telegram_id, token_mint)
+    );
   `);
 
   // Migration: add trade_mode column to users if missing (default 'dry-run')
   const userColumns = database.pragma('table_info(users)') as { name: string }[];
   if (!userColumns.some(c => c.name === 'trade_mode')) {
     database.exec(`ALTER TABLE users ADD COLUMN trade_mode TEXT DEFAULT 'dry-run'`);
+  }
+
+  // Migration: add PnL columns to trades if missing
+  const tradeColumns = database.pragma('table_info(trades)') as { name: string }[];
+  if (!tradeColumns.some(c => c.name === 'executed_price')) {
+    database.exec(`ALTER TABLE trades ADD COLUMN executed_price REAL`);
+  }
+  if (!tradeColumns.some(c => c.name === 'quantity')) {
+    database.exec(`ALTER TABLE trades ADD COLUMN quantity REAL`);
+  }
+  if (!tradeColumns.some(c => c.name === 'fees')) {
+    database.exec(`ALTER TABLE trades ADD COLUMN fees REAL DEFAULT 0`);
   }
 }
 
@@ -213,6 +237,10 @@ export interface Trade {
   tx_signature: string | null;
   status: string;
   dry_run: number;
+  executed_price: number | null;
+  quantity: number | null;
+  fees: number | null;
+  created_at: string;
 }
 
 export function recordTrade(
@@ -224,12 +252,64 @@ export function recordTrade(
   amountSol: number,
   txSignature: string | null,
   status: string,
-  dryRun: boolean
+  dryRun: boolean,
+  executedPrice?: number,
+  quantity?: number,
+  fees?: number
 ): Trade {
   const result = database.prepare(`
-    INSERT INTO trades (telegram_id, whale_address, direction, token_mint, amount_sol, tx_signature, status, dry_run)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-  `).run(telegramId, whaleAddress, direction, tokenMint, amountSol, txSignature, status, dryRun ? 1 : 0);
+    INSERT INTO trades (telegram_id, whale_address, direction, token_mint, amount_sol, tx_signature, status, dry_run, executed_price, quantity, fees)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `).run(telegramId, whaleAddress, direction, tokenMint, amountSol, txSignature, status, dryRun ? 1 : 0, executedPrice ?? null, quantity ?? null, fees ?? null);
 
   return database.prepare('SELECT * FROM trades WHERE id = ?').get(result.lastInsertRowid) as Trade;
+}
+
+// --- PnL snapshot operations ---
+
+export interface PnlSnapshot {
+  id: number;
+  telegram_id: string;
+  token_mint: string;
+  realized_pnl: number;
+  avg_entry_price: number;
+  quantity_held: number;
+  last_updated: string;
+}
+
+export function upsertPnlSnapshot(
+  database: Database.Database,
+  telegramId: string,
+  tokenMint: string,
+  realizedPnl: number,
+  avgEntryPrice: number,
+  quantityHeld: number
+): void {
+  database.prepare(`
+    INSERT INTO pnl_snapshots (telegram_id, token_mint, realized_pnl, avg_entry_price, quantity_held, last_updated)
+    VALUES (?, ?, ?, ?, ?, datetime('now'))
+    ON CONFLICT(telegram_id, token_mint) DO UPDATE SET
+      realized_pnl = excluded.realized_pnl,
+      avg_entry_price = excluded.avg_entry_price,
+      quantity_held = excluded.quantity_held,
+      last_updated = datetime('now')
+  `).run(telegramId, tokenMint, realizedPnl, avgEntryPrice, quantityHeld);
+}
+
+export function getPnlSnapshots(database: Database.Database, telegramId: string): PnlSnapshot[] {
+  return database.prepare(
+    'SELECT * FROM pnl_snapshots WHERE telegram_id = ?'
+  ).all(telegramId) as PnlSnapshot[];
+}
+
+export function getPnlSnapshot(database: Database.Database, telegramId: string, tokenMint: string): PnlSnapshot | undefined {
+  return database.prepare(
+    'SELECT * FROM pnl_snapshots WHERE telegram_id = ? AND token_mint = ?'
+  ).get(telegramId, tokenMint) as PnlSnapshot | undefined;
+}
+
+export function getRecentTrades(database: Database.Database, telegramId: string, limit: number = 10): Trade[] {
+  return database.prepare(
+    'SELECT * FROM trades WHERE telegram_id = ? ORDER BY id DESC LIMIT ?'
+  ).all(telegramId, limit) as Trade[];
 }

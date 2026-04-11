@@ -10,7 +10,9 @@ import {
   getUserSettings,
   setTradeMode,
   getTradeMode,
+  getRecentTrades,
 } from './db';
+import { getPnlSummary, formatPnlMessage } from './pnl';
 import type { TradeMode } from './db';
 import { createAndStoreWallet, getBalance } from './wallet-manager';
 import { Connection, PublicKey } from '@solana/web3.js';
@@ -43,6 +45,7 @@ export function createBot(token: string, database: Database.Database, rpcUrl?: s
         `/copy on|off — Toggle copy trading\n` +
         `/mode dry-run|devnet — Switch trading mode\n` +
         `/balance — Check your wallet balance\n` +
+        `/pnl — View profit & loss summary\n` +
         `/settings — Configure max trade size & slippage\n` +
         `/help — Show this message`,
         { parse_mode: 'Markdown' }
@@ -62,6 +65,7 @@ export function createBot(token: string, database: Database.Database, rpcUrl?: s
       `/copy on|off — Toggle copy trading\n` +
       `/mode dry-run|devnet — Switch trading mode\n` +
       `/balance — Check your wallet balance\n` +
+      `/pnl — View profit & loss summary\n` +
       `/settings — Configure max trade size & slippage`
     );
   });
@@ -274,6 +278,25 @@ export function createBot(token: string, database: Database.Database, rpcUrl?: s
     } catch (err: any) {
       console.error('[Bot] /mode error:', err?.message || err);
       await ctx.reply('Failed to update trading mode. Please try again.');
+    }
+  });
+
+  // /pnl — show profit & loss summary
+  bot.command('pnl', async (ctx) => {
+    const telegramId = ctx.from?.id.toString();
+    if (!telegramId) return;
+
+    try {
+      getOrCreateUser(database, telegramId, ctx.from?.username);
+
+      const summary = await getPnlSummary(database, telegramId);
+      const recent = getRecentTrades(database, telegramId, 5);
+      const msg = formatPnlMessage(summary, recent);
+
+      await ctx.reply(msg, { parse_mode: 'Markdown' });
+    } catch (err: any) {
+      console.error('[Bot] /pnl error:', err?.message || err);
+      await ctx.reply('Failed to fetch PnL data. Please try again.');
     }
   });
 
