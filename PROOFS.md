@@ -111,7 +111,7 @@ Follow these steps to verify the bot works end-to-end in dry-run mode.
    ```bash
    npm run test
    ```
-   - [x] All 117 tests pass
+   - [x] All 156 tests pass
    - [ ] No errors in output
 
 2. **Run E2E demo script**
@@ -299,3 +299,46 @@ Last 5 trades:
 - Command: npx vitest run && npx tsc --noEmit
 - Result: Test Files: 15 passed (15) — Tests: 134 passed (134). TypeScript build clean.
 - Notes: Added pnl.test.ts (17 tests). All PnL calculations verified with mocked price feeds. No network calls in tests.
+
+---
+
+## Sprint 7: Multi-Whale Support (PR #19)
+
+### What changed
+- **Multi-address `/watch`** (`src/bot.ts`): `/watch addr1 addr2 ...` adds multiple whales in one command.
+- **`/unwatch` command** (`src/bot.ts`): Remove one or more whale addresses; listener unsubscribes only if no other user watches.
+- **Batch subscribe** (`src/whale-listener.ts`): `batchSubscribe()` subscribes to multiple addresses in a single call. `pendingIdToAddress` tracks subscription IDs.
+- **Event deduplication** (`src/whale-listener.ts`): `recentSignatures` set prevents processing the same transaction twice.
+- **DB indexes** (`src/db.ts`): Added indexes on `watched_whales`. New helpers: `removeWatchedWhale()`, `isWhaleWatchedByAnyone()`.
+- **Tests**: `multi-whale.test.ts` (16 tests), `multi-whale-integration.test.ts` (6 tests).
+
+### Unit Tests (156/156 passing)
+
+```
+ ✓ tests/db.test.ts                        (12 tests) — CRUD + trade_mode operations
+ ✓ tests/env-validation.test.ts            (11 tests) — Startup env validation
+ ✓ tests/whale-listener-ws.test.ts         (11 tests) — WebSocket parsing
+ ✓ tests/watch-command.test.ts             (7 tests)  — /watch DB operations
+ ✓ tests/trade-executor.real.test.ts       (5 tests)  — VersionedTransaction swap flow
+ ✓ tests/devnet-safety.test.ts             (16 tests) — Mainnet safety guards + DEVNET_RPC config
+ ✓ tests/wallet-manager.test.ts            (8 tests)  — Encryption/decryption
+ ✓ tests/trade-mode.test.ts                (8 tests)  — Per-user mode toggle + mixed modes
+ ✓ tests/copy-policy.test.ts               (11 tests) — Copy policy + routing
+ ✓ tests/error-handling.test.ts            (7 tests)  — Graceful error handling
+ ✓ tests/trade-executor.test.ts            (5 tests)  — Dry-run executor + double-spend guard
+ ✓ tests/settings.test.ts                  (7 tests)  — /settings DB operations
+ ✓ tests/whale-listener.test.ts            (4 tests)  — WhaleListener core
+ ✓ tests/retry.test.ts                     (5 tests)  — withRetry utility
+ ✓ tests/pnl.test.ts                       (17 tests) — PnL computation + formatting
+ ✓ tests/multi-whale.test.ts               (16 tests) — Multi-whale DB ops + listener
+ ✓ tests/multi-whale-integration.test.ts   (6 tests)  — Integration: multi-user × multi-whale
+
+ Test Files  17 passed (17)
+      Tests  156 passed (156)
+   Duration  1.66s
+```
+
+### Test run — 2026-04-12 (PR #19 review prep)
+- Command: npm run build && npm test
+- Result: Build clean (tsc, no errors). Test Files: 17 passed (17) — Tests: 156 passed (156) — Duration: 1.66s.
+- Notes: All 22 new multi-whale tests passing. No regressions in existing 134 tests. Event dedup and batch subscribe verified.
