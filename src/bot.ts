@@ -15,6 +15,16 @@ import {
   isWhaleWatchedByAnyone,
 } from './db';
 import { getPnlSummary, formatPnlMessage } from './pnl';
+import {
+  PLANS,
+  formatPlans,
+  formatSubscriptionStatus,
+  activateSubscription,
+  getUserPlan,
+  checkWhaleLimit,
+  getTreasuryAddress,
+} from './payment';
+import { getActiveSubscription } from './db';
 import type { TradeMode } from './db';
 import { createAndStoreWallet, getBalance } from './wallet-manager';
 import { Connection, PublicKey } from '@solana/web3.js';
@@ -51,6 +61,8 @@ export function createBot(token: string, database: Database.Database, rpcUrl?: s
         `/balance — Check your wallet balance\n` +
         `/pnl — View profit & loss summary\n` +
         `/settings — Configure max trade size & slippage\n` +
+        `/plans — View subscription plans\n` +
+        `/subscribe [plan] [tx] — Activate subscription\n` +
         `/help — Show this message`,
         { parse_mode: 'Markdown' }
       );
@@ -71,7 +83,9 @@ export function createBot(token: string, database: Database.Database, rpcUrl?: s
       `/mode dry-run|devnet — Switch trading mode\n` +
       `/balance — Check your wallet balance\n` +
       `/pnl — View profit & loss summary\n` +
-      `/settings — Configure max trade size & slippage`
+      `/settings — Configure max trade size & slippage\n` +
+      `/plans — View subscription plans\n` +
+      `/subscribe [plan] [tx] — Activate subscription`
     );
   });
 
@@ -359,6 +373,90 @@ export function createBot(token: string, database: Database.Database, rpcUrl?: s
     } catch (err: any) {
       console.error('[Bot] /pnl error:', err?.message || err);
       await ctx.reply('Failed to fetch PnL data. Please try again.');
+    }
+  });
+
+  // /plans — show available subscription plans
+  bot.command('plans', async (ctx) => {
+    const telegramId = ctx.from?.id.toString();
+    if (!telegramId) return;
+
+    try {
+      getOrCreateUser(database, telegramId, ctx.from?.username);
+      const status = formatSubscriptionStatus(database, telegramId);
+      const plans = formatPlans();
+      const treasury = getTreasuryAddress();
+
+      await ctx.reply(
+        `${status}\n\n` +
+        `Available Plans:\n\n${plans}\n\n` +
+        `To subscribe, send SOL to:\n\`${treasury}\`\n` +
+        `Then: /subscribe [plan] [tx_signature]`,
+        { parse_mode: 'Markdown' }
+      );
+    } catch (err: any) {
+      console.error('[Bot] /plans error:', err?.message || err);
+      await ctx.reply('Failed to fetch plans. Please try again.');
+    }
+  });
+
+  // /subscribe [plan] [tx_signature] — activate a subscription
+  bot.command('subscribe', async (ctx) => {
+    const telegramId = ctx.from?.id.toString();
+    if (!telegramId) return;
+
+    try {
+      getOrCreateUser(database, telegramId, ctx.from?.username);
+
+      const text = ctx.message?.text || '';
+      const parts = text.split(/\s+/).slice(1);
+
+      if (parts.length === 0) {
+        const status = formatSubscriptionStatus(database, telegramId);
+        await ctx.reply(
+          `${status}\n\nUsage: /subscribe [plan] [tx_signature]\nPlans: free, basic, pro\n\nUse /plans to see details.`,
+          { parse_mode: 'Markdown' }
+        );
+        return;
+      }
+
+      const planId = parts[0].toLowerCase();
+      const txSig = parts[1] || null;
+
+      if (!PLANS[planId]) {
+        await ctx.reply(`Unknown plan: ${planId}\nAvailable: ${Object.keys(PLANS).join(', ')}`);
+        return;
+      }
+
+      if (planId !== 'free' && !txSig) {
+        const plan = PLANS[planId];
+        const treasury = getTreasuryAddress();
+        await ctx.reply(
+          `To subscribe to *${plan.name}*, send ${plan.priceSol} SOL to:\n` +
+          `\`${treasury}\`\n\n` +
+          `Then run: /subscribe ${planId} [tx_signature]`,
+          { parse_mode: 'Markdown' }
+        );
+        return;
+      }
+
+      const result = await activateSubscription(database, telegramId, planId, txSig);
+
+      if (result.success) {
+        const plan = PLANS[planId];
+        await ctx.reply(
+          `Subscription activated!\n\n` +
+          `Plan: *${plan.name}*\n` +
+          `Whales: ${plan.maxWhales}\n` +
+          `Trades/day: ${plan.maxTradesPerDay === -1 ? 'unlimited' : plan.maxTradesPerDay}`,
+          { parse_mode: 'Markdown' }
+        );
+      } else {
+        await ctx.reply(`Subscription failed: ${result.error}`);
+      }
+    } catch (err: any) {
+      console.error('[Bot] /subscribe error:', err?.message || err);
+      await ctx.reply('Failed to process subscription. Please try again.');
     }
   });
 

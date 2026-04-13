@@ -76,6 +76,31 @@ function initSchema(database: Database.Database) {
       name TEXT
     );
 
+    CREATE TABLE IF NOT EXISTS subscriptions (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      telegram_id TEXT NOT NULL,
+      plan TEXT NOT NULL DEFAULT 'free',
+      tx_signature TEXT,
+      paid_sol REAL DEFAULT 0,
+      started_at TEXT DEFAULT (datetime('now')),
+      expires_at TEXT,
+      active INTEGER DEFAULT 1,
+      FOREIGN KEY (telegram_id) REFERENCES users(telegram_id)
+    );
+
+    CREATE TABLE IF NOT EXISTS payment_history (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      telegram_id TEXT NOT NULL,
+      event_type TEXT NOT NULL,
+      plan TEXT,
+      amount_sol REAL DEFAULT 0,
+      tx_signature TEXT,
+      status TEXT NOT NULL DEFAULT 'pending',
+      metadata TEXT,
+      created_at TEXT DEFAULT (datetime('now')),
+      FOREIGN KEY (telegram_id) REFERENCES users(telegram_id)
+    );
+
     CREATE TABLE IF NOT EXISTS pnl_snapshots (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       telegram_id TEXT NOT NULL,
@@ -332,4 +357,87 @@ export function getRecentTrades(database: Database.Database, telegramId: string,
   return database.prepare(
     'SELECT * FROM trades WHERE telegram_id = ? ORDER BY id DESC LIMIT ?'
   ).all(telegramId, limit) as Trade[];
+}
+
+// --- Subscription operations ---
+
+export interface Subscription {
+  id: number;
+  telegram_id: string;
+  plan: string;
+  tx_signature: string | null;
+  paid_sol: number;
+  started_at: string;
+  expires_at: string | null;
+  active: number;
+}
+
+export function getActiveSubscription(database: Database.Database, telegramId: string): Subscription | undefined {
+  return database.prepare(
+    `SELECT * FROM subscriptions
+     WHERE telegram_id = ? AND active = 1 AND (expires_at IS NULL OR expires_at > datetime('now'))
+     ORDER BY id DESC LIMIT 1`
+  ).get(telegramId) as Subscription | undefined;
+}
+
+export function createSubscription(
+  database: Database.Database,
+  telegramId: string,
+  plan: string,
+  txSignature: string | null,
+  paidSol: number,
+  durationDays: number,
+): Subscription {
+  const expiresAt = durationDays > 0 ? `datetime('now', '+${durationDays} days')` : null;
+  const result = database.prepare(`
+    INSERT INTO subscriptions (telegram_id, plan, tx_signature, paid_sol, expires_at)
+    VALUES (?, ?, ?, ?, ${expiresAt ? expiresAt : 'NULL'})
+  `).run(telegramId, plan, txSignature, paidSol);
+  return database.prepare('SELECT * FROM subscriptions WHERE id = ?').get(result.lastInsertRowid) as Subscription;
+}
+
+export function deactivateSubscriptions(database: Database.Database, telegramId: string) {
+  database.prepare('UPDATE subscriptions SET active = 0 WHERE telegram_id = ?').run(telegramId);
+}
+
+// --- Payment history operations ---
+
+export interface PaymentEvent {
+  id: number;
+  telegram_id: string;
+  event_type: string;
+  plan: string | null;
+  amount_sol: number;
+  tx_signature: string | null;
+  status: string;
+  metadata: string | null;
+  created_at: string;
+}
+
+export function recordPaymentEvent(
+  database: Database.Database,
+  telegramId: string,
+  eventType: string,
+  plan: string,
+  amountSol: number,
+  txSignature: string | null,
+  status: string,
+  metadata?: Record<string, unknown>,
+): PaymentEvent {
+  const metaStr = metadata ? JSON.stringify(metadata) : null;
+  const result = database.prepare(`
+    INSERT INTO payment_history (telegram_id, event_type, plan, amount_sol, tx_signature, status, metadata)
+    VALUES (?, ?, ?, ?, ?, ?, ?)
+  `).run(telegramId, eventType, plan, amountSol, txSignature, status, metaStr);
+  return database.prepare('SELECT * FROM payment_history WHERE id = ?').get(result.lastInsertRowid) as PaymentEvent;
+}
+
+export function getPaymentHistory(database: Database.Database, telegramId: string, limit = 20): PaymentEvent[] {
+  return database.prepare(
+    'SELECT * FROM payment_history WHERE telegram_id = ? ORDER BY id DESC LIMIT ?'
+  ).all(telegramId, limit) as PaymentEvent[];
+}
+
+export function updatePaymentEventStatus(database: Database.Database, eventId: number, status: string) {
+  database.prepare('UPDATE payment_history SET status = ? WHERE id = ?').run(status, eventId);
 }
