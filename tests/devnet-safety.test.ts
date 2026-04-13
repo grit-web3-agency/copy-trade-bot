@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest';
-import { Connection } from '@solana/web3.js';
+import { Connection, Keypair, VersionedTransaction, TransactionMessage, SystemProgram } from '@solana/web3.js';
 import Database from 'better-sqlite3';
 import { createTestDb, getOrCreateUser, setTradeMode, getTradeMode } from '../src/db';
 import { createAndStoreWallet, getKeypair } from '../src/wallet-manager';
@@ -98,6 +98,67 @@ describe('executeRealTrade mainnet rejection', () => {
     await expect(
       executeRealTrade(db, mainnetConn, '100', 'WHALE', 'BUY', 'TOKEN', 0.01, 100, keypair)
     ).rejects.toThrow('SAFETY');
+  });
+});
+
+describe('executeRealTrade signs transaction before sending', () => {
+  let db: Database.Database;
+
+  beforeEach(() => {
+    db = createTestDb();
+    getOrCreateUser(db, '100', 'alice');
+    createAndStoreWallet(db, '100');
+    _getInFlightTrades().clear();
+  });
+
+  it('deserializes, signs, and sends the Jupiter swap transaction', async () => {
+    const { executeRealTrade } = await import('../src/trade-executor');
+    const keypair = getKeypair(db, '100')!;
+
+    const msg = new TransactionMessage({
+      payerKey: keypair.publicKey,
+      recentBlockhash: '11111111111111111111111111111111',
+      instructions: [
+        SystemProgram.transfer({ fromPubkey: keypair.publicKey, toPubkey: keypair.publicKey, lamports: 0 }),
+      ],
+    }).compileToV0Message();
+    const fakeTx = new VersionedTransaction(msg);
+    const fakeTxBase64 = Buffer.from(fakeTx.serialize()).toString('base64');
+
+    const mockQuote = {
+      inputMint: 'So11111111111111111111111111111111111111112',
+      outputMint: 'TOKEN',
+      inAmount: '1000',
+      outAmount: '1',
+      priceImpactPct: '0.1',
+      routePlan: [{ some: 'route' }],
+    };
+
+    vi.stubGlobal('fetch', vi.fn(async (url: any) => {
+      const urlStr = String(url);
+      if (urlStr.includes('/swap')) return { ok: true, json: async () => ({ swapTransaction: fakeTxBase64 }) } as any;
+      if (urlStr.includes('/quote')) return { ok: true, json: async () => mockQuote } as any;
+      return { ok: false, status: 500 } as any;
+    }));
+
+    let sentBytes: Uint8Array | null = null;
+    const devnetConn: any = {
+      rpcEndpoint: 'https://api.devnet.solana.com',
+      sendRawTransaction: vi.fn(async (raw: Uint8Array) => {
+        sentBytes = raw;
+        return 'sig-abc123';
+      }),
+      confirmTransaction: vi.fn(async () => true),
+    };
+
+    const res = await executeRealTrade(db, devnetConn, '100', 'WHALE', 'BUY', 'TOKEN', 0.01, 100, keypair);
+    expect(res.success).toBe(true);
+    expect(res.dryRun).toBe(false);
+    expect(sentBytes).not.toBeNull();
+
+    const sentTx = VersionedTransaction.deserialize(sentBytes!);
+    expect(sentTx.signatures.length).toBeGreaterThan(0);
+    expect(sentTx.signatures[0].some((b: number) => b !== 0)).toBe(true);
   });
 });
 
