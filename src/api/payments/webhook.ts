@@ -1,10 +1,3 @@
-/**
- * Simulated webhook handler for payment confirmations (dev/test only).
- *
- * In production, this would be called by a payment processor.
- * In mock/dev mode, it simulates receiving a payment confirmation
- * and activating the corresponding subscription.
- */
 import Database from 'better-sqlite3';
 import { getOrCreateUser, recordPaymentEvent, getPaymentHistory } from '../../db';
 import { PLANS, activateSubscription, getPaymentMode } from '../../payment';
@@ -24,9 +17,6 @@ export interface WebhookResult {
   event?: PaymentEvent;
 }
 
-/**
- * Validate a webhook payload. Returns an error string or null if valid.
- */
 export function validateWebhookPayload(payload: unknown): string | null {
   if (!payload || typeof payload !== 'object') {
     return 'Invalid payload: expected an object';
@@ -53,10 +43,6 @@ export function validateWebhookPayload(payload: unknown): string | null {
   return null;
 }
 
-/**
- * Handle a simulated payment webhook.
- * Records the event in payment_history and activates subscription if confirmed.
- */
 export async function handlePaymentWebhook(
   db: Database.Database,
   payload: WebhookPayload,
@@ -111,9 +97,6 @@ export async function handlePaymentWebhook(
   return { success: false, message: result.error || 'Activation failed', event };
 }
 
-/**
- * Get payment history for a user (for webhook status queries).
- */
 export function getWebhookHistory(db: Database.Database, telegramId: string): PaymentEvent[] {
   return getPaymentHistory(db, telegramId);
 }

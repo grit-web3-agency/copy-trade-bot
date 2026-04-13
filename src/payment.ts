@@ -9,16 +9,12 @@ import {
 } from './db';
 import type { Subscription } from './db';
 
-// --- Payment mode ---
-// 'mock' = no on-chain verification (dev/test), 'live' = verify on-chain (future)
 export type PaymentMode = 'mock' | 'live';
 
 export function getPaymentMode(): PaymentMode {
   const mode = process.env.PAYMENT_MODE || 'mock';
   return mode === 'live' ? 'live' : 'mock';
 }
-
-// --- Plan definitions ---
 
 export interface Plan {
   id: string;
@@ -35,7 +31,7 @@ export const PLANS: Record<string, Plan> = {
     id: 'free',
     name: 'Free',
     priceSol: 0,
-    durationDays: 0, // unlimited
+    durationDays: 0,
     maxWhales: 1,
     maxTradesPerDay: 5,
     description: 'Watch 1 whale, 5 copy-trades/day',
@@ -55,19 +51,16 @@ export const PLANS: Record<string, Plan> = {
     priceSol: 0.5,
     durationDays: 30,
     maxWhales: 20,
-    maxTradesPerDay: -1, // unlimited
+    maxTradesPerDay: -1,
     description: 'Watch 20 whales, unlimited copy-trades/day',
   },
 };
 
-// Bot's treasury wallet — users send subscription payments here (devnet)
 const TREASURY_PUBKEY = process.env.TREASURY_WALLET || 'CopyTradeTreasury111111111111111111111111111';
 
 export function getTreasuryAddress(): string {
   return TREASURY_PUBKEY;
 }
-
-// --- Access control ---
 
 export function getUserPlan(db: Database.Database, telegramId: string): Plan {
   const sub = getActiveSubscription(db, telegramId);
@@ -99,20 +92,11 @@ export function checkDailyTradeLimit(db: Database.Database, telegramId: string):
   };
 }
 
-// --- Payment verification ---
-
 export interface PaymentVerification {
   valid: boolean;
   reason?: string;
 }
 
-/**
- * Verify a SOL transfer on-chain.
- * Checks that the transaction:
- * 1. Exists and is confirmed
- * 2. Contains a transfer to the treasury wallet
- * 3. Amount meets the plan price
- */
 export async function verifyPayment(
   connection: Connection,
   txSignature: string,
@@ -132,7 +116,6 @@ export async function verifyPayment(
       return { valid: false, reason: 'Transaction failed on-chain.' };
     }
 
-    // Look for a SOL transfer to treasury in the transaction's instructions
     const instructions = tx.transaction.message.instructions;
     let transferFound = false;
     const treasuryAddr = getTreasuryAddress();
@@ -161,8 +144,6 @@ export async function verifyPayment(
   }
 }
 
-// --- Subscription management ---
-
 export async function activateSubscription(
   db: Database.Database,
   telegramId: string,
@@ -175,15 +156,13 @@ export async function activateSubscription(
     return { success: false, error: `Unknown plan: ${planId}` };
   }
 
-  // Free plan — no payment needed
   if (planId === 'free') {
     deactivateSubscriptions(db, telegramId);
-    const sub = createSubscription(db, telegramId, 'free', null, 0, 365 * 100); // effectively permanent
+    const sub = createSubscription(db, telegramId, 'free', null, 0, 365 * 100);
     recordPaymentEvent(db, telegramId, 'subscription_activated', 'free', 0, null, 'completed');
     return { success: true, subscription: sub };
   }
 
-  // Paid plan — verify payment
   if (!txSignature) {
     return { success: false, error: 'Transaction signature required for paid plans.' };
   }
@@ -195,7 +174,6 @@ export async function activateSubscription(
 
   const mode = getPaymentMode();
 
-  // In live mode, verify on-chain; in mock mode, skip verification
   if (mode === 'live' && connection) {
     const verification = await verifyPayment(connection, txSignature, plan.priceSol, wallet.public_key);
     if (!verification.valid) {
@@ -204,15 +182,12 @@ export async function activateSubscription(
     }
   }
 
-  // Deactivate old subs, create new one
   deactivateSubscriptions(db, telegramId);
   const sub = createSubscription(db, telegramId, planId, txSignature, plan.priceSol, plan.durationDays);
   recordPaymentEvent(db, telegramId, 'subscription_activated', planId, plan.priceSol, txSignature, 'completed', { mode });
   console.log(`[Payment] Subscription activated: user=${telegramId} plan=${planId} mode=${mode}`);
   return { success: true, subscription: sub };
 }
-
-// --- Formatting ---
 
 export function formatPlans(): string {
   const lines = Object.values(PLANS).map(p => {
