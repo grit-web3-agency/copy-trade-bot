@@ -176,3 +176,46 @@ Follow these steps to verify the bot works end-to-end in dry-run mode.
 - Fix applied: removed stale `src/__tests__/db.test.ts` (leftover from pre-SQLite JSON DB era; conflicted with current `better-sqlite3` API)
 - Must-Have checklist verified against PROJECT_SPEC: all 8 items confirmed complete
 - No real-money trades executed; all tests use dry-run / in-memory DB
+
+## CI run — 2026-04-15 12:46 +07
+- Branch: dev/auto-sprint-continue-20260409T071626Z
+- Build: `npm run build` — **PASS** (0 TypeScript errors)
+- Tests: `npx vitest run` — **19 passed | 2 skipped (21 files), 151 passed | 2 skipped (153 tests), 1.08s**
+- E2E demo: `npm run demo` — **PASS** (2 dry-run trades executed, 2 notifications sent)
+- Notes: Test count increased from 77→151 due to worktree mirror running in parallel. PnL tracking tests (8) added since last run. All Must-Have + Nice-to-Have PnL features verified. No real-money trades.
+
+### E2E Demo Output (2026-04-15)
+
+```
+============================================================
+  COPY-TRADE BOT — E2E DEMO (Devnet Dry-Run)
+============================================================
+
+[1] Initializing in-memory database...
+[2] Registering user (telegram_id=demo_user)...
+    User created: demo_user
+[3] Creating Solana wallet...
+    Wallet: 8kWgPSigzseGjgFiQHGZbZRxtT7JDmTPtgGrbrrKTXmM
+[4] Adding whale to watch list: 9WzDXwBbmkg8ZTbNMqUxvQRAyrZzDsGYdLVL9zYtAWWM
+[5] Enabling copy trading...
+[6] Starting whale listener...
+[7] Simulating whale BUY event...
+
+[WHALE DETECTED] BUY 2.5 SOL → EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v
+    → Copy Policy caps to 0.1 SOL (max_trade_size)
+    → Dry-run trade executed (dry-run)
+
+[8] Simulating whale SELL event...
+
+[WHALE DETECTED] SELL 1 SOL → EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v
+    → Copy Policy caps to 0.1 SOL (max_trade_size)
+    → Dry-run trade executed (dry-run)
+
+============================================================
+  DEMO SUMMARY
+============================================================
+  Trades executed (dry-run): 2
+  Notifications sent: 2
+  All trades were DRY-RUN only. No real transactions sent.
+============================================================
+```
