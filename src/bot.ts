@@ -13,11 +13,21 @@ import {
 } from './db';
 import { createAndStoreWallet, getBalance } from './wallet-manager';
 import { calculatePnL, formatPnLMessage } from './pnl-tracker';
+import {
+  PLANS,
+  getUserPlan,
+  createSubscription,
+  verifyPayment,
+  formatPlansMessage,
+  initPaymentSchema,
+} from './payment';
 import { Connection, PublicKey } from '@solana/web3.js';
 
 export function createBot(token: string, database: Database.Database, rpcUrl?: string): Bot {
   const bot = new Bot(token);
   const connection = new Connection(rpcUrl || 'https://api.devnet.solana.com');
+
+  initPaymentSchema(database);
 
   // /start — register user and create wallet
   bot.command('start', async (ctx) => {
@@ -45,6 +55,7 @@ export function createBot(token: string, database: Database.Database, rpcUrl?: s
         `/balance — Check your wallet balance\n` +
         `/pnl — View profit/loss summary\n` +
         `/settings — Configure max trade size & slippage\n` +
+        `/subscribe — Manage subscription plan\n` +
         `/help — Show this message`,
         { parse_mode: 'Markdown' }
       );
@@ -64,7 +75,8 @@ export function createBot(token: string, database: Database.Database, rpcUrl?: s
       `/copy on|off — Toggle copy trading\n` +
       `/balance — Check your wallet balance\n` +
       `/pnl — View profit/loss summary\n` +
-      `/settings — Configure max trade size & slippage`
+      `/settings — Configure max trade size & slippage\n` +
+      `/subscribe — Manage subscription plan`
     );
   });
 
@@ -280,6 +292,66 @@ export function createBot(token: string, database: Database.Database, rpcUrl?: s
     } catch (err: any) {
       console.error('[Bot] /pnl error:', err?.message || err);
       await ctx.reply('Failed to calculate PnL. Please try again.');
+    }
+  });
+
+  // /subscribe [plan] [tx_signature] — manage subscription
+  bot.command('subscribe', async (ctx) => {
+    const telegramId = ctx.from?.id.toString();
+    if (!telegramId) return;
+
+    try {
+      getOrCreateUser(database, telegramId, ctx.from?.username);
+
+      const text = ctx.message?.text || '';
+      const parts = text.split(/\s+/).slice(1);
+
+      if (parts.length === 0) {
+        const currentPlan = getUserPlan(database, telegramId);
+        const plansMsg = formatPlansMessage();
+        await ctx.reply(`Current plan: ${currentPlan.name}\n\n${plansMsg}`);
+        return;
+      }
+
+      const planId = parts[0].toLowerCase();
+      const txSig = parts[1] || null;
+
+      if (!PLANS[planId]) {
+        await ctx.reply(`Unknown plan: ${planId}\nAvailable: free, basic, pro`);
+        return;
+      }
+
+      const plan = PLANS[planId];
+
+      if (plan.priceSolMonthly > 0 && !txSig) {
+        const treasuryWallet = process.env.TREASURY_WALLET || '(not configured)';
+        await ctx.reply(
+          `${plan.name} costs ${plan.priceSolMonthly} SOL/month.\n` +
+          `Send payment to: \`${treasuryWallet}\`\n` +
+          `Then: /subscribe ${planId} <tx_signature>`,
+          { parse_mode: 'Markdown' }
+        );
+        return;
+      }
+
+      if (txSig) {
+        const treasuryWallet = process.env.TREASURY_WALLET || '';
+        const verified = await verifyPayment(txSig, plan.priceSolMonthly, treasuryWallet);
+        if (!verified) {
+          await ctx.reply('Payment verification failed. Please check the transaction.');
+          return;
+        }
+      }
+
+      const sub = createSubscription(database, telegramId, planId, txSig);
+      await ctx.reply(
+        `Subscribed to ${plan.name} plan!\n` +
+        `Whales: ${plan.maxWhales} | Trades/day: ${plan.maxTradesPerDay}\n` +
+        `Expires: ${sub.expires_at}`
+      );
+    } catch (err: any) {
+      console.error('[Bot] /subscribe error:', err?.message || err);
+      await ctx.reply('Failed to process subscription. Please try again.');
     }
   });
 
