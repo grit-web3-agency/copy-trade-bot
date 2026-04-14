@@ -3,6 +3,7 @@ import { getDb, getAllWatchedAddresses } from './db';
 import { createBot } from './bot';
 import { WhaleListener } from './whale-listener';
 import { processWhaleTrade } from './copy-policy';
+import { loadDevnetConfig, getDevnetConnection } from './devnet-config';
 
 // Catch unhandled errors to prevent silent crashes
 process.on('uncaughtException', (err) => {
@@ -21,8 +22,13 @@ async function main() {
     process.exit(1);
   }
 
-  const rpcUrl = process.env.SOLANA_RPC_URL || 'https://api.devnet.solana.com';
+  const devnetConfig = loadDevnetConfig();
+  const rpcUrl = devnetConfig.rpcUrl;
   const wsUrl = process.env.SOLANA_WS_URL;
+
+  console.log(`[Main] Network: ${devnetConfig.network}, Live trading: ${devnetConfig.enableLiveTrading}`);
+
+  const connection = getDevnetConnection(rpcUrl);
 
   // Initialize database
   const db = getDb();
@@ -47,6 +53,9 @@ async function main() {
         bot.api.sendMessage(telegramId, message).catch(err => {
           console.error(`[Main] Failed to notify user ${telegramId}:`, err.message);
         });
+      }, {
+        enableLiveTrading: devnetConfig.enableLiveTrading,
+        connection,
       });
     } catch (err: any) {
       console.error('[Main] Error processing whale trade:', err?.message || err);
