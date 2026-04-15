@@ -169,6 +169,14 @@ Follow these steps to verify the bot works end-to-end in dry-run mode.
 - Result: Test Files: 10 passed | 1 skipped (11) — Tests: 77 passed | 1 skipped (78) — Duration: 766ms
 - Notes: All Must Have features verified complete. New tests added since last run: db.test.ts (12), wallet-manager.test.ts (8), whale-listener-ws.test.ts (11). All passing.
 
+## Verification run — 2026-04-09 17:48 +07
+- Branch: dev (merged origin/main)
+- Build: `npm run build` — **PASS** (0 TypeScript errors)
+- Tests: `npm test` (vitest run) — **10 passed | 1 skipped (11 files), 77 passed | 1 skipped (78 tests), 575ms**
+- Fix applied: removed stale `src/__tests__/db.test.ts` (leftover from pre-SQLite JSON DB era; conflicted with current `better-sqlite3` API)
+- Must-Have checklist verified against PROJECT_SPEC: all 8 items confirmed complete
+- No real-money trades executed; all tests use dry-run / in-memory DB
+
 ---
 
 ## Sprint 5: Real Devnet Trading (Per-User Mode Toggle)
