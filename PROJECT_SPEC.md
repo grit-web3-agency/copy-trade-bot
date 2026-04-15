@@ -33,7 +33,7 @@
 - [x] Demo dry-run ทำงานได้
 
 ### ถ้ามีเวลา (Nice to Have)
-- [ ] Real devnet trading
+- [x] Real devnet trading
 - [x] PnL tracking
 - [x] Multi-whale support
 - [ ] Payment module (ค่าสมาชิก)

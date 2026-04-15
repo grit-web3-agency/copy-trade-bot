@@ -1,7 +1,7 @@
 import Database from 'better-sqlite3';
 import { Connection } from '@solana/web3.js';
 import { WhaleTradeEvent } from './whale-listener';
-import { User, getUsersWatchingWhale } from './db';
+import { User, getUsersWatchingWhale, getTradeMode } from './db';
 import { executeDryRunTrade, executeRealTrade, TradeResult } from './trade-executor';
 import { getKeypair } from './wallet-manager';
 
@@ -51,21 +51,15 @@ export function checkCopyPolicy(
   };
 }
 
-export interface ProcessTradeOptions {
-  enableLiveTrading?: boolean;
-  connection?: Connection;
-}
-
 // Process a whale trade event: apply policy and execute for all subscribed users
 export async function processWhaleTrade(
   database: Database.Database,
   trade: WhaleTradeEvent,
   notifyFn?: (telegramId: string, message: string) => void,
-  options?: ProcessTradeOptions
+  connection?: Connection
 ): Promise<TradeResult[]> {
   const users = getUsersWatchingWhale(database, trade.whaleAddress);
   const results: TradeResult[] = [];
-  const liveMode = options?.enableLiveTrading === true && options?.connection != null;
 
   for (const user of users) {
     const policyConfig: CopyPolicyConfig = {
@@ -85,13 +79,14 @@ export async function processWhaleTrade(
     }
 
     const keypair = getKeypair(database, user.telegram_id);
+    const mode = getTradeMode(database, user.telegram_id);
 
     let result: TradeResult;
 
-    if (liveMode && keypair) {
+    if (mode === 'devnet' && connection && keypair) {
       result = await executeRealTrade(
         database,
-        options!.connection!,
+        connection,
         user.telegram_id,
         trade.whaleAddress,
         trade.direction,
@@ -116,11 +111,11 @@ export async function processWhaleTrade(
     results.push(result);
 
     if (notifyFn) {
-      const mode = result.dryRun ? 'dry-run' : 'LIVE';
-      const status = result.success ? `executed (${mode})` : `failed: ${result.error}`;
+      const modeLabel = result.dryRun ? 'dry-run' : 'devnet';
+      const status = result.success ? `executed (${modeLabel})` : `failed: ${result.error}`;
       notifyFn(
         user.telegram_id,
-        `Copy trade ${trade.direction} ${check.adjustedAmountSol} SOL → ${trade.tokenMint}\nStatus: ${status}\nSig: ${result.signature}`
+        `Copy trade ${trade.direction} ${check.adjustedAmountSol} SOL → ${trade.tokenMint}\nMode: ${modeLabel}\nStatus: ${status}\nSig: ${result.signature}`
       );
     }
   }

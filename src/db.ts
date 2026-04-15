@@ -76,9 +76,17 @@ function initSchema(database: Database.Database) {
   if (!tradeColumns.some(c => c.name === 'quote_out_amount')) {
     database.exec(`ALTER TABLE trades ADD COLUMN quote_out_amount TEXT`);
   }
+
+  // Migration: add trade_mode column to users if missing (default 'dry-run')
+  const userColumns = database.pragma('table_info(users)') as { name: string }[];
+  if (!userColumns.some(c => c.name === 'trade_mode')) {
+    database.exec(`ALTER TABLE users ADD COLUMN trade_mode TEXT DEFAULT 'dry-run'`);
+  }
 }
 
 // --- User operations ---
+
+export type TradeMode = 'dry-run' | 'devnet';
 
 export interface User {
   telegram_id: string;
@@ -86,6 +94,7 @@ export interface User {
   copy_enabled: number;
   max_trade_size_sol: number;
   slippage_bps: number;
+  trade_mode: TradeMode;
 }
 
 export function getOrCreateUser(database: Database.Database, telegramId: string, username?: string): User {
@@ -126,6 +135,17 @@ export function getUserSettings(database: Database.Database, telegramId: string)
   const row = database.prepare('SELECT max_trade_size_sol, slippage_bps FROM users WHERE telegram_id = ?').get(telegramId) as { max_trade_size_sol: number; slippage_bps: number } | undefined;
   if (!row) return { max_trade_size_sol: 0.1, slippage_bps: 100 };
   return { max_trade_size_sol: row.max_trade_size_sol, slippage_bps: row.slippage_bps };
+}
+
+// --- Trade mode operations ---
+
+export function setTradeMode(database: Database.Database, telegramId: string, mode: TradeMode) {
+  database.prepare('UPDATE users SET trade_mode = ? WHERE telegram_id = ?').run(mode, telegramId);
+}
+
+export function getTradeMode(database: Database.Database, telegramId: string): TradeMode {
+  const row = database.prepare('SELECT trade_mode FROM users WHERE telegram_id = ?').get(telegramId) as { trade_mode: string } | undefined;
+  return (row?.trade_mode === 'devnet' ? 'devnet' : 'dry-run') as TradeMode;
 }
 
 // --- Whale watch operations ---
