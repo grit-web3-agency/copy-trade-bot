@@ -65,7 +65,7 @@ export async function processWhaleTrade(
     const policyConfig: CopyPolicyConfig = {
       maxTradeSizeSol: user.max_trade_size_sol,
       slippageBps: user.slippage_bps,
-      tokenWhitelist: null, // Allow all tokens for MVP
+      tokenWhitelist: null,
     };
 
     const check = checkCopyPolicy(trade, policyConfig);

@@ -1,6 +1,7 @@
 import { Connection, Keypair, PublicKey, VersionedTransaction } from '@solana/web3.js';
 import { recordTrade } from './db';
 import { withRetry } from './retry';
+import { assertDevnetRpc } from './devnet-config';
 import Database from 'better-sqlite3';
 
 export interface SwapQuote {
@@ -154,7 +155,8 @@ export async function executeDryRunTrade(
       amountSol,
       dryRunSig,
       quote ? 'dry-run-quoted' : 'dry-run-no-quote',
-      true
+      true,
+      quote?.outAmount
     );
 
     if (!quote) {
@@ -229,6 +231,9 @@ export async function executeRealTrade(
     };
   }
 
+  // Safety: only devnet RPCs allowed
+  assertDevnetRpc(connection.rpcEndpoint);
+
   inFlightTrades.add(key);
   try {
     const amountLamports = Math.floor(amountSol * 1e9);
@@ -237,7 +242,6 @@ export async function executeRealTrade(
     const outputMint = direction === 'BUY' ? tokenMint : SOL_MINT;
 
     const quote = await getJupiterQuote(inputMint, outputMint, amountLamports, slippageBps);
-
 
     // Record pending trade
     recordTrade(database, telegramId, whaleAddress, direction, tokenMint, amountSol, null, 'pending', false);
