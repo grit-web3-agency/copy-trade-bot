@@ -8,7 +8,8 @@
     "dev": "tsx src/index.ts",
     "test": "vitest run",
     "test:watch": "vitest",
-    "demo": "tsx scripts/e2e-demo.ts"
+    "demo": "tsx scripts/e2e-demo.ts",
+    "e2e:devnet": "tsx scripts/e2e-devnet.ts"
   },
   "keywords": [
     "solana",
