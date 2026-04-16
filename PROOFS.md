@@ -219,3 +219,11 @@ Follow these steps to verify the bot works end-to-end in dry-run mode.
   All trades were DRY-RUN only. No real transactions sent.
 ============================================================
 ```
+
+## CI run — 2026-04-17 04:17 +07
+- Branch: dev/auto-sprint-20260416T211618Z (continuation sprint; no new feature work — all Must-Have + Sprint 1-4 items already complete per PROJECT_SPEC §2/§6)
+- Build: `npm run build` — **PASS** (0 TypeScript errors)
+- Tests: `npm test` — **19 passed | 2 skipped (21 files), 151 passed | 2 skipped (153 tests), 1.03s**
+- E2E demo: `npm run demo` — **PASS** (2 dry-run trades executed, 2 notifications sent; Jupiter quote unreachable in sandboxed env, retry+dry-run fallback worked as designed)
+- Sprint backlog audit: Must-Have 8/8 complete; Nice-to-Have 3/4 complete (Payment module unchecked — blocked on business decisions: pricing tiers, payment provider, fiat vs crypto; also conflicts with PROJECT_SPEC §2 "❌ ห้ามใช้ real money")
+- No real-money trades executed; all tests use dry-run / in-memory DB.
