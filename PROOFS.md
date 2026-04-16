@@ -243,3 +243,64 @@ Follow these steps to verify the bot works end-to-end in dry-run mode.
 - Command: npm test && npm run build
 - Result: Test Files: 14 passed (14) — Tests: 117 passed (117) — Duration: 808ms. Build clean (tsc, no errors).
 - Notes: Added env-validation tests (11), VersionedTransaction regression tests (5). All 117 tests passing, no skipped. TypeScript build clean.
+
+## CI run — 2026-04-15 12:46 +07
+- Branch: dev/auto-sprint-continue-20260409T071626Z
+- Build: `npm run build` — **PASS** (0 TypeScript errors)
+- Tests: `npx vitest run` — **19 passed | 2 skipped (21 files), 151 passed | 2 skipped (153 tests), 1.08s**
+- E2E demo: `npm run demo` — **PASS** (2 dry-run trades executed, 2 notifications sent)
+- Notes: Test count increased from 77→151 due to worktree mirror running in parallel. PnL tracking tests (8) added since last run. All Must-Have + Nice-to-Have PnL features verified. No real-money trades.
+
+### E2E Demo Output (2026-04-15)
+
+```
+============================================================
+  COPY-TRADE BOT — E2E DEMO (Devnet Dry-Run)
+============================================================
+
+[1] Initializing in-memory database...
+[2] Registering user (telegram_id=demo_user)...
+    User created: demo_user
+[3] Creating Solana wallet...
+    Wallet: 8kWgPSigzseGjgFiQHGZbZRxtT7JDmTPtgGrbrrKTXmM
+[4] Adding whale to watch list: 9WzDXwBbmkg8ZTbNMqUxvQRAyrZzDsGYdLVL9zYtAWWM
+[5] Enabling copy trading...
+[6] Starting whale listener...
+[7] Simulating whale BUY event...
+
+[WHALE DETECTED] BUY 2.5 SOL → EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v
+    → Copy Policy caps to 0.1 SOL (max_trade_size)
+    → Dry-run trade executed (dry-run)
+
+[8] Simulating whale SELL event...
+
+[WHALE DETECTED] SELL 1 SOL → EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v
+    → Copy Policy caps to 0.1 SOL (max_trade_size)
+    → Dry-run trade executed (dry-run)
+
+============================================================
+  DEMO SUMMARY
+============================================================
+  Trades executed (dry-run): 2
+  Notifications sent: 2
+  All trades were DRY-RUN only. No real transactions sent.
+============================================================
+```
+
+## CI run — 2026-04-17 04:17 +07 (pre-merge)
+- Branch: dev/auto-sprint-20260416T211618Z (continuation sprint; no new feature work — all Must-Have + Sprint 1-4 items already complete per PROJECT_SPEC §2/§6)
+- Build: `npm run build` — **PASS** (0 TypeScript errors)
+- Tests: `npm test` — **19 passed | 2 skipped (21 files), 151 passed | 2 skipped (153 tests), 1.03s**
+- E2E demo: `npm run demo` — **PASS** (2 dry-run trades executed, 2 notifications sent; Jupiter quote unreachable in sandboxed env, retry+dry-run fallback worked as designed)
+- No real-money trades executed; all tests use dry-run / in-memory DB.
+
+## CI run — 2026-04-17 04:40 +07 (post-merge with main)
+- Branch: dev/auto-sprint-20260416T211618Z (merged origin/main which now contains payment module PR #12, real devnet trading PR #17/#21, and pnl-tracker module PR #20)
+- Merge: resolved conflicts in `src/bot.ts` and `src/db.ts` by taking main's version (more complete — includes `/mode`, `/unwatch`, `/subscribe`, `/pnl` via `pnl-tracker` module, `setTradeMode`/`removeWatchedWhale` DB ops). Merged PROOFS.md to keep Sprint 5 evidence plus 2026-04-15/04-17 CI runs. Removed stale `tests/pnl.test.ts` (superseded by `tests/pnl-tracker.test.ts` which tests the merged module).
+- Build: `npm run build` — **PASS** (0 TypeScript errors)
+- Tests: `npm test` — **27 passed | 1 skipped (28 files), 228 passed | 1 skipped (229 tests), 1.32s** (includes `.claude/worktrees/agent-a67be214/` duplicate mirror that vitest picks up; canonical test count from `tests/` is ~117)
+- E2E demo: `npm run demo` — **PASS** (2 dry-run trades executed, 2 notifications sent; Jupiter quote unreachable in sandboxed env — retry + dry-run fallback behaves as designed)
+- Sprint backlog audit against PROJECT_SPEC.md §2:
+  - Must-Have: **8/8 complete**
+  - Nice-to-Have: **4/4 complete** — Payment module (`src/payment.ts` + `/subscribe`) was merged via PR #12 on main; earlier "blocked" status from pre-merge PR description is now superseded.
+- No real-money trades executed; all tests use dry-run / in-memory DB. Mainnet safety guards (`assertDevnetConnection`, `getDevnetRpcUrl`) active.
