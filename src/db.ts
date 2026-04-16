@@ -70,9 +70,23 @@ function initSchema(database: Database.Database) {
       name TEXT
     );
   `);
+
+  // Migration: add quote_out_amount column to trades if missing
+  const tradeColumns = database.pragma('table_info(trades)') as { name: string }[];
+  if (!tradeColumns.some(c => c.name === 'quote_out_amount')) {
+    database.exec(`ALTER TABLE trades ADD COLUMN quote_out_amount TEXT`);
+  }
+
+  // Migration: add trade_mode column to users if missing (default 'dry-run')
+  const userColumns = database.pragma('table_info(users)') as { name: string }[];
+  if (!userColumns.some(c => c.name === 'trade_mode')) {
+    database.exec(`ALTER TABLE users ADD COLUMN trade_mode TEXT DEFAULT 'dry-run'`);
+  }
 }
 
 // --- User operations ---
+
+export type TradeMode = 'dry-run' | 'devnet';
 
 export interface User {
   telegram_id: string;
@@ -80,6 +94,7 @@ export interface User {
   copy_enabled: number;
   max_trade_size_sol: number;
   slippage_bps: number;
+  trade_mode: TradeMode;
 }
 
 export function getOrCreateUser(database: Database.Database, telegramId: string, username?: string): User {
@@ -120,6 +135,17 @@ export function getUserSettings(database: Database.Database, telegramId: string)
   const row = database.prepare('SELECT max_trade_size_sol, slippage_bps FROM users WHERE telegram_id = ?').get(telegramId) as { max_trade_size_sol: number; slippage_bps: number } | undefined;
   if (!row) return { max_trade_size_sol: 0.1, slippage_bps: 100 };
   return { max_trade_size_sol: row.max_trade_size_sol, slippage_bps: row.slippage_bps };
+}
+
+// --- Trade mode operations ---
+
+export function setTradeMode(database: Database.Database, telegramId: string, mode: TradeMode) {
+  database.prepare('UPDATE users SET trade_mode = ? WHERE telegram_id = ?').run(mode, telegramId);
+}
+
+export function getTradeMode(database: Database.Database, telegramId: string): TradeMode {
+  const row = database.prepare('SELECT trade_mode FROM users WHERE telegram_id = ?').get(telegramId) as { trade_mode: string } | undefined;
+  return (row?.trade_mode === 'devnet' ? 'devnet' : 'dry-run') as TradeMode;
 }
 
 // --- Whale watch operations ---
@@ -193,6 +219,7 @@ export interface Trade {
   tx_signature: string | null;
   status: string;
   dry_run: number;
+  quote_out_amount: string | null;
 }
 
 export function recordTrade(
@@ -204,69 +231,62 @@ export function recordTrade(
   amountSol: number,
   txSignature: string | null,
   status: string,
-  dryRun: boolean
+  dryRun: boolean,
+  quoteOutAmount?: string
 ): Trade {
   const result = database.prepare(`
-    INSERT INTO trades (telegram_id, whale_address, direction, token_mint, amount_sol, tx_signature, status, dry_run)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-  `).run(telegramId, whaleAddress, direction, tokenMint, amountSol, txSignature, status, dryRun ? 1 : 0);
+    INSERT INTO trades (telegram_id, whale_address, direction, token_mint, amount_sol, tx_signature, status, dry_run, quote_out_amount)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `).run(telegramId, whaleAddress, direction, tokenMint, amountSol, txSignature, status, dryRun ? 1 : 0, quoteOutAmount || null);
 
   return database.prepare('SELECT * FROM trades WHERE id = ?').get(result.lastInsertRowid) as Trade;
 }
 
 // --- PnL operations ---
 
-export interface TokenPnL {
-  token_mint: string;
-  total_bought_sol: number;
-  total_sold_sol: number;
-  buy_count: number;
-  sell_count: number;
-  realized_pnl: number;
+export interface TradeWithQuote extends Trade {
+  quote_out_amount: string | null;
+  created_at: string;
 }
 
-export interface UserPnL {
-  tokens: TokenPnL[];
-  total_pnl: number;
-  total_trades: number;
-}
-
-export function getUserTrades(database: Database.Database, telegramId: string): Trade[] {
+export function getTradesForUser(database: Database.Database, telegramId: string): TradeWithQuote[] {
   return database.prepare(
-    'SELECT * FROM trades WHERE telegram_id = ? ORDER BY created_at ASC'
-  ).all(telegramId) as Trade[];
+    'SELECT * FROM trades WHERE telegram_id = ? ORDER BY created_at DESC'
+  ).all(telegramId) as TradeWithQuote[];
 }
 
-export function getUserPnL(database: Database.Database, telegramId: string): UserPnL {
-  const rows = database.prepare(`
+export function getTradesByToken(database: Database.Database, telegramId: string, tokenMint: string): TradeWithQuote[] {
+  return database.prepare(
+    'SELECT * FROM trades WHERE telegram_id = ? AND token_mint = ? ORDER BY created_at DESC'
+  ).all(telegramId, tokenMint) as TradeWithQuote[];
+}
+
+export function getTradesSummaryByToken(database: Database.Database, telegramId: string): { token_mint: string; buy_count: number; sell_count: number; total_buy_sol: number; total_sell_sol: number }[] {
+  return database.prepare(`
     SELECT
       token_mint,
-      SUM(CASE WHEN direction = 'BUY' THEN amount_sol ELSE 0 END) AS total_bought_sol,
-      SUM(CASE WHEN direction = 'SELL' THEN amount_sol ELSE 0 END) AS total_sold_sol,
-      SUM(CASE WHEN direction = 'BUY' THEN 1 ELSE 0 END) AS buy_count,
-      SUM(CASE WHEN direction = 'SELL' THEN 1 ELSE 0 END) AS sell_count
+      SUM(CASE WHEN direction = 'BUY' THEN 1 ELSE 0 END) as buy_count,
+      SUM(CASE WHEN direction = 'SELL' THEN 1 ELSE 0 END) as sell_count,
+      SUM(CASE WHEN direction = 'BUY' THEN amount_sol ELSE 0 END) as total_buy_sol,
+      SUM(CASE WHEN direction = 'SELL' THEN amount_sol ELSE 0 END) as total_sell_sol
     FROM trades
     WHERE telegram_id = ? AND status NOT IN ('error', 'dry-run-error')
     GROUP BY token_mint
-  `).all(telegramId) as Array<{
-    token_mint: string;
-    total_bought_sol: number;
-    total_sold_sol: number;
-    buy_count: number;
-    sell_count: number;
-  }>;
+  `).all(telegramId) as any[];
+}
 
-  const tokens: TokenPnL[] = rows.map(r => ({
-    token_mint: r.token_mint,
-    total_bought_sol: r.total_bought_sol,
-    total_sold_sol: r.total_sold_sol,
-    buy_count: r.buy_count,
-    sell_count: r.sell_count,
-    realized_pnl: r.total_sold_sol - r.total_bought_sol,
-  }));
+// --- Unwatch operations ---
 
-  const total_pnl = tokens.reduce((sum, t) => sum + t.realized_pnl, 0);
-  const total_trades = tokens.reduce((sum, t) => sum + t.buy_count + t.sell_count, 0);
+export function removeWatchedWhale(database: Database.Database, telegramId: string, whaleAddress: string): boolean {
+  const result = database.prepare(
+    'UPDATE watched_whales SET active = 0 WHERE telegram_id = ? AND whale_address = ? AND active = 1'
+  ).run(telegramId, whaleAddress);
+  return result.changes > 0;
+}
 
-  return { tokens, total_pnl, total_trades };
+export function removeAllWatchedWhales(database: Database.Database, telegramId: string): number {
+  const result = database.prepare(
+    'UPDATE watched_whales SET active = 0 WHERE telegram_id = ? AND active = 1'
+  ).run(telegramId);
+  return result.changes;
 }

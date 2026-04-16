@@ -1,7 +1,8 @@
 import Database from 'better-sqlite3';
+import { Connection } from '@solana/web3.js';
 import { WhaleTradeEvent } from './whale-listener';
-import { User, getUsersWatchingWhale } from './db';
-import { executeDryRunTrade, TradeResult } from './trade-executor';
+import { User, getUsersWatchingWhale, getTradeMode } from './db';
+import { executeDryRunTrade, executeRealTrade, TradeResult } from './trade-executor';
 import { getKeypair } from './wallet-manager';
 
 export interface CopyPolicyConfig {
@@ -54,7 +55,8 @@ export function checkCopyPolicy(
 export async function processWhaleTrade(
   database: Database.Database,
   trade: WhaleTradeEvent,
-  notifyFn?: (telegramId: string, message: string) => void
+  notifyFn?: (telegramId: string, message: string) => void,
+  connection?: Connection
 ): Promise<TradeResult[]> {
   const users = getUsersWatchingWhale(database, trade.whaleAddress);
   const results: TradeResult[] = [];
@@ -63,7 +65,7 @@ export async function processWhaleTrade(
     const policyConfig: CopyPolicyConfig = {
       maxTradeSizeSol: user.max_trade_size_sol,
       slippageBps: user.slippage_bps,
-      tokenWhitelist: null, // Allow all tokens for MVP
+      tokenWhitelist: null,
     };
 
     const check = checkCopyPolicy(trade, policyConfig);
@@ -77,25 +79,43 @@ export async function processWhaleTrade(
     }
 
     const keypair = getKeypair(database, user.telegram_id);
+    const mode = getTradeMode(database, user.telegram_id);
 
-    const result = await executeDryRunTrade(
-      database,
-      user.telegram_id,
-      trade.whaleAddress,
-      trade.direction,
-      trade.tokenMint,
-      check.adjustedAmountSol!,
-      policyConfig.slippageBps,
-      keypair || undefined
-    );
+    let result: TradeResult;
+
+    if (mode === 'devnet' && connection && keypair) {
+      result = await executeRealTrade(
+        database,
+        connection,
+        user.telegram_id,
+        trade.whaleAddress,
+        trade.direction,
+        trade.tokenMint,
+        check.adjustedAmountSol!,
+        policyConfig.slippageBps,
+        keypair
+      );
+    } else {
+      result = await executeDryRunTrade(
+        database,
+        user.telegram_id,
+        trade.whaleAddress,
+        trade.direction,
+        trade.tokenMint,
+        check.adjustedAmountSol!,
+        policyConfig.slippageBps,
+        keypair || undefined
+      );
+    }
 
     results.push(result);
 
     if (notifyFn) {
-      const status = result.success ? 'executed (dry-run)' : `failed: ${result.error}`;
+      const modeLabel = result.dryRun ? 'dry-run' : 'devnet';
+      const status = result.success ? `executed (${modeLabel})` : `failed: ${result.error}`;
       notifyFn(
         user.telegram_id,
-        `Copy trade ${trade.direction} ${check.adjustedAmountSol} SOL → ${trade.tokenMint}\nStatus: ${status}\nSig: ${result.signature}`
+        `Copy trade ${trade.direction} ${check.adjustedAmountSol} SOL → ${trade.tokenMint}\nMode: ${modeLabel}\nStatus: ${status}\nSig: ${result.signature}`
       );
     }
   }

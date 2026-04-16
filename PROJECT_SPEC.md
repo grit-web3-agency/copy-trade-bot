@@ -33,9 +33,9 @@
 - [x] Demo dry-run ทำงานได้
 
 ### ถ้ามีเวลา (Nice to Have)
-- [ ] Real devnet trading
-- [ ] PnL tracking
-- [ ] Multi-whale support
+- [x] Real devnet trading
+- [x] PnL tracking
+- [x] Multi-whale support
 - [ ] Payment module (ค่าสมาชิก)
 
 ### ห้ามทำ (Out of Scope)
