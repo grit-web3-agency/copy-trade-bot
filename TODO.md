@@ -5,7 +5,7 @@ TODO — Copy-Trade Bot (MVP)
 [x] 3) Implement listener (testnet)
 [x] 4) Implement executor (wallet signing + transaction submit)
 [x] 5) Add dry-run mode and demo script
-[ ] 6) Add logging/poster to Dashboard/Discord
+[x] 6) Add logging/poster to Dashboard/Discord
 [x] 7) Tests + PROOFS + PR
 
 Sprint-2 additions:
@@ -14,3 +14,12 @@ Sprint-2 additions:
 [x] 10) Create demo-run.ts — 3 follower keypairs, 3 mirrored trades, PROOFS.md output
 [x] 11) Policy unit tests (6 test cases)
 [x] 12) End-to-end devnet demo (dry-run fallback confirmed)
+
+Sprint-4 additions:
+[x] 13) /settings command (max trade size, slippage, poster toggle)
+[x] 14) /watch, /copy, /balance bot commands
+[x] 15) Error handling improvements
+[x] 16) Poster toggle (respects user setting, no spam when off)
+[x] 17) PM2 ecosystem config (ecosystem.config.js)
+[x] 18) Unit tests expanded (20 tests, 4 suites)
+[x] 19) Sprint-4 demo dry-run verified

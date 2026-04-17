@@ -13,7 +13,7 @@ export async function postActivity(agent: string, event: string, detail: string)
       timeout: 10000,
     });
   } catch (e: any) {
-    console.warn('postActivity failed', e?.message || e);
+    console.warn('[POSTER] postActivity failed:', e?.message || e);
   }
 }
 
@@ -27,11 +27,21 @@ export async function postDiscordMessage(content: string) {
       timeout: 10000,
     });
   } catch (e: any) {
-    console.warn('postDiscordMessage failed', e?.message || e);
+    console.warn('[POSTER] postDiscordMessage failed:', e?.message || e);
   }
 }
 
-export async function posterOnExecuted(trade: Trade, result: { tx: string, cluster?: string }) {
+/**
+ * Post trade execution activity to dashboard and Discord.
+ * @param enabled - when false, silently skips posting (respects user toggle)
+ */
+export async function posterOnExecuted(
+  trade: Trade,
+  result: { tx: string; cluster?: string },
+  enabled = true
+) {
+  if (!enabled) return;
+
   const c = `Executed mirrored trade — sig: ${result.tx} ${result.cluster ? `cluster=${result.cluster}` : ''} — from ${trade.from} to ${trade.to} amount=${trade.amount}`;
   await postActivity('jack', 'trade_executed', c);
   await postDiscordMessage(c);
