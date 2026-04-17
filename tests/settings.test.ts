@@ -4,6 +4,8 @@ import {
   getOrCreateUser,
   setUserSettings,
   getUserSettings,
+  setPosterEnabled,
+  getPosterEnabled,
 } from '../src/db';
 import Database from 'better-sqlite3';
 
@@ -68,5 +70,35 @@ describe('/settings DB operations', () => {
     const s2 = getUserSettings(db, '100');
     expect(s1).toEqual(s2);
     expect(s1.max_trade_size_sol).toBe(3.0);
+  });
+});
+
+describe('poster_enabled DB operations', () => {
+  let db: Database.Database;
+
+  beforeEach(() => {
+    db = createTestDb();
+  });
+
+  it('defaults to enabled for new user', () => {
+    getOrCreateUser(db, '200', 'bob');
+    expect(getPosterEnabled(db, '200')).toBe(true);
+  });
+
+  it('can disable poster', () => {
+    getOrCreateUser(db, '200', 'bob');
+    setPosterEnabled(db, '200', false);
+    expect(getPosterEnabled(db, '200')).toBe(false);
+  });
+
+  it('can re-enable poster', () => {
+    getOrCreateUser(db, '200', 'bob');
+    setPosterEnabled(db, '200', false);
+    setPosterEnabled(db, '200', true);
+    expect(getPosterEnabled(db, '200')).toBe(true);
+  });
+
+  it('returns true for non-existent user', () => {
+    expect(getPosterEnabled(db, 'nope')).toBe(true);
   });
 });

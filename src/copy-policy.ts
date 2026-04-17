@@ -1,9 +1,10 @@
 import Database from 'better-sqlite3';
 import { Connection } from '@solana/web3.js';
 import { WhaleTradeEvent } from './whale-listener';
-import { User, getUsersWatchingWhale, getTradeMode } from './db';
+import { User, getUsersWatchingWhale, getTradeMode, getPosterEnabled } from './db';
 import { executeDryRunTrade, executeRealTrade, TradeResult } from './trade-executor';
 import { getKeypair } from './wallet-manager';
+import { postActivity, tradeExecutedEvent, loadPosterConfig } from './poster';
 
 export interface CopyPolicyConfig {
   maxTradeSizeSol: number;
@@ -110,13 +111,33 @@ export async function processWhaleTrade(
 
     results.push(result);
 
+    const modeLabel = result.dryRun ? 'dry-run' : 'devnet';
+    const status = result.success ? `executed (${modeLabel})` : `failed: ${result.error}`;
+
     if (notifyFn) {
-      const modeLabel = result.dryRun ? 'dry-run' : 'devnet';
-      const status = result.success ? `executed (${modeLabel})` : `failed: ${result.error}`;
       notifyFn(
         user.telegram_id,
         `Copy trade ${trade.direction} ${check.adjustedAmountSol} SOL → ${trade.tokenMint}\nMode: ${modeLabel}\nStatus: ${status}\nSig: ${result.signature}`
       );
+    }
+
+    const posterEnabled = getPosterEnabled(database, user.telegram_id);
+    if (posterEnabled) {
+      const posterConfig = loadPosterConfig();
+      const event = tradeExecutedEvent({
+        direction: trade.direction,
+        tokenMint: trade.tokenMint,
+        amountSol: check.adjustedAmountSol!,
+        signature: result.signature,
+        mode: modeLabel,
+        status,
+        error: result.error,
+        telegramId: user.telegram_id,
+        whaleAddress: trade.whaleAddress,
+      });
+      postActivity(posterConfig, event).catch(err => {
+        console.warn(`[CopyPolicy] Poster error for user ${user.telegram_id}:`, err);
+      });
     }
   }
 

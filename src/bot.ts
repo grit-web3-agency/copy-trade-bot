@@ -12,6 +12,8 @@ import {
   removeAllWatchedWhales,
   setTradeMode,
   getTradeMode,
+  setPosterEnabled,
+  getPosterEnabled,
 } from './db';
 import type { TradeMode } from './db';
 import { createAndStoreWallet, getBalance } from './wallet-manager';
@@ -190,8 +192,9 @@ export function createBot(token: string, database: Database.Database, rpcUrl?: s
       if (parts.length === 0) {
         const s = getUserSettings(database, telegramId);
         const mode = getTradeMode(database, telegramId);
+        const posterOn = getPosterEnabled(database, telegramId);
         await ctx.reply(
-          `Current settings:\n- max_trade_size_sol: ${s.max_trade_size_sol} SOL\n- slippage_bps: ${s.slippage_bps} bps\n- mode: ${mode}`
+          `Current settings:\n- max_trade_size_sol: ${s.max_trade_size_sol} SOL\n- slippage_bps: ${s.slippage_bps} bps\n- mode: ${mode}\n- poster: ${posterOn ? 'on' : 'off'}`
         );
         return;
       }
@@ -210,6 +213,22 @@ export function createBot(token: string, database: Database.Database, rpcUrl?: s
           );
         } else {
           await ctx.reply('Invalid mode. Usage: /settings set-mode dry-run|devnet');
+        }
+        return;
+      }
+
+      // /settings poster on|off — toggle activity poster
+      if (parts[0]?.toLowerCase() === 'poster') {
+        const posterArg = parts[1]?.toLowerCase();
+        if (posterArg === 'on' || posterArg === 'true' || posterArg === 'enable') {
+          setPosterEnabled(database, telegramId, true);
+          await ctx.reply('Activity poster ENABLED. Trade events will be sent to Dashboard/Discord.');
+        } else if (posterArg === 'off' || posterArg === 'false' || posterArg === 'disable') {
+          setPosterEnabled(database, telegramId, false);
+          await ctx.reply('Activity poster DISABLED.');
+        } else {
+          const current = getPosterEnabled(database, telegramId);
+          await ctx.reply(`Poster is currently: ${current ? 'ON' : 'OFF'}\nUsage: /settings poster on|off`);
         }
         return;
       }
