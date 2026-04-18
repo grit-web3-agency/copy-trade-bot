@@ -187,7 +187,7 @@ Follow these steps to verify the bot works end-to-end in dry-run mode.
 - **`/settings set-mode` alias** (`src/bot.ts`): `/settings set-mode devnet|dry-run|mock` as alternative.
 - **`executeRealTrade()`** (`src/trade-executor.ts`): Jupiter quote → `/swap` → sign → submit to devnet RPC → confirm. Full retry + error handling.
 - **Jupiter V6 swap fix** (`src/trade-executor.ts`): Corrected swap body to send `quoteResponse` (not `route`), use `wrapAndUnwrapSol`, deserialize as `VersionedTransaction`, and sign with user keypair before sending.
-- **Mainnet safety guards** (`src/trade-executor.ts`): `assertDevnetConnection()` rejects mainnet RPC patterns. `getDevnetRpcUrl()` validates `DEVNET_RPC` / `SOLANA_RPC_URL` env vars at startup.
+- **Mainnet safety guards** (`src/trade-executor.ts`): `assertDevnetConnection()` rejects mainnet-beta, Helius mainnet, solana-mainnet, rpcpool mainnet URLs
 - **Startup env validation** (`src/env-validation.ts`): `validateEnv()` checks BOT_TOKEN, RPC URL placeholders, SOLANA_NETWORK, trade config ranges — exits with clear messages on misconfiguration.
 - **`DEVNET_RPC` env config** (`.env.example`): Explicit devnet RPC URL with mainnet rejection.
 - **Copy policy routing** (`src/copy-policy.ts`): Reads user mode from DB → routes to `executeRealTrade` or `executeDryRunTrade`.
@@ -236,12 +236,12 @@ Follow these steps to verify the bot works end-to-end in dry-run mode.
 
 ### Test run — 2026-04-11 04:49 +07
 - Command: npx vitest run
-- Result: Test Files: 12 passed | 1 skipped (13) — Tests: 101 passed | 1 skipped (102) — Duration: 2.20s
+- Result: Test Files: 12 passed | 1 skipped (13) - Tests: 101 passed | 1 skipped (102) - Duration: 2.20s
 - Notes: Added 16 devnet safety tests, 3 trade-mode persistence tests. All mainnet guard tests passing. TypeScript build clean.
 
 ### Test run — 2026-04-11 (PR #17 review)
 - Command: npm test && npm run build
-- Result: Test Files: 14 passed (14) — Tests: 117 passed (117) — Duration: 808ms. Build clean (tsc, no errors).
+- Result: Test Files: 14 passed (14) - Tests: 117 passed (117) - Duration: 808ms. Build clean (tsc, no errors).
 - Notes: Added env-validation tests (11), VersionedTransaction regression tests (5). All 117 tests passing, no skipped. TypeScript build clean.
 
 ## CI run — 2026-04-15 12:46 +07
@@ -304,3 +304,19 @@ Follow these steps to verify the bot works end-to-end in dry-run mode.
   - Must-Have: **8/8 complete**
   - Nice-to-Have: **4/4 complete** — Payment module (`src/payment.ts` + `/subscribe`) was merged via PR #12 on main; earlier "blocked" status from pre-merge PR description is now superseded.
 - No real-money trades executed; all tests use dry-run / in-memory DB. Mainnet safety guards (`assertDevnetConnection`, `getDevnetRpcUrl`) active.
+
+---
+
+Automated Sprint Check — 2026-04-19 04:16 +07
+
+- Action: ran full test suite and build locally in project directory `/Users/m4/Web3_AI_Agency/projects/copy-trade-bot`.
+- Tests: `npm test` → 177 passed (all green).
+- Build: `npm run build` → OK (TypeScript build produced `dist/`).
+- Git: current branch `dev/sprint-4-polish` is up-to-date with `origin/dev/sprint-4-polish`.
+- Repo push: no new commits to push; branch already synchronized with remote `https://github.com/grit-web3-agency/copy-trade-bot.git`.
+
+Notes:
+- All Must-Have and Sprint 1-4 checklist items are completed per PROJECT_SPEC.md §2/§6.
+- Remaining Nice-to-Have (payment module) has been implemented on `feat/payment-module` branches and merged into `main` in prior CI runs; no further action required for MVP.
+
+(Automated update performed by local agent.)
