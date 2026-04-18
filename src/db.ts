@@ -82,6 +82,12 @@ function initSchema(database: Database.Database) {
   if (!userColumns.some(c => c.name === 'trade_mode')) {
     database.exec(`ALTER TABLE users ADD COLUMN trade_mode TEXT DEFAULT 'dry-run'`);
   }
+
+  // Migration: add poster_enabled column to users if missing (default 1 = on)
+  const userCols2 = database.pragma('table_info(users)') as { name: string }[];
+  if (!userCols2.some(c => c.name === 'poster_enabled')) {
+    database.exec(`ALTER TABLE users ADD COLUMN poster_enabled INTEGER DEFAULT 1`);
+  }
 }
 
 // --- User operations ---
@@ -95,6 +101,7 @@ export interface User {
   max_trade_size_sol: number;
   slippage_bps: number;
   trade_mode: TradeMode;
+  poster_enabled: number;
 }
 
 export function getOrCreateUser(database: Database.Database, telegramId: string, username?: string): User {
@@ -146,6 +153,17 @@ export function setTradeMode(database: Database.Database, telegramId: string, mo
 export function getTradeMode(database: Database.Database, telegramId: string): TradeMode {
   const row = database.prepare('SELECT trade_mode FROM users WHERE telegram_id = ?').get(telegramId) as { trade_mode: string } | undefined;
   return (row?.trade_mode === 'devnet' ? 'devnet' : 'dry-run') as TradeMode;
+}
+
+// --- Poster operations ---
+
+export function setPosterEnabled(database: Database.Database, telegramId: string, enabled: boolean) {
+  database.prepare('UPDATE users SET poster_enabled = ? WHERE telegram_id = ?').run(enabled ? 1 : 0, telegramId);
+}
+
+export function getPosterEnabled(database: Database.Database, telegramId: string): boolean {
+  const row = database.prepare('SELECT poster_enabled FROM users WHERE telegram_id = ?').get(telegramId) as { poster_enabled: number } | undefined;
+  return (row?.poster_enabled ?? 1) === 1;
 }
 
 // --- Whale watch operations ---

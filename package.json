@@ -6,6 +6,12 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsx src/index.ts",
+    "start": "node dist/index.js",
+    "pm2:demo": "npm run build && pm2 start ecosystem.config.js",
+    "pm2:devnet": "npm run build && pm2 start ecosystem.config.js --env devnet",
+    "pm2:live": "npm run build && pm2 start ecosystem.config.js --env live",
+    "pm2:stop": "pm2 stop copy-trade-bot",
+    "pm2:logs": "pm2 logs copy-trade-bot",
     "test": "vitest run",
     "test:watch": "vitest",
     "demo": "tsx scripts/e2e-demo.ts",
