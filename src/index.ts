@@ -1,107 +1,120 @@
-import 'dotenv/config';
-import { Connection } from '@solana/web3.js';
-import { getDb, getAllWatchedAddresses } from './db';
-import { createBot } from './bot';
-import { WhaleListener } from './whale-listener';
-import { processWhaleTrade } from './copy-policy';
-import { loadDevnetConfig, getDevnetConnection } from './devnet-config';
-import { getDevnetRpcUrl } from './trade-executor';
-import { validateEnv } from './env-validation';
+#!/usr/bin/env ts-node
+import { Connection, Keypair, PublicKey, LAMPORTS_PER_SOL } from "@solana/web3.js";
+import * as fs from "fs";
+import * as path from "path";
+import { config as loadEnv } from "dotenv";
+import { TradeListener } from "./listener";
+import { Executor } from "./executor";
+import { Trade } from "./types";
 
-// Catch unhandled errors to prevent silent crashes
-process.on('uncaughtException', (err) => {
-  console.error('[Main] Uncaught exception:', err);
-  process.exit(1);
-});
+loadEnv(); // reads .env from project root
 
-process.on('unhandledRejection', (reason) => {
-  console.error('[Main] Unhandled rejection:', reason);
-});
+// ---- helpers ----
 
-async function main() {
-  // Validate environment variables at startup
-  const envCheck = validateEnv();
-  for (const w of envCheck.warnings) {
-    console.warn(`[Main] WARNING: ${w}`);
-  }
-  if (!envCheck.valid) {
-    for (const e of envCheck.errors) {
-      console.error(`[Main] ENV ERROR: ${e}`);
-    }
-    console.error('[Main] Fix the above environment errors and restart. See .env.example for reference.');
+function env(key: string, fallback?: string): string {
+  const v = process.env[key] ?? fallback;
+  if (!v) {
+    console.error(`Missing env var: ${key}`);
     process.exit(1);
   }
+  return v;
+}
 
-  const botToken = process.env.BOT_TOKEN!;
+function loadKeypair(p: string): Keypair {
+  const raw = JSON.parse(fs.readFileSync(path.resolve(p), "utf-8"));
+  return Keypair.fromSecretKey(Uint8Array.from(raw));
+}
 
-  const devnetConfig = loadDevnetConfig();
-  const rpcUrl = devnetConfig.rpcUrl;
-  const wsUrl = process.env.SOLANA_WS_URL;
+// ---- CLI ----
 
-  console.log(`[Main] Network: ${devnetConfig.network}, Live trading: ${devnetConfig.enableLiveTrading}`);
+const [, , command] = process.argv;
 
-  // Initialize database
-  const db = getDb();
-  console.log('[Main] Database initialized');
+async function demo() {
+  console.log("=== Copy-Trade Bot — DEMO (dry-run) ===\n");
 
-  // Create connection for devnet trading (validated as devnet by devnet-config)
-  const connection = getDevnetConnection(rpcUrl);
-  console.log(`[Main] Devnet RPC: ${rpcUrl}`);
+  const rpcUrl = env("RPC_URL", "https://api.devnet.solana.com");
+  // Use a well-known devnet address as a demonstration source
+  const sourcePubkey = new PublicKey(
+    env("SOURCE_PUBKEY", "11111111111111111111111111111111")
+  );
 
-  // Create Telegram bot
-  const bot = createBot(botToken, db, rpcUrl);
+  const connection = new Connection(rpcUrl, "confirmed");
+  const dummyKeypair = Keypair.generate(); // throwaway for demo
 
-  // Create whale listener
-  const listener = new WhaleListener();
+  const listener = new TradeListener(connection, sourcePubkey);
+  const executor = new Executor(connection, dummyKeypair, /* dryRun */ true);
 
-  // Load existing watched addresses
-  const addresses = getAllWatchedAddresses(db);
-  addresses.forEach(addr => listener.addAddress(addr));
-  console.log(`[Main] Loaded ${addresses.length} watched addresses`);
+  // Simulate a trade event to prove the pipeline works end-to-end
+  const fakeTrade: Trade = {
+    signature: "DEMO_SIG_" + Date.now(),
+    from: sourcePubkey.toBase58(),
+    to: Keypair.generate().publicKey.toBase58(),
+    amount: 0.05 * LAMPORTS_PER_SOL,
+  };
 
-  // Wire up: when whale trades, process copy policy
-  listener.on('trade', async (trade) => {
-    try {
-      console.log(`[Main] Whale trade detected: ${trade.direction} ${trade.amountSol} SOL → ${trade.tokenMint}`);
-      await processWhaleTrade(db, trade, (telegramId, message) => {
-        bot.api.sendMessage(telegramId, message).catch(err => {
-          console.error(`[Main] Failed to notify user ${telegramId}:`, err.message);
-        });
-      }, connection);
-    } catch (err: any) {
-      console.error('[Main] Error processing whale trade:', err?.message || err);
-    }
+  console.log("Simulated trade detected:");
+  console.log(JSON.stringify(fakeTrade, null, 2));
+  console.log();
+
+  const result = await executor.executeTrade(fakeTrade);
+  console.log("Executor result:", result);
+  console.log("\nDemo complete. Use 'start' command with real keys for live mode.");
+}
+
+async function start() {
+  console.log("=== Copy-Trade Bot — LIVE ===\n");
+
+  const rpcUrl = env("RPC_URL");
+  const sourcePubkey = new PublicKey(env("SOURCE_PUBKEY"));
+  const keypairPath = env("KEYPAIR_PATH"); // path to follower wallet JSON
+
+  const connection = new Connection(rpcUrl, "confirmed");
+  const keypair = loadKeypair(keypairPath);
+
+  console.log(`RPC:    ${rpcUrl}`);
+  console.log(`Source: ${sourcePubkey.toBase58()}`);
+  console.log(`Wallet: ${keypair.publicKey.toBase58()}\n`);
+
+  const listener = new TradeListener(connection, sourcePubkey);
+  const executor = new Executor(connection, keypair, /* dryRun */ false);
+
+  listener.on("trade", async (trade: Trade) => {
+    console.log(`\n[TRADE] ${trade.signature}`);
+    console.log(`  ${trade.from} → ${trade.to}  amount=${trade.amount}${trade.mint ? `  mint=${trade.mint}` : ""}`);
+    const result = await executor.executeTrade(trade);
+    console.log(`  result: ${JSON.stringify(result)}`);
   });
 
-  listener.on('error', (err: any) => {
-    console.error('[Main] Whale listener error:', err?.message || err);
+  listener.on("error", (err: Error) => {
+    console.error("[LISTENER ERROR]", err.message);
   });
 
-  // Start services
-  try {
-    await listener.start(wsUrl);
-    console.log('[Main] Whale listener started');
-  } catch (err: any) {
-    console.error('[Main] Failed to start whale listener:', err?.message || err);
-    console.log('[Main] Continuing without whale listener — bot commands still work');
-  }
+  await listener.start();
+  console.log("Listening for trades… (Ctrl-C to stop)");
 
   // Graceful shutdown
-  const shutdown = () => {
-    console.log('[Main] Shutting down...');
+  process.on("SIGINT", () => {
+    console.log("\nStopping…");
     listener.stop();
-    bot.stop();
     process.exit(0);
-  };
-  process.on('SIGINT', shutdown);
-  process.on('SIGTERM', shutdown);
-
-  bot.start({
-    onStart: () => console.log('[Main] Telegram bot started'),
   });
 }
 
-main().catch(err => {
-  console.error('[Main] Fatal error:', err);
-  process.exit(1);
-});
+// ---- dispatch ----
+
+(async () => {
+  switch (command) {
+    case "demo":
+      await demo();
+      break;
+    case "start":
+      await start();
+      break;
+    default:
+      console.log("Usage: ts-node src/index.ts <demo|start>");
+      console.log("  demo        — dry-run with simulated trade (no keys needed)");
+      console.log("  start       — live mode (requires .env with RPC_URL, SOURCE_PUBKEY, KEYPAIR_PATH)");
+      console.log("\nSee also: npm run demo:devnet — sprint-2 end-to-end devnet demo");
+      process.exit(1);
+  }
+})();
