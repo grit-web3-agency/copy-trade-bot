@@ -85,3 +85,10 @@ Reminder triggered: 2026-04-25 15:12 Asia/Bangkok
 - Reminder: สรุปรายงานสถานะไปยังบอส (1) Sprint ที่ทำอยู่ (2) ปัญหา (3) Push code
 - Action: Draft already prepared in NOTIFICATIONS.md; recipient chat id not found in repo/config or memory. No Telegram send performed.
 
+
+Reminder triggered: 2026-04-25 16:12 Asia/Bangkok
+
+Prepared summary (Thai) for boss is up-to-date in this file. Status: NOT SENT — recipient chat id/username not available in repo or memory.
+
+If you want this sent now, provide boss Telegram chat id or authorize BOT_TOKEN usage.
+
