@@ -128,3 +128,9 @@ Automated verification (cron reminder run):
 
 Commit note:
 - Latest local commit at verification: 9af3185
+
+Telegram summary:
+- Prepared on 2026-04-25 08:12 Asia/Bangkok
+- Status summary prepared for boss but NOT sent: recipient/Telegram chat id not found in project config or repo
+- Draft saved to NOTIFICATIONS.md in project root
+
