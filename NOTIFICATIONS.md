@@ -513,3 +513,18 @@ Reminder handled: 2026-04-26 04:40 Asia/Bangkok
 Reminder handled: 2026-04-26 05:11 Asia/Bangkok
 - Action: Re-read PROJECT_SPEC; ran unit tests (177 passed); built project; updated SPRINT_REPORT.md. No code changes required.
 - Status: Draft remains NOT SENT (boss Telegram chat id not found). To send, provide chat id or authorize BOT_TOKEN.
+
+
+Reminder: 2026-04-26 05:12 Asia/Bangkok — status report requested and prepared
+Telegram summary draft (Thai):
+
+สรุปรายงานสถานะ Copy-Trade Bot:
+1) Sprint ปัจจุบัน: Sprint 4 — Polish/Deploy (branch: dev/sprint-4-payment-stub)
+2) ปัญหาที่พบ: ไม่มีข้อบกพร่องที่บล็อกการทำงาน; unit tests ทั้งหมดผ่าน (177 passed). รายการที่ยังเป็น Nice-to-Have: payment module (stub) ถูกเพิ่มใน branch นี้เป็น placeholder; ยังต้องการ chat id ของบอสหรืออนุญาต BOT_TOKEN เพื่อส่งข้อความจริง
+3) Push code: โค้ดถูก push ไปที่ origin/dev/sprint-4-payment-stub (ล่าสุด commit: 86f0b34)
+
+หมายเหตุ: ข้อความยังไม่ถูกส่ง — recipient (boss Telegram chat id) ไม่พบใน repo หรือ memory. หากต้องการส่งจริง โปรดระบุ chat id หรืออนุญาต BOT_TOKEN ใช้งาน และยืนยันว่าจะให้ agent ส่งข้อความแทนคุณ
+
+Action taken:
+- รัน unit tests อีกครั้ง: 177 passed, 0 failed
+- อัปเดต SPRINT_REPORT.md และ NOTIFICATIONS.md พร้อม commit และ push
