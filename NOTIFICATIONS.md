@@ -484,3 +484,10 @@ Reminder handled: 2026-04-26 03:10 Asia/Bangkok
 Action: ran unit tests (results appended below). Draft summary remains in NOTIFICATIONS.md and is NOT SENT (boss chat id not found).
 
 Test run summary captured at: 2026-04-25 20:10:42 UTC
+
+Reminder triggered: 2026-04-26 03:12 Asia/Bangkok
+
+Status: Draft summary remains in NOTIFICATIONS.md; NOT SENT (boss chat id/username not found in repo or memory). Latest unit tests/build previously recorded: 177/177 passed.
+
+To send: provide boss chat id/username or authorize BOT_TOKEN. To continue org work (PR #1 in rustchain-bounties), explicit permission to spawn ACP/Claude agent (agentId) is required.
+
