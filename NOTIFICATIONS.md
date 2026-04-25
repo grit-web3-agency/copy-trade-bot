@@ -92,3 +92,10 @@ Prepared summary (Thai) for boss is up-to-date in this file. Status: NOT SENT â€
 
 If you want this sent now, provide boss Telegram chat id or authorize BOT_TOKEN usage.
 
+
+Reminder triggered: 2026-04-25 17:12 Asia/Bangkok
+
+Status: draft up-to-date in NOTIFICATIONS.md; NOT SENT (no boss chat id found). Latest summary in file.
+
+If you want this sent now, provide boss Telegram chat id/username or authorize BOT_TOKEN usage.
+
