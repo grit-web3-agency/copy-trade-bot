@@ -137,3 +137,344 @@ Reminder handled: 2026-04-26 00:40 Asia/Bangkok
 
 Action: ran unit tests; appended status to NOTIFICATIONS.md (draft remains UNSENT; boss chat id not found).
 
+
+Reminder handled: 2026-04-26 02:12 Asia/Bangkok
+
+Actions performed (internal):
+- Re-read PROJECT_SPEC and verified Sprint status (Sprint 4: Polish + Deploy).
+- Ran unit tests: results appended below.
+- Updated NOTIFICATIONS.md with this reminder entry (draft remains UNSENT; boss chat id not found).
+
+TEST RUN OUTPUT:
+
+ RUN  v3.2.4 /Users/m4/Web3_AI_Agency/projects/copy-trade-bot
+
+stdout | tests/payment.test.ts > payment module > verifyPayment (mocked) > always returns true on devnet
+[Payment] Mock verify: tx=any-sig, amount=0.1 SOL
+
+ ✓ tests/payment.test.ts (14 tests) 18ms
+ ✓ tests/pnl-tracker.test.ts (9 tests) 8ms
+stderr | tests/wallet-manager.test.ts > WalletManager > encrypt/decrypt > throws on invalid encrypted string
+[WalletManager] decryptSecret error: TypeError: The first argument must be of type string or an instance of Buffer, ArrayBuffer, or Array or an Array-like Object. Received undefined
+[90m    at Function.from (node:buffer:328:9)[39m
+    at decryptSecret [90m(/Users/m4/Web3_AI_Agency/projects/copy-trade-bot/[39msrc/wallet-manager.ts:28:30[90m)[39m
+    at [90m/Users/m4/Web3_AI_Agency/projects/copy-trade-bot/[39mtests/wallet-manager.test.ts:59:20
+    at Proxy.assertThrows [90m(file:///Users/m4/Web3_AI_Agency/projects/copy-trade-bot/[39mnode_modules/[4mchai[24m/index.js:2767:5[90m)[39m
+    at Proxy.methodWrapper [90m(file:///Users/m4/Web3_AI_Agency/projects/copy-trade-bot/[39mnode_modules/[4mchai[24m/index.js:1686:25[90m)[39m
+    at Proxy.<anonymous> [90m(file:///Users/m4/Web3_AI_Agency/projects/copy-trade-bot/[39mnode_modules/[4m@vitest/expect[24m/dist/index.js:1088:12[90m)[39m
+    at Proxy.overwritingMethodWrapper [90m(file:///Users/m4/Web3_AI_Agency/projects/copy-trade-bot/[39mnode_modules/[4mchai[24m/index.js:1735:33[90m)[39m
+    at Proxy.<anonymous> [90m(file:///Users/m4/Web3_AI_Agency/projects/copy-trade-bot/[39mnode_modules/[4m@vitest/expect[24m/dist/index.js:1420:16[90m)[39m
+    at Proxy.<anonymous> [90m(file:///Users/m4/Web3_AI_Agency/projects/copy-trade-bot/[39mnode_modules/[4m@vitest/expect[24m/dist/index.js:1029:14[90m)[39m
+    at Proxy.methodWrapper [90m(file:///Users/m4/Web3_AI_Agency/projects/copy-trade-bot/[39mnode_modules/[4mchai[24m/index.js:1686:25[90m)[39m {
+  code: [32m'ERR_INVALID_ARG_TYPE'[39m
+}
+
+stderr | tests/trade-executor.test.ts > TradeExecutor > executes a dry-run trade successfully
+[TradeExecutor] Jupiter quote retry 1: Error: mocked: no network in tests
+
+stderr | tests/trade-executor.test.ts > TradeExecutor > executes a dry-run trade successfully
+[TradeExecutor] Jupiter quote retry 2: Error: mocked: no network in tests
+
+ ✓ tests/wallet-manager.test.ts (8 tests) 55ms
+stderr | tests/trade-executor.test.ts > TradeExecutor > executes a dry-run trade successfully
+[TradeExecutor] Jupiter quote retry 3: Error: mocked: no network in tests
+
+stdout | tests/trade-executor.test.ts > TradeExecutor > executes a dry-run trade successfully
+[TradeExecutor] Jupiter quote error after retries: Error: mocked: no network in tests
+
+stderr | tests/trade-executor.test.ts > TradeExecutor > blocks duplicate in-flight trades
+[TradeExecutor] Duplicate trade blocked: 100:EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v:BUY
+
+ ✓ tests/devnet-safety.test.ts (16 tests) 59ms
+stderr | tests/trade-executor.test.ts > TradeExecutor > clears in-flight after trade completes
+[TradeExecutor] Jupiter quote retry 1: Error: mocked: no network in tests
+
+stderr | tests/trade-executor.test.ts > TradeExecutor > clears in-flight after trade completes
+[TradeExecutor] Jupiter quote retry 2: Error: mocked: no network in tests
+
+stderr | tests/trade-executor.test.ts > TradeExecutor > clears in-flight after trade completes
+[TradeExecutor] Jupiter quote retry 3: Error: mocked: no network in tests
+
+stdout | tests/trade-executor.real.test.ts > executeRealTrade with VersionedTransaction > returns error when no Jupiter quote available
+[TradeExecutor] Jupiter quote failed: 400
+
+stderr | tests/trade-executor.real.test.ts > executeRealTrade with VersionedTransaction > returns error when no Jupiter quote available
+[TradeExecutor] Jupiter quote retry 1: Error: Jupiter quote failed: 400
+
+stdout | tests/trade-executor.test.ts > TradeExecutor > clears in-flight after trade completes
+[TradeExecutor] Jupiter quote error after retries: Error: mocked: no network in tests
+
+stdout | tests/trade-executor.real.test.ts > executeRealTrade with VersionedTransaction > returns error when no Jupiter quote available
+[TradeExecutor] Jupiter quote failed: 400
+
+stderr | tests/trade-executor.real.test.ts > executeRealTrade with VersionedTransaction > returns error when no Jupiter quote available
+[TradeExecutor] Jupiter quote retry 2: Error: Jupiter quote failed: 400
+
+stderr | tests/trade-executor.test.ts > TradeExecutor > records trade in database
+[TradeExecutor] Jupiter quote retry 1: Error: mocked: no network in tests
+
+stdout | tests/trade-executor.real.test.ts > executeRealTrade with VersionedTransaction > returns error when no Jupiter quote available
+[TradeExecutor] Jupiter quote failed: 400
+
+stderr | tests/trade-executor.real.test.ts > executeRealTrade with VersionedTransaction > returns error when no Jupiter quote available
+[TradeExecutor] Jupiter quote retry 3: Error: Jupiter quote failed: 400
+
+stderr | tests/trade-mode.test.ts > processWhaleTrade with devnet mode > uses dry-run executor when mode is dry-run (default)
+[TradeExecutor] Jupiter quote retry 1: Error: mocked: no network in tests
+
+stderr | tests/devnet-trade-flow.test.ts > devnet trade flow (dry-run) > executes dry-run trade when live trading is disabled
+[TradeExecutor] Jupiter quote retry 1: Error: mocked: no network in tests
+
+stderr | tests/trade-executor.test.ts > TradeExecutor > records trade in database
+[TradeExecutor] Jupiter quote retry 2: Error: mocked: no network in tests
+
+stderr | tests/trade-mode.test.ts > processWhaleTrade with devnet mode > uses dry-run executor when mode is dry-run (default)
+[TradeExecutor] Jupiter quote retry 2: Error: mocked: no network in tests
+
+stdout | tests/trade-executor.real.test.ts > executeRealTrade with VersionedTransaction > returns error when no Jupiter quote available
+[TradeExecutor] Jupiter quote failed: 400
+
+stdout | tests/trade-executor.real.test.ts > executeRealTrade with VersionedTransaction > returns error when no Jupiter quote available
+[TradeExecutor] Jupiter quote error after retries: Error: Jupiter quote failed: 400
+
+stderr | tests/trade-executor.test.ts > TradeExecutor > records trade in database
+[TradeExecutor] Jupiter quote retry 3: Error: mocked: no network in tests
+
+stderr | tests/devnet-trade-flow.test.ts > devnet trade flow (dry-run) > executes dry-run trade when live trading is disabled
+[TradeExecutor] Jupiter quote retry 2: Error: mocked: no network in tests
+
+stderr | tests/trade-mode.test.ts > processWhaleTrade with devnet mode > uses dry-run executor when mode is dry-run (default)
+[TradeExecutor] Jupiter quote retry 3: Error: mocked: no network in tests
+
+stdout | tests/trade-executor.test.ts > TradeExecutor > records trade in database
+[TradeExecutor] Jupiter quote error after retries: Error: mocked: no network in tests
+
+stderr | tests/devnet-trade-flow.test.ts > devnet trade flow (dry-run) > executes dry-run trade when live trading is disabled
+[TradeExecutor] Jupiter quote retry 3: Error: mocked: no network in tests
+
+stdout | tests/trade-mode.test.ts > processWhaleTrade with devnet mode > uses dry-run executor when mode is dry-run (default)
+[TradeExecutor] Jupiter quote error after retries: Error: mocked: no network in tests
+
+stderr | tests/trade-executor.real.test.ts > executeRealTrade with VersionedTransaction > blocks duplicate in-flight real trades
+[TradeExecutor] Duplicate trade blocked: 200:TOKEN:BUY
+
+stderr | tests/trade-mode.test.ts > processWhaleTrade with devnet mode > uses dry-run executor when mode is dry-run (default)
+[Poster] Dashboard POST error: mocked: no network in tests
+
+stdout | tests/devnet-trade-flow.test.ts > devnet trade flow (dry-run) > executes dry-run trade when live trading is disabled
+[TradeExecutor] Jupiter quote error after retries: Error: mocked: no network in tests
+
+stderr | tests/trade-executor.test.ts > TradeExecutor > handles SELL direction
+[TradeExecutor] Jupiter quote retry 1: Error: mocked: no network in tests
+
+stderr | tests/trade-mode.test.ts > processWhaleTrade with devnet mode > uses real executor when mode is devnet and connection provided
+[Poster] Dashboard POST error: mocked: no network in tests
+
+stderr | tests/trade-mode.test.ts > processWhaleTrade with devnet mode > falls back to dry-run when devnet mode but no connection
+[TradeExecutor] Jupiter quote retry 1: Error: mocked: no network in tests
+
+stderr | tests/devnet-trade-flow.test.ts > devnet trade flow (dry-run) > executes dry-run trade when live trading is disabled
+[Poster] Dashboard POST error: mocked: no network in tests
+
+ ✓ tests/trade-executor.real.test.ts (5 tests) 77ms
+stderr | tests/trade-executor.test.ts > TradeExecutor > handles SELL direction
+[TradeExecutor] Jupiter quote retry 2: Error: mocked: no network in tests
+
+stderr | tests/trade-mode.test.ts > processWhaleTrade with devnet mode > falls back to dry-run when devnet mode but no connection
+[TradeExecutor] Jupiter quote retry 2: Error: mocked: no network in tests
+
+stderr | tests/trade-executor.test.ts > TradeExecutor > handles SELL direction
+[TradeExecutor] Jupiter quote retry 3: Error: mocked: no network in tests
+
+stderr | tests/devnet-trade-flow.test.ts > devnet trade flow (dry-run) > executes dry-run by default when no options provided
+[TradeExecutor] Jupiter quote retry 1: Error: mocked: no network in tests
+
+stderr | tests/trade-mode.test.ts > processWhaleTrade with devnet mode > falls back to dry-run when devnet mode but no connection
+[TradeExecutor] Jupiter quote retry 3: Error: mocked: no network in tests
+
+stdout | tests/trade-mode.test.ts > processWhaleTrade with devnet mode > falls back to dry-run when devnet mode but no connection
+[TradeExecutor] Jupiter quote error after retries: Error: mocked: no network in tests
+
+stderr | tests/trade-mode.test.ts > processWhaleTrade with devnet mode > falls back to dry-run when devnet mode but no connection
+[Poster] Dashboard POST error: mocked: no network in tests
+
+stdout | tests/trade-executor.test.ts > TradeExecutor > handles SELL direction
+[TradeExecutor] Jupiter quote error after retries: Error: mocked: no network in tests
+
+stderr | tests/devnet-trade-flow.test.ts > devnet trade flow (dry-run) > executes dry-run by default when no options provided
+[TradeExecutor] Jupiter quote retry 2: Error: mocked: no network in tests
+
+stderr | tests/trade-mode.test.ts > processWhaleTrade with devnet mode > mixed modes: one user dry-run, one devnet
+[TradeExecutor] Jupiter quote retry 1: Error: mocked: no network in tests
+
+ ✓ tests/trade-executor.test.ts (5 tests) 83ms
+stderr | tests/trade-mode.test.ts > processWhaleTrade with devnet mode > mixed modes: one user dry-run, one devnet
+[TradeExecutor] Jupiter quote retry 2: Error: mocked: no network in tests
+
+stderr | tests/devnet-trade-flow.test.ts > devnet trade flow (dry-run) > executes dry-run by default when no options provided
+[TradeExecutor] Jupiter quote retry 3: Error: mocked: no network in tests
+
+stdout | tests/devnet-trade-flow.test.ts > devnet trade flow (dry-run) > executes dry-run by default when no options provided
+[TradeExecutor] Jupiter quote error after retries: Error: mocked: no network in tests
+
+stderr | tests/trade-mode.test.ts > processWhaleTrade with devnet mode > mixed modes: one user dry-run, one devnet
+[TradeExecutor] Jupiter quote retry 3: Error: mocked: no network in tests
+
+stderr | tests/devnet-trade-flow.test.ts > devnet trade flow (dry-run) > executes dry-run by default when no options provided
+[Poster] Dashboard POST error: mocked: no network in tests
+
+stderr | tests/copy-policy.test.ts > processWhaleTrade > executes dry-run trade for users watching the whale
+[TradeExecutor] Jupiter quote retry 1: Error: mocked: no network in tests
+
+stderr | tests/copy-policy.test.ts > processWhaleTrade > executes dry-run trade for users watching the whale
+[TradeExecutor] Jupiter quote retry 2: Error: mocked: no network in tests
+
+stderr | tests/devnet-trade-flow.test.ts > devnet trade flow (dry-run) > caps trade to user max_trade_size_sol
+[TradeExecutor] Jupiter quote retry 1: Error: mocked: no network in tests
+
+stdout | tests/trade-mode.test.ts > processWhaleTrade with devnet mode > mixed modes: one user dry-run, one devnet
+[TradeExecutor] Jupiter quote error after retries: Error: mocked: no network in tests
+
+stderr | tests/trade-mode.test.ts > processWhaleTrade with devnet mode > mixed modes: one user dry-run, one devnet
+[Poster] Dashboard POST error: mocked: no network in tests
+
+stderr | tests/trade-mode.test.ts > processWhaleTrade with devnet mode > mixed modes: one user dry-run, one devnet
+[Poster] Dashboard POST error: mocked: no network in tests
+
+stderr | tests/copy-policy.test.ts > processWhaleTrade > executes dry-run trade for users watching the whale
+[TradeExecutor] Jupiter quote retry 3: Error: mocked: no network in tests
+
+ ✓ tests/trade-mode.test.ts (8 tests) 83ms
+stderr | tests/devnet-trade-flow.test.ts > devnet trade flow (dry-run) > caps trade to user max_trade_size_sol
+[TradeExecutor] Jupiter quote retry 2: Error: mocked: no network in tests
+
+stderr | tests/devnet-trade-flow.test.ts > devnet trade flow (dry-run) > caps trade to user max_trade_size_sol
+[TradeExecutor] Jupiter quote retry 3: Error: mocked: no network in tests
+
+stdout | tests/copy-policy.test.ts > processWhaleTrade > executes dry-run trade for users watching the whale
+[TradeExecutor] Jupiter quote error after retries: Error: mocked: no network in tests
+
+stdout | tests/devnet-trade-flow.test.ts > devnet trade flow (dry-run) > caps trade to user max_trade_size_sol
+[TradeExecutor] Jupiter quote error after retries: Error: mocked: no network in tests
+
+stderr | tests/copy-policy.test.ts > processWhaleTrade > executes dry-run trade for users watching the whale
+[Poster] Dashboard POST error: mocked: no network in tests
+
+stderr | tests/devnet-trade-flow.test.ts > devnet trade flow (dry-run) > caps trade to user max_trade_size_sol
+[Poster] Dashboard POST error: mocked: no network in tests
+
+stdout | tests/devnet-trade-flow.test.ts > devnet trade flow (dry-run) > blocks dust trades below minimum
+[CopyPolicy] Blocked for user flow-user-1: Trade size 0.0001 SOL too small (min 0.001)
+
+stderr | tests/devnet-trade-flow.test.ts > devnet trade flow (dry-run) > notifies user with trade status
+[TradeExecutor] Jupiter quote retry 1: Error: mocked: no network in tests
+
+stderr | tests/devnet-trade-flow.test.ts > devnet trade flow (dry-run) > notifies user with trade status
+[TradeExecutor] Jupiter quote retry 2: Error: mocked: no network in tests
+
+stderr | tests/copy-policy.test.ts > processWhaleTrade > handles multiple users watching same whale
+[TradeExecutor] Jupiter quote retry 1: Error: mocked: no network in tests
+
+stderr | tests/devnet-trade-flow.test.ts > devnet trade flow (dry-run) > notifies user with trade status
+[TradeExecutor] Jupiter quote retry 3: Error: mocked: no network in tests
+
+stdout | tests/devnet-trade-flow.test.ts > devnet trade flow (dry-run) > notifies user with trade status
+[TradeExecutor] Jupiter quote error after retries: Error: mocked: no network in tests
+
+stderr | tests/devnet-trade-flow.test.ts > devnet trade flow (dry-run) > notifies user with trade status
+[Poster] Dashboard POST error: mocked: no network in tests
+
+stderr | tests/copy-policy.test.ts > processWhaleTrade > handles multiple users watching same whale
+[TradeExecutor] Jupiter quote retry 2: Error: mocked: no network in tests
+
+stderr | tests/copy-policy.test.ts > processWhaleTrade > handles multiple users watching same whale
+[TradeExecutor] Jupiter quote retry 3: Error: mocked: no network in tests
+
+ ✓ tests/devnet-trade-flow.test.ts (6 tests) 111ms
+stdout | tests/copy-policy.test.ts > processWhaleTrade > handles multiple users watching same whale
+[TradeExecutor] Jupiter quote error after retries: Error: mocked: no network in tests
+
+stderr | tests/copy-policy.test.ts > processWhaleTrade > handles multiple users watching same whale
+[Poster] Dashboard POST error: mocked: no network in tests
+
+stderr | tests/copy-policy.test.ts > processWhaleTrade > handles multiple users watching same whale
+[TradeExecutor] Jupiter quote retry 1: Error: mocked: no network in tests
+
+stderr | tests/copy-policy.test.ts > processWhaleTrade > handles multiple users watching same whale
+[TradeExecutor] Jupiter quote retry 2: Error: mocked: no network in tests
+
+stderr | tests/copy-policy.test.ts > processWhaleTrade > handles multiple users watching same whale
+[TradeExecutor] Jupiter quote retry 3: Error: mocked: no network in tests
+
+stdout | tests/copy-policy.test.ts > processWhaleTrade > handles multiple users watching same whale
+[TradeExecutor] Jupiter quote error after retries: Error: mocked: no network in tests
+
+stderr | tests/copy-policy.test.ts > processWhaleTrade > handles multiple users watching same whale
+[Poster] Dashboard POST error: mocked: no network in tests
+
+ ✓ tests/copy-policy.test.ts (11 tests) 101ms
+stderr | tests/retry.test.ts > withRetry > retries on failure then succeeds
+[Retry] Attempt 1/3 failed, retrying in 1ms...
+
+stderr | tests/retry.test.ts > withRetry > retries on failure then succeeds
+[Retry] Attempt 2/3 failed, retrying in 2ms...
+
+stderr | tests/retry.test.ts > withRetry > throws after exhausting retries
+[Retry] Attempt 1/2 failed, retrying in 1ms...
+
+stderr | tests/retry.test.ts > withRetry > throws after exhausting retries
+[Retry] Attempt 2/2 failed, retrying in 2ms...
+
+stderr | tests/retry.test.ts > withRetry > respects maxDelayMs cap
+[Retry] Attempt 1/1 failed, retrying in 50ms...
+
+ ✓ tests/retry.test.ts (5 tests) 14ms
+ ✓ tests/watch-command.test.ts (7 tests) 20ms
+ ✓ tests/settings.test.ts (11 tests) 9ms
+ ✓ tests/env-validation.test.ts (11 tests) 2ms
+ ✓ tests/unwatch-command.test.ts (7 tests) 9ms
+stderr | tests/poster.test.ts > poster > postToDashboard > returns false on non-ok response
+[Poster] Dashboard POST failed: 500
+
+stderr | tests/poster.test.ts > poster > postToDashboard > returns false on network error
+[Poster] Dashboard POST error: ECONNREFUSED
+
+stderr | tests/poster.test.ts > poster > postToDiscord > returns false on error
+[Poster] Discord POST error: timeout
+
+ ✓ tests/poster.test.ts (11 tests) 19ms
+stderr | tests/error-handling.test.ts > WhaleListener error handling > parseTransaction returns null for null input
+[WhaleListener] parseTransaction: missing signature
+
+stderr | tests/error-handling.test.ts > WhaleListener error handling > parseTransaction returns null for missing signature
+[WhaleListener] parseTransaction: missing signature
+
+stdout | tests/error-handling.test.ts > WhaleListener error handling > start is idempotent (second call is no-op)
+[WhaleListener] Started monitoring 0 addresses
+
+stdout | tests/error-handling.test.ts > WhaleListener error handling > start is idempotent (second call is no-op)
+[WhaleListener] Stopped
+
+ ✓ tests/error-handling.test.ts (7 tests) 3ms
+ ✓ tests/db.test.ts (12 tests) 31ms
+stdout | tests/whale-listener.test.ts > WhaleListener > starts and stops correctly
+[WhaleListener] Started monitoring 0 addresses
+
+stdout | tests/whale-listener.test.ts > WhaleListener > starts and stops correctly
+[WhaleListener] Stopped
+
+ ✓ tests/whale-listener.test.ts (4 tests) 15ms
+stdout | tests/whale-listener-ws.test.ts > WhaleListener websocket parsing > address management with ws > addAddress after start still tracks correctly
+[WhaleListener] Started monitoring 1 addresses
+
+stdout | tests/whale-listener-ws.test.ts > WhaleListener websocket parsing > address management with ws > addAddress after start still tracks correctly
+[WhaleListener] Stopped
+
+ ✓ tests/whale-listener-ws.test.ts (11 tests) 16ms
+ ✓ tests/devnet-config.test.ts (9 tests) 3ms
+
+ Test Files  20 passed (20)
+      Tests  177 passed (177)
+   Start at  02:12:40
+   Duration  917ms (transform 241ms, setup 242ms, collect 1.35s, tests 736ms, environment 9ms, prepare 1.25s)
+
