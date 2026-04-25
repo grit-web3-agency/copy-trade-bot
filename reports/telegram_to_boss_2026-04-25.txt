@@ -28,3 +28,5 @@ Time: 2026-04-25 05:12 Asia/Bangkok
 - ข้อความฉบับนี้ถูกบันทึกไว้ที่ reports/telegram_to_boss_2026-04-25.txt ภายใน repository หากอนุญาตหรือให้ chat id ผมจะส่งให้ทันที.
 
 - Agent
+
+Send attempt: 2026-04-25 07:12 Asia/Bangkok — attempt to send Telegram summary to Jack failed: no BOT_TOKEN or target chat id available in workspace. Message saved in this file.
