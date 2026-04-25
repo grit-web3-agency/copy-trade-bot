@@ -75,3 +75,8 @@ Prepared message for boss (Thai):
 
 Action: draft saved to NOTIFICATIONS.md; no Telegram API call performed.
 
+
+Routine reminder triggered: 2026-04-25 14:12 Asia/Bangkok
+
+Prepared message for boss (Thai) and saved here. Not sent: recipient chat id/username not found in repo config or memory. To send, provide chat id/username or update config with recipient and BOT_TOKEN.
+
