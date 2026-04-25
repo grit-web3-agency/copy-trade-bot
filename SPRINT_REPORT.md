@@ -178,3 +178,10 @@ Automated verification (reminder run):
 Commit note:
 - Latest local commit: 5214963 chore(notify): prepare telegram summary draft (not sent)
 
+
+Automated verification (reminder run):
+- Verified again on 2026-04-25 12:40 Asia/Bangkok
+- Ran tests: [WhaleListener] Started monitoring 0 addresses  stdout | tests/whale-listener.test.ts > WhaleListener > starts and stops correctly [WhaleListener] Stopped   ✓ tests/whale-listener.test.ts (4 tests) 10ms stdout | tests/whale-listener-ws.test.ts > WhaleListener websocket parsing > address management with ws > addAddress after start still tracks correctly [WhaleListener] Started monitoring 1 addresses  stdout | tests/whale-listener-ws.test.ts > WhaleListener websocket parsing > address management with ws > addAddress after start still tracks correctly [WhaleListener] Stopped   ✓ tests/whale-listener-ws.test.ts (11 tests) 10ms  ✓ tests/devnet-config.test.ts (9 tests) 2ms   Test Files  20 passed (20)       Tests  177 passed (177)    Start at  12:40:49    Duration  884ms (transform 260ms, setup 321ms, collect 1.37s, tests 754ms, environment 2ms, prepare 1.07s)  
+- Ran build: (see build log)
+- Branch: dev/sprint-4-polish (up-to-date with origin)
+
