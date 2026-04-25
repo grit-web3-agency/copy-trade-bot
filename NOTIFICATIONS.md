@@ -118,3 +118,10 @@ Prepared status summary for boss (NOT SENT):
 
 If you want this sent now, provide boss chat id/username or authorize BOT_TOKEN usage.
 
+
+Reminder triggered: 2026-04-25 22:12 Asia/Bangkok
+
+Prepared status summary for boss (draft, NOT SENT). Reason: boss Telegram chat id/username not found in repo or memory; BOT_TOKEN not authorized for use.
+
+If you want this sent, provide boss chat id/username or authorize BOT_TOKEN usage.
+
