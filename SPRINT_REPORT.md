@@ -315,3 +315,13 @@ Automated verification (reminder run):
 - Ran build: succeeded
 - Branch: dev/sprint-4-payment-stub (up-to-date with origin)
 - Commit note: latest local commit: 531532f
+
+
+Automated completion entry:
+- Sprint 4 marked complete (verification).
+- Branch: dev/sprint-4-payment-stub
+- Commit: 97e9031
+- Tests: 177 passed, 0 failed
+- Build: succeeded
+- Verified at: 2026-04-26 10:10 Asia/Bangkok
+
