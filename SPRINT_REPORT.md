@@ -111,3 +111,22 @@ Reminder handled: 2026-04-28 16:54 Asia/Bangkok
 - Action taken: No code changes required; updated SPRINT_REPORT.md to record sprint completion and pushed branch to origin.
 - Delivery: Sprint 4 closed for MVP scope. Remaining Nice-to-Have (production billing) deferred.
 - Draft summary: drafts/telegram_copy_trade_boss_2026-04-28.txt
+
+Reminder handled: 2026-04-28 17:46 Asia/Bangkok
+- Action: Status report prepared for boss: Sprint 4 (dev/sprint-4-payment-stub) — tests/build verified.
+- Branch: dev/sprint-4-payment-stub (up-to-date with origin).
+- Action taken: Created draft Telegram summary and recorded handling in SPRINT_REPORT.md. BOT_TOKEN/chat id not configured, so message not sent.
+- Draft summary: drafts/telegram_copy_trade_boss_2026-04-28-17-46.txt
+
+Reminder handled: 2026-04-28 17:46 Asia/Bangkok
+- Action: Status report prepared for boss: Sprint 4 (dev/sprint-4-payment-stub) — tests/build verified.
+- Branch: dev/sprint-4-payment-stub (up-to-date with origin).
+- Action taken: Created draft Telegram summary and recorded handling in SPRINT_REPORT.md. BOT_TOKEN/chat id not configured, so message not sent.
+- Draft summary: drafts/telegram_copy_trade_boss_2026-04-28-17-46.txt
+
+Reminder handled: 2026-04-28 18:45 Asia/Bangkok
+- Action: Re-read PROJECT_SPEC; verified tests and build (vitest: 177 passed, tsc build OK).
+- Branch: dev/sprint-4-payment-stub (current branch; up-to-date with origin).
+- Action taken: No code changes required; updated SPRINT_REPORT.md to record reminder handling and pushed to origin.
+- Notes: Payment module remains dev-only stub; production billing deferred.
+- Draft summary location: drafts/telegram_copy_trade_boss_2026-04-28.txt
