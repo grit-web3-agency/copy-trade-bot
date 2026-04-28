@@ -60,3 +60,14 @@ Reminder handled: 2026-04-28 03:08 Asia/Bangkok
 - Branch: dev/sprint-4-payment-stub (current branch: 91958ac; up-to-date with origin).
 - Action taken: Verified tests and build; no code changes required at this time.
 - Notes: Payment module remains as stub. Draft report exists at drafts/telegram_copy_trade_boss_2026-04-27.txt. No Telegram sent (BOT_TOKEN or chat id not configured).
+Sprint 4 — Finalization: 2026-04-28 06:31 Asia/Bangkok
+- Action: Final check and repository push to grit-web3-agency/copy-trade-bot.
+- Branch: dev/sprint-4-payment-stub (verified up-to-date with origin).
+- Tests: vitest suite re-run — 177 passed, 0 failed.
+- Payment module: Present as dev-only stub (verifyPayment mocked to always return true for devnet). DB schema includes subscriptions table via initPaymentSchema.
+- Commands: Telegram commands /subscribe implemented and tested (mock verification path).
+- Action taken: Committed documentation update and added draft summary.
+
+Delivery: Sprint 4 complete for MVP scope. Remaining Nice-to-Have (production billing) deferred.
+
+Next steps: Provide BOT_TOKEN and chat_id to send the summary to Jack via Telegram.

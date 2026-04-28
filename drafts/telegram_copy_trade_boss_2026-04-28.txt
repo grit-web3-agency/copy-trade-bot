@@ -1,0 +1,20 @@
+Sprint 4 — Copy-Trade Bot (Finalized)
+
+Time: 2026-04-28 06:31 (Asia/Bangkok)
+Branch: dev/sprint-4-payment-stub
+
+Summary:
+- Re-ran full test suite (vitest): 177 passed, 0 failed.
+- Build (tsc) completed successfully.
+- Payment module: implemented as a dev-only stub. verifyPayment() returns true in dev/test; subscriptions persisted to SQLite via subscriptions table (initPaymentSchema).
+- Telegram commands: /subscribe implemented with mock verification path. DB schema updated for subscriptions.
+
+Notes:
+- Payment module production integration (billing gateway, webhooks) intentionally deferred — out of scope for MVP and blocked by budget (free-tier requirement).
+- All changes are devnet-only and comply with PROJECT_SPEC.
+
+Next steps (if you want):
+- Send this summary to Jack via Telegram. Provide BOT_TOKEN in workspace .env and the chat id to send to.
+
+Regards,
+Copy-Trade Bot CI
