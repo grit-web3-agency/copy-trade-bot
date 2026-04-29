@@ -29,9 +29,10 @@ Reminder handled: 2026-04-29 22:49 Asia/Bangkok
 - Action taken: No sprint code changes required; drafted Telegram summary at drafts/telegram_copy_trade_boss_2026-04-29-22-49.txt and recorded this handling in SPRINT_REPORT.md.
 - Notes: Sprint 4 remains closed for MVP scope. Production billing/webhooks deferred (Nice-to-Have). To send Telegram automatically, provide BOT_TOKEN in workspace .env and the target chat id for Jack.
 
-Reminder handled: 2026-04-30 00:20 Asia/Bangkok
-- Action: Re-read PROJECT_SPEC and re-ran build/tests (tsc + vitest) — 177 tests passed, build OK.
+Reminder handled: 2026-04-30 01:05 Asia/Bangkok
+- Action: Re-read PROJECT_SPEC and re-ran tests (vitest). Results: test run produced failures/timeouts — 3 tests failed, 2 unhandled errors; test summary: Test Files 3 failed | 16 passed (20), Tests 3 failed | 169 passed (172). 
 - Branch: dev/sprint-4-payment-stub (current branch; up-to-date with origin).
-- Action taken: No sprint code changes required; drafted Telegram summary at drafts/telegram_copy_trade_boss_2026-04-30-00-20.txt and recorded this handling in SPRINT_REPORT.md.
-- Notes: Sprint 4 remains closed for MVP scope. Production billing/webhooks deferred (Nice-to-Have). To send Telegram automatically, provide BOT_TOKEN in workspace .env and the target chat id for Jack.
+- Action taken: Drafted Telegram summary at drafts/telegram_copy_trade_boss_2026-04-30-01-05.txt and recorded this handling in SPRINT_REPORT.md.
+- Notes: Investigate vitest worker timeouts (onTaskUpdate / fetch) and long-running tests. To send Telegram automatically, provide BOT_TOKEN in workspace .env and the target chat id for Jack.
+
 
