@@ -1,0 +1,26 @@
+Routine check — 2026-04-29 12:40 (Asia/Bangkok)
+
+Task: Check pending work in GitHub org grit-web3-agency; if pending, run Claude CLI to continue, then run DeepSeek tests; report summary to boss via Telegram.
+
+Repos checked:
+- copy-trade-bot: issues enabled — no open issues found.
+- mimictrade: issues enabled — no open issues found.
+- mimictrade-app: issues enabled — no open issues found.
+- mimictrade-api: issues enabled — no open issues found.
+- mimictrade-vault: issues enabled — no open issues found.
+- core: issues disabled.
+- rustchain-bounties: issues disabled.
+
+Action taken:
+- No open issues/tasks found across checked repositories — nothing to hand off to Claude CLI.
+- Did NOT run Claude CLI or DeepSeek tests because no pending tasks.
+
+Telegram:
+- Draft summary stored at drafts/routine_check_github_2026-04-29-12-40.txt (this file).
+- Not sent: workspace has no BOT_TOKEN/.env and no chat id configured.
+
+If you want automated runs when open issues appear, provide:
+- Claude CLI agentId or confirm ACP agent to use
+- BOT_TOKEN and chat id (or allow sending via configured channel)
+
+Signed-off-by: Automated routine checker
