@@ -1,0 +1,18 @@
+Sprint 4 — Copy-Trade Bot (Status Update)
+
+Time: 2026-04-30 00:20 (Asia/Bangkok)
+Branch: dev/sprint-4-payment-stub
+
+Summary:
+- Sprint: Completed Sprint 4 (polish, payment stub).
+- Tests: vitest — 177 passed, 0 failed.
+- Build: TypeScript compilation (tsc) completed successfully.
+- Payment: Dev-only stub (verifyPayment mocked to always return true). Subscriptions persisted to SQLite (subscriptions table). Production billing integration deferred (MVP scope).
+- Issues: No blocking issues for MVP. Remaining Nice-to-Have: production billing/webhooks (deferred).
+- Push: Code committed & pushed to origin on branch dev/sprint-4-payment-stub.
+
+Next steps:
+- Provide BOT_TOKEN and boss chat id to send this via Telegram, or approve sending from workspace .env.
+
+Regards,
+Automated CI
