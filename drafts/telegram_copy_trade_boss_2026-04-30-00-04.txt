@@ -1,0 +1,19 @@
+รายงานสถานะ — Copy-Trade Bot
+
+เวลา: 2026-04-30 00:04 (Asia/Bangkok)
+สาขา: dev/sprint-4-payment-stub
+
+1) ทำถึง Sprint ไหน:
+- Sprint 4 (polish / payment-stub). MVP scope ครบตามสเปค devnet-only.
+
+2) ปัญหา/ข้อสังเกต:
+- โมดูลการชำระเงินยังเป็นสเตับสำหรับ dev (verifyPayment mocked → คืนค่า true เสมอ)
+- Production billing (webhooks, real payments) ถูกเลื่อนไปเป็น Nice-to-Have — ไม่เป็นปัญหา blocking สำหรับ MVP
+
+3) Push code แล้วหรือยัง:
+- ใช่: commit 30515ff บน branch dev/sprint-4-payment-stub ถูก push ไปยัง origin (grit-web3-agency/copy-trade-bot)
+- Build & Tests: tsc สำเร็จ, vitest — 177/177 tests ผ่าน
+
+ถ้าต้องการให้ผมส่งข้อความนี้ให้บอส ให้วาง BOT_TOKEN ใน /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/.env และบอก chat_id ของบอส หรืออนุญาตให้ผมใช้ค่าใน .env (ผมจะขออนุมัติก่อนส่ง)
+
+— Automated CI
