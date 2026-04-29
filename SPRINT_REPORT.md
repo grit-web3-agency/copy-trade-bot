@@ -11,28 +11,16 @@ Previous entries preserved in the repository history.
 
 [...content truncated for brevity in file view...]
 
-Reminder handled: 2026-04-29 15:46 Asia/Bangkok
-- Action: Re-read PROJECT_SPEC; re-ran unit tests (177 passed) and built project (tsc) successfully.
-- Branch: dev/sprint-4-payment-stub (current branch; up-to-date with origin).
-- Action taken: Verified tests/build; drafted Telegram message at drafts/telegram_copy_trade_boss_2026-04-29-15-46.txt.
-- Notes: Telegram not sent — BOT_TOKEN/chat id not configured in workspace .env.
-
-Reminder handled: 2026-04-29 16:16 Asia/Bangkok
-- Action: Re-read PROJECT_SPEC; re-ran unit tests (177 passed) and built project (tsc) successfully.
-- Branch: dev/sprint-4-payment-stub (current branch; up-to-date with origin).
-- Action taken: Verified tests/build; drafted Telegram message at drafts/telegram_copy_trade_boss_2026-04-29-16-17.txt.
-- Notes: Telegram not sent — BOT_TOKEN/chat id not configured in workspace .env.
-
-Reminder handled: 2026-04-29 16:45 Asia/Bangkok
-- Action: Re-read PROJECT_SPEC; re-ran unit tests (177 passed) and built project (tsc) successfully.
-- Branch: dev/sprint-4-payment-stub (current branch; up-to-date with origin).
-- Action taken: Verified tests/build; drafted Telegram message at drafts/telegram_copy_trade_boss_2026-04-29-16-45.txt.
-- Notes: Telegram not sent — BOT_TOKEN/chat id not configured in workspace .env.
-
 Reminder handled: 2026-04-29 16:46 Asia/Bangkok
 - Action: Re-read PROJECT_SPEC; re-ran unit tests (177 passed) and built project (tsc) successfully.
 - Branch: dev/sprint-4-payment-stub (current branch; up-to-date with origin).
 - Action taken: Verified tests/build; drafted Telegram message at drafts/telegram_copy_trade_boss_2026-04-29-16-46.txt.
 - Notes: Telegram not sent — BOT_TOKEN/chat id not configured in workspace .env.
+
+Reminder handled: 2026-04-29 17:15 Asia/Bangkok
+- Action: Re-read PROJECT_SPEC; re-verified branch state and ensured code is pushed to grit-web3-agency/copy-trade-bot.
+- Branch: dev/sprint-4-payment-stub (current branch; up-to-date with origin).
+- Action taken: No functional code changes required for MVP; tests/build verified in previous runs.
+- Notes: Sprint 4 remains closed for MVP scope. Remaining Nice-to-Have (production billing) deferred. Draft summary available at drafts/telegram_copy_trade_boss_2026-04-29-17-15.txt
 
 
