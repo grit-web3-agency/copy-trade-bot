@@ -34,4 +34,3 @@ Reminder handled: 2026-04-29 19:45 Asia/Bangkok
 - Action taken: Verified tests/build; drafted Telegram message at drafts/telegram_copy_trade_boss_2026-04-29-19-45.txt and recorded handling in SPRINT_REPORT.md.
 - Notes: To send Telegram automatically, provide BOT_TOKEN in /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/.env and the target chat id for Jack.
 
-
