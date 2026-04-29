@@ -11,39 +11,10 @@ Previous entries preserved in the repository history.
 
 [...content truncated for brevity in file view...]
 
-Reminder handled: 2026-04-29 04:16 Asia/Bangkok
-- Action: Re-read PROJECT_SPEC; re-verified branch state and ensured code is pushed to grit-web3-agency/copy-trade-bot.
-- Branch: dev/sprint-4-payment-stub (current branch; up-to-date with origin).
-- Action taken: No functional code changes required for MVP; tests/build verified in previous runs.
-- Notes: Sprint 4 remains closed for MVP scope. Remaining Nice-to-Have (production billing) deferred. Draft summary available at drafts/telegram_copy_trade_boss_2026-04-28.txt
-
-Reminder handled: 2026-04-29 06:17 Asia/Bangkok
-- Action: Re-read PROJECT_SPEC; re-ran unit tests (177 passed) and built project (tsc) successfully.
-- Branch: dev/sprint-4-payment-stub (current branch; up-to-date with origin).
-- Action taken: No functional code changes required for MVP; tests/build verified. Ensured branch remains pushed to grit-web3-agency/copy-trade-bot.
-- Notes: Payment module remains dev-only stub; production billing deferred. Draft summary at drafts/telegram_copy_trade_boss_2026-04-29-04-45.txt.
-
-Reminder handled: 2026-04-29 06:45 Asia/Bangkok
-- Action: Prepared status summary; Sprint 4 complete; no blocking issues; code pushed to origin on dev/sprint-4-payment-stub.
-- Telegram: Draft created at drafts/telegram_copy_trade_boss_2026-04-29-06-45.txt; not sent (BOT_TOKEN/chat id not configured).
-
-Reminder handled: 2026-04-29 06:47 Asia/Bangkok
-- Action: Re-read PROJECT_SPEC; re-ran unit tests (177 passed) and built project (tsc) successfully.
-- Branch: dev/sprint-4-payment-stub (current branch; up-to-date with origin).
-- Action taken: No code changes required for MVP; updated SPRINT_REPORT.md to record this reminder handling and pushed branch to origin.
-- Notes: Sprint 4 remains closed for MVP scope. Remaining Nice-to-Have (production billing) deferred. Draft summary available at drafts/telegram_copy_trade_boss_2026-04-29-04-45.txt
-
-Reminder handled: 2026-04-29 07:17 Asia/Bangkok
-- Action: Re-read PROJECT_SPEC; ran unit tests (vitest) — 177 passed; built project (tsc) successfully.
-- Branch: dev/sprint-4-payment-stub (current branch; up-to-date with origin).
-- Action taken: No functional code changes required for MVP; tests and build verified. Ensured branch is pushed to grit-web3-agency/copy-trade-bot.
-- Draft: drafts/telegram_copy_trade_boss_2026-04-29-07-17.txt
-- Notes: Payment module remains dev-only stub; production billing/webhooks deferred (Nice-to-Have).
-
 Reminder handled: 2026-04-29 07:45 Asia/Bangkok
-- Action: Prepared status summary answering: 1) Sprint — Sprint 4 complete (polish + payment stub).
-- 2) Issues — No blocking issues; production billing integration deferred (Nice-to-Have).
-- 3) Push — Code pushed to origin on branch dev/sprint-4-payment-stub (verified).
-- Action taken: Drafted Telegram message at drafts/telegram_copy_trade_boss_2026-04-29-07-45.txt. Telegram not sent because BOT_TOKEN/chat id not configured in workspace .env.
+- Action: Re-read PROJECT_SPEC; re-ran unit tests (177 passed) and built project (tsc) successfully.
+- Branch: dev/sprint-4-payment-stub (current branch; up-to-date with origin).
+- Action taken: No functional code changes required for MVP; tests/build verified. Ensured branch is pushed to grit-web3-agency/copy-trade-bot.
+- Notes: Payment module remains dev-only stub; production billing deferred. Draft summary at drafts/telegram_copy_trade_boss_2026-04-29-07-45.txt.
 
 
