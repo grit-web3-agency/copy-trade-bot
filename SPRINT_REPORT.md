@@ -11,29 +11,6 @@ Previous entries preserved in the repository history.
 
 [...content truncated for brevity in file view...]
 
-Reminder handled: 2026-04-30 07:30 Asia/Bangkok
-- Action: Re-ran build/tests (tsc + vitest) — 177 tests passed, build OK.
-- Branch: dev/sprint-4-payment-stub (current branch; up-to-date with origin).
-- Action taken: Drafted Telegram summary at drafts/telegram_copy_trade_boss_2026-04-30-07-30.txt and recorded this handling in SPRINT_REPORT.md.
-
-Reminder handled: 2026-04-30 07:54 Asia/Bangkok
-- Action: Re-ran build/tests (tsc + vitest) — 177 tests passed, build OK.
-- Branch: dev/sprint-4-payment-stub (current branch; up-to-date with origin).
-- Action taken: Drafted Telegram summary at drafts/telegram_copy_trade_boss_2026-04-30-07-54.txt and recorded this handling in SPRINT_REPORT.md.
-- Notes: Unit tests produce expected mocked network errors for external services and an asserted decrypt error in wallet-manager tests; no blocking failures for MVP.
-
-Reminder handled: 2026-04-30 08:24 Asia/Bangkok
-- Action: Re-ran build/tests (tsc + vitest) — 177 tests passed, build OK.
-- Branch: dev/sprint-4-payment-stub (current branch; up-to-date with origin).
-- Action taken: Drafted Telegram summary at drafts/telegram_copy_trade_boss_2026-04-30-08-24.txt and recorded this handling in SPRINT_REPORT.md.
-- Notes: Routine GitHub checks scheduled; no outstanding local changes. To send Telegram automatically, provide BOT_TOKEN in workspace .env and the target chat id for Jack.
-
-Reminder handled: 2026-04-30 08:30 Asia/Bangkok
-- Action: Re-ran build/tests (tsc + vitest) — 177 tests passed, build OK.
-- Branch: dev/sprint-4-payment-stub (current branch; up-to-date with origin).
-- Action taken: Drafted Telegram summary at drafts/telegram_copy_trade_boss_2026-04-30-08-30.txt and recorded this handling in SPRINT_REPORT.md.
-- Notes: Routine GitHub checks scheduled; no outstanding local changes. To send Telegram automatically, provide BOT_TOKEN in workspace .env and the target chat id for Jack.
-
 Reminder handled: 2026-04-30 08:54 Asia/Bangkok
 - Action: Re-ran build/tests (tsc + vitest) — 177 tests passed, build OK.
 - Branch: dev/sprint-4-payment-stub (current branch; up-to-date with origin).
@@ -50,5 +27,11 @@ Reminder handled: 2026-04-30 09:30 Asia/Bangkok
 - Action: Re-ran build/tests (tsc + vitest) — 177 tests passed, build OK.
 - Branch: dev/sprint-4-payment-stub (current branch; up-to-date with origin).
 - Action taken: Drafted Telegram summary at drafts/telegram_copy_trade_boss_2026-04-30-09-30.txt and recorded this handling in SPRINT_REPORT.md.
+- Notes: Routine GitHub checks scheduled; no outstanding local changes. To send Telegram automatically, provide BOT_TOKEN in workspace .env and the target chat id for Jack.
+
+Reminder handled: 2026-04-30 09:54 Asia/Bangkok
+- Action: Re-ran build/tests (tsc + vitest) — 177 tests passed, build OK.
+- Branch: dev/sprint-4-payment-stub (current branch; up-to-date with origin).
+- Action taken: Drafted Telegram summary at drafts/telegram_copy_trade_boss_2026-04-30-09-54.txt and recorded this handling in SPRINT_REPORT.md.
 - Notes: Routine GitHub checks scheduled; no outstanding local changes. To send Telegram automatically, provide BOT_TOKEN in workspace .env and the target chat id for Jack.
 
