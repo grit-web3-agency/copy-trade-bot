@@ -4,35 +4,35 @@ import {
   getOrCreateUser,
   setCopyEnabled,
   addWatchedWhale,
+  removeWatchedWhale,
   getWatchedWhales,
   getWallet,
   setUserSettings,
   getUserSettings,
-  removeWatchedWhale,
-  removeAllWatchedWhales,
   setTradeMode,
   getTradeMode,
-  setPosterEnabled,
-  getPosterEnabled,
+  getRecentTrades,
+  isWhaleWatchedByAnyone,
 } from './db';
-import type { TradeMode } from './db';
-import { createAndStoreWallet, getBalance } from './wallet-manager';
-import { calculatePnL, formatPnLMessage } from './pnl-tracker';
+import { getPnlSummary, formatPnlMessage } from './pnl';
 import {
   PLANS,
+  formatPlans,
+  formatSubscriptionStatus,
+  activateSubscription,
   getUserPlan,
-  createSubscription,
-  verifyPayment,
-  formatPlansMessage,
-  initPaymentSchema,
+  checkWhaleLimit,
+  getTreasuryAddress,
 } from './payment';
+import { getActiveSubscription } from './db';
+import type { TradeMode } from './db';
+import { createAndStoreWallet, getBalance } from './wallet-manager';
 import { Connection, PublicKey } from '@solana/web3.js';
+import type { WhaleListener } from './whale-listener';
 
-export function createBot(token: string, database: Database.Database, rpcUrl?: string): Bot {
+export function createBot(token: string, database: Database.Database, rpcUrl?: string, listener?: WhaleListener): Bot {
   const bot = new Bot(token);
   const connection = new Connection(rpcUrl || 'https://api.devnet.solana.com');
-
-  initPaymentSchema(database);
 
   // /start — register user and create wallet
   bot.command('start', async (ctx) => {
@@ -54,14 +54,15 @@ export function createBot(token: string, database: Database.Database, rpcUrl?: s
         `Welcome to Copy-Trade Bot!\n\n` +
         `Your wallet: \`${pubkey}\`\n\n` +
         `Commands:\n` +
-        `/watch [address] — Monitor a whale wallet\n` +
-        `/unwatch [address|all] — Stop monitoring\n` +
+        `/watch [addr1] [addr2] ... — Monitor whale wallets\n` +
+        `/unwatch [addr1] [addr2] ... — Stop monitoring\n` +
         `/copy on|off — Toggle copy trading\n` +
         `/mode dry-run|devnet — Switch trading mode\n` +
         `/balance — Check your wallet balance\n` +
-        `/pnl — View profit/loss summary\n` +
+        `/pnl — View profit & loss summary\n` +
         `/settings — Configure max trade size & slippage\n` +
-        `/subscribe — Manage subscription plan\n` +
+        `/plans — View subscription plans\n` +
+        `/subscribe [plan] [tx] — Activate subscription\n` +
         `/help — Show this message`,
         { parse_mode: 'Markdown' }
       );
@@ -76,18 +77,19 @@ export function createBot(token: string, database: Database.Database, rpcUrl?: s
     await ctx.reply(
       `Copy-Trade Bot Commands:\n\n` +
       `/start — Register & create wallet\n` +
-      `/watch [address] — Monitor a whale wallet\n` +
-      `/unwatch [address|all] — Stop monitoring\n` +
+      `/watch [addr1] [addr2] ... — Monitor whale wallets\n` +
+      `/unwatch [addr1] [addr2] ... — Stop monitoring\n` +
       `/copy on|off — Toggle copy trading\n` +
       `/mode dry-run|devnet — Switch trading mode\n` +
       `/balance — Check your wallet balance\n` +
-      `/pnl — View profit/loss summary\n` +
+      `/pnl — View profit & loss summary\n` +
       `/settings — Configure max trade size & slippage\n` +
-      `/subscribe — Manage subscription plan`
+      `/plans — View subscription plans\n` +
+      `/subscribe [plan] [tx] — Activate subscription`
     );
   });
 
-  // /watch [address] — add whale address to monitoring
+  // /watch [address ...] — add one or more whale addresses to monitoring
   bot.command('watch', async (ctx) => {
     const telegramId = ctx.from?.id.toString();
     if (!telegramId) return;
@@ -96,14 +98,13 @@ export function createBot(token: string, database: Database.Database, rpcUrl?: s
       getOrCreateUser(database, telegramId, ctx.from?.username);
 
       const text = ctx.message?.text || '';
-      const parts = text.split(/\s+/);
-      const address = parts[1];
+      const parts = text.split(/\s+/).slice(1); // skip command
 
-      if (!address) {
+      if (parts.length === 0) {
         // Show current watched addresses
         const whales = getWatchedWhales(database, telegramId);
         if (whales.length === 0) {
-          await ctx.reply('No whale addresses being watched.\nUsage: /watch [solana_address]');
+          await ctx.reply('No whale addresses being watched.\nUsage: /watch [address1] [address2] ...');
         } else {
           const list = whales.map((w, i) => `${i + 1}. \`${w.whale_address}\``).join('\n');
           await ctx.reply(`Watched whales:\n${list}`, { parse_mode: 'Markdown' });
@@ -111,19 +112,77 @@ export function createBot(token: string, database: Database.Database, rpcUrl?: s
         return;
       }
 
-      // Validate Solana address format
-      try {
-        new PublicKey(address);
-      } catch {
-        await ctx.reply('Invalid Solana address. Please provide a valid base58 address.');
-        return;
+      // Validate all addresses first
+      const invalid: string[] = [];
+      const valid: string[] = [];
+      for (const addr of parts) {
+        try {
+          new PublicKey(addr);
+          valid.push(addr);
+        } catch {
+          invalid.push(addr);
+        }
       }
 
-      const whale = addWatchedWhale(database, telegramId, address);
-      await ctx.reply(`Now watching whale: \`${address}\``, { parse_mode: 'Markdown' });
+      if (invalid.length > 0) {
+        await ctx.reply(`Invalid address(es): ${invalid.join(', ')}\nSkipped. Provide valid base58 Solana addresses.`);
+        if (valid.length === 0) return;
+      }
+
+      // Add all valid addresses
+      const added: string[] = [];
+      for (const addr of valid) {
+        addWatchedWhale(database, telegramId, addr);
+        if (listener) listener.addAddress(addr);
+        added.push(addr);
+      }
+
+      const list = added.map(a => `\`${a}\``).join('\n');
+      await ctx.reply(`Now watching ${added.length} whale(s):\n${list}`, { parse_mode: 'Markdown' });
     } catch (err: any) {
       console.error('[Bot] /watch error:', err?.message || err);
       await ctx.reply('Failed to process watch command. Please try again.');
+    }
+  });
+
+  // /unwatch [address ...] — remove one or more whale addresses
+  bot.command('unwatch', async (ctx) => {
+    const telegramId = ctx.from?.id.toString();
+    if (!telegramId) return;
+
+    try {
+      getOrCreateUser(database, telegramId, ctx.from?.username);
+
+      const text = ctx.message?.text || '';
+      const parts = text.split(/\s+/).slice(1);
+
+      if (parts.length === 0) {
+        await ctx.reply('Usage: /unwatch [address1] [address2] ...');
+        return;
+      }
+
+      const removed: string[] = [];
+      const notFound: string[] = [];
+      for (const addr of parts) {
+        const ok = removeWatchedWhale(database, telegramId, addr);
+        if (ok) {
+          removed.push(addr);
+          // Remove from listener if no other user watches this address
+          if (listener && !isWhaleWatchedByAnyone(database, addr)) {
+            listener.removeAddress(addr);
+          }
+        } else {
+          notFound.push(addr);
+        }
+      }
+
+      const lines: string[] = [];
+      if (removed.length > 0) lines.push(`Unwatched: ${removed.map(a => `\`${a}\``).join(', ')}`);
+      if (notFound.length > 0) lines.push(`Not found/already removed: ${notFound.join(', ')}`);
+      await ctx.reply(lines.join('\n'), { parse_mode: 'Markdown' });
+    } catch (err: any) {
+      console.error('[Bot] /unwatch error:', err?.message || err);
+      await ctx.reply('Failed to process unwatch command. Please try again.');
     }
   });
 
@@ -192,9 +251,8 @@ export function createBot(token: string, database: Database.Database, rpcUrl?: s
       if (parts.length === 0) {
         const s = getUserSettings(database, telegramId);
         const mode = getTradeMode(database, telegramId);
-        const posterOn = getPosterEnabled(database, telegramId);
         await ctx.reply(
-          `Current settings:\n- max_trade_size_sol: ${s.max_trade_size_sol} SOL\n- slippage_bps: ${s.slippage_bps} bps\n- mode: ${mode}\n- poster: ${posterOn ? 'on' : 'off'}`
+          `Current settings:\n- max_trade_size_sol: ${s.max_trade_size_sol} SOL\n- slippage_bps: ${s.slippage_bps} bps\n- mode: ${mode}`
         );
         return;
       }
@@ -213,22 +271,6 @@ export function createBot(token: string, database: Database.Database, rpcUrl?: s
           );
         } else {
           await ctx.reply('Invalid mode. Usage: /settings set-mode dry-run|devnet');
-        }
-        return;
-      }
-
-      // /settings poster on|off — toggle activity poster
-      if (parts[0]?.toLowerCase() === 'poster') {
-        const posterArg = parts[1]?.toLowerCase();
-        if (posterArg === 'on' || posterArg === 'true' || posterArg === 'enable') {
-          setPosterEnabled(database, telegramId, true);
-          await ctx.reply('Activity poster ENABLED. Trade events will be sent to Dashboard/Discord.');
-        } else if (posterArg === 'off' || posterArg === 'false' || posterArg === 'disable') {
-          setPosterEnabled(database, telegramId, false);
-          await ctx.reply('Activity poster DISABLED.');
-        } else {
-          const current = getPosterEnabled(database, telegramId);
-          await ctx.reply(`Poster is currently: ${current ? 'ON' : 'OFF'}\nUsage: /settings poster on|off`);
         }
         return;
       }
@@ -281,49 +323,6 @@ export function createBot(token: string, database: Database.Database, rpcUrl?: s
     }
   });
 
-  // /unwatch [address|all] — stop watching a whale address
-  bot.command('unwatch', async (ctx) => {
-    const telegramId = ctx.from?.id.toString();
-    if (!telegramId) return;
-
-    try {
-      getOrCreateUser(database, telegramId, ctx.from?.username);
-
-      const text = ctx.message?.text || '';
-      const parts = text.split(/\s+/);
-      const arg = parts[1];
-
-      if (!arg) {
-        await ctx.reply('Usage: /unwatch [solana_address] or /unwatch all');
-        return;
-      }
-
-      if (arg.toLowerCase() === 'all') {
-        const count = removeAllWatchedWhales(database, telegramId);
-        await ctx.reply(count > 0 ? `Removed ${count} whale(s) from watch list.` : 'No whales being watched.');
-        return;
-      }
-
-      // Validate address
-      try {
-        new PublicKey(arg);
-      } catch {
-        await ctx.reply('Invalid Solana address.');
-        return;
-      }
-
-      const removed = removeWatchedWhale(database, telegramId, arg);
-      if (removed) {
-        await ctx.reply(`Stopped watching: \`${arg}\``, { parse_mode: 'Markdown' });
-      } else {
-        await ctx.reply('Address not found in your watch list.');
-      }
-    } catch (err: any) {
-      console.error('[Bot] /unwatch error:', err?.message || err);
-      await ctx.reply('Failed to process unwatch command. Please try again.');
-    }
-  });
-
   // /mode dry-run|devnet — switch trading mode
   bot.command('mode', async (ctx) => {
     const telegramId = ctx.from?.id.toString();
@@ -358,23 +357,50 @@ export function createBot(token: string, database: Database.Database, rpcUrl?: s
     }
   });
 
-  // /pnl — show profit/loss summary
+  // /pnl — show profit & loss summary
   bot.command('pnl', async (ctx) => {
     const telegramId = ctx.from?.id.toString();
     if (!telegramId) return;
 
     try {
       getOrCreateUser(database, telegramId, ctx.from?.username);
-      const summary = calculatePnL(database, telegramId);
-      const message = formatPnLMessage(summary);
-      await ctx.reply(message);
+
+      const summary = await getPnlSummary(database, telegramId);
+      const recent = getRecentTrades(database, telegramId, 5);
+      const msg = formatPnlMessage(summary, recent);
+
+      await ctx.reply(msg, { parse_mode: 'Markdown' });
     } catch (err: any) {
       console.error('[Bot] /pnl error:', err?.message || err);
-      await ctx.reply('Failed to calculate PnL. Please try again.');
+      await ctx.reply('Failed to fetch PnL data. Please try again.');
     }
   });
 
-  // /subscribe [plan] [tx_signature] — manage subscription
+  // /plans — show available subscription plans
+  bot.command('plans', async (ctx) => {
+    const telegramId = ctx.from?.id.toString();
+    if (!telegramId) return;
+
+    try {
+      getOrCreateUser(database, telegramId, ctx.from?.username);
+      const status = formatSubscriptionStatus(database, telegramId);
+      const plans = formatPlans();
+      const treasury = getTreasuryAddress();
+
+      await ctx.reply(
+        `${status}\n\n` +
+        `Available Plans:\n\n${plans}\n\n` +
+        `To subscribe, send SOL to:\n\`${treasury}\`\n` +
+        `Then: /subscribe [plan] [tx_signature]`,
+        { parse_mode: 'Markdown' }
+      );
+    } catch (err: any) {
+      console.error('[Bot] /plans error:', err?.message || err);
+      await ctx.reply('Failed to fetch plans. Please try again.');
+    }
+  });
+
+  // /subscribe [plan] [tx_signature] — activate a subscription
   bot.command('subscribe', async (ctx) => {
     const telegramId = ctx.from?.id.toString();
     if (!telegramId) return;
@@ -386,9 +412,11 @@ export function createBot(token: string, database: Database.Database, rpcUrl?: s
       const parts = text.split(/\s+/).slice(1);
 
       if (parts.length === 0) {
-        const currentPlan = getUserPlan(database, telegramId);
-        const plansMsg = formatPlansMessage();
-        await ctx.reply(`Current plan: ${currentPlan.name}\n\n${plansMsg}`);
+        const status = formatSubscriptionStatus(database, telegramId);
+        await ctx.reply(
+          `${status}\n\nUsage: /subscribe [plan] [tx_signature]\nPlans: free, basic, pro\n\nUse /plans to see details.`,
+          { parse_mode: 'Markdown' }
+        );
         return;
       }
 
@@ -396,38 +424,36 @@ export function createBot(token: string, database: Database.Database, rpcUrl?: s
       const txSig = parts[1] || null;
 
       if (!PLANS[planId]) {
-        await ctx.reply(`Unknown plan: ${planId}\nAvailable: free, basic, pro`);
+        await ctx.reply(`Unknown plan: ${planId}\nAvailable: ${Object.keys(PLANS).join(', ')}`);
         return;
       }
 
-      const plan = PLANS[planId];
-
-      if (plan.priceSolMonthly > 0 && !txSig) {
-        const treasuryWallet = process.env.TREASURY_WALLET || '(not configured)';
+      if (planId !== 'free' && !txSig) {
+        const plan = PLANS[planId];
+        const treasury = getTreasuryAddress();
         await ctx.reply(
-          `${plan.name} costs ${plan.priceSolMonthly} SOL/month.\n` +
-          `Send payment to: \`${treasuryWallet}\`\n` +
-          `Then: /subscribe ${planId} <tx_signature>`,
+          `To subscribe to *${plan.name}*, send ${plan.priceSol} SOL to:\n` +
+          `\`${treasury}\`\n\n` +
+          `Then run: /subscribe ${planId} [tx_signature]`,
           { parse_mode: 'Markdown' }
         );
         return;
       }
 
-      if (txSig) {
-        const treasuryWallet = process.env.TREASURY_WALLET || '';
-        const verified = await verifyPayment(txSig, plan.priceSolMonthly, treasuryWallet);
-        if (!verified) {
-          await ctx.reply('Payment verification failed. Please check the transaction.');
-          return;
-        }
-      }
+      const result = await activateSubscription(database, telegramId, planId, txSig);
 
-      const sub = createSubscription(database, telegramId, planId, txSig);
-      await ctx.reply(
-        `Subscribed to ${plan.name} plan!\n` +
-        `Whales: ${plan.maxWhales} | Trades/day: ${plan.maxTradesPerDay}\n` +
-        `Expires: ${sub.expires_at}`
-      );
+      if (result.success) {
+        const plan = PLANS[planId];
+        await ctx.reply(
+          `Subscription activated!\n\n` +
+          `Plan: *${plan.name}*\n` +
+          `Whales: ${plan.maxWhales}\n` +
+          `Trades/day: ${plan.maxTradesPerDay === -1 ? 'unlimited' : plan.maxTradesPerDay}`,
+          { parse_mode: 'Markdown' }
+        );
+      } else {
+        await ctx.reply(`Subscription failed: ${result.error}`);
+      }
     } catch (err: any) {
       console.error('[Bot] /subscribe error:', err?.message || err);
       await ctx.reply('Failed to process subscription. Please try again.');

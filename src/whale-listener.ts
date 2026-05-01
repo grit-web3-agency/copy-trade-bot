@@ -21,8 +21,13 @@ export class WhaleListener extends EventEmitter {
   private maxReconnectAttempts = 5;
   private reconnectTimer: ReturnType<typeof setTimeout> | null = null;
   private subscriptionIds: Map<string, number> = new Map();
+  private pendingIdToAddress: Map<number, string> = new Map();
   private wsUrl: string | null = null;
   private nextId = 1;
+  private recentSignatures: Set<string> = new Set();
+  private signatureCleanupTimer: ReturnType<typeof setInterval> | null = null;
+  private static readonly DEDUPE_WINDOW_MS = 30_000;
+  private static readonly MAX_RECENT_SIGNATURES = 5_000;
 
   addAddress(address: string) {
     this.watchedAddresses.add(address);
@@ -122,10 +127,23 @@ export class WhaleListener extends EventEmitter {
     }
   }
 
+  /** Subscribe to a batch of addresses at once (reduces round-trips on reconnect). */
+  batchSubscribe(addresses: string[]) {
+    for (const addr of addresses) {
+      this.watchedAddresses.add(addr);
+    }
+    if (this.wsConnection && this.wsConnection.readyState === WebSocket.OPEN) {
+      for (const addr of addresses) {
+        this.subscribeAddress(addr);
+      }
+    }
+  }
+
   private subscribeAddress(address: string) {
     if (!this.wsConnection || this.wsConnection.readyState !== WebSocket.OPEN) return;
 
     const id = this.nextId++;
+    this.pendingIdToAddress.set(id, address);
     // Use accountSubscribe to watch for on-chain changes to the address
     this.wsConnection.send(JSON.stringify({
       jsonrpc: '2.0',
@@ -139,9 +157,13 @@ export class WhaleListener extends EventEmitter {
   }
 
   private handleWsMessage(msg: any) {
-    // Handle subscription confirmations
+    // Handle subscription confirmations — map subscription ID back to address
     if (msg.id && msg.result !== undefined) {
-      // Store subscription ID (we'd need to map id -> address for full tracking)
+      const address = this.pendingIdToAddress.get(msg.id);
+      if (address) {
+        this.subscriptionIds.set(address, msg.result);
+        this.pendingIdToAddress.delete(msg.id);
+      }
       return;
     }
 
@@ -173,6 +195,14 @@ export class WhaleListener extends EventEmitter {
 
     const parsed = this.parseTransaction(tx);
     if (parsed) {
+      // Dedupe: skip if we already processed this signature recently
+      if (this.recentSignatures.has(parsed.signature)) return;
+      this.recentSignatures.add(parsed.signature);
+      // Prevent unbounded growth
+      if (this.recentSignatures.size > WhaleListener.MAX_RECENT_SIGNATURES) {
+        const first = this.recentSignatures.values().next().value;
+        if (first) this.recentSignatures.delete(first);
+      }
       this.emit('trade', parsed);
     }
   }
@@ -201,6 +231,10 @@ export class WhaleListener extends EventEmitter {
       clearTimeout(this.reconnectTimer);
       this.reconnectTimer = null;
     }
+    if (this.signatureCleanupTimer) {
+      clearInterval(this.signatureCleanupTimer);
+      this.signatureCleanupTimer = null;
+    }
     if (this.wsConnection) {
       try {
         this.wsConnection.close();
@@ -210,6 +244,8 @@ export class WhaleListener extends EventEmitter {
       this.wsConnection = null;
     }
     this.subscriptionIds.clear();
+    this.pendingIdToAddress.clear();
+    this.recentSignatures.clear();
     this.reconnectAttempts = 0;
     console.log('[WhaleListener] Stopped');
   }

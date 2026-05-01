@@ -59,6 +59,7 @@ npm run build    # Compile TypeScript
 | `/copy on\|off` | Toggle copy trading |
 | `/mode dry-run\|devnet` | Switch trading mode (per-user) |
 | `/balance` | Check wallet balance |
+| `/pnl` | View profit & loss summary (realized, unrealized, positions) |
 | `/settings [max <SOL>] [slippage <bps>]` | View or update user settings |
 | `/settings set-mode dry-run\|devnet` | Alias to switch trading mode |
 | `/help` | Show help message |
@@ -119,6 +120,37 @@ cp .env.example .env
 npm run dev
 # In Telegram: /mode devnet → /copy on → watch a whale
 ```
+
+## PnL Tracking
+
+The `/pnl` command shows your profit & loss across all copy trades:
+
+```
+/pnl
+```
+
+Example output:
+```
+📊 PnL Summary
+
+Realized: +1.5000 SOL
+Unrealized: +0.5000 SOL
+Total: +2.0000 SOL
+
+Positions:
+• TokenA...AAAA: 50.0000 qty @ avg 0.010000 | now 0.020000 | PnL: +2.0000
+• TokenB...BBBB: closed | realized: -0.3000
+
+Last 5 trades:
+• BUY TokenA...AAAA 0.1 SOL @ 0.010000 [dry]
+• SELL TokenB...BBBB 0.2 SOL @ 0.005000 [dry]
+```
+
+**How it works:**
+- Uses average cost basis method to compute realized PnL on sells
+- Fetches current token prices from Jupiter Price API for unrealized PnL
+- Tracks positions per token with entry price, quantity, and fees
+- PnL snapshots are persisted in SQLite for fast retrieval
 
 ## Copy Policy
 
@@ -192,3 +224,4 @@ pm2 logs --lines 50 # recent output
 - [x] Sprint 2: Wallet + Executor
 - [x] Sprint 3: Copy Logic + Demo
 - [x] Sprint 4: Polish + Deploy
+- [x] Sprint 6: PnL Tracking
