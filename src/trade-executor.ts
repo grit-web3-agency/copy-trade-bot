@@ -146,6 +146,7 @@ export async function executeDryRunTrade(
     // Record trade in DB regardless of quote success
     const dryRunSig = `dry-run-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
 
+    const executedPriceNum = quote && quote.outAmount ? parseFloat(quote.outAmount) : undefined;
     const trade = recordTrade(
       database,
       telegramId,
@@ -156,7 +157,7 @@ export async function executeDryRunTrade(
       dryRunSig,
       quote ? 'dry-run-quoted' : 'dry-run-no-quote',
       true,
-      quote?.outAmount
+      executedPriceNum
     );
 
     if (!quote) {

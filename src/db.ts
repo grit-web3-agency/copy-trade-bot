@@ -131,6 +131,12 @@ function initSchema(database: Database.Database) {
   if (!tradeColumns.some(c => c.name === 'fees')) {
     database.exec(`ALTER TABLE trades ADD COLUMN fees REAL DEFAULT 0`);
   }
+
+  // Migration: add poster_enabled column to users if missing (default 1 = on)
+  const userCols2 = database.pragma('table_info(users)') as { name: string }[];
+  if (!userCols2.some(c => c.name === 'poster_enabled')) {
+    database.exec(`ALTER TABLE users ADD COLUMN poster_enabled INTEGER DEFAULT 1`);
+  }
 }
 
 // --- User operations ---
@@ -144,6 +150,7 @@ export interface User {
   max_trade_size_sol: number;
   slippage_bps: number;
   trade_mode: TradeMode;
+  poster_enabled: number;
 }
 
 export function getOrCreateUser(database: Database.Database, telegramId: string, username?: string): User {
@@ -152,6 +159,15 @@ export function getOrCreateUser(database: Database.Database, telegramId: string,
 
   database.prepare('INSERT INTO users (telegram_id, username) VALUES (?, ?)').run(telegramId, username || null);
   return database.prepare('SELECT * FROM users WHERE telegram_id = ?').get(telegramId) as User;
+}
+
+export function setPosterEnabled(database: Database.Database, telegramId: string, enabled: boolean) {
+  database.prepare('UPDATE users SET poster_enabled = ? WHERE telegram_id = ?').run(enabled ? 1 : 0, telegramId);
+}
+
+export function getPosterEnabled(database: Database.Database, telegramId: string): boolean {
+  const row = database.prepare('SELECT poster_enabled FROM users WHERE telegram_id = ?').get(telegramId) as { poster_enabled: number } | undefined;
+  return (row?.poster_enabled ?? 1) === 1;
 }
 
 export function setCopyEnabled(database: Database.Database, telegramId: string, enabled: boolean) {
@@ -222,6 +238,13 @@ export function removeWatchedWhale(database: Database.Database, telegramId: stri
     'UPDATE watched_whales SET active = 0 WHERE telegram_id = ? AND whale_address = ? AND active = 1'
   ).run(telegramId, whaleAddress);
   return result.changes > 0;
+}
+
+export function removeAllWatchedWhales(database: Database.Database, telegramId: string): number {
+  const result = database.prepare(
+    'UPDATE watched_whales SET active = 0 WHERE telegram_id = ? AND active = 1'
+  ).run(telegramId);
+  return result.changes;
 }
 
 export function getWatchedWhales(database: Database.Database, telegramId: string): WatchedWhale[] {
@@ -357,6 +380,29 @@ export function getRecentTrades(database: Database.Database, telegramId: string,
   return database.prepare(
     'SELECT * FROM trades WHERE telegram_id = ? ORDER BY id DESC LIMIT ?'
   ).all(telegramId, limit) as Trade[];
+}
+
+// Backwards-compatible helpers expected by older modules
+export type TradeWithQuote = Trade & { quote_out_amount?: string | null };
+
+export function getTradesForUser(database: Database.Database, telegramId: string): TradeWithQuote[] {
+  return database.prepare(
+    'SELECT * FROM trades WHERE telegram_id = ? ORDER BY created_at DESC'
+  ).all(telegramId) as TradeWithQuote[];
+}
+
+export function getTradesSummaryByToken(database: Database.Database, telegramId: string): { token_mint: string; buy_count: number; sell_count: number; total_buy_sol: number; total_sell_sol: number }[] {
+  return database.prepare(`
+    SELECT
+      token_mint,
+      SUM(CASE WHEN direction = 'BUY' THEN 1 ELSE 0 END) as buy_count,
+      SUM(CASE WHEN direction = 'SELL' THEN 1 ELSE 0 END) as sell_count,
+      SUM(CASE WHEN direction = 'BUY' THEN amount_sol ELSE 0 END) as total_buy_sol,
+      SUM(CASE WHEN direction = 'SELL' THEN amount_sol ELSE 0 END) as total_sell_sol
+    FROM trades
+    WHERE telegram_id = ? AND status NOT IN ('error', 'dry-run-error')
+    GROUP BY token_mint
+  `).all(telegramId) as any[];
 }
 
 // --- Subscription operations ---
