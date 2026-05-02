@@ -1,0 +1,16 @@
+Sprint 4 — Copy-Trade Bot (Status Update)
+
+Time: 2026-05-02 18:49 (Asia/Bangkok)
+Branch: dev/sprint-4-payment-stub
+
+Summary:
+- Sprint: Sprint 4 (Polish + Payment stub) completed on branch dev/sprint-4-payment-stub.
+- Build: TypeScript build succeeded (compiled output present in dist/).
+- Unit tests: Previous run recorded 177 passed; current test invocation in this environment failed to start vitest due to a startup TypeError (pathe). Recommend confirming tests via CI or developer machine.
+- Payment: Implemented as a development stub (subscriptions persisted to SQLite). Production billing integration deferred by spec.
+
+Notes:
+- All changes are devnet-only and follow PROJECT_SPEC (no real-money trading).
+- I have not sent this to Telegram because BOT_TOKEN is not configured in workspace (.env missing). Provide BOT_TOKEN + chat_id and I will send this summary.
+
+— Copy-Trade Bot CI
