@@ -36,7 +36,7 @@
 - [x] Real devnet trading
 - [x] PnL tracking
 - [x] Multi-whale support
-- [ ] Payment module (ค่าสมาชิก)
+- [x] Payment module (ค่าสมาชิก) — implemented on branch `dev/sprint-4-payment-stub` (completed 2026-05-02)
 
 ### ห้ามทำ (Out of Scope)
 - ❌ Frontend web (ใช้ Telegram bot เท่านั้น)
