@@ -1,0 +1,17 @@
+สรุปสถานะ Copy-Trade Bot — 2026-05-04 05:34 Asia/Bangkok
+
+1) Sprint: โครงการถึง Sprint 4 (polish) — ตาม PROJECT_SPEC ทุกฟีเจอร์ในหมวด Must-Have เสร็จแล้ว; ฟีเจอร์ Nice-to-Have ส่วนใหญ่เสร็จ (รวมถึง devnet trading, PnL, multi-whale); payment module เป็น stub บนสาขา dev/sprint-4-payment-stub
+
+2) ปัญหา/บล็อกเกอร์:
+- ไม่มีปัญหา blocking ที่พบทั้งใน repo หรือบน GitHub (ไม่มี issues/PRs เปิดค้าง)
+- สิ่งที่ต้องทราบ: การส่ง Telegram อัตโนมัติยังทำไม่ได้เนื่องจาก BOT_TOKEN ไม่ได้ตั้งค่าในไฟล์ .env ของโปรเจค และยังไม่ได้รับ chat id ของ Jack
+
+3) Push code:
+- โค้ดล่าสุดถูก commit และ push ไปที่ remote branch: dev/sprint-4-payment-stub
+- Build & Tests: รัน build (tsc) และ unit tests (vitest) — 244 tests passed; build OK
+
+หมายเหตุ/ถัดไป:
+- หากต้องการให้ผมส่งข้อความนี้ให้ Jack ให้เพิ่ม BOT_TOKEN ใน /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/.env แล้วสั่ง: send telegram <chat_id>
+- หากต้องการ PR → main หรือเตรียม deploy PM2 บน VPS บอกผมได้ ผมจะเปิด PR หรือเตรียมขั้นตอน deploy ตามต้องการ
+
+— Automated report from agent
