@@ -1,0 +1,11 @@
+Hi Jack,
+
+สรุปสถานะ Copy-Trade Bot:
+- ถึง: Sprint 4 (polish) — งานหลักเสร็จเรียบร้อย
+- ปัญหา: ไม่มีปัญหาเทคนิคสำคัญที่ขัดขวาง; ขาด BOT_TOKEN และ chat id สำหรับส่ง Telegram อัตโนมัติ
+- Push: โค้ดบน branch dev/sprint-4-payment-stub ถูก push และ up-to-date กับ origin
+
+หากต้องการให้ผมส่งข้อความนี้ให้ Jack อัตโนมัติ ให้เพิ่ม BOT_TOKEN ในไฟล์ .env ของโปรเจค และแจ้ง chat id ของ Jack
+
+Regards,
+Automated reminder handler
