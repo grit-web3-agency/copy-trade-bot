@@ -176,3 +176,9 @@ Follow these steps to verify the bot works end-to-end in dry-run mode.
 - Fix applied: removed stale `src/__tests__/db.test.ts` (leftover from pre-SQLite JSON DB era; conflicted with current `better-sqlite3` API)
 - Must-Have checklist verified against PROJECT_SPEC: all 8 items confirmed complete
 - No real-money trades executed; all tests use dry-run / in-memory DB
+
+
+## Sprint check — 2026-05-05 04:16 (Asia/Bangkok)
+- Action: Re-ran full test suite (vitest). All tests passed (77).
+- Notes: No code changes required; project up-to-date on branch dev.
+- CI: local tests passed; no open PRs or issues requiring work.
