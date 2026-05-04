@@ -1,0 +1,10 @@
+สรุปตามคำขอ Reminder — 2026-05-04 13:15 Asia/Bangkok
+
+- อ่าน PROJECT_SPEC: ยืนยันตาม spec
+- Sprint: ถึง Sprint 4 (polish) — Must-Have เสร็จ, Nice-to-Have ส่วนใหญ่เสร็จ; payment module เป็น stub บน branch dev/sprint-4-payment-stub
+- ปัญหา: ไม่มีปัญหา blocking; build & tests ผ่าน (244 passed)
+- Push: ไม่มีการเปลี่ยนแปลงโลคอลที่ต้อง push; branch dev/sprint-4-payment-stub synchronized with origin
+
+หมายเหตุ: หากต้องการให้ผมส่ง Telegram ให้บอส ให้เพิ่ม BOT_TOKEN ในไฟล์ .env ของโปรเจคและแจ้ง chat id ของ Jack หรือสั่ง: send telegram <chat_id>
+
+— Automated reminder handler
