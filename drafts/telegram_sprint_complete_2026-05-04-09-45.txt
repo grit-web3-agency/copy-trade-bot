@@ -1,0 +1,8 @@
+สรุป: Sprint เสร็จเรียบร้อย — Copy-Trade Bot
+
+- Sprint: เสร็จที่ Sprint 4 (polish). Must-Have ฟีเจอร์ทั้งหมดเสร็จ; Nice-to-Have ส่วนใหญ่เสร็จ; payment module เป็น stub บนสาขา dev/sprint-4-payment-stub
+- Build & Tests: 244 tests passed; build OK
+- ปัญหา: ไม่มีปัญหา blocking ที่พบ; การส่ง Telegram อัตโนมัติยังต้องการ BOT_TOKEN ใน .env และ chat id ของ Jack
+- Push: โค้ดล่าสุด commit & push ไปยัง dev/sprint-4-payment-stub
+
+ขอสรุปนี้ส่งให้บอสไหม? (ต้องมี BOT_TOKEN ใน .env และ chat id ของ Jack)
