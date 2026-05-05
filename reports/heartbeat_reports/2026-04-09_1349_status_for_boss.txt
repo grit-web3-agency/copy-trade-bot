@@ -1,0 +1,25 @@
+รายงานสถานะ (อัตโนมัติ) — 2026-04-09 13:49 (Asia/Bangkok)
+
+1) Copy-Trade Bot ทำถึง Sprint ไหน
+• Sprint 1-4: Core must-have features implemented (listener, wallet, executor, copy logic, settings)
+• PRs เปิดอยู่ที่ GitHub (งานที่รัน/verify แล้วหรือกำลังรอรีวิว):
+  - PR #12: fix: remove stale test (open)
+  - PR #13: feat: PnL tracking + multi-whale (open)
+  - PR #14: feat: real devnet trading (open) — Nice-to-Have
+  - PR #15: feat: payment module (open) — Nice-to-Have
+
+2) ปัญหา
+• Branch-name generation: auto-branch script เคยส่ง BR เป็นค่าว่าง → แก้สคริปต์แล้ว แต่สคริปต์เจอปัญหาอื่น (ไม่ใช่ git repo ใน path ที่รัน)
+• Script run log: "fatal: not a git repository (or any of the parent directories): .git" — ต้อง clone repo ลง local หรือใช้ gh API แทน
+• Dashboard API: PATCH /api/job/21/stage คืนค่า 422 — ต้องอัปเดตด้วยมือหรือแก้ schema
+• Kimi/DeepSeek: 401 Unauthorized
+• Telegram: ช่องทางยังไม่ตั้งค่า (ไม่สามารถส่งสรุปอัตโนมัติ)
+
+3) Push code แล้วหรือยัง
+• โค้ดถูก push และมี PRs เปิดอยู่ (#12, #13, #14, #15)
+
+การดำเนินการที่ผมทำแล้ว
+• เขียนสคริปต์ auto_continue_sprint.sh เพื่อแก้ปัญหา branch-naming และพยายามรัน แต่เจอปัญหา repo location (fatal: not a git repository)
+• แจ้งผลใน Discord แล้ว (หากต้องการผมจะ clone repo แล้วรันสคริปต์ใหม่)
+
+ไฟล์บันทึกภายใน: /Users/m4/.openclaw/workspace/reports/heartbeat_reports/2026-04-09_1349_status_for_boss.txt

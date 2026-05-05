@@ -1,0 +1,16 @@
+รายงานสถานะ (อัตโนมัติ) — 2026-04-09 15:49 (Asia/Bangkok)
+
+1) Copy-Trade Bot ทำถึง Sprint ไหน
+• Core Must-Have: เสร็จแล้ว
+• Nice-to-Have: PnL tracking เสร็จ (PR #16)
+
+2) ปัญหา
+• Kimi/DeepSeek: 401 Unauthorized
+• Telegram: ช่องทางยังไม่ตั้งค่า (ต้อง numeric chat id)
+
+3) Push code
+• PRs เปิด: #16, #15, #14, #13, #12
+
+บันทึก: รายงานนี้บันทึกภายในแล้ว
+
+/Users/m4/.openclaw/workspace/reports/heartbeat_reports/2026-04-09_1549_status_for_boss.txt

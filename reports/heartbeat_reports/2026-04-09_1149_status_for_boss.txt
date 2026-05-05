@@ -1,0 +1,19 @@
+รายงานสถานะ (อัตโนมัติ) — 2026-04-09 11:49 (Asia/Bangkok)
+
+1) Copy-Trade Bot ทำถึง Sprint ไหน
+• dev-sprint12: Verified (PR #9)
+• Sprint 3 (dev/sprint-3): Verified (PR #8)
+• PR #12: fix: remove stale test (เปิด)
+• PR #13: feat: PnL tracking + multi-whale (เปิด)
+
+2) ปัญหา
+• Kimi/DeepSeek: 401 Unauthorized
+• Dashboard API: PATCH /api/job/21/stage คืนค่า 422 — ต้องอัปเดตด้วยมือหรือแก้ schema
+• Telegram channel not configured (cannot send Telegram summary)
+
+3) Push code
+• PR #13 ถูก push และเปิดแล้ว (รายละเอียด: pnl-tracker, DB migration, updated commands, tests)
+
+การดำเนินการ: รายงานนี้บันทึกภายใน
+
+ไฟล์: /Users/m4/.openclaw/workspace/reports/heartbeat_reports/2026-04-09_1149_status_for_boss.txt

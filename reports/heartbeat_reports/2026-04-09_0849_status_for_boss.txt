@@ -1,0 +1,20 @@
+รายงานสถานะ (อัตโนมัติ) — 2026-04-09 08:49 (Asia/Bangkok)
+
+1) Copy-Trade Bot ทำถึง Sprint ไหน
+• dev-sprint12: Verified (PR #9 verified earlier)
+• Sprint 3 (dev/sprint-3): Verified (PR #8 verified earlier)
+• Documentation: PR #11 (dev/mark-must-have-complete) — ถูกตรวจโดย Claude และยังเปิดอยู่
+
+2) ปัญหา
+• Kimi API / DeepSeek: 401 Unauthorized (แต่ sprint ปัจจุบันใช้ dry-run/mocks จึงไม่จำเป็น)
+• Dashboard API: PATCH /api/job/21/stage คืนค่า 422 — ต้องอัปเดตด้วยมือหรือแก้ schema
+• Script branch-naming: บางสคริปต์สร้างชื่อ branch ที่มีตัวอักษรพิเศษ (<>), ทำให้ shell syntax error — แนะนำ sanitize/slugify
+
+3) Push code แล้วหรือยัง
+• โค้ดถูก push และมี PR เปิดอยู่ (ล่าสุด PR #11)
+
+การดำเนินการที่ทำแล้ว
+• โพสต์ใน Discord #kanban-board สำหรับ Sprint 3 verification (สำเร็จ)
+• พยายามอัปเดต Dashboard ทาง API แต่ล้มเหลว (422)
+
+ไฟล์บันทึก: /Users/m4/.openclaw/workspace/reports/heartbeat_reports/2026-04-09_0849_status_for_boss.txt
