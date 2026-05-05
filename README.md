@@ -225,3 +225,11 @@ pm2 logs --lines 50 # recent output
 - [x] Sprint 3: Copy Logic + Demo
 - [x] Sprint 4: Polish + Deploy
 - [x] Sprint 6: PnL Tracking
+
+## Payments
+
+This project includes a pluggable payments adapter. Configure via environment variables:
+- ENABLE_PAYMENTS=1 or true to enable payments (default: disabled)
+- PAYMENT_PROVIDER=mock (default) or stripe-mock
+
+The stripe-mock provider can be used for local testing and accepts tx signatures starting with "stripe-".

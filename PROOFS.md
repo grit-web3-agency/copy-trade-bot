@@ -342,3 +342,6 @@ Last 5 trades:
 - Command: npm run build && npm test
 - Result: Build clean (tsc, no errors). Test Files: 17 passed (17) — Tests: 156 passed (156) — Duration: 1.66s.
 - Notes: All 22 new multi-whale tests passing. No regressions in existing 134 tests. Event dedup and batch subscribe verified.
+
+
+- 2026-05-05: Implemented pluggable payment adapter (mock + stripe-mock). Tests: vitest run — all tests passed (247 passed). Branch: dev/sprint-5-payment-adapter. Commit: feat(payments): add pluggable payment adapter + stripe-mock provider; enable via ENABLE_PAYMENTS/PAYMENT_PROVIDER (SHA recorded in git).
