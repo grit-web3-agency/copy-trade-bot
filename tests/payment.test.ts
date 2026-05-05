@@ -36,6 +36,9 @@ beforeEach(() => {
   getOrCreateUser(db, '100', 'alice');
   createAndStoreWallet(db, '100');
   getOrCreateUser(db, '200', 'bob');
+  // Ensure payments enabled for tests and use mock provider
+  process.env.ENABLE_PAYMENTS = 'true';
+  process.env.PAYMENT_PROVIDER = 'mock';
 });
 
 describe('Plan definitions', () => {

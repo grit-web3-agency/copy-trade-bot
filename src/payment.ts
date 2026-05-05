@@ -8,12 +8,18 @@ import {
   recordPaymentEvent,
 } from './db';
 import type { Subscription } from './db';
+import { getPaymentAdapter, isPaymentsEnabled, getPaymentProviderName } from './payments';
 
 export type PaymentMode = 'mock' | 'live';
 
 export function getPaymentMode(): PaymentMode {
-  const mode = process.env.PAYMENT_MODE || 'mock';
-  return mode === 'live' ? 'live' : 'mock';
+  // Backwards-compatible: map PAYMENT_PROVIDER to a simple mode
+  const provider = process.env.PAYMENT_PROVIDER || 'mock';
+  return provider === 'live' ? 'live' : 'mock';
+}
+
+export function paymentsEnabled(): boolean {
+  return isPaymentsEnabled();
 }
 
 export interface Plan {
@@ -172,20 +178,27 @@ export async function activateSubscription(
     return { success: false, error: 'No wallet found. Use /start first.' };
   }
 
-  const mode = getPaymentMode();
+  const providerName = getPaymentProviderName();
+  const enabled = isPaymentsEnabled();
 
-  if (mode === 'live' && connection) {
-    const verification = await verifyPayment(connection, txSignature, plan.priceSol, wallet.public_key);
+  if (!enabled) {
+    // Payments feature disabled by config
+    return { success: false, error: 'Payments are disabled (ENABLE_PAYMENTS not set)' };
+  }
+
+  const adapter = getPaymentAdapter();
+  if (adapter && adapter.verifyPayment) {
+    const verification = await adapter.verifyPayment(connection, txSignature, plan.priceSol, wallet.public_key);
     if (!verification.valid) {
-      recordPaymentEvent(db, telegramId, 'payment_failed', planId, plan.priceSol, txSignature, 'failed', { reason: verification.reason });
+      recordPaymentEvent(db, telegramId, 'payment_failed', planId, plan.priceSol, txSignature, 'failed', { reason: verification.reason, provider: providerName });
       return { success: false, error: verification.reason };
     }
   }
 
   deactivateSubscriptions(db, telegramId);
   const sub = createSubscription(db, telegramId, planId, txSignature, plan.priceSol, plan.durationDays);
-  recordPaymentEvent(db, telegramId, 'subscription_activated', planId, plan.priceSol, txSignature, 'completed', { mode });
-  console.log(`[Payment] Subscription activated: user=${telegramId} plan=${planId} mode=${mode}`);
+  recordPaymentEvent(db, telegramId, 'subscription_activated', planId, plan.priceSol, txSignature, 'completed', { provider: providerName });
+  console.log(`[Payment] Subscription activated: user=${telegramId} plan=${planId} provider=${providerName}`);
   return { success: true, subscription: sub };
 }
 
