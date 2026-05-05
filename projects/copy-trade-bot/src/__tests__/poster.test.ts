@@ -1,8 +1,11 @@
+import { vi } from 'vitest';
+
+vi.mock('node-fetch', () => ({ default: vi.fn() }));
+
 import { posterOnExecuted, postActivity, postDiscordMessage } from '../poster';
 import fetch from 'node-fetch';
 
-jest.mock('node-fetch', () => jest.fn());
-const mockedFetch = fetch as unknown as jest.Mock;
+const mockedFetch = fetch as unknown as ReturnType<typeof vi.fn>;
 
 describe('poster', () => {
   beforeEach(() => mockedFetch.mockReset());
@@ -30,10 +33,8 @@ describe('poster', () => {
   });
 
   it('handles fetch errors gracefully', async () => {
-    mockedFetch.mockRejectedValue(new Error('network error'));
-    // Should not throw
-    await expect(
-      postActivity('agent', 'event', 'detail')
-    ).resolves.toBeUndefined();
+    mockedFetch.mockRejectedValueOnce(new Error('network error'));
+    // Should not throw — postActivity catches internally
+    await postActivity('agent', 'event', 'detail');
   });
 });
