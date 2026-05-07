@@ -1,0 +1,20 @@
+สรุปความคืบหน้า Copy-Trade Bot (ย่อ)
+
+1) Sprint: ถึง Sprint 5 — Payment Adapter (เสร็จเรียบร้อย)
+- สาขา: dev/sprint-5-payment-adapter
+- โค้ด: ถูก push ขึ้น origin (https://github.com/grit-web3-agency/copy-trade-bot, branch: dev/sprint-5-payment-adapter)
+- ทดสอบ: unit tests ผ่าน (247 tests)
+
+2) ปัญหาที่พบ / ข้อสังเกต
+- PR #25 (dev/sprint-4-payment-stub → main) ยังเปิดอยู่และมีการแก้ไขที่ต้อง review/fix ก่อน merge (ดู reports/claude_pr25_review_2026-05-07.txt)
+- ไม่สามารถส่ง Telegram สรุปให้บอสโดยอัตโนมัติ: โปรเจคไม่มีไฟล์ .env ที่มี BOT_TOKEN (ดู .env.example)
+
+3) การส่งโค้ด
+- ใช่ — โค้ดถูก push ขึ้น origin/dev/sprint-5-payment-adapter แล้ว
+
+ถ้าต้องการให้ส่งข้อความนี้ให้บอสโดยอัตโนมัติ: 
+- ใส่ BOT_TOKEN ในไฟล์ .env ที่ project root และเตรียม chat_id ของบอส (หรือสั่งให้ผมส่งแบบ manual พร้อม chat_id)
+
+ต้องการให้ผมเปิด PR จาก dev/sprint-5-payment-adapter → dev หรือ → main ไหม? ถ้าต้องการระบุเป้าหมายที่ต้องการให้ผมเปิด PR
+
+(บันทึกนี้ถูกสร้างโดย automated-sprint-agent และบันทึกการดำเนินการล่าสุดอยู่ที่ reports/reminder_handled_2026-05-08.md)
