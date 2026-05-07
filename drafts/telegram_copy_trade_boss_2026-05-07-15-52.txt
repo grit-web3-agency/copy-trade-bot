@@ -1,0 +1,17 @@
+Sprint Update — Copy-Trade Bot
+
+เวลารายงาน: 2026-05-07 15:52 (Asia/Bangkok)
+สาขา: dev/sprint-5-payment-adapter
+commit: 64e481eba2fa461dd2ddd00d46f3932e10908fec
+
+สรุป:
+- ความคืบหน้า: Sprint 5 (Payment Adapter) เสร็จเรียบร้อย; โค้ดพร้อมและ push ขึ้น origin/dev/sprint-5-payment-adapter
+- การทดสอบ: Unit tests ผ่านทั้งหมด (247 tests passed)
+- ปัญหา/ข้อจำกัด: ไม่มีบั๊กสำคัญ
+- การส่งโค้ด: Push เรียบร้อย -> grit-web3-agency/copy-trade-bot (origin/dev/sprint-5-payment-adapter)
+
+หมายเหตุ: การส่ง Telegram ยังไม่ทำได้เพราะ BOT_TOKEN ไม่ได้ตั้งค่าใน .env และ chat_id ยังไม่ถูกให้มา
+
+Actions:
+- Add BOT_TOKEN to project .env and provide chat_id to send this summary now
+- Or run: send telegram <chat_id> (agent will read BOT_TOKEN from .env)

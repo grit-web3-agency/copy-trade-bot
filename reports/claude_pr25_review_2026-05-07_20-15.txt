@@ -1,0 +1,22 @@
+Claude review output (2026-05-07 20:15 Asia/Bangkok)
+
+SUMMARY
+
+PR #25 (dev/sprint-4-payment-stub -> main) review
+
+- Adds payments adapter, webhook handler, env validation, bot command updates, tests, poster, pnl rewrite.
+- Found blockers: missing exports in src/payment.ts; activateSubscription return-type mismatch; plan price field mismatch; missing getPaymentMode export; noisy commits.
+
+ACTIONS
+
+1) Fix API mismatches in src/payment.ts or update bot.ts imports.
+2) Modify activateSubscription to return an object { success, error? } or change webhook/bot to handle boolean.
+3) Add ENABLE_PAYMENTS and PAYMENT_MODE to .env.example and consider squashing noisy commits before merge.
+
+PATCH
+
+Suggested safe minimal patch: update .env.example to include ENABLE_PAYMENTS and PAYMENT_MODE.
+
+Notes: Structural fixes require the PR author to confirm intended function shapes; do not merge until blockers resolved.
+
+Saved to: reports/claude_pr25_review_2026-05-07_20-15.txt

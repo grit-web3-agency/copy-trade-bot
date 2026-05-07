@@ -1,0 +1,17 @@
+Sprint/Routine Update — Copy-Trade Bot
+
+เวลารายงาน: 2026-05-07 20:15 (Asia/Bangkok)
+
+สรุป:
+- Sprint: Sprint 5 (payment adapter) work is present on branch dev/sprint-5-payment-adapter; additionally an open PR #25 (dev/sprint-4-payment-stub -> main) exists containing a payments adapter (mock) and related changes.
+- Tests: Local test suite run recently — 247 tests passed in main branch run; PR #25 includes tests claimed passing but requires API fixes before merge.
+- Issues found in PR #25: missing exports (src/payment.ts), activateSubscription return-type mismatch, plan field mismatch, missing getPaymentMode export. See reports/claude_pr25_review_2026-05-07_20-15.txt for details.
+- DeepSeek: Automated DeepSeek test skipped — deepseek CLI not installed/configured.
+- Action taken: Generated Claude review and DeepSeek report (skipped); did NOT send Telegram (BOT_TOKEN not configured). Drafts and reports saved in repo.
+
+Next actions for boss:
+1) Approve fix of PR #25 blockers (author needed) or ask me to apply minimal env patch and open a follow-up PR.
+2) Provide BOT_TOKEN in project .env and boss chat_id to enable automated Telegram reporting.
+
+--
+Automated: routine check handled by agent at 2026-05-07 20:15 Asia/Bangkok
