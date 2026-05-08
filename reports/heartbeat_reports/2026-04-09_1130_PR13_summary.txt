@@ -1,0 +1,24 @@
+Internal report — 2026-04-09 11:30 (Asia/Bangkok)
+
+Event: Claude finished sprint work and opened PR #13
+
+PR #13: feat: PnL tracking + multi-whale management
+URL: https://github.com/grit-web3-agency/copy-trade-bot/pull/13
+
+Files/changes (summary from exec):
+- New module: pnl-tracker.ts
+- DB schema migration: add quote_out_amount to trades
+- New DB query functions
+- Updated bot commands with help text
+- 16 new unit tests (summary truncated)
+
+Actions taken:
+- Tried to PATCH Dashboard Job #21 -> stage: review, but API returned 422 (JSON body not accepted). Dashboard update must be done manually or API schema corrected.
+- Posted summary to Discord #kanban-board (messageId: 1491656507241136199)
+- Saved this internal report
+
+Next steps:
+- Wait for PR review/merge instruction from boss
+- If asked, I can merge PR or trigger additional tests (requires Kimi/DeepSeek credentials if needed)
+
+File: /Users/m4/.openclaw/workspace/reports/heartbeat_reports/2026-04-09_1130_PR13_summary.txt

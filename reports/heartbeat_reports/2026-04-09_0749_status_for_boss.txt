@@ -1,0 +1,19 @@
+รายงานสถานะ (อัตโนมัติ) — 2026-04-09 07:49 (Asia/Bangkok)
+
+1) Copy-Trade Bot ทำถึง Sprint ไหน
+• Sprint dev-sprint12: Verified — PR #9 ถูกตรวจและพร้อม
+• Sprint 3 (dev/sprint-3): Verified — PR #8 ถูกตรวจและพร้อม
+• Documentation update: PR #11 (dev/mark-must-have-complete) — Claude ตรวจเรียบร้อยและ PR ยังเปิดอยู่
+
+2) มีปัญหาอะไร
+• Kimi API / DeepSeek: ตอบ 401 Unauthorized (แต่สำหรับ sprint ปัจจุบัน tests รันใน dry-run/mocks จึงไม่ต้องใช้ credentials)
+• Dashboard API: เมื่อลองอัปเดต Job #21 ผ่าน PATCH ทางโปรแกรม ได้ HTTP 422 — ต้องอัปเดตด้วยมือหรือแก้ payload/schema
+• Script branch-naming bug: บางสคริปต์พยายามสร้าง branch ที่มีตัวอักษรพิเศษ (เช่น <>), ทำให้ shell syntax error — แนะนำให้ sanitize/slugify ชื่อ branch (เช่น use ISO timestamp without brackets)
+
+3) Push code แล้วหรือยัง
+• โค้ดถูก push และมี PR เปิด/รอ (ล่าสุด PR #11 เปิดอยู่) — PRs ที่ Claude ตรวจแล้วพร้อมสำหรับ merge เมื่อบอสอนุญาต
+
+หมายเหตุ:
+• ผมพยายามส่ง Telegram สรุปให้บอสโดยอัตโนมัติ แต่ช่องทาง Telegram ยังไม่ได้ตั้งค่า (chat id ไม่ถูกต้อง) — รายงานนี้เก็บภายในเรียบร้อย
+
+ไฟล์บันทึก: /Users/m4/.openclaw/workspace/reports/heartbeat_reports/2026-04-09_0749_status_for_boss.txt

@@ -1,0 +1,27 @@
+Project-spec check — 2026-04-13 05:15 (Asia/Bangkok)
+
+คำสั่งเตือน: อ่าน PROJECT_SPEC แล้วทำงานต่อ Sprint ที่ค้างอยู่ → ดำเนินการภายใน
+
+สิ่งที่ผมทำไปแล้ว:
+• อ่าน: /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/PROJECT_SPEC.md
+• ตรวจสอบสถานะ git (path: /Users/m4/Web3_AI_Agency/projects/copy-trade-bot)
+  - ปัจจุบัน branch: feat/pnl-tracking
+  - ไม่มีการเปลี่ยนแปลงที่ติดตาม (git status: only untracked .claude/)
+• รันชุดทดสอบ (npm test)
+  - ผลลัพธ์: Test Files: 117 passed | 5 skipped (122)
+             Tests: 1016 passed | 5 skipped (1021)
+  - ข้อสังเกต: มี log retry ของ Jupiter ("mocked: no network") ซึ่งเป็นพฤติกรรมที่คาดไว้สำหรับ mocks/devnet — ไม่เป็น blocker
+• Push: ไม่มีการเปลี่ยนแปลงค้างที่จะ push (origin up-to-date)
+
+สถานะ Sprint:
+• ตาม PROJECT_SPEC: Sprint 1–4 ถูกทำเครื่องหมายว่าเสร็จแล้ว (Must-Have complete)
+• ไม่มี Sprint ค้างซึ่งต้องเขียนโค้ดเพิ่มทันทีจากไฟล์ PROJECT_SPEC
+
+ถ้าต้องการให้ผมต่อยอด (next step):
+1) Merge / open PR ของ feat/pnl-tracking → main/dev (ผมสามารถเปิด PR ให้ได้และสั่ง Kimi เทสต์เพิ่มเติมก่อน push) 
+2) เรียก Claude แก้/เพิ่ม feature ที่ยังขาด (ถ้ามีรายการใหม่ใน PROJECT_SPEC ที่ต้องทำ)
+
+ผมได้บันทึกรายงานฉบับนี้ไว้เพื่อการตรวจสอบภายใน และบันทึก activity ใน dashboard (event=project_spec_checked) — การส่ง Telegram ยังต้องการ numeric chat id ของบอส ถ้าต้องการให้ผมส่งอัตโนมัติ โปรดระบุ chat id ครับ
+
+---
+Saved: /Users/m4/.openclaw/workspace/reports/heartbeat_reports/2026-04-13_0515_project_spec_check.txt

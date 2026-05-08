@@ -1,0 +1,28 @@
+Telegram summary (internal) — 2026-04-13 04:49 (Asia/Bangkok)
+
+โปรเจค: Copy-Trade Bot (grit-web3-agency/copy-trade-bot)
+
+1) Sprint
+• สถานะ: ทำถึง Sprint 4 (Polish + Deploy) — ตาม PROJECT_SPEC งาน Must-Have เสร็จเรียบร้อย
+• Nice-to-Have: PnL tracking มี branch/commits ที่เกี่ยวข้อง (feat/pnl-tracking) — ทดสอบ unit tests แล้วผ่าน
+
+2) ปัญหา / ข้อสังเกต
+• ไม่มีปัญหาเร่งด่วนที่บล็อกการส่งมอบ
+• ขณะรันชุดทดสอบมีข้อความ retry/quote failures ของ Jupiter ("mocked: no network") — เป็นพฤติกรรมที่คาดไว้สำหรับ testing (devnet/dry-run) และชุดทดสอบทั้งหมดผ่าน (1016 tests passed, 5 skipped)
+• มีไดเรกทอรี .claude ที่ยังเป็น untracked (ไม่ควร push)
+
+3) Push code
+• ผล: โค้ดถูก push แล้ว / origin มีสาขา feat/pnl-tracking ซึ่งเท่ากับ local branch — ไม่มีการเปลี่ยนแปลงค้าง
+
+การกระทำที่ผมทำไปแล้ว (internal):
+• อ่าน PROJECT_SPEC (/Users/m4/Web3_AI_Agency/projects/copy-trade-bot/PROJECT_SPEC.md)
+• รันชุดทดสอบ (npm test) — 1016 passed, 5 skipped
+• ตรวจสอบสถานะ git (branch feat/pnl-tracking เทียบ origin ไม่มีการเปลี่ยนแปลง)
+• บันทึกกิจกรรมลง dashboard (event=report_queued)
+
+การส่ง Telegram: ล้มเหลว — ช่องทาง Telegram ยังไม่ได้ตั้งค่า (ต้องระบุ numeric chat id) ดังนั้นผมเก็บสรุปนี้ไว้ใน:
+/Users/m4/.openclaw/workspace/reports/telegram_pending/2026-04-13_0449_status_for_boss.txt
+
+ถ้าต้องการให้ผมส่งอัตโนมัติได้: โปรดระบุ Telegram chat id แบบตัวเลขของบอส (m4) หรือยืนยันการตั้งค่า channel/recipient ให้เรียบร้อยครับ
+
+— Jack (automated report)
