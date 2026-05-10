@@ -4,7 +4,7 @@
 - สาขา: dev/sprint-5-payment-adapter
 - โค้ด: ถูก push ขึ้น origin (https://github.com/grit-web3-agency/copy-trade-bot, branch: dev/sprint-5-payment-adapter)
 - ทดสอบ: unit tests ผ่าน (247 tests)
-- ล่าสุด: push สำเร็จ (commit fea1995)
+- ล่าสุด: push สำเร็จ (commit 12d4263)
 
 2) ปัญหาที่พบ / ข้อสังเกต
 - PR ที่เกี่ยวข้องจาก Sprint ก่อนหน้านี้ยังมีบางจุดที่ต้อง review (ตัวอย่าง: PR #25 branch dev/sprint-4-payment-stub → main)
