@@ -1,0 +1,19 @@
+หัวข้อ: สถานะ Copy-Trade Bot — สรุป (23 มิ.ย. 2026 06:45 Asia/Bangkok)
+
+สรุปสั้น:
+1) สถานะ Sprint: ถึง Sprint 5 (dev/sprint-5-payment-adapter) — Sprint 5 (payment adapter) เสร็จสิ้น
+2) ปัญหา/ข้อจำกัด: ไม่มีบล็อกเกอร์สำคัญในปัจจุบัน. ชุด unit tests ทั้งหมดผ่าน (247 tests). Integration tests ที่พึ่งบริการภายนอกจะใช้ mocks ในการรันทดสอบ — พฤติกรรมเป็นไปตามที่ออกแบบ
+   - ข้อจำกัดการส่งแจ้งเตือนอัตโนมัติ: ไม่มี BOT_TOKEN และ/หรือ BOSS_CHAT_ID ในไฟล์ .env ของโปรเจค (มีเฉพาะ .env.example) จึงยังไม่สามารถส่ง Telegram อัตโนมัติได้
+3) การ push โค้ด: โค้ดถูก push อยู่ที่ origin/dev/sprint-5-payment-adapter (commit: 402ea42)
+
+รายละเอียดเพิ่มเติม:
+- การทดสอบ: รัน unit tests ในเครื่อง: 247/247 ผ่าน (เริ่ม 06:46:01, ระยะเวลา ~1.07s).
+- Branch ปัจจุบัน: dev/sprint-5-payment-adapter
+- คำแนะนำถัดไป:
+  • เพิ่ม BOT_TOKEN และ BOSS_CHAT_ID ใน /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/.env หากต้องการให้ผมส่ง Telegram ให้บอสโดยอัตโนมัติ
+  • ต้องการให้ผมเริ่ม Sprint ถัดไปหรือเปิด issue/task ให้หรือไม่?
+
+ไฟล์อ้างอิง:
+- PROJECT_SPEC.md: /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/PROJECT_SPEC.md
+
+(ข้อความนี้บันทึกไว้เป็นร่างและยังไม่ได้ส่งจนกว่าจะมี BOT_TOKEN และ chat id หรือรับคำสั่งส่ง)
