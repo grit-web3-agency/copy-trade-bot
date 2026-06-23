@@ -432,7 +432,7 @@ export function createBot(token: string, database: Database.Database, rpcUrl?: s
         const plan = PLANS[planId];
         const treasury = getTreasuryAddress();
         await ctx.reply(
-          `To subscribe to *${plan.name}*, send ${plan.priceSol} SOL to:\n` +
+          `To subscribe to *${plan.name}*, send ${plan.priceSolMonthly} SOL to:\n` +
           `\`${treasury}\`\n\n` +
           `Then run: /subscribe ${planId} [tx_signature]`,
           { parse_mode: 'Markdown' }
