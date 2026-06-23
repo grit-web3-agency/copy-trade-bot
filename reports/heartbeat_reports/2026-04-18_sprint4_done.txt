@@ -1,0 +1,46 @@
+Report: Copy-Trade Bot — Sprint 4 summary
+Generated: 2026-04-18T05:46:00+07:00
+
+1) Tasks completed (verified):
+- Research Solana RPC + program events for trades
+- Design copy policy (min trade size, slippage, risk limits)
+- Implement listener (testnet)
+- Implement executor (wallet signing + transaction submit)
+- Add dry-run mode and demo script
+- Tests + PROOFS
+- Implement policy.ts (minTradeLamports, maxPerWalletLamports, slippagePct, shouldCopy)
+- Update executor.ts (devnet airdrop funding, ephemeral keypairs, policy integration)
+- Create demo-run.ts — 3 follower keypairs, 3 mirrored trades, PROOFS.md output
+- Policy unit tests and related unit tests
+- Poster integration added (commit: 47fdde7) — poster fires on execution (respects user toggle)
+- PM2 ecosystem config added (ecosystem.config.js)
+
+2) Test results (project: projects/copy-trade-bot):
+- Test Suites: 4 passed, 4 total
+- Tests:       13 passed, 13 total
+- Time:        ~1.5s
+- Command run: npm test (jest)
+
+3) Recent commits (latest 10):
+ff61c19  chore: replicate copy-trade project under projects/copy-trade-bot per PROJECT_SPEC
+31d7a5e  fix(types): poster catch typing
+bce2784  chore(dev): add @types/node-fetch for tests
+47fdde7  feat(copy-trade): add poster to Dashboard + Discord (posterOnExecuted) + tests
+3ac06ff  feat(copy-trade): sprint-2 — policy checks, devnet executor, e2e demo
+e5e6b01  feat(copy-trade): implement sprint-1 listener+executor+cli + tests
+8dfe3a9  feat(copy-trade): implement sprint-1 — listener, executor, CLI, tests
+5a3c628  feat(copy-trade): scaffold Copy-Trade Bot MVP for Solana
+fa4e26b  docs(2794): note upload attempt failed (missing PLATFORM_API_KEY); implemented upload code
+70cdb38  feat(2794): add BoTTube video upload path + upload-samples script
+
+4) Git / Push status:
+- Current branch: dev/copy-trade-solana
+- Upstream: none (NO_UPSTREAM) — branch not pushed to remote origin/dev/copy-trade-solana
+- Working tree: no uncommitted changes relevant to src (minor node_modules/package-lock M)
+
+5) Notes / Next steps:
+- Recommend: push dev/copy-trade-solana to origin and open PR when ready
+- Recommend: resolve Kimi API (HTTP 401) used for QA if we want automated QA runs
+- If requested: run full CI/extended tests and then push + open PR
+
+Report created by Jack (automated heartbeat report).

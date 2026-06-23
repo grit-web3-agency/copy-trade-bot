@@ -1,0 +1,15 @@
+สรุปสถานะ Copy-Trade Bot — 27 เม.ย. 2026 05:10 (ICT)
+
+1) Sprint ปัจจุบัน
+- อยู่ที่ Sprint 4: "Polish / Deploy" — MVP ของระบบสำเร็จแล้ว (ready for final polish and deployment).
+
+2) ปัญหา / ความเสี่ยง
+- โมดูลการชำระเงินยังเป็น stub (ยังไม่เชื่อมระบบจ่ายจริง) — แผนงาน: implement และทดสอบการชำระเงินก่อน deployment.
+- มี PR ภายนอกที่เกี่ยวข้อง (สำหรับ reference): grit-web3-agency/rustchain-bounties PR #1 (branch: dev/copy-trade-solana) — อาจต้องการการทดสอบ/รีวิวเพิ่มเติม.
+
+3) Push code แล้วหรือยัง
+- สาขา dev/sprint-4-payment-stub ถูก push ขึ้น origin แล้ว (up-to-date). Latest commit (short): 48beb2c.
+- Tests: 177 passed, 0 failed.
+- Build: สำเร็จ.
+
+หมายเหตุ: รายงานฉบับนี้เป็นร่าง — ยังไม่ได้ส่งทาง Telegram. หากต้องการให้ส่ง ให้ยืนยันและระบุ chat id ของบอส หรืออนุญาตให้ใช้ BOT_TOKEN ที่กำหนดใน .env

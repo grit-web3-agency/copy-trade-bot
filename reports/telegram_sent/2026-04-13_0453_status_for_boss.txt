@@ -1,0 +1,13 @@
+Telegram summary (internal) — 2026-04-13 04:53 (Asia/Bangkok)
+
+Routine check: GitHub grit-web3-agency repos
+
+Summary:
+• Repos checked: copy-trade-bot, mimictrade-app, mimictrade-api, mimictrade, mimictrade-vault, rustchain-bounties, core
+• Open issues: none found (no open issues returned). Two repos have issues disabled (rustchain-bounties, core).
+• Action: No pending issues → no work delegated to Claude. No DeepSeek tests run.
+
+Telegram send: not performed — chat id for boss not configured. Saved internal report here:
+/Users/m4/.openclaw/workspace/reports/heartbeat_reports/2026-04-13_0453_routine_check.txt
+
+If you want automatic handling: provide rule for which labels/assignees should be delegated to Claude and I will execute (and then run DeepSeek tests after Claude finishes)

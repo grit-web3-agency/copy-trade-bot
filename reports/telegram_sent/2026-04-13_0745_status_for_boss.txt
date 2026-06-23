@@ -1,0 +1,17 @@
+Telegram summary (internal) — 2026-04-13 07:45 (Asia/Bangkok)
+
+โปรเจค: Copy-Trade Bot (grit-web3-agency/copy-trade-bot)
+
+สรุปสั้น ๆ:
+• Sprint ที่ค้าง: ตาม PROJECT_SPEC ไม่มี Sprint Must-Have ค้าง (Sprint 1-4 ถูกทำเสร็จ) — Nice-to-Have: PnL / multi-whale / payment module เป็น optional (มีงานบางส่วนใน feature branches)
+• ปัญหา: ไม่มีปัญหาเร่งด่วนหรือ blocker; ชุดทดสอบก่อนหน้านี้ผ่าน (1016 passed, 5 skipped)
+• Push code: สาขาปัจจุบัน feat/pnl-tracking เทียบกับ origin/feat/pnl-tracking ไม่มีการเปลี่ยนแปลงค้าง
+
+การกระทำที่ผมทำ (internal):
+• อ่าน PROJECT_SPEC
+• ตรวจสอบสถานะ git (ไม่มีการเปลี่ยนแปลงค้าง)
+• เก็บสรุปนี้ไว้ที่ /reports/telegram_pending/2026-04-13_0745_status_for_boss.txt — ไม่ได้ส่ง Telegram อัตโนมัติ (ตามคำสั่งให้ handle ภายใน)
+
+ถ้าต้องการให้ผมส่งสรุปนี้ให้บอสทาง Telegram โดยอัตโนมัติ: โปรดยืนยันการส่ง (อนุญาต) หรือให้ผมใช้ chat id เดิมเพื่อส่งให้ครับ
+
+— Jack (automated internal report)

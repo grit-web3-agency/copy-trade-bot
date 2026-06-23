@@ -1,0 +1,17 @@
+Telegram summary (internal) — 2026-04-09 05:49 (Asia/Bangkok)
+
+1) Copy-Trade Bot ทำถึง Sprint ไหน
+• Sprint: dev-sprint12 (Sprint 12) และ dev/sprint-3 (Sprint 3) — ทั้งสอง sprint ถูก verified โดย Claude
+• สถานะ: PR #9 (dev-sprint12 → main) และ PR #8 (dev/sprint-3 → main) พร้อมสำหรับ merge (verified)
+
+2) มีปัญหาอะไร
+• ไม่มี blockers สำหรับ sprint นี้ — tests และ E2E run แบบ dry-run ผ่านเรียบร้อย
+• Kimi / DeepSeek API ตอบ 401 แต่สำหรับ sprint นี้ไม่จำเป็น (ใช้ dry-run/mocks)
+• การอัปเดต Dashboard via API (Job #21 → review) เกิด HTTP 422 — ต้องอัปเดตด้วยมือหรือแก้ schema
+
+3) Push code แล้วหรือยัง
+• ทั้งสอง branch (dev-sprint12, dev/sprint-3) ถูก push ขึ้น origin และ PR #9/#8 ถูกสร้างและอัปเดตเรียบร้อย
+
+หมายเหตุ: ผมได้โพสต์อัปเดตใน Discord #kanban-board และบันทึกสรุปรายงานภายใน (reports/heartbeat_reports). หากต้องการผมสามารถ merge PR ทั้งสองให้ทันทีเมื่อบอสสั่งครับ.
+
+ไฟล์บันทึก: /Users/m4/.openclaw/workspace/reports/heartbeat_reports/2026-04-09_0549_telegram_summary.txt

@@ -1,0 +1,33 @@
+Telegram summary (internal) — 2026-04-27 03:14 (Asia/Bangkok)
+
+โปรเจค: Copy-Trade Bot (grit-web3-agency/copy-trade-bot)
+
+1) Sprint
+• สถานะ: ถึง Sprint 4 (Polish / Deploy)
+• รายงานล่าสุด (projects/copy-trade-bot/SPRINT_REPORT.md): Branch dev/sprint-4-payment-stub (commit 530ca31)
+  - Tests: PASSED
+  - Build: FAILED (reason: package.json ไม่มีสคริปต์ "build" → npm รายงาน: "Missing script: \"build\"")
+
+Source: memory/2026-04-19.md#L1-L45
+Source: projects/copy-trade-bot/SPRINT_REPORT.md
+
+2) ปัญหา / ข้อสังเกต
+• Build ล้มเหลวเพราะไม่มีสคริปต์ build ใน package.json — แก้โดยเพิ่มสคริปต์ build (เช่น tsc หรือ build command ของโปรเจค) หรือปรับ CI ให้ไม่เรียกสคริปต์นี้
+• Kimi/DeepSeek API: เคยรายงาน 401 Unauthorized (หากต้องการรัน DeepSeek QA จำเป็นต้องตั้งค่า credentials)
+• Dashboard API: บางครั้ง PATCH /api/job/{id}/stage คืนค่า 422 — ต้องตรวจ payload/schema
+• Telegram: ช่องทางของบอสยังไม่ได้ตั้งค่า (numeric chat id ไม่ถูกตั้งค่า) — ยังส่งสรุปให้บอสโดยอัตโนมัติไม่ได้
+
+3) Push code แล้วหรือยัง
+• Branch/commit รายงานใน SPRINT_REPORT (see above). มีการ push สาขาที่เกี่ยวข้อง (dev/sprint-4-payment-stub / commit 530ca31).
+• ถ้าต้องการผมสามารถเปิด PR หรือ merge ให้เมื่อได้รับอนุญาตจากบอส
+
+การกระทำที่ผมทำตอนนี้ (internal):
+• สรุปสถานะข้างต้นและบันทึกเป็น internal report: /Users/m4/.openclaw/workspace/reports/telegram_pending/2026-04-27_0314_status_for_boss.txt
+• ไม่ได้ส่ง Telegram เนื่องจาก chat id ของบอสยังไม่ตั้งค่า
+
+คำแนะนำถัดไป (เลือกได้):
+- หากต้องการให้ผมส่ง Telegram ให้บอสโดยอัตโนมัติ: โปรดระบุ Telegram chat id (numeric) ของบอส หรือยืนยัน recipient/channel ที่ต้องการใช้
+- ให้ผมแก้ปัญหา build: ผมจะแก้ package.json เพิ่มสคริปต์ build (คุณต้องยืนยันก่อนจะ push/commit) หรือผมจะรันทดสอบ local และเสนอ patch
+- ให้ผมรัน DeepSeek QA หลังจัดเตรียม Kimi/DeepSeek credentials (ต้องให้ token/credential)
+
+— Automated report (handled internally as requested)

@@ -1,0 +1,8 @@
+Telegram summary (internal) — 2026-04-19 05:50 (Asia/Bangkok)
+
+การส่ง Telegram: ยังไม่ได้ส่งอัตโนมัติ (chat id ของบอสยังไม่ได้ตั้งค่า) — สรุปนี้ถูกเก็บไว้ที่:
+/Users/m4/.openclaw/workspace/reports/telegram_pending/2026-04-19_0550_status_for_boss.txt
+
+หากต้องการให้ส่งจริง ๆ: โปรดระบุ Telegram chat id แบบตัวเลขของบอส หรืออนุญาตให้ผมใช้ช่องทาง/recipient ที่ตั้งค่าไว้
+
+(ไฟล์นี้เก็บเป็นบันทึกการพยายามส่ง — เกิดจาก reminder: "รายงานสถานะ: 1) Copy-Trade Bot ... ส่ง Telegram สรุปให้บอส")

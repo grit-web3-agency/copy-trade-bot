@@ -71,6 +71,22 @@ export function validateEnv(): EnvValidationResult {
     }
   }
 
+  // --- Payments feature flag ---
+  const enablePayments = process.env.ENABLE_PAYMENTS;
+  const paymentMode = process.env.PAYMENT_MODE;
+  if (enablePayments === 'true') {
+    if (!paymentMode) {
+      errors.push('PAYMENT_MODE must be set when ENABLE_PAYMENTS=true (e.g. "mock" or "stripe").');
+    } else if (!['mock', 'stripe'].includes(paymentMode)) {
+      errors.push(`PAYMENT_MODE must be one of: mock, stripe. Got "${paymentMode}".`);
+    }
+
+    // Disallow real payment providers on non-devnet networks
+    if (paymentMode === 'stripe' && process.env.SOLANA_NETWORK && process.env.SOLANA_NETWORK !== 'devnet') {
+      errors.push('Real payment providers are disallowed when SOLANA_NETWORK is not devnet (mainnet unsafe).');
+    }
+  }
+
   return {
     valid: errors.length === 0,
     errors,

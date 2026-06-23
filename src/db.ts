@@ -80,10 +80,12 @@ function initSchema(database: Database.Database) {
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       telegram_id TEXT NOT NULL,
       plan TEXT NOT NULL DEFAULT 'free',
+      plan_id TEXT NOT NULL DEFAULT 'free',
+      status TEXT NOT NULL DEFAULT 'active',
       tx_signature TEXT,
       paid_sol REAL DEFAULT 0,
       started_at TEXT DEFAULT (datetime('now')),
-      expires_at TEXT,
+      expires_at TEXT DEFAULT (datetime('now', '+30 days')),
       active INTEGER DEFAULT 1,
       FOREIGN KEY (telegram_id) REFERENCES users(telegram_id)
     );
@@ -136,6 +138,15 @@ function initSchema(database: Database.Database) {
   const userCols2 = database.pragma('table_info(users)') as { name: string }[];
   if (!userCols2.some(c => c.name === 'poster_enabled')) {
     database.exec(`ALTER TABLE users ADD COLUMN poster_enabled INTEGER DEFAULT 1`);
+  }
+
+  // Migration: add plan_id and status columns to subscriptions if missing (payment module)
+  const subColumns = database.pragma('table_info(subscriptions)') as { name: string }[];
+  if (!subColumns.some(c => c.name === 'plan_id')) {
+    database.exec(`ALTER TABLE subscriptions ADD COLUMN plan_id TEXT NOT NULL DEFAULT 'free'`);
+  }
+  if (!subColumns.some(c => c.name === 'status')) {
+    database.exec(`ALTER TABLE subscriptions ADD COLUMN status TEXT NOT NULL DEFAULT 'active'`);
   }
 }
 
