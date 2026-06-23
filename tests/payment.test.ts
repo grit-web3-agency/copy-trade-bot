@@ -15,28 +15,10 @@ describe('payment module', () => {
   let db: Database.Database;
   const telegramId = 'pay-user-1';
 
-<<<<<<< HEAD
-beforeEach(() => {
-  db = createTestDb();
-  getOrCreateUser(db, '100', 'alice');
-  createAndStoreWallet(db, '100');
-  getOrCreateUser(db, '200', 'bob');
-  // Ensure payments enabled for tests and use mock provider
-  process.env.ENABLE_PAYMENTS = 'true';
-  process.env.PAYMENT_PROVIDER = 'mock';
-});
-
-describe('Plan definitions', () => {
-  it('has free, basic, and pro plans', () => {
-    expect(PLANS.free).toBeDefined();
-    expect(PLANS.basic).toBeDefined();
-    expect(PLANS.pro).toBeDefined();
-=======
   beforeEach(() => {
     db = createTestDb();
     initPaymentSchema(db);
     getOrCreateUser(db, telegramId, 'payer');
->>>>>>> origin/dev/claude-fix-payment-tests
   });
 
   describe('PLANS', () => {
@@ -162,4 +144,3 @@ describe('Plan definitions', () => {
     });
   });
 });
-
