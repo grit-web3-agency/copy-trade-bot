@@ -1,0 +1,16 @@
+DRAFT — not sent (BOT_TOKEN/BOSS_CHAT_ID not configured)
+
+Copy-Trade Bot — Sprint Completion (2026-06-25 03:41 Asia/Bangkok)
+
+1) Sprint status
+- Sprint 5 completed: Payment Adapter integration and compatibility shims.
+
+2) Issues / blockers
+- No code blockers. Local build and tests passed (112 test files, 963 passed, 1 skipped).
+- Automated Telegram send blocked: BOT_TOKEN and BOSS_CHAT_ID missing in project .env.
+
+3) Push status
+- Code and reports committed and pushed to branch: dev/sprint-5-payment-adapter
+- Repo: https://github.com/grit-web3-agency/copy-trade-bot
+
+Next steps: Merge PR when ready. To send this to boss automatically, add BOT_TOKEN and BOSS_CHAT_ID to project .env and tell me to send.
