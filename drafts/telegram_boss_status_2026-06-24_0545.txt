@@ -1,0 +1,23 @@
+TELEGRAM DRAFT — 2026-06-24 05:45 UTC
+To: Boss
+Status: Sprint routine check complete
+
+---
+
+Copy-Trade Bot — Routine Check 2026-06-24
+
+PR #25 (sprint-4-payment-stub):
+- Build: clean
+- Tests: 28/28 files pass (240 passed, 1 skipped)
+- Fixed: 4 test files that failed due to missing vitest globals (commit c6de889, pushed)
+
+PR #26 (sprint-5-payment-adapter):
+- Build: clean
+- Tests: 28/28 files pass (241 passed)
+- No fixes needed
+
+DeepSeek: CLI not available, skipped.
+Both PRs are open and mergeable. No blockers.
+
+---
+[NOT SENT — no BOT_TOKEN/BOSS_CHAT_ID configured]
