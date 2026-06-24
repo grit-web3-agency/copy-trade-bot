@@ -1,0 +1,11 @@
+Copy-Trade Bot — Routine Check 2026-06-24 13:45
+
+Both open PRs are GREEN:
+• PR #25 (sprint-4 payment stub): 28/28 test files, 240 passed
+• PR #26 (sprint-5 payment adapter): 112/112 test files, 963 passed
+• Builds clean on both branches
+• No fixes needed this cycle
+
+DeepSeek: not available (no CLI or npm script)
+
+No blockers. Ready for review/merge when convenient.
