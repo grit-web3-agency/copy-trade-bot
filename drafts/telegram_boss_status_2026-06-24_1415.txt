@@ -1,0 +1,15 @@
+DRAFT — not sent (BOT_TOKEN/BOSS_CHAT_ID not configured)
+
+---
+
+Copy-Trade Bot — Routine Check 2026-06-24 14:15
+
+PR #25 (sprint-4 payment stub): BUILD OK, TESTS OK (240 passed)
+PR #26 (sprint-5 payment adapter): BUILD OK, TESTS OK (1140 passed)
+
+No fixes needed this cycle. Both PRs green and ready for review.
+
+DeepSeek: not available (no CLI/script installed).
+npm audit: 8 upstream vuln (non-blocking).
+
+No blockers. Next action: merge when ready.
