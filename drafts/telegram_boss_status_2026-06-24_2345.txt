@@ -1,0 +1,20 @@
+DRAFT — not sent (BOT_TOKEN/BOSS_CHAT_ID not configured)
+
+Copy-Trade Bot — Status Update 2026-06-24 23:45 (Asia/Bangkok)
+
+1) Sprint status
+- Current sprint: Sprint 5 — Payment Adapter (complete on branch dev/sprint-5-payment-adapter)
+
+2) Issues / blockers
+- No code blockers: TypeScript build and unit tests ran green in recent checks (multiple runs; latest local run: 963 passed, 1 skipped).
+- Operational blocker: automated Telegram send is disabled because BOT_TOKEN and BOSS_CHAT_ID are not configured in project .env. I will not send tokens; please add them to the repo .env or instruct me to use provided credentials.
+
+3) Push status
+- Code committed and pushed to origin/dev/sprint-5-payment-adapter
+- Latest commit: 6b269db — "docs: handle reminder 2026-06-24 22:45 — prepared boss Telegram draft; send blocked (no Telegram creds)"
+
+Next steps
+- Open PR from dev/sprint-5-payment-adapter → main and request review, or instruct me to open it for you.
+- If you'd like this sent to the boss now, add BOT_TOKEN and BOSS_CHAT_ID to /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/.env and tell me to send.
+
+(Report generated automatically and saved in repo drafts.)
