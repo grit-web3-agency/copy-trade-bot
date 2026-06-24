@@ -1,0 +1,18 @@
+DRAFT — not sent (BOT_TOKEN/BOSS_CHAT_ID not configured)
+
+Copy-Trade Bot — Reminder handled 2026-06-24 20:41 (Asia/Bangkok)
+
+1) Sprint status
+- Sprint 5 (Payment Adapter): already complete. Changes merged to dev/sprint-5-payment-adapter.
+
+2) Issues / blockers
+- No code blockers; build and tests passed.
+- Operational blocker for Telegram: BOT_TOKEN and BOSS_CHAT_ID missing from project .env.
+
+3) Push status
+- No additional code changes required; all commits pushed to origin/dev/sprint-5-payment-adapter.
+
+Tests summary:
+- npm test: 963 passed, 1 skipped
+
+To send this message to boss via Telegram, add BOT_TOKEN and BOSS_CHAT_ID to /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/.env and instruct: "send telegram <chat_id>".
