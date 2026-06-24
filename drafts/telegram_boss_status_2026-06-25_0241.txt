@@ -1,0 +1,11 @@
+DRAFT — not sent (BOT_TOKEN/BOSS_CHAT_ID not configured)
+
+Copy-Trade Bot — Sprint status (2026-06-25 02:41 Asia/Bangkok)
+
+1) Sprint: Sprint 5 — Payment Adapter (verification complete)
+2) Issues: None blocking. Build and tests passed locally.
+3) Push: Branch dev/sprint-5-payment-adapter is up-to-date; recent commits recorded in repo.
+
+Tests run: npm test — 963 passed, 1 skipped, 0 failed (112 test files)
+
+Note: To send this automatically, add BOT_TOKEN and BOSS_CHAT_ID to project .env and instruct: "send telegram <chat_id>". Otherwise draft remains in repo.
