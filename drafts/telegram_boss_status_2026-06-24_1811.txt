@@ -1,0 +1,19 @@
+DRAFT — not sent (BOT_TOKEN/BOSS_CHAT_ID not configured)
+
+✅ Sprint complete — Copy-Trade Bot (2026-06-24 18:11 Asia/Bangkok)
+
+1) Sprint
+- Finished: Sprint 5 — Payment Adapter (compatibility wrappers + stripe-mock). Ready for review.
+
+2) Issues
+- No code blockers. Build and tests passed: 963 tests passed, 1 skipped.
+- Note: Unit tests log expected "mocked: no network" messages when testing Jupiter quotes, handled by retry/fallback logic.
+
+3) Push status
+- Changes committed and saved in branch dev/sprint-5-payment-adapter (no further code changes needed this run).
+
+Next steps:
+- Merge PR when reviewers approve.
+- If you want this sent to Telegram automatically, add BOT_TOKEN and BOSS_CHAT_ID to project .env and instruct me to send.
+
+(Report saved to repo: reports/sprint_complete_2026-06-24_1811.md)
