@@ -22,3 +22,10 @@ Change-log summary (files touched):
 - src/bot.ts, src/api/payments/webhook.ts — made robust to result shapes
 
 Report generated on: 2026-06-24 04:14 (Asia/Bangkok)
+
+
+## Auto-run update — 2026-06-26 05:06 Asia/Bangkok
+- Branch: dev/auto-sprint-continue-20260626
+- Actions: created worktree, ran Claude CLI in worktree (produced doc commits), pushed branch, ran CI locally (npm ci).
+- Tests: vitest run — 112 test files, 963 passed, 1 skipped.
+- Notes: Claude background process exited earlier (SIGTERM) before sending final openclaw system event; commits from worktree were included.
