@@ -1,0 +1,23 @@
+สรุปสถานะ Copy-Trade Bot — 2026-06-27 04:08 Asia/Bangkok
+
+1) ทำถึง Sprint ไหน
+- ปัจจุบันอยู่ที่ Sprint 5 (payment-adapter). โค้ดหลักและเอกสารอัพเดตแล้วในสาขา dev/sprint-5-payment-adapter
+- สร้างงานอัตโนมัติและรวมผลเป็นสาขาชั่วคราว: dev/auto-sprint-continue-20260626 (ผลการทำงานถูก push ขึ้น origin)
+
+2) มีปัญหาอะไร
+- บล็อกเชิงปฏิบัติการสำหรับการแจ้งบอสทาง Telegram: ไฟล์ .env ในโปรเจคยังไม่มีค่า BOT_TOKEN และ BOSS_CHAT_ID (มีแค่ .env.example) — จึงไม่สามารถส่งข้อความ Telegram อัตโนมัติได้
+- ยังมี PR ที่ต้องทบทวน: PR #25 (dev/sprint-4-payment-stub → main) รอรีวิว/แก้ไขก่อน merge (ไม่เป็น blocker ของ sprint ปัจจุบัน แต่ต้องเคลียร์ก่อนเปิดใช้ฟีเจอร์จ่ายเงินจริง)
+- feature flag จ่ายเงินปิดอยู่โดยค่าเริ่มต้น: ENABLE_PAYMENTS=false (ระบบเป็น dry-run โดยดีฟอลต์)
+- เบื้องหลัง: กระบวนการ background (Claude run) ถูก SIGTERM แต่ commit ที่สำคัญถูกสร้างไว้แล้ว — ไม่มีการเปลี่ยนแปลงโค้ดเพิ่มเติมหลังรันเทสต์
+
+3) Push code แล้วหรือยัง
+- ใช่: สาขา dev/auto-sprint-continue-20260626 ถูก push ขึ้น origin (https://github.com/grit-web3-agency/copy-trade-bot)
+- การทดสอบ: รันชุดทดสอบด้วย vitest — 964 tests (963 passed, 1 skipped)
+
+ถ้าต้องการให้ผมส่งข้อความนี้ให้บอสทันที ให้ทำอย่างใดอย่างหนึ่งต่อไปนี้:
+- เพิ่มค่าต่อไปนี้ใน /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/.env แล้วผมจะส่งให้โดยอัตโนมัติเมื่อตรวจพบ:
+  BOT_TOKEN=<your_bot_token>
+  BOSS_CHAT_ID=<chat_id>
+- หรือ สั่ง: "send telegram <chat_id>" (ผมจะใช้ BOT_TOKEN จาก .env ถ้ามี และส่งร่างนี้ให้ทันที)
+
+บันทึก: รายงานฉบับสมบูรณ์และไฟล์ผลการรันถูกบันทึกใน repository (reports/ และ memory/)
