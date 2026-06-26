@@ -1,0 +1,20 @@
+สรุปสถานะ Copy-Trade Bot — 2026-06-27 06:08 (Asia/Bangkok)
+
+1) ทำถึง Sprint ไหน
+- ปัจจุบัน: Sprint 5 (payment adapter). พัฒนาบน dev/sprint-5-payment-adapter
+- Branch auto-run ที่ผมสร้าง/ใช้: dev/auto-sprint-continue-20260626 (ได้ push ขึ้น origin)
+
+2) มีปัญหาอะไร
+- PR เกี่ยวกับ payment (PR #25 / dev/sprint-4-payment-stub) ยังรอรีวิว/แก้ไขก่อน merge
+- การส่งสรุปให้บอสอัตโนมัติถูกบล็อกเพราะไฟล์ .env ของโปรเจคยังไม่มี BOT_TOKEN และ/หรือ BOSS_CHAT_ID (มีแค่ .env.example)
+- ฟีเจอร์จ่ายเงินยังปิดเป็นค่าเริ่มต้น (ENABLE_PAYMENTS=false) — ต้องเตรียมคีย์และกระเป๋า devnet ก่อนทดสอบจริง
+
+3) Push code แล้วหรือยัง
+- ใช่: branch dev/auto-sprint-continue-20260626 ถูก push ไปยัง origin แล้ว
+- ผลการทดสอบ unit (จากรันก่อนหน้า): vitest — 964 tests — 963 passed, 1 skipped. รายงานอยู่ที่ reports/auto-sprint-continue-2026-06-26-results.md
+
+ขั้นตอนถัดไป (ถ้าต้องการส่ง Telegram จริงๆ)
+- วาง BOT_TOKEN และ BOSS_CHAT_ID ลงใน /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/.env (ตัวอย่าง: BOT_TOKEN=xxx  BOSS_CHAT_ID=12345) แล้วสั่ง: "send telegram <chat_id>"
+- หรือ ให้ chat_id ที่ต้องการและอนุญาตให้ผมใช้ token (ต้องมี BOT_TOKEN ใน .env)
+
+(ร่างนี้ถูกบันทึกไว้เป็นเอกสารใน repo — ผมจะไม่ส่งข้อความภายนอกโดยไม่มี credentials และอนุญาตจากคุณ)
