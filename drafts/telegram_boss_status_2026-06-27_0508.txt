@@ -1,0 +1,23 @@
+สรุปสถานะ Copy-Trade Bot — 2026-06-27 05:08 (Asia/Bangkok)
+
+1) ทำถึง Sprint ไหน
+- ปัจจุบันทำงานอยู่บน Sprint 5 (payment adapter). มีสาขาทดสอบและพัฒนาหลัก: dev/sprint-5-payment-adapter
+- ฉันรันกระบวนการต่อสปรินท์อัตโนมัติและสร้าง/ผลักสาขาชื่อ dev/auto-sprint-continue-20260626 ซึ่งรวม commits เอกสารและรายงานจากรัน background (Claude).
+
+2) มีปัญหาอะไร
+- ไม่มีบั๊กทางเทคนิคที่ขัดขวางการทดสอบหลัก แต่มีข้อจำกัดเชิงปฏิบัติการ:
+  * PR เกี่ยวกับ payment (PR #25 / dev/sprint-4-payment-stub) ยังรอรีวิว/แก้ไขก่อน merge (ไม่เป็น blocker สำหรับการรันต่อ แต่ต้องรีวิวก่อน deploy)
+  * การส่งสรุปให้บอสอัตโนมัติถูกบล็อกเพราะไฟล์ .env ของโปรเจคยังไม่มี BOT_TOKEN และ/หรือ BOSS_CHAT_ID (มีแค่ .env.example)
+  * ฟีเจอร์จ่ายเงินยังปิดเป็นค่าเริ่มต้น (ENABLE_PAYMENTS=false) — ต้องเปิดและตั้งค่า HELIUS/API keys + ทรัพยากรกระเป๋าเงินเมื่อพร้อมสำหรับ devnet/live tests
+
+3) Push code แล้วหรือยัง
+- ใช่: branch dev/auto-sprint-continue-20260626 ถูก push ไปยัง origin แล้ว
+- การทดสอบ (unit) ถูกเรียกใช้: vitest — 964 tests (963 passed, 1 skipped). รายงานผลและไฟล์รายงานถูกบันทึกใน repository (reports/auto-sprint-continue-2026-06-26-results.md)
+
+สิ่งที่ต้องการจากคุณเพื่อส่ง Telegram อัตโนมัติ
+- วางค่า BOT_TOKEN และ BOSS_CHAT_ID ลงในไฟล์ /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/.env (รูปแบบ: BOT_TOKEN=xxx\nBOSS_CHAT_ID=123456789)
+- หรือให้ chat_id ของบอสที่ต้องการส่ง (เลข chat_id หรือ @username) แล้วสั่ง: "send telegram <chat_id>" — ฉันจะใช้ BOT_TOKEN จาก .env ถ้ามี
+
+ถ้าต้องการให้ผมส่งข้อความนี้ให้บอสเดี๋ยวนี้ โปรดเพิ่ม BOT_TOKEN + BOSS_CHAT_ID ลงใน .env หรือส่งคำสั่ง "send telegram <chat_id>" พร้อมอนุญาตให้ใช้ token
+
+- รายงานอัตโนมัติจัดทำโดย OpenClaw handler
