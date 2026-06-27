@@ -1,0 +1,19 @@
+สรุปสถานะ Copy-Trade Bot — 2026-06-27 08:05 (Asia/Bangkok)
+
+1) ทำถึง Sprint ไหน
+- ปัจจุบันทำงานบน Sprint 5 (payment adapter). สาขาพัฒนา: dev/sprint-5-payment-adapter
+- สาขา automation: dev/auto-sprint-continue-20260626 (up-to-date, push แล้ว)
+
+2) มีปัญหาอะไร
+- PR #25 (payment-stub) ยังรอรีวิว/merge
+- ไม่มีไฟล์ .env ที่มี BOT_TOKEN/BOSS_CHAT_ID — มีเฉพาะ .env.example ดังนั้นการส่ง Telegram อัตโนมัติถูกบล็อก
+- ENABLE_PAYMENTS ปิดเป็นค่าเริ่มต้น — ต้องเตรียม API keys + wallet สำหรับการทดสอบ devnet/live
+
+3) Push code แล้วหรือยัง
+- ใช่: dev/auto-sprint-continue-20260626 ถูก push ไปยัง origin
+- Unit tests (ล่าสุด): 964 tests — 963 passed, 1 skipped (ดู reports/auto-sprint-continue-2026-06-27.md)
+
+คำแนะนำ
+- ถ้าต้องการส่ง Telegram ให้บอสอัตโนมัติ: เพิ่ม BOT_TOKEN และ BOSS_CHAT_ID ลงใน .env แล้วสั่ง "send telegram <chat_id>"
+
+หมายเหตุ: รายงานและร่างถูกบันทึกใน repository; ยังไม่ได้ส่งข้อความภายนอกเพราะขาด credentials.
