@@ -1,0 +1,23 @@
+สรุปรายงานสถานะ Copy-Trade Bot — 2026-06-28
+
+1) ทำถึง Sprint ไหน:
+- ปัจจุบันโครงการทำถึง Sprint 5 (Payment Adapter) ซึ่งงานหลักของ Sprint 5 เสร็จแล้ว (branch: dev/sprint-5-payment-adapter).
+- ขณะนี้มีงานต่อเนื่องบนสาขา dev/auto-sprint-continue-20260627-work (HEAD: e51b246) สำหรับรายงานสถานะและงานเก็บงานเล็กน้อย
+
+2) ปัญหาหรือบล็อกเกอร์:
+- ไม่มีบั๊กวิกฤตที่ขัดขวางการทำงาน; ชุดทดสอบรันผ่าน (964 tests collected — 963 passed, 1 skipped) ในเครื่องทดสอบท้องถิ่น
+- บางเทสแสดงข้อความ retry/mock network ("mocked: no network in tests") ซึ่งเป็นพฤติกรรมที่คาดไว้ในสภาพแวดล้อมทดสอบ
+- การส่ง Telegram ให้บอสอัตโนมัติถูกบล็อกเพราะ BOT_TOKEN และ chat_id ไม่ได้ตั้งค่าใน .env — ต้องให้ค่า BOT_TOKEN และ chat_id หรือสั่งให้ส่งด้วยตัวเอง
+
+3) Push code แล้วหรือยัง:
+- ใช่: โค้ดถูก push ไปยังรีโมทแล้ว
+  - Branch dev/sprint-5-payment-adapter — (previously pushed)
+  - Branch dev/auto-sprint-continue-20260627-work — pushed (HEAD: e51b246)
+- ล่าสุด commit message: "docs: sprint continuation report 2026-06-27 — tests green" (short hash: e51b246)
+
+Next steps (แนะนำ):
+1) หากต้องการให้ผมส่ง Telegram สรุปให้อัตโนมัติ: เพิ่ม BOT_TOKEN และ boss chat_id ลงในไฟล์ .env (หรือสั่งให้ผมส่งและระบุ chat_id) แล้วผมจะส่งทันที
+2) เปิด PR จาก dev/auto-sprint-continue-20260627-work → dev/main (หรือ main) หากต้องการรีวิว/merge
+3) ถ้าต้องการ ผมจะร่างข้อความ Telegram ภาษาอังกฤษ/ไทยให้พร้อมส่ง
+
+-- Automated agent report (internal).
