@@ -1,15 +1,21 @@
-สรุปสถานะ Copy-Trade Bot — 2026-06-28 (อัตโนมัติ)
+สรุปสถานะ Copy-Trade Bot — 2026-06-28 21:08 (Asia/Bangkok)
 
 1) ทำถึง Sprint ไหน
-- Sprints 1–4 เสร็จสมบูรณ์ตาม PROJECT_SPEC. Payment adapter implemented as mock on branch dev/sprint-5-payment-adapter (disabled by default).
+- Sprints 1–4 เสร็จสมบูรณ์ตาม PROJECT_SPEC (Scaffold, Listener, Wallet, Executor, Copy Logic, Demo, Polish + Deploy instructions).
+- Payment adapter (งาน Sprint 5) ถูกพัฒนาเป็น mock/adapter (branch: dev/sprint-5-payment-adapter) และถูก merge/ปรับปรุงในสาขา dev/auto-sprint-continue-20260627-work ด้วย (ENABLE_PAYMENTS: disabled by default).
 
 2) ปัญหาที่พบ
-- ไม่มีปัญหาเชิงเทคนิคที่บล็อกการส่งมอบ — test-suite ผ่าน (964 collected, 963 passed, 1 skipped).
-- ข้อควรทราบ: tests log mocked-network warnings (expected). Wallet-manager test shows an invalid-arg-type for decryptSecret in some worktrees — likely test fixture issue but non-blocking.
+- ไม่มีบั๊กเชิงเทคนิคที่บล็อกการส่งมอบ — test-suite ท้องถิ่นผ่าน (964 tests collected, 963 passed, 1 skipped).
+- รายการที่ต้องตัดสินใจก่อนใช้งานจริง:
+  - การเชื่อมต่อ payment provider จริง (หากต้องการเปิดเก็บเงิน) — ปัจจุบันเป็น mock/adapter
+  - การเปิดใช้งาน live/devnet trading ต้องกำหนดและทดสอบ credentials/RPC
+  - Automated Telegram: BOT_TOKEN และ BOSS_CHAT_ID ไม่ได้ถูกตั้งค่าใน .env จึงยังไม่ส่งอัตโนมัติได้
 
 3) Push code แล้วหรือยัง
-- ใช่: ไม่มีการเปลี่ยนแปลงโค้ดที่ต้อง commit. Branch dev/auto-sprint-continue-20260627-work is up-to-date and pushed.
+- ใช่: โค้ดและรายงานล่าสุดถูก commit และ push ขึ้น remote บนสาขา dev/auto-sprint-continue-20260627-work (รวม SPRINT_REPORT และร่าง Telegram)
+- งาน payment adapter อยู่บนสาขา dev/sprint-5-payment-adapter (push แล้ว)
 
-ถ้าต้องการให้ส่งสรุปนี้ให้บอสโดยอัตโนมัติ: เพิ่ม BOT_TOKEN และ BOSS_CHAT_ID ลงใน /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/.env แล้วบอกให้ผมส่ง (หรืออนุญาตให้ผมใช้ credential ที่มี)
+ถ้าต้องการให้ผมส่งสรุปนี้ให้บอส:
+- วาง BOT_TOKEN และ BOSS_CHAT_ID ลงใน /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/.env แล้วตอบว่า: send telegram <chat_id>
 
-(ข้อความนี้ยังไม่ถูกส่ง — รอ credential/อนุญาต)
+หมายเหตุ: รายงานนี้เป็นร่างภายใน — ยังไม่ได้ส่งทาง Telegram (รอ credentials/อนุญาต).
