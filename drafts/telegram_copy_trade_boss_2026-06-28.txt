@@ -1,6 +1,6 @@
 สรุปสถานะ Copy-Trade Bot — 2026-06-28 (อัตโนมัติ)
 
-อัปเดต: 2026-06-28 14:08 (Asia/Bangkok)
+อัปเดต: 2026-06-28 17:08 (Asia/Bangkok)
 
 1) ทำถึง Sprint ไหน
 - Sprints 1–4 เสร็จสมบูรณ์ตาม PROJECT_SPEC (Scaffold, Listener, Wallet, Executor, Copy Logic, Demo, Polish + Deploy instructions).
