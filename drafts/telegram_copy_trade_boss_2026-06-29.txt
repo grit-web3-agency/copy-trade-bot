@@ -1,21 +1,23 @@
-สรุปสถานะ Copy-Trade Bot — 2026-06-29 (อัตโนมัติ)
+สรุปสถานะ Copy-Trade Bot — 2026-06-29 01:08 (อัตโนมัติ)
 
 1) ทำถึง Sprint ไหน
-- Sprints 1–4 เสร็จสมบูรณ์ตาม PROJECT_SPEC. Payment adapter implemented as pluggable mock on dev/sprint-5-payment-adapter (ENABLE_PAYMENTS=false by default).
+- Sprints 1–4 เสร็จสมบูรณ์ตาม PROJECT_SPEC (Scaffold, Listener, Wallet, Executor, Copy Logic, Demo, Polish + Deploy instructions).
+- Payment adapter (งาน Sprint 5) ถูกพัฒนาในสาขา dev/sprint-5-payment-adapter เป็น mock/adapter (ENABLE_PAYMENTS: disabled by default). ถ้าต้องการเปิดใช้งานจริง ต้องเชื่อมต่อ provider เช่น Stripe และตั้งค่า ENV.
 
 2) ปัญหาที่พบ
-- ไม่มีปัญหาเชิงเทคนิคที่บล็อกการส่งมอบ; test-suite ผ่าน (964 collected, 963 passed, 1 skipped).
-- Remaining manual tasks if enabling payments/live devnet:
-  - Provision test keys for PAYMENT_PROVIDER (e.g., Stripe test keys) and set ENABLE_PAYMENTS=true
-  - E2E devnet run for real trades per-account
-  - Provide BOT_TOKEN and BOSS_CHAT_ID to enable automated Telegram notifications
+- ไม่มีปัญหาเชิงเทคนิคที่บล็อกการส่งมอบ — test-suite ผ่านบนเครื่องพัฒนา
+- จุดที่ต้องจัดการก่อนส่งให้ผู้ใช้จริง:
+  - การเชื่อมต่อ payment provider (หากต้องการเก็บเงิน) — ปัจจุบันเป็น mock/adapter
+  - การเปิดใช้งาน live devnet trading ต้องทดสอบและอนุญาตเป็นรายบัญชี
+  - Automated Telegram: BOT_TOKEN และ BOSS_CHAT_ID ไม่ได้ถูกตั้งค่าใน .env จึงไม่สามารถส่งข้อความให้อัตโนมัติได้ (ต้องให้โทเค็น/หรืออนุญาตการส่ง)
 
 3) Push code แล้วหรือยัง
-- ใช่: โค้ดล่าสุดถูก commit & pushed บน branch dev/auto-sprint-continue-20260627-work
-- Payment adapter branch: dev/sprint-5-payment-adapter (pushed earlier)
+- ใช่: โค้ดล่าสุดถูก commit และ push ขึ้น remote บนสาขา dev/auto-sprint-continue-20260627-work (commit: d9d5c91)
+- นอกจากนี้มีสาขา dev/sprint-5-payment-adapter สำหรับงาน payment adapter (push แล้วก่อนหน้า)
 
-แนะนำถัดไป:
-- ถ้าต้องการให้ผมส่งสรุปนี้ให้บอส: เพิ่ม BOT_TOKEN และ BOSS_CHAT_ID ลงใน project .env แล้วตอบ: send telegram <chat_id>
-- ถ้าต้องการให้ผมเปิด PR: บอก target branch (dev/main/main) และ reviewers
+แนะนำถัดไป (เลือกอย่างใดอย่างหนึ่ง)
+- หากต้องการให้ผมส่งสรุปนี้ให้บอสโดยอัตโนมัติ: เพิ่ม BOT_TOKEN และ BOSS_CHAT_ID ลงใน /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/.env แล้วบอกให้ผมส่ง (หรืออนุญาตให้ผมใช้ credential ที่มี)
+- หากต้องการเปิดใช้งาน payment/production flow: ระบุ provider + คีย์ทดสอบ เพื่อผมจะต่อและทำ E2E devnet demo
+- ถ้าต้องการผมจะเปิด PR จาก dev/auto-sprint-continue-20260627-work → dev/main และระบุรีวิวเวอร์/ข้อความ PR
 
-หมายเหตุ: ข้อความนี้ยัง "ร่าง" — ยังไม่ได้ส่งทาง Telegram (credentials missing)
+หมายเหตุ: รายงานนี้เป็นร่าง — ยังไม่ได้ส่งทาง Telegram (ความปลอดภัย/cred-required)
