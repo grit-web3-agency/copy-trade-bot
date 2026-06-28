@@ -1,16 +1,21 @@
 สรุปสถานะ Copy-Trade Bot — 2026-06-29 (อัตโนมัติ)
 
 1) ทำถึง Sprint ไหน
-- Sprints 1–4 เสร็จสมบูรณ์ตาม PROJECT_SPEC (Scaffold, Listener, Wallet, Executor, Copy Logic, Demo, Polish + Deploy instructions).
-- Payment adapter (งาน Sprint 5) ถูกพัฒนาเป็น mock/adapter บนสาขา dev/sprint-5-payment-adapter (ค่าเริ่มต้น: disabled).
+- Sprints 1–4 เสร็จสมบูรณ์ตาม PROJECT_SPEC. Payment adapter implemented as pluggable mock on dev/sprint-5-payment-adapter (ENABLE_PAYMENTS=false by default).
 
 2) ปัญหาที่พบ
-- ไม่มีปัญหาเชิงเทคนิคที่บล็อกการส่งมอบ — test-suite ผ่าน (964 collected, 963 passed, 1 skipped).
-- จุดที่ต้องจัดการก่อนใช้จริง: เชื่อมต่อ payment provider จริง (ถ้าต้องการ), ตั้งค่า BOT_TOKEN และ BOSS_CHAT_ID สำหรับการแจ้งเตือนอัตโนมัติ
+- ไม่มีปัญหาเชิงเทคนิคที่บล็อกการส่งมอบ; test-suite ผ่าน (964 collected, 963 passed, 1 skipped).
+- Remaining manual tasks if enabling payments/live devnet:
+  - Provision test keys for PAYMENT_PROVIDER (e.g., Stripe test keys) and set ENABLE_PAYMENTS=true
+  - E2E devnet run for real trades per-account
+  - Provide BOT_TOKEN and BOSS_CHAT_ID to enable automated Telegram notifications
 
 3) Push code แล้วหรือยัง
-- ใช่: โค้ดล่าสุดถูก commit และ push ขึ้น remote บนสาขา dev/auto-sprint-continue-20260627-work
+- ใช่: โค้ดล่าสุดถูก commit & pushed บน branch dev/auto-sprint-continue-20260627-work
+- Payment adapter branch: dev/sprint-5-payment-adapter (pushed earlier)
 
-หมายเหตุ: ข้อความนี้ยังไม่ได้ส่งทาง Telegram — ต้องมี BOT_TOKEN และ BOSS_CHAT_ID ใน .env หรือให้สิทธิ์ผมใช้ credential เพื่อส่ง
+แนะนำถัดไป:
+- ถ้าต้องการให้ผมส่งสรุปนี้ให้บอส: เพิ่ม BOT_TOKEN และ BOSS_CHAT_ID ลงใน project .env แล้วตอบ: send telegram <chat_id>
+- ถ้าต้องการให้ผมเปิด PR: บอก target branch (dev/main/main) และ reviewers
 
-(End of auto report)
+หมายเหตุ: ข้อความนี้ยัง "ร่าง" — ยังไม่ได้ส่งทาง Telegram (credentials missing)
