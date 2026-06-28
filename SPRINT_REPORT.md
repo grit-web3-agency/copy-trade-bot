@@ -15,7 +15,7 @@ Notes:
 - Automated Telegram send is disabled until BOT_TOKEN and BOSS_CHAT_ID are provided in project .env for security.
 
 Next steps:
-- If you want me to open a PR from dev/auto-sprint-continue-20260627-work → dev/main, tell me PR title, reviewers, and target branch.
+- If you want me to open a PR from dev/auto-sprint-continue-20260627-work  dev/main, tell me PR title, reviewers, and target branch.
 - If you want me to send this report to the boss via Telegram, add BOT_TOKEN and BOSS_CHAT_ID to the project .env and reply: "send telegram <chat_id>".
 
-Recorded by assistant (automated reminder handler).
+Recorded by assistant (automated reminder handler). 2026-06-28 19:36 (Asia/Bangkok)
