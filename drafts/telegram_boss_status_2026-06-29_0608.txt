@@ -1,0 +1,18 @@
+สรุปสถานะ Copy-Trade Bot — 2026-06-29 06:08 (Asia/Bangkok)
+
+1) ทำถึง Sprint ไหน
+- ปัจจุบันทำงานถึง Sprint 5 (Payment Adapter compatibility & fixes). โค้ดของ Sprint 5 ได้รับการพัฒนาและตรวจสอบจนผ่านชุดทดสอบหน่วยในเครื่อง (test-suite green: 963 passed, 1 skipped).
+
+2) มีปัญหาอะไร
+- ไม่มีบั๊กวิกฤติที่ขัดขวางการ merge/deploy ณ เวลานี้.
+- ข้อจำกัดเชิงปฏิบัติการ: ใน working tree มีการแก้สถานะ worktree ของ .claude (.claude/worktrees/*) — เป็น metadata ของ worktree ไม่ใช่การเปลี่ยนแปลงฟังก์ชันการทำงาน แต่ทำให้ git status แสดงไฟล์ที่ยังไม่ถูก staged ในบางกรณี.
+- ทดสอบท้องถิ่นจะแสดง warning เกี่ยวกับ mocked-network สำหรับการเรียกไปยัง Jupiter/Poster ซึ่งเป็น expected ในสภาพแวดล้อม offline.
+
+3) Push code แล้วหรือยัง
+- ใช่: สาขา dev/auto-sprint-continue-20260627-work ถูก push ขึ้น origin และอยู่ในสถานะ "Everything up-to-date".
+
+หมายเหตุเพิ่มเติม:
+- รายงานนี้ถูกบันทึกใน SPRINT_REPORT.md และสำเนาถูกจัดเก็บเป็น drafts/telegram_boss_status_2026-06-29_0608.txt
+- หากต้องการให้ผมส่งสรุปนี้ให้บอส: วางค่า TELEGRAM_BOT_TOKEN/TELEGRAM_CHAT_ID (หรือ BOT_TOKEN/BOSS_CHAT_ID) ลงใน /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/.env หรือสั่งตรง ๆ: send telegram <chat_id>
+
+(ข้อความนี้เป็นร่างภายใน — การส่งทาง Telegram จะทำเมื่อได้รับ credentials หรือคำสั่ง explicit)
