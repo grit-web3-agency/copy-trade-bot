@@ -1,23 +1,23 @@
-สรุปรายงานสถานะ Copy-Trade Bot — 2026-06-28
+สรุปสถานะ Copy-Trade Bot — 2026-06-28 (อัตโนมัติ)
 
-1) ทำถึง Sprint ไหน:
-- ปัจจุบันโครงการทำถึง Sprint 5 (Payment Adapter) ซึ่งงานหลักของ Sprint 5 เสร็จแล้ว (branch: dev/sprint-5-payment-adapter).
-- ขณะนี้มีงานต่อเนื่องบนสาขา dev/auto-sprint-continue-20260627-work (HEAD: e51b246) สำหรับรายงานสถานะและงานเก็บงานเล็กน้อย
+1) ทำถึง Sprint ไหน
+- Sprints 1–4 เสร็จสมบูรณ์ตาม PROJECT_SPEC (Scaffold, Listener, Wallet, Executor, Copy Logic, Demo, Polish + Deploy instructions).
+- Payment adapter (งาน Sprint 5) ถูกพัฒนาในสาขา dev/sprint-5-payment-adapter เป็น mock/adapter (ENABLE_PAYMENTS: disabled by default). ถ้าต้องการเปิดใช้งานจริง ต้องเชื่อมต่อ provider เช่น Stripe และตั้งค่า ENV.
 
-2) ปัญหาหรือบล็อกเกอร์:
-- ไม่มีบั๊กวิกฤตที่ขัดขวางการทำงาน; ชุดทดสอบรันผ่าน (964 tests collected — 963 passed, 1 skipped) ในเครื่องทดสอบท้องถิ่น
-- บางเทสแสดงข้อความ retry/mock network ("mocked: no network in tests") ซึ่งเป็นพฤติกรรมที่คาดไว้ในสภาพแวดล้อมทดสอบ
-- การส่ง Telegram ให้บอสอัตโนมัติถูกบล็อกเพราะ BOT_TOKEN และ chat_id ไม่ได้ตั้งค่าใน .env — ต้องให้ค่า BOT_TOKEN และ chat_id หรือสั่งให้ส่งด้วยตัวเอง
+2) ปัญหาที่พบ
+- ไม่มีปัญหาเชิงเทคนิคที่บล็อกการส่งมอบ — test-suite ผ่าน (964 tests: 963 passed, 1 skipped) บนเครื่องพัฒนา
+- จุดที่ต้องจัดการก่อนส่งให้ผู้ใช้จริง:
+  - การเชื่อมต่อ payment provider (หากต้องการเก็บเงิน) — ปัจจุบันเป็น mock/adapter
+  - การเปิดใช้งาน live devnet trading ต้องทดสอบและอนุญาตเป็นรายบัญชี
+  - Automated Telegram: BOT_TOKEN และ BOSS_CHAT_ID ไม่ได้ถูกตั้งค่าใน .env จึงไม่สามารถส่งข้อความให้อัตโนมัติได้ (ต้องให้โทเค็น/หรืออนุญาตการส่ง)
 
-3) Push code แล้วหรือยัง:
-- ใช่: โค้ดถูก push ไปยังรีโมทแล้ว
-  - Branch dev/sprint-5-payment-adapter — (previously pushed)
-  - Branch dev/auto-sprint-continue-20260627-work — pushed (HEAD: e51b246)
-- ล่าสุด commit message: "docs: sprint continuation report 2026-06-27 — tests green" (short hash: e51b246)
+3) Push code แล้วหรือยัง
+- ใช่: โค้ดล่าสุดถูก commit และ push ขึ้น remote บนสาขา dev/auto-sprint-continue-20260627-work (commit: e51b246)
+- นอกจากนี้มีสาขา dev/sprint-5-payment-adapter สำหรับงาน payment adapter (push แล้วก่อนหน้า)
 
-Next steps (แนะนำ):
-1) หากต้องการให้ผมส่ง Telegram สรุปให้อัตโนมัติ: เพิ่ม BOT_TOKEN และ boss chat_id ลงในไฟล์ .env (หรือสั่งให้ผมส่งและระบุ chat_id) แล้วผมจะส่งทันที
-2) เปิด PR จาก dev/auto-sprint-continue-20260627-work → dev/main (หรือ main) หากต้องการรีวิว/merge
-3) ถ้าต้องการ ผมจะร่างข้อความ Telegram ภาษาอังกฤษ/ไทยให้พร้อมส่ง
+แนะนำถัดไป (เลือกอย่างใดอย่างหนึ่ง)
+- หากต้องการให้ผมส่งสรุปนี้ให้บอสโดยอัตโนมัติ: เพิ่ม BOT_TOKEN และ BOSS_CHAT_ID ลงใน /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/.env แล้วบอกให้ผมส่ง (หรืออนุญาตให้ผมใช้ credential ที่มี)
+- หากต้องการเปิดใช้งาน payment/production flow: ระบุ provider + คีย์ทดสอบ เพื่อผมจะต่อและทำ E2E devnet demo
+- ถ้าต้องการผมจะเปิด PR จาก dev/auto-sprint-continue-20260627-work → dev/main และระบุรีวิวเวอร์/ข้อความ PR
 
--- Automated agent report (internal).
+หมายเหตุ: รายงานนี้เป็นร่าง — ยังไม่ได้ส่งทาง Telegram (ความปลอดภัย/cred-required)

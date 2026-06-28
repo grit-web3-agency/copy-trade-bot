@@ -126,3 +126,24 @@ Automated append: routine check: 2026-05-07 19:12 Asia/Bangkok
   2) Optionally apply the safe env-validation patch via a follow-up PR
   3) Provide BOT_TOKEN and boss chat_id to allow sending Telegram summary automatically, or instruct agent to send now
 
+Automated append: reminder handled: 2026-06-25 04:45 Asia/Bangkok
+- Action: Re-read PROJECT_SPEC; created sprint report at copy-trade-bot/SPRINT_REPORT_2026-06-25.md and prepared Telegram draft at drafts/telegram_copy_trade_boss_2026-06-25.txt
+- Findings: Sprints 1-4 complete per PROJECT_SPEC; Payment adapter implemented as mock/adapter and pushed on dev/sprint-5-payment-adapter. Automated Telegram send blocked: BOT_TOKEN/chat id missing.
+
+Automated append: reminder handled: 2026-06-28 04:06 Asia/Bangkok
+- Action: Read PROJECT_SPEC; ran full test-suite (vitest). Result: 964 tests collected, 963 passed, 1 skipped. Committed minor worktree update and pushed branch dev/auto-sprint-continue-20260627-work to origin.
+- Branch pushed: dev/auto-sprint-continue-20260627-work (commit e51b246)
+- Artifact: SPRINT_REPORT.md updated with sprint continuation summary (tests green). Draft telegram prepared previously still present at drafts/telegram_copy_trade_boss_2026-06-25.txt
+- Notes: No external notification sent (credentials missing). Next steps: open PR or provide BOT_TOKEN and BOSS_CHAT_ID to send Telegram summary.
+
+Automated append: reminder handled: 2026-06-28 07:08 Asia/Bangkok
+- Action: Prepared Telegram draft summary for boss and saved to drafts/telegram_copy_trade_boss_2026-06-28.txt
+- Summary highlights:
+  1) Sprint status: Sprints 1–4 complete; payment adapter implemented as mock (dev/sprint-5-payment-adapter) and disabled by default.
+  2) Issues: No blocking technical issues; tests green locally (964 tests, 963 passed, 1 skipped). Remaining work: connect real payment provider (if needed) and provide BOT_TOKEN/BOSS_CHAT_ID to enable automated Telegram sends.
+  3) Push status: Latest code committed and pushed on branch dev/auto-sprint-continue-20260627-work (commit e51b246). Previous payment work pushed to dev/sprint-5-payment-adapter.
+- Action taken: NOT SENT — awaiting credentials/approval to post via Telegram.
+- File saved: drafts/telegram_copy_trade_boss_2026-06-28.txt
+- Next steps: To send the Telegram summary automatically, add BOT_TOKEN and BOSS_CHAT_ID to project .env and reply with: "send telegram <chat_id>" (or give explicit approval and credentials). Alternatively, instruct agent to open PR: provide PR title, reviewers, and target branch.
+
+(End of NOTIFICATIONS.md)
