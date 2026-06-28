@@ -1,0 +1,22 @@
+สรุปสถานะ Copy-Trade Bot — 2026-06-29 05:08 (Asia/Bangkok)
+
+1) ทำถึง Sprint ไหน
+- ปัจจุบันทำงานถึง Sprint 5 (Payment Adapter compatibility & fixes). โค้ดของ Sprint 5 ได้รับการพัฒนาและตรวจสอบจนผ่านชุดทดสอบหน่วยในเครื่อง (test-suite green: 963 passed, 1 skipped).
+
+2) มีปัญหาอะไร
+- ไม่มีบั๊กวิกฤติที่ขัดขวางการ merge/deploy ณ เวลานี้.
+- ข้อจำกัดเชิงปฏิบัติการ: การส่งสรุปไปหาบอสทาง Telegram อัตโนมัติยังไม่สามารถทำได้ เพราะไฟล์ .env ในโปรเจคไม่มีค่า BOT_TOKEN และ BOSS_CHAT_ID (มีเพียง .env.example).
+- มีไฟล์ worktree ของ .claude ที่ถูกแก้ไขใน working tree (.claude/worktrees/*) — เป็นสถานะ worktree metadata เท่านั้น ไม่ใช่การเปลี่ยนแปลงฟังก์ชันการทำงาน แต่อาจทำให้ git status แสดงไฟล์ที่ยังไม่ถูก staged ในบางกรณี.
+
+3) Push code แล้วหรือยัง
+- ใช่:
+  - สาขา dev/sprint-5-payment-adapter ถูกผลักขึ้นรีโมทก่อนหน้านี้ (Sprint 5 completed).
+  - รอบนี้งานรันเตือน (reminder) ได้รันเทสต์และอัปเดตสถานะ worktree บนสาขา dev/auto-sprint-continue-20260627-work; สาขานี้ถูกผลักขึ้น origin และอยู่ในสถานะ "Everything up-to-date".
+
+ถ้าต้องการให้ผมส่งสรุปนี้ให้บอสทันที: โปรดให้ BOT_TOKEN และ BOSS_CHAT_ID โดยวางลงใน /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/.env (ตัวอย่าง: BOT_TOKEN=xxx\nBOSS_CHAT_ID=123456789) หรือสั่งตรงๆ ว่า: send telegram <chat_id> — ผมจะใช้ BOT_TOKEN จาก .env ถ้ามีและส่งข้อความให้ พร้อมบันทึกผลการส่งใน repo.
+
+บันทึกการทำงานเพิ่มเติม:
+- ทดสอบ: npm test → 112 test files, 963 passed, 1 skipped. ข้อความเตือนเกี่ยวกับการเชื่อมต่อเครือข่ายเป็น expected ในสภาพแวดล้อมทดสอบ (mocked network for offline integrations).
+- รายงานและสรุปผลได้บันทึกลงไฟล์ SPRINT_REPORT.md และ SPRINT_COMPLETE.md แล้ว.
+
+(ข้อความนี้เป็นร่างภายใน; ยังไม่ได้ส่งทาง Telegram เนื่องจากไม่มี credentials ใน workspace)
