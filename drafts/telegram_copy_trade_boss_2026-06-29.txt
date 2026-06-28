@@ -2,19 +2,15 @@
 
 1) ทำถึง Sprint ไหน
 - Sprints 1–4 เสร็จสมบูรณ์ตาม PROJECT_SPEC (Scaffold, Listener, Wallet, Executor, Copy Logic, Demo, Polish + Deploy instructions).
-- Payment adapter (งาน Sprint 5) ถูกพัฒนาเป็น mock/adapter และอยู่ในสาขา dev/sprint-5-payment-adapter (ปิดการใช้งานโดยค่าเริ่มต้น, ENABLE_PAYMENTS=false)
+- Payment adapter (งาน Sprint 5) ถูกพัฒนาเป็น mock/adapter บนสาขา dev/sprint-5-payment-adapter (ค่าเริ่มต้น: disabled).
 
 2) ปัญหาที่พบ
-- ไม่มีปัญหาเชิงเทคนิคที่บล็อกการส่งมอบ; test-suite ผ่านบนเครื่องพัฒนา (964 tests collected, 963 passed, 1 skipped)
-- ควรตรวจสอบ/ดำเนินการก่อนใช้งานจริง:
-  - เชื่อมต่อ payment provider จริง (เช่น Stripe) หากต้องการเปิดการชำระเงิน
-  - ตั้งค่า BOT_TOKEN และ BOSS_CHAT_ID ใน .env เพื่อเปิดการส่ง Telegram อัตโนมัติ
-  - ทดสอบ E2E devnet trading กับบัญชีทดสอบ (opt-in)
+- ไม่มีปัญหาเชิงเทคนิคที่บล็อกการส่งมอบ — test-suite ผ่าน (964 collected, 963 passed, 1 skipped).
+- จุดที่ต้องจัดการก่อนใช้จริง: เชื่อมต่อ payment provider จริง (ถ้าต้องการ), ตั้งค่า BOT_TOKEN และ BOSS_CHAT_ID สำหรับการแจ้งเตือนอัตโนมัติ
 
 3) Push code แล้วหรือยัง
-- ใช่: โค้ดล่าสุดถูก commit และ push ไปยัง remote branch: dev/auto-sprint-continue-20260627-work
-- งาน payment adapter อยู่ที่ branch: dev/sprint-5-payment-adapter (push แล้ว)
+- ใช่: โค้ดล่าสุดถูก commit และ push ขึ้น remote บนสาขา dev/auto-sprint-continue-20260627-work
 
-ถ้าต้องการให้ส่งรายงานนี้ให้บอสทันที: เพิ่ม BOT_TOKEN และ BOSS_CHAT_ID ลงใน /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/.env แล้วบอกผมว่า: send telegram <chat_id>
+หมายเหตุ: ข้อความนี้ยังไม่ได้ส่งทาง Telegram — ต้องมี BOT_TOKEN และ BOSS_CHAT_ID ใน .env หรือให้สิทธิ์ผมใช้ credential เพื่อส่ง
 
-(หมายเหตุ: รายงานนี้เป็นอัตโนมัติและบันทึกเหตุการณ์ไว้ใน NOTIFICATIONS.md)
+(End of auto report)
