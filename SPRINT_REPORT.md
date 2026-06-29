@@ -55,3 +55,18 @@ Files updated/checked:
 - drafts/telegram_boss_status_2026-06-29_2108.txt — created
 
 ---
+
+(Automated append) Attempted Telegram send: 2026-06-29 21:11 (Asia/Bangkok)
+
+Actions performed:
+- Attempted to send the prepared Telegram summary to the configured Telegram integration via the platform.
+- The send failed: Telegram recipient could not be resolved (API error: Bad Request: chat not found). The integration attempted to resolve recipient @heartbeat and it returned 400: chat not found.
+
+Notes:
+- Possible causes: configured Telegram channel/account does not have a valid chat id bound in this environment, or the integration's default recipient alias is not mapped.
+- Next steps: provide BOT_TOKEN and numeric BOSS_CHAT_ID in /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/.env or instruct the assistant to send to a specific numeric chat id using: send telegram <chat_id>.
+
+Files updated/checked:
+- SPRINT_REPORT.md (this file) — appended entry (this note)
+
+---
