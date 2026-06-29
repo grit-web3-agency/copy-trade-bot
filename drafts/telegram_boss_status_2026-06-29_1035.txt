@@ -1,0 +1,16 @@
+สรุปการทำ Sprint (ตามคำสั่งเตือน) — 2026-06-29 10:35 (Asia/Bangkok)
+
+สรุปสั้น:
+- อ่าน PROJECT_SPEC และรันชุดทดสอบทั้งหมด: ผลลัพธ์: 112 test files → 963 passed, 1 skipped (tests green).
+- สถานะโค้ด: สาขา dev/auto-sprint-continue-20260627-work ถูกอัปเดตและ push ขึ้น origin เรียบร้อย.
+- ปัญหา/ข้อจำกัด: ไม่มีบั๊กวิกฤติ แต่การทำงานอัตโนมัติของ Claude (ACP) และ DeepSeek ถูกบล็อกเพราะไม่มี agentId และ deepseek CLI ใน environment. การส่ง Telegram อัตโนมัติจาก workspace ต้องการ BOT_TOKEN/BOSS_CHAT_ID ใน .env (ไม่พบใน repo).
+
+ถ้าต้องการให้ผมส่งสรุปนี้ให้บอส ทางเลือก:
+1) วาง BOT_TOKEN และ BOSS_CHAT_ID ลงใน /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/.env แล้วสั่งผม send telegram <chat_id>
+2) สั่งผม send telegram <chat_id> ตอนนี้ (ผมจะพยายามใช้ BOT_TOKEN ถ้ามี)
+
+ไฟล์ที่บันทึก:
+- SPRINT_REPORT.md – อัปเดตบันทึกการรัน
+- drafts/telegram_boss_status_2026-06-29_1035.txt – ร่างข้อความนี้
+
+(ข้อความนี้เป็นร่างภายใน; ยังไม่ได้ส่งทาง Telegram โดยอัตโนมัติ)
