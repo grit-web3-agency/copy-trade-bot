@@ -1,18 +1,23 @@
-สรุปสถานะ Copy-Trade Bot — 2026-06-29 21:35 (Asia/Bangkok)
+สรุปรอบเช็คงาน (routine check) — 2026-06-29 21:35 (Asia/Bangkok)
 
-1) ทำถึง Sprint ไหน
-- ขณะนี้ทำถึง Sprint 5 (Payment Adapter). โค้ด Sprint 5 และงานต่อเนื่องผ่านชุดทดสอบทั้งหมดในเครื่อง: 112 test files, 112 passed; รายการรวม: 963 passed, 1 skipped.
+1) งานค้างที่พบ (grit-web3-agency/copy-trade-bot):
+- PR #27: chore: sprint continuation report 2026-06-27 — branch dev/auto-sprint-continue-20260627-work
+  https://github.com/grit-web3-agency/copy-trade-bot/pull/27
+- PR #25: Sprint-4: payment module stub + docs — branch dev/sprint-4-payment-stub
+  https://github.com/grit-web3-agency/copy-trade-bot/pull/25
 
-2) มีปัญหาอะไร
-- ไม่มีบั๊กวิกฤติที่ขัดขวางการ merge/deploy ณ ขณะนี้.
-- ข้อจำกัดเชิงปฏิบัติการ: Automated continuation ด้วย Claude/DeepSeek ยังไม่สามารถทำได้โดยอัตโนมัติใน environment นี้ — ต้องระบุ ACP agentId สำหรับ Claude และติดตั้ง deepseek CLI เพื่อรัน DeepSeek tests.
-- Working tree มีการแก้ไข metadata ของ worktrees (.claude/worktrees/*) — เป็น state/metadata ไม่ใช่การเปลี่ยนแปลงโค้ดฟังก์ชัน.
+2) การกระทำที่พยายามทำตามกฎ:
+- พยายามสั่ง Claude CLI ให้ทำต่อ (spawn ACP/Claude) → ติดขัด: ไม่มี agent/CLAUDE ACP agent ที่คอนฟิกไว้ใน environment (ต้องระบุ agentId หรือเซ็ต acp.defaultAgent). จึงยังไม่ได้รัน Claude เพื่อทำงานต่ออัตโนมัติ
+- เนื่องจาก Claude ยังไม่ถูกรัน จึงไม่ได้สั่ง DeepSeek tests (ต้องมี DeepSeek CLI/การเข้าถึง หรือรันให้หลังจาก Claude เสร็จ)
 
-3) Push code แล้วหรือยัง
-- ใช่: สาขา dev/auto-sprint-continue-20260627-work ถูก push ขึ้น origin และสถานะล่าสุดคือ Everything up-to-date.
+3) สถานะ repo/CI (copy-trade-bot):
+- สาขา dev/auto-sprint-continue-20260627-work ถูกอัปเดตและ push ขึ้น origin (ล่าสุด commit/push แล้ว)
+- Local tests: 112 test files → 112 passed in this run; overall 963 passed, 1 skipped.
 
-Open PRs ที่เกี่ยวข้อง:
-- PR #27 — chore: sprint continuation report 2026-06-27 — https://github.com/grit-web3-agency/copy-trade-bot/pull/27
-- PR #25 — Sprint-4: payment module stub + docs — https://github.com/grit-web3-agency/copy-trade-bot/pull/25
+4) ข้อเสนอ / next steps:
+- ถ้าต้องการให้ผมให้ Claude ทำงานต่อ: ระบุ agentId ของ ACP/Claude ที่จะใช้ หรืออนุญาตให้ผม spawn (ผมจะเรียก sessions_spawn runtime:"acp" agentId:<agentId>)
+- ถ้าอนุมัติให้ผมรัน DeepSeek หลัง Claude เสร็จ: ยืนยันและผมจะเรียก DeepSeek (ต้องมี deepseek CLI หรือ remote service)
+- ถ้าต้องการให้ผมเริ่มทำต่อเองจาก PENDING_WORK.md: บอกหมายเลข/หัวข้อที่ต้องการให้เริ่ม หรือให้ผมหยิบอันดับ 1 เอง
+- ถ้าต้องการให้ผมส่งสรุปนี้ให้บอส: วาง BOT_TOKEN และ BOSS_CHAT_ID ลงใน /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/.env หรือสั่งตรงๆ: send telegram <chat_id>
 
-(ข้อความนี้เป็นร่างภายใน; ยังไม่ได้ส่งทาง Telegram โดยอัตโนมัติ)
+(ข้อความนี้เป็นร่างภายใน; ยังไม่ได้ส่งทาง Telegram เนื่องจาก credentials ไม่ถูกตั้งค่าใน workspace)
