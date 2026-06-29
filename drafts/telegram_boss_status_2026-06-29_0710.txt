@@ -1,0 +1,24 @@
+สรุปรอบเช็คงาน (routine check) — 2026-06-29 07:10 (Asia/Bangkok)
+
+1) งานค้างที่พบ (grit-web3-agency/copy-trade-bot):
+- PR #27: chore: sprint continuation report 2026-06-27 — branch dev/auto-sprint-continue-20260627-work
+  https://github.com/grit-web3-agency/copy-trade-bot/pull/27
+- PR #26: feat(payment): add payment adapter (sprint-5) — branch dev/sprint-5-payment-adapter
+  https://github.com/grit-web3-agency/copy-trade-bot/pull/26
+- PR #25: Sprint-4: payment module stub + docs — branch dev/sprint-4-payment-stub
+  https://github.com/grit-web3-agency/copy-trade-bot/pull/25
+
+2) การกระทำที่พยายามทำตามกฎ:
+- พยายามเรียก Claude CLI (ACP) เพื่อทำงานต่อ — ไม่สำเร็จ: ไม่มี ACP agent ที่คอนฟิกใน environment (ต้องระบุ agentId หรือ set acp.defaultAgent).
+- ไม่ได้สั่ง DeepSeek tests เนื่องจาก Claude ยังไม่ได้ถูกรัน (และอาจไม่มี DeepSeek CLI ใน environment).
+
+3) สถานะ repo/CI (copy-trade-bot):
+- สาขา dev/auto-sprint-continue-20260627-work ถูกอัปเดตและ push ขึ้น origin (ล่าสุด commit/push แล้ว)
+- Local tests (ล่าสุด): 112 test files → 963 passed, 1 skipped (green)
+
+4) ข้อเสนอ / next steps:
+- หากต้องการให้ผมสั่ง Claude ทำงานต่อ: ให้ระบุ agentId ของ ACP/Claude หรืออนุญาตให้ผม spawn (sessions_spawn runtime:"acp" agentId:<agentId>)
+- หากต้องการให้ผมรัน DeepSeek หลัง Claude เสร็จ: ยืนยัน แล้วผมจะรัน DeepSeek (ต้องมี CLI หรือบริการ)
+- หรือสั่งผม merge/รีวิว PR ใด ๆ โดยตรง (ระบุหมายเลข PR และ action)
+
+สรุปสั้น: พบ 3 PR ค้าง; การสั่ง Claude/DeepSeek ยังไม่สำเร็จเพราะขาดการคอนฟิก agent/CLI — แจ้งผมว่าต้องการให้ดำเนินการต่ออย่างไรครับ.
