@@ -1,0 +1,22 @@
+สรุปรอบเช็คงาน (routine check) — 2026-06-29 23:41 (Asia/Bangkok)
+
+1) งานค้างที่พบ (grit-web3-agency/copy-trade-bot):
+- PR #27: chore: sprint continuation report 2026-06-27 — branch dev/auto-sprint-continue-20260627-work
+  https://github.com/grit-web3-agency/copy-trade-bot/pull/27
+- PR #25: Sprint-4: payment module stub + docs — branch dev/sprint-4-payment-stub
+  https://github.com/grit-web3-agency/copy-trade-bot/pull/25
+
+2) การกระทำที่พยายามทำตามกฎ:
+- พยายามสั่ง Claude CLI (ACP) ให้ทำต่อ → ไม่สำเร็จ: ไม่มี ACP agentId ที่คอนฟิก (agents_list returned no configured agent).
+- ไม่ได้รัน DeepSeek tests: deepseek CLI ไม่ติดตั้ง (deepseek not found).
+
+3) สถานะ repo/CI (copy-trade-bot):
+- สาขา dev/auto-sprint-continue-20260627-work ถูกอัปเดตและ push ขึ้น origin (ล่าสุด commit/push แล้ว)
+- Local tests: 112 test files → local runs passed; aggregate 963 passed, 1 skipped
+
+4) ปัญหา/ข้อจำกัดที่ต้องการการดำเนินการจากมนุษย์:
+- ให้ agentId ของ ACP/Claude (หรือกำหนด acp.defaultAgent) หากต้องการให้ผม spawn Claude อัตโนมัติ
+- ติดตั้ง deepseek CLI หรือให้การเข้าถึง DeepSeek service หากต้องการรัน DeepSeek tests
+- เพิ่ม BOT_TOKEN และ BOSS_CHAT_ID (numeric) ลงใน /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/.env เพื่อให้ผมส่ง Telegram สรุปให้บอสอัตโนมัติ
+
+ถ้าต้องการผมจะทำตามขั้นตอนต่อไปโดยอัตโนมัติเมื่อได้รับการอนุญาต/credentials — บอกผมว่าต้องการให้ผม (1) spawn Claude ด้วย agentId, (2) ลงมือทำงานถัดไปจาก PENDING_WORK.md เอง, (3) ส่ง Telegram ตอนนี้โดยใช้ chat_id ที่ระบุ, หรือ (4) อื่น ๆ.
