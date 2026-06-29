@@ -1,0 +1,15 @@
+DRAFT — not sent (BOT_TOKEN/BOSS_CHAT_ID not configured)
+
+สรุปสถานะ Copy-Trade Bot — 2026-06-24 17:45 (Asia/Bangkok)
+
+1) ทำถึง Sprint ไหน
+- ปัจจุบัน: Sprint 5 — งาน Payment Adapter (รองรับทั้ง on-chain และ server-side)
+
+2) มีปัญหาอะไร
+- ไม่มีปัญหาเชิงโค้ด: Build และ unit tests ผ่านเรียบร้อย
+- ข้อจำกัดการส่งอัตโนมัติ: ขาด BOT_TOKEN และ BOSS_CHAT_ID ในไฟล์ .env ของโปรเจค จึงยังไม่สามารถส่งข้อความให้บอสทาง Telegram ได้จากเครื่องนี้
+
+3) Push code แล้วหรือยัง
+- ใช่ — โค้ด commit & pushed ขึ้น remote branch: dev/sprint-5-payment-adapter
+
+หากต้องการให้ส่งข้อความนี้ให้บอส: เพิ่ม BOT_TOKEN และ BOSS_CHAT_ID ลงใน /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/.env แล้วสั่ง: "send telegram <chat_id>" หรือบอกผมให้ส่งได้ทันที

@@ -1,0 +1,26 @@
+รายงานสถานะ — Copy-Trade Bot (จัดเก็บภายในโดย Jack)
+
+เวลา: 2026-04-09 04:49 (Asia/Bangkok)
+
+1) ทำถึง Sprint ไหน
+• ปัจจุบันอยู่ใน Sprint: dev-sprint12 (Sprint 12)
+• ความคืบหน้า: งานจาก branch `dev-sprint12` ถูก push ขึ้นแล้วและเปิด PR #9 เพื่อ merge → main
+  PR: https://github.com/grit-web3-agency/copy-trade-bot/pull/9
+
+2) ปัญหาหรืออุปสรรคที่พบ
+• Kimi API / DeepSeek: ปัจจุบันตอบ 401 Unauthorized — ทำให้การรันทดสอบอัตโนมัติ (DeepSeek test / Kimi QA) ไม่ทำงาน
+• `gh` CLI ไม่พร้อมใช้งานบนเครื่องนี้ — ไม่สามารถเช็ค issues/PR อัตโนมัติจาก GitHub ได้ในรอบนี้
+• มี exec ที่ล้มเหลวเมื่อ 04:46 (error: zsh:1: command not found: dev-sprint12 / no such file or directory: main) — น่าจะเกิดจากการเรียกคำสั่งที่ใส่ ref/arg ไม่ถูกต้อง
+
+3) Push code แล้วหรือยัง
+• Branch `origin/dev-sprint12` ถูก push ขึ้นแล้ว — up to date
+• PR #9 ถูกสร้าง (ยังรอรีวิว/merge)
+
+การส่ง Telegram: ล้มเหลว (ไม่สามารถ resolve chat id) — ยังไม่ได้ส่งให้บอสทาง Telegram
+
+ข้อเสนอ/ถัดไป:
+• ถ้าต้องการให้ส่งจริง ๆ: ให้ผมใช้ Telegram chat id แบบ numeric หรือยืนยันการตั้งค่า channel/recipient
+• ให้จัดการ Kimi/DeepSeek auth หรือให้ token แบบปลอดภัย เพื่อผมจะรันทดสอบอัตโนมัติได้
+• ถ้าต้องการผมสืบ exec error ผมจะค้น log/command ที่ถูกรันแล้วแก้ไขสคริปต์
+
+บันทึกนี้ถูกเก็บภายใน: /Users/m4/.openclaw/workspace/reports/heartbeat_reports/2026-04-09_0449_copy-trade-bot.txt

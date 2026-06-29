@@ -1,0 +1,18 @@
+สรุปความคืบหน้า Copy-Trade Bot — Sprint 5 เสร็จเรียบร้อย
+
+1) Sprint: Sprint 5 — Payment Adapter (เสร็จ)
+- สาขา: dev/sprint-5-payment-adapter
+- โค้ด: ถูก push ขึ้น origin (grit-web3-agency/copy-trade-bot)
+- ทดสอบ: unit tests ผ่านทั้งหมด (247 tests)
+
+2) ปัญหาที่พบ / ข้อสังเกต
+- PR #25 (จาก Sprint 4) ยังต้อง review/แก้ไขก่อน merge
+- ในการรันทดสอบมี warnings เกี่ยวกับ Jupiter quote mocks (non-blocking)
+- การส่ง Telegram อัตโนมัติยังไม่สามารถทำได้: ไม่มี BOT_TOKEN และ BOSS_CHAT_ID ใน /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/.env (ดู .env.example)
+
+3) การส่งโค้ด
+- ใช่ — โค้ดถูก push ขึ้น origin/dev/sprint-5-payment-adapter แล้ว
+
+ถ้าต้องการให้ผมเปิด PR จาก dev/sprint-5-payment-adapter → main โปรดระบุ reviewers และข้อความ PR
+
+(รายงานอัตโนมัติจากระบบ)

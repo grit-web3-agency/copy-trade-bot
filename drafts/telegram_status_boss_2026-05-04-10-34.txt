@@ -1,0 +1,16 @@
+สรุปสถานะ Copy-Trade Bot — 2026-05-04 10:34 Asia/Bangkok
+
+1) Sprint: อยู่ที่ Sprint 4 (polish) — Must-Have เสร็จเรียบร้อย; Nice-to-Have ส่วนใหญ่เสร็จ; payment module เป็น stub บนสาขา dev/sprint-4-payment-stub
+
+2) ปัญหา/บล็อกเกอร์:
+- ไม่มีปัญหา blocking ที่พบทั้งใน repo หรือบน GitHub (ไม่มี issues/PRs เปิดค้าง)
+- ข้อจำกัด: ยังไม่สามารถส่ง Telegram อัตโนมัติได้จนกว่า BOT_TOKEN จะถูกตั้งค่าในไฟล์ .env และยังไม่ได้รับ chat id ของ Jack
+
+3) Push code:
+- โค้ดล่าสุดถูก commit และ push ไปยัง remote branch: dev/sprint-4-payment-stub
+- Build & Tests: รัน build (tsc) และ unit tests (vitest) — 244 tests passed; build OK
+
+คำขอถัดไป:
+- หากต้องการให้ผมส่งข้อความนี้ให้ Jack ให้วาง BOT_TOKEN ใน /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/.env และบอก chat id (หรือสั่ง: send telegram <chat_id>)
+
+— Automated report from agent

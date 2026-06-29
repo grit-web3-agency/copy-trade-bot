@@ -1,0 +1,31 @@
+Routine check — 2026-04-29 11:09 (Asia/Bangkok)
+
+Summary of scan across grit-web3-agency repos (local workspace):
+
+Scanned repos and status:
+- 15-rbob-ledger: branch rbob-ledger-implementation (no unpushed changes).
+- copy-trade-bot: branch dev/sprint-4-payment-stub (up-to-date with origin).
+- mimictrade-api: branch develop (clean working tree except .DS_Store modified).
+- mimictrade-app: branch develop (no unpushed changes).
+- mimictrade-dev: branch develop — had 3 local commits ahead; action: pushed to origin (develop -> origin/develop).
+- mimictrade-vault: branch develop (no unpushed changes).
+- rustchain-bounties: branch dev/copy-trade-solana — was behind 1; action: pulled from origin (fast-forward).
+
+Actions performed:
+1) mimictrade-dev: git push origin develop (local ahead 3 -> pushed).
+2) rustchain-bounties: git pull --ff-only origin dev/copy-trade-solana (fast-forwarded; new tests added).
+3) mimictrade-dev: npm run build executed; Next.js build completed successfully.
+4) rustchain-bounties: ran pytest on test_ai_agent.py — tests FAILED (3 failures). Failure details: ModuleNotFoundError for github.Github (pygithub not installed) and NameError(s) in test code. Suggest installing PyGitHub or adjusting test mocks.
+
+Notes / Recommendations:
+- mimictrade-dev: build OK; no further action needed for release at this time.
+- rustchain-bounties: tests failing — please review test environment (install PyGitHub, check imports) and fix failing tests before CI passes.
+- If you want the agent (Claude CLI) to continue work on failing tests or code changes, provide instruction to spawn Claude/ACPs or allow the assistant to make code edits and run tests.
+
+Telegram delivery:
+- Draft message saved here: drafts/telegram_routine_check_2026-04-29-11-09.txt (this file).
+- Telegram not sent: workspace lacks BOT_TOKEN and chat id configuration (.env missing BOT_TOKEN or chat id). Provide BOT_TOKEN and chat id to enable automated send, or instruct me to send via your account.
+
+If you want me to proceed with automated fixes (run test fixes, create PRs) I can: (A) spawn a coding agent (Claude/ACP) to produce patches, apply them, run tests, and open PRs; or (B) attempt quick local fixes (e.g., add PyGitHub to dev requirements) and re-run tests — ask which.
+
+Signed-off-by: Automated routine check

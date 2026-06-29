@@ -1,0 +1,23 @@
+สรุปรายงานสถานะ — Copy-Trade Bot
+Time: 2026-04-30 01:05 (Asia/Bangkok)
+Branch: dev/sprint-4-payment-stub
+
+1) Sprint status
+- ปัจจุบันกำลังอยู่ใน Sprint 4 (polish / payment-stub).
+
+2) ปัญหา / ข้อสังเกต
+- การทดสอบล่าสุด (vitest) มีผล: 3 tests failed, 2 unhandled errors; รวม 172 passed, 3 failed (บาง test พบ timeout / worker errors).
+- ข้อผิดพลาดหลัก: timeouts ใน vitest-worker (onTaskUpdate / fetch) และการทดสอบบางตัวรอ I/O/timeout นานกว่าค่าตั้งต้น — แนะนำเพิ่ม test timeout หรือแก้ root cause (long-running DB/setup mocks / network mocks).
+- Payment: ยังคงเป็น dev-only stub (verifyPayment mocked). Production billing/webhooks ถูกเลื่อนเป็น Nice-to-Have.
+
+3) Push code
+- ไม่มีการเปลี่ยนแปลงโค้ดที่ใช้สำหรับฟีเจอร์หลักใน sprint นี้ (ไม่มี commits ฟีเจอร์ใหม่) แต่ผมได้รันชุดทดสอบและบันทึกผลการตรวจสอบ
+- บันทึก/รายงาน: สร้างไฟล์สรุปภายในและอัปเดต SPRINT_REPORT.md (ไม่ส่ง Telegram จริง — ต้องการ BOT_TOKEN และ chat_id เพื่อส่ง)
+
+ข้อเสนอแนะถัดไป
+- ผมสามารถ: (A) แก้ปัญหา test timeouts (เพิ่ม timeout หรือ mock ปรับปรุง) — ต้องการอนุญาตให้ผมแก้โค้ดและรันเทสต์อีกครั้ง, หรือ (B) เก็บร่างและรอคำสั่งให้ส่ง Telegram ให้บอสเมื่อคุณพร้อม.
+
+ต้องการให้ผมส่งข้อความนี้ให้บอสตอนนี้ไหม? หากต้องการให้ส่ง, วาง BOT_TOKEN ใน /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/.env และบอก chat id ของบอส หรือส่ง "send telegram <chat_id>" ให้ผมอนุญาตจะส่งให้ทันที.
+
+Regards,
+Automated CI

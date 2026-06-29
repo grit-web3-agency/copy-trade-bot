@@ -1,0 +1,17 @@
+หัวข้อ: รายงานสถานะ Copy-Trade Bot — Sprint จบ (Sprint 5)
+
+สรุปด่วน:
+1) Sprint: เสร็จสิ้น Sprint 5 — งาน Payment Adapter
+2) ปัญหา: ไม่มีบล็อกโค้ดสำคัญ ทุกอย่าง build และ unit tests ผ่านแล้ว (482 tests, 1 skipped)
+   - หมายเหตุ: การส่ง Telegram อัตโนมัติยังไม่สามารถทำได้เพราะไม่มี BOT_TOKEN / BOSS_CHAT_ID ใน .env ของโปรเจค
+3) Push: โค้ดถูก commit & push ไปยัง branch dev/sprint-5-payment-adapter
+
+รายละเอียดเพิ่มเติม:
+- สิ่งที่ทำ: รวมรูปแบบ adapter เดิม (on-chain) และรูปแบบใหม่ (server-side), เพิ่ม compatibility wrappers, อัปเดต Stripe mock, ทำให้ bot/webhook ทนต่อรูปแบบผลลัพธ์ต่างกัน
+- ทดสอบ: รัน npm ci && npm run build && npm test (ผล: ผ่าน)
+- PR: แนะนำให้เปิด PR จาก dev/sprint-5-payment-adapter → main (หรือสาขาที่ทีมกำหนด) เพื่อขอรีวิว
+
+คำขอถัดไป:
+- หากต้องการผมส่งสรุปนี้ให้บอสผ่าน Telegram โดยอัตโนมัติ: ให้เพิ่ม BOT_TOKEN และ BOSS_CHAT_ID ลงในไฟล์ .env ของโปรเจคแล้วสั่งผมส่งได้เลย
+
+ส่งจากระบบอัตโนมัติ — รายงาน ณ 2026-06-24 07:13 (Asia/Bangkok)

@@ -1,0 +1,10 @@
+สรุปอัปเดต Copy-Trade Bot — 2026-05-04 12:45 Asia/Bangkok
+
+- อ่าน PROJECT_SPEC และทำตามข้อกำหนด
+- สถานะ Sprint: Sprint 4 (polish) — Must-Have เสร็จเรียบร้อย; payment module เป็น stub บนสาขา dev/sprint-4-payment-stub
+- Build & Tests: `npm run build` และ `npm run test` → 244 tests passed; build OK
+- Push: ไม่มีการเปลี่ยนแปลงโลคอลที่จะ push; สาขา dev/sprint-4-payment-stub synchronized กับ origin
+
+หมายเหตุ: การส่ง Telegram อัตโนมัติยังไม่ทำได้จนกว่า BOT_TOKEN จะถูกตั้งค่าในไฟล์ .env และยังไม่ได้รับ chat id ของ Jack
+
+— Automated report from agent

@@ -1,0 +1,22 @@
+รายงานสรุป Copy-Trade Bot (จัดเก็บภายในโดย Jack)
+
+เวลา: 2026-04-09 05:18 (Asia/Bangkok)
+
+สรุปสำคัญ:
+• PR #9 (dev-sprint12 → main): พร้อม merge — ผลงานของ Claude:
+  - 66 tests ผ่านทั้งหมด
+  - TypeScript คอมไพล์สะอาด ไม่มี error
+  - ไม่มีการเปลี่ยนแปลงโค้ดที่จำเป็น (Claude รายงานว่า 'No code changes needed')
+  - หมายเหตุ: มีการรันเทสต์ที่คาดว่าจะต้องใช้ wallet credentials (บางสคริปต์/fixture) — ถ้าต้องการผมสามารถจัดการ credentials ให้หรือรันทดสอบเพิ่มเติมเมื่อได้รับอนุญาต
+
+• PR #8 (dev/sprint-3 → main): ยังเปิดอยู่ (ยังไม่ได้สรุปผล)
+
+ปัญหาที่ต้องทราบ:
+• Kimi API / DeepSeek: ยังตอบ 401 Unauthorized — ทำให้ไม่สามารถรันทดสอบ QA ผ่าน DeepSeek ได้อัตโนมัติ
+
+การดำเนินการถัดไป:
+• รอคำสั่งจากบอสว่าจะให้ผม merge PR #9 ทันทีหรือรอ QA เพิ่มเติมเมื่อ auth พร้อม
+
+บันทึกการส่ง Telegram: ล้มเหลว (chat id ไม่ถูกต้อง/ยังไม่ได้ตั้งค่า) — รายงานนี้เก็บภายใน
+
+ไฟล์บันทึก: /Users/m4/.openclaw/workspace/reports/heartbeat_reports/2026-04-09_0518_PR9_summary.txt

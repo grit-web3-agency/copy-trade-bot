@@ -64,18 +64,57 @@ function initSchema(database: Database.Database) {
       FOREIGN KEY (telegram_id) REFERENCES users(telegram_id)
     );
 
+    CREATE INDEX IF NOT EXISTS idx_watched_whales_address
+      ON watched_whales(whale_address);
+
+    CREATE INDEX IF NOT EXISTS idx_watched_whales_telegram
+      ON watched_whales(telegram_id, active);
+
     CREATE TABLE IF NOT EXISTS token_whitelist (
       mint TEXT PRIMARY KEY,
       symbol TEXT,
       name TEXT
     );
-  `);
 
-  // Migration: add quote_out_amount column to trades if missing
-  const tradeColumns = database.pragma('table_info(trades)') as { name: string }[];
-  if (!tradeColumns.some(c => c.name === 'quote_out_amount')) {
-    database.exec(`ALTER TABLE trades ADD COLUMN quote_out_amount TEXT`);
-  }
+    CREATE TABLE IF NOT EXISTS subscriptions (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      telegram_id TEXT NOT NULL,
+      plan TEXT NOT NULL DEFAULT 'free',
+      plan_id TEXT NOT NULL DEFAULT 'free',
+      status TEXT NOT NULL DEFAULT 'active',
+      tx_signature TEXT,
+      paid_sol REAL DEFAULT 0,
+      started_at TEXT DEFAULT (datetime('now')),
+      expires_at TEXT DEFAULT (datetime('now', '+30 days')),
+      active INTEGER DEFAULT 1,
+      FOREIGN KEY (telegram_id) REFERENCES users(telegram_id)
+    );
+
+    CREATE TABLE IF NOT EXISTS payment_history (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      telegram_id TEXT NOT NULL,
+      event_type TEXT NOT NULL,
+      plan TEXT,
+      amount_sol REAL DEFAULT 0,
+      tx_signature TEXT,
+      status TEXT NOT NULL DEFAULT 'pending',
+      metadata TEXT,
+      created_at TEXT DEFAULT (datetime('now')),
+      FOREIGN KEY (telegram_id) REFERENCES users(telegram_id)
+    );
+
+    CREATE TABLE IF NOT EXISTS pnl_snapshots (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      telegram_id TEXT NOT NULL,
+      token_mint TEXT NOT NULL,
+      realized_pnl REAL DEFAULT 0,
+      avg_entry_price REAL DEFAULT 0,
+      quantity_held REAL DEFAULT 0,
+      last_updated TEXT DEFAULT (datetime('now')),
+      FOREIGN KEY (telegram_id) REFERENCES users(telegram_id),
+      UNIQUE(telegram_id, token_mint)
+    );
+  `);
 
   // Migration: add trade_mode column to users if missing (default 'dry-run')
   const userColumns = database.pragma('table_info(users)') as { name: string }[];
@@ -83,10 +122,31 @@ function initSchema(database: Database.Database) {
     database.exec(`ALTER TABLE users ADD COLUMN trade_mode TEXT DEFAULT 'dry-run'`);
   }
 
+  // Migration: add PnL columns to trades if missing
+  const tradeColumns = database.pragma('table_info(trades)') as { name: string }[];
+  if (!tradeColumns.some(c => c.name === 'executed_price')) {
+    database.exec(`ALTER TABLE trades ADD COLUMN executed_price REAL`);
+  }
+  if (!tradeColumns.some(c => c.name === 'quantity')) {
+    database.exec(`ALTER TABLE trades ADD COLUMN quantity REAL`);
+  }
+  if (!tradeColumns.some(c => c.name === 'fees')) {
+    database.exec(`ALTER TABLE trades ADD COLUMN fees REAL DEFAULT 0`);
+  }
+
   // Migration: add poster_enabled column to users if missing (default 1 = on)
   const userCols2 = database.pragma('table_info(users)') as { name: string }[];
   if (!userCols2.some(c => c.name === 'poster_enabled')) {
     database.exec(`ALTER TABLE users ADD COLUMN poster_enabled INTEGER DEFAULT 1`);
+  }
+
+  // Migration: add plan_id and status columns to subscriptions if missing (payment module)
+  const subColumns = database.pragma('table_info(subscriptions)') as { name: string }[];
+  if (!subColumns.some(c => c.name === 'plan_id')) {
+    database.exec(`ALTER TABLE subscriptions ADD COLUMN plan_id TEXT NOT NULL DEFAULT 'free'`);
+  }
+  if (!subColumns.some(c => c.name === 'status')) {
+    database.exec(`ALTER TABLE subscriptions ADD COLUMN status TEXT NOT NULL DEFAULT 'active'`);
   }
 }
 
@@ -110,6 +170,15 @@ export function getOrCreateUser(database: Database.Database, telegramId: string,
 
   database.prepare('INSERT INTO users (telegram_id, username) VALUES (?, ?)').run(telegramId, username || null);
   return database.prepare('SELECT * FROM users WHERE telegram_id = ?').get(telegramId) as User;
+}
+
+export function setPosterEnabled(database: Database.Database, telegramId: string, enabled: boolean) {
+  database.prepare('UPDATE users SET poster_enabled = ? WHERE telegram_id = ?').run(enabled ? 1 : 0, telegramId);
+}
+
+export function getPosterEnabled(database: Database.Database, telegramId: string): boolean {
+  const row = database.prepare('SELECT poster_enabled FROM users WHERE telegram_id = ?').get(telegramId) as { poster_enabled: number } | undefined;
+  return (row?.poster_enabled ?? 1) === 1;
 }
 
 export function setCopyEnabled(database: Database.Database, telegramId: string, enabled: boolean) {
@@ -155,17 +224,6 @@ export function getTradeMode(database: Database.Database, telegramId: string): T
   return (row?.trade_mode === 'devnet' ? 'devnet' : 'dry-run') as TradeMode;
 }
 
-// --- Poster operations ---
-
-export function setPosterEnabled(database: Database.Database, telegramId: string, enabled: boolean) {
-  database.prepare('UPDATE users SET poster_enabled = ? WHERE telegram_id = ?').run(enabled ? 1 : 0, telegramId);
-}
-
-export function getPosterEnabled(database: Database.Database, telegramId: string): boolean {
-  const row = database.prepare('SELECT poster_enabled FROM users WHERE telegram_id = ?').get(telegramId) as { poster_enabled: number } | undefined;
-  return (row?.poster_enabled ?? 1) === 1;
-}
-
 // --- Whale watch operations ---
 
 export interface WatchedWhale {
@@ -186,6 +244,20 @@ export function addWatchedWhale(database: Database.Database, telegramId: string,
   ).get(telegramId, whaleAddress) as WatchedWhale;
 }
 
+export function removeWatchedWhale(database: Database.Database, telegramId: string, whaleAddress: string): boolean {
+  const result = database.prepare(
+    'UPDATE watched_whales SET active = 0 WHERE telegram_id = ? AND whale_address = ? AND active = 1'
+  ).run(telegramId, whaleAddress);
+  return result.changes > 0;
+}
+
+export function removeAllWatchedWhales(database: Database.Database, telegramId: string): number {
+  const result = database.prepare(
+    'UPDATE watched_whales SET active = 0 WHERE telegram_id = ? AND active = 1'
+  ).run(telegramId);
+  return result.changes;
+}
+
 export function getWatchedWhales(database: Database.Database, telegramId: string): WatchedWhale[] {
   return database.prepare(
     'SELECT * FROM watched_whales WHERE telegram_id = ? AND active = 1'
@@ -197,6 +269,13 @@ export function getAllWatchedAddresses(database: Database.Database): string[] {
     'SELECT DISTINCT whale_address FROM watched_whales WHERE active = 1'
   ).all() as { whale_address: string }[];
   return rows.map(r => r.whale_address);
+}
+
+export function isWhaleWatchedByAnyone(database: Database.Database, whaleAddress: string): boolean {
+  const row = database.prepare(
+    'SELECT 1 FROM watched_whales WHERE whale_address = ? AND active = 1 LIMIT 1'
+  ).get(whaleAddress);
+  return !!row;
 }
 
 export function getUsersWatchingWhale(database: Database.Database, whaleAddress: string): User[] {
@@ -237,7 +316,10 @@ export interface Trade {
   tx_signature: string | null;
   status: string;
   dry_run: number;
-  quote_out_amount: string | null;
+  executed_price: number | null;
+  quantity: number | null;
+  fees: number | null;
+  created_at: string;
 }
 
 export function recordTrade(
@@ -250,33 +332,74 @@ export function recordTrade(
   txSignature: string | null,
   status: string,
   dryRun: boolean,
-  quoteOutAmount?: string
+  executedPrice?: number,
+  quantity?: number,
+  fees?: number
 ): Trade {
   const result = database.prepare(`
-    INSERT INTO trades (telegram_id, whale_address, direction, token_mint, amount_sol, tx_signature, status, dry_run, quote_out_amount)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-  `).run(telegramId, whaleAddress, direction, tokenMint, amountSol, txSignature, status, dryRun ? 1 : 0, quoteOutAmount || null);
+    INSERT INTO trades (telegram_id, whale_address, direction, token_mint, amount_sol, tx_signature, status, dry_run, executed_price, quantity, fees)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `).run(telegramId, whaleAddress, direction, tokenMint, amountSol, txSignature, status, dryRun ? 1 : 0, executedPrice ?? null, quantity ?? null, fees ?? null);
 
   return database.prepare('SELECT * FROM trades WHERE id = ?').get(result.lastInsertRowid) as Trade;
 }
 
-// --- PnL operations ---
+// --- PnL snapshot operations ---
 
-export interface TradeWithQuote extends Trade {
-  quote_out_amount: string | null;
-  created_at: string;
+export interface PnlSnapshot {
+  id: number;
+  telegram_id: string;
+  token_mint: string;
+  realized_pnl: number;
+  avg_entry_price: number;
+  quantity_held: number;
+  last_updated: string;
 }
+
+export function upsertPnlSnapshot(
+  database: Database.Database,
+  telegramId: string,
+  tokenMint: string,
+  realizedPnl: number,
+  avgEntryPrice: number,
+  quantityHeld: number
+): void {
+  database.prepare(`
+    INSERT INTO pnl_snapshots (telegram_id, token_mint, realized_pnl, avg_entry_price, quantity_held, last_updated)
+    VALUES (?, ?, ?, ?, ?, datetime('now'))
+    ON CONFLICT(telegram_id, token_mint) DO UPDATE SET
+      realized_pnl = excluded.realized_pnl,
+      avg_entry_price = excluded.avg_entry_price,
+      quantity_held = excluded.quantity_held,
+      last_updated = datetime('now')
+  `).run(telegramId, tokenMint, realizedPnl, avgEntryPrice, quantityHeld);
+}
+
+export function getPnlSnapshots(database: Database.Database, telegramId: string): PnlSnapshot[] {
+  return database.prepare(
+    'SELECT * FROM pnl_snapshots WHERE telegram_id = ?'
+  ).all(telegramId) as PnlSnapshot[];
+}
+
+export function getPnlSnapshot(database: Database.Database, telegramId: string, tokenMint: string): PnlSnapshot | undefined {
+  return database.prepare(
+    'SELECT * FROM pnl_snapshots WHERE telegram_id = ? AND token_mint = ?'
+  ).get(telegramId, tokenMint) as PnlSnapshot | undefined;
+}
+
+export function getRecentTrades(database: Database.Database, telegramId: string, limit: number = 10): Trade[] {
+  return database.prepare(
+    'SELECT * FROM trades WHERE telegram_id = ? ORDER BY id DESC LIMIT ?'
+  ).all(telegramId, limit) as Trade[];
+}
+
+// Backwards-compatible helpers expected by older modules
+export type TradeWithQuote = Trade & { quote_out_amount?: string | null };
 
 export function getTradesForUser(database: Database.Database, telegramId: string): TradeWithQuote[] {
   return database.prepare(
     'SELECT * FROM trades WHERE telegram_id = ? ORDER BY created_at DESC'
   ).all(telegramId) as TradeWithQuote[];
-}
-
-export function getTradesByToken(database: Database.Database, telegramId: string, tokenMint: string): TradeWithQuote[] {
-  return database.prepare(
-    'SELECT * FROM trades WHERE telegram_id = ? AND token_mint = ? ORDER BY created_at DESC'
-  ).all(telegramId, tokenMint) as TradeWithQuote[];
 }
 
 export function getTradesSummaryByToken(database: Database.Database, telegramId: string): { token_mint: string; buy_count: number; sell_count: number; total_buy_sol: number; total_sell_sol: number }[] {
@@ -293,18 +416,85 @@ export function getTradesSummaryByToken(database: Database.Database, telegramId:
   `).all(telegramId) as any[];
 }
 
-// --- Unwatch operations ---
+// --- Subscription operations ---
 
-export function removeWatchedWhale(database: Database.Database, telegramId: string, whaleAddress: string): boolean {
-  const result = database.prepare(
-    'UPDATE watched_whales SET active = 0 WHERE telegram_id = ? AND whale_address = ? AND active = 1'
-  ).run(telegramId, whaleAddress);
-  return result.changes > 0;
+export interface Subscription {
+  id: number;
+  telegram_id: string;
+  plan: string;
+  tx_signature: string | null;
+  paid_sol: number;
+  started_at: string;
+  expires_at: string | null;
+  active: number;
 }
 
-export function removeAllWatchedWhales(database: Database.Database, telegramId: string): number {
-  const result = database.prepare(
-    'UPDATE watched_whales SET active = 0 WHERE telegram_id = ? AND active = 1'
-  ).run(telegramId);
-  return result.changes;
+export function getActiveSubscription(database: Database.Database, telegramId: string): Subscription | undefined {
+  return database.prepare(
+    `SELECT * FROM subscriptions
+     WHERE telegram_id = ? AND active = 1 AND (expires_at IS NULL OR expires_at > datetime('now'))
+     ORDER BY id DESC LIMIT 1`
+  ).get(telegramId) as Subscription | undefined;
+}
+
+export function createSubscription(
+  database: Database.Database,
+  telegramId: string,
+  plan: string,
+  txSignature: string | null,
+  paidSol: number,
+  durationDays: number,
+): Subscription {
+  const expiresAt = durationDays > 0 ? `datetime('now', '+${durationDays} days')` : null;
+  const result = database.prepare(`
+    INSERT INTO subscriptions (telegram_id, plan, tx_signature, paid_sol, expires_at)
+    VALUES (?, ?, ?, ?, ${expiresAt ? expiresAt : 'NULL'})
+  `).run(telegramId, plan, txSignature, paidSol);
+  return database.prepare('SELECT * FROM subscriptions WHERE id = ?').get(result.lastInsertRowid) as Subscription;
+}
+
+export function deactivateSubscriptions(database: Database.Database, telegramId: string) {
+  database.prepare('UPDATE subscriptions SET active = 0 WHERE telegram_id = ?').run(telegramId);
+}
+
+// --- Payment history operations ---
+
+export interface PaymentEvent {
+  id: number;
+  telegram_id: string;
+  event_type: string;
+  plan: string | null;
+  amount_sol: number;
+  tx_signature: string | null;
+  status: string;
+  metadata: string | null;
+  created_at: string;
+}
+
+export function recordPaymentEvent(
+  database: Database.Database,
+  telegramId: string,
+  eventType: string,
+  plan: string,
+  amountSol: number,
+  txSignature: string | null,
+  status: string,
+  metadata?: Record<string, unknown>,
+): PaymentEvent {
+  const metaStr = metadata ? JSON.stringify(metadata) : null;
+  const result = database.prepare(`
+    INSERT INTO payment_history (telegram_id, event_type, plan, amount_sol, tx_signature, status, metadata)
+    VALUES (?, ?, ?, ?, ?, ?, ?)
+  `).run(telegramId, eventType, plan, amountSol, txSignature, status, metaStr);
+  return database.prepare('SELECT * FROM payment_history WHERE id = ?').get(result.lastInsertRowid) as PaymentEvent;
+}
+
+export function getPaymentHistory(database: Database.Database, telegramId: string, limit = 20): PaymentEvent[] {
+  return database.prepare(
+    'SELECT * FROM payment_history WHERE telegram_id = ? ORDER BY id DESC LIMIT ?'
+  ).all(telegramId, limit) as PaymentEvent[];
+}
+
+export function updatePaymentEventStatus(database: Database.Database, eventId: number, status: string) {
+  database.prepare('UPDATE payment_history SET status = ? WHERE id = ?').run(status, eventId);
 }

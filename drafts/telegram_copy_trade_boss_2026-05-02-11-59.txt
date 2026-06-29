@@ -1,0 +1,14 @@
+Hi Jack,
+
+Sprint update (Copy-Trade Bot):
+- Branch: dev/sprint-4-payment-stub
+- Tests: 244 passed (vitest)
+- Build: OK (tsc)
+- Status: Sprint work complete for the payment/stub polish stage. No code changes required at this time.
+
+Notes:
+- Payment module remains planned (out of scope / TODO) as per PROJECT_SPEC.
+- To send this message automatically, add BOT_TOKEN to the project .env and provide Jack's chat id.
+
+Regards,
+Automated reminder handler

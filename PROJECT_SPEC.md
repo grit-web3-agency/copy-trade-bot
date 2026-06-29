@@ -36,7 +36,7 @@
 - [x] Real devnet trading
 - [x] PnL tracking
 - [x] Multi-whale support
-- [ ] Payment module (ค่าสมาชิก)
+- [x] Payment module (ค่าสมาชิก) — implemented on branch `dev/sprint-4-payment-stub` (completed 2026-05-02)
 
 ### ห้ามทำ (Out of Scope)
 - ❌ Frontend web (ใช้ Telegram bot เท่านั้น)
@@ -155,3 +155,6 @@ User (Telegram)
 - ❌ ห้ามส่ง PR ไปที่ repo คนอื่น
 - ❌ ห้ามเพิ่ม feature นอก scope
 - ❌ ห้ามใช้ real money (devnet เท่านั้น)
+
+
+NOTE: Payments implementation: a pluggable payment adapter was added (branch dev/sprint-5-payment-adapter). Controlled by environment flags ENABLE_PAYMENTS (default: disabled) and PAYMENT_PROVIDER (default: mock). A stripe-mock provider is included for local testing.

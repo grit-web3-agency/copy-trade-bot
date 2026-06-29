@@ -1,0 +1,17 @@
+DRAFT — not sent (BOT_TOKEN/BOSS_CHAT_ID not configured)
+
+Copy-Trade Bot — Sprint completion (2026-06-24 15:11 Asia/Bangkok)
+
+1) ทำถึง Sprint ไหน
+- เสร็จ Sprint 5: Payment Adapter (compatibility shims + stripe mock)
+
+2) ปัญหา/ข้อจำกัด
+- ไม่มีบล็อกโค้ด — build และ tests ผ่าน (963 passed, 1 skipped)
+- สคริปต์ DeepSeek ไม่พร้อมใช้งานบนเครื่องนี้ (ไม่พบ CLI)
+- การส่ง Telegram อัตโนมัติยังไม่สามารถทำได้: ขาด BOT_TOKEN และ BOSS_CHAT_ID ใน .env
+
+3) Push code แล้วหรือยัง
+- ใช่ — โค้ดถูก push ไปที่ branch: dev/sprint-5-payment-adapter
+- Repo: https://github.com/grit-web3-agency/copy-trade-bot
+
+หากต้องการให้ผมส่งข้อความนี้ให้บอส: เพิ่ม BOT_TOKEN และ BOSS_CHAT_ID ลงใน /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/.env แล้วสั่ง: "send telegram <chat_id>" หรือบอกให้ผมส่งตอนนี้.

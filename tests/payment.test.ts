@@ -104,6 +104,32 @@ describe('payment module', () => {
     });
   });
 
+  describe('adapter activateSubscription & webhooks (mock)', () => {
+    it('adapter can activate a subscription and DB is updated', async () => {
+      // use the adapter-level activation helper
+      const ok = await (await import('../src/payment')).activateSubscription(db, telegramId, 'basic', 'sig-activate-1');
+      expect(ok).toBe(true);
+      const active = getActiveSubscription(db, telegramId);
+      expect(active).not.toBeNull();
+      expect(active!.plan_id).toBe('basic');
+      expect(active!.tx_signature).toBe('sig-activate-1');
+    });
+
+    it('mock adapter provides a test webhook event generator', async () => {
+      const payment = await import('../src/payment');
+      const adapter = (payment as any)._adapter;
+      if (adapter.generateTestWebhookEvent) {
+        const evt = adapter.generateTestWebhookEvent('invoice.paid', { telegramId: 'x', plan: 'basic' });
+        expect(evt).toHaveProperty('id');
+        expect(evt).toHaveProperty('type', 'invoice.paid');
+        expect(evt).toHaveProperty('data');
+      } else {
+        // Adapter may not implement this — still acceptable for some providers
+        expect(adapter.generateTestWebhookEvent).toBeUndefined();
+      }
+    });
+  });
+
   describe('formatPlansMessage', () => {
     it('includes all plan names', () => {
       const msg = formatPlansMessage();

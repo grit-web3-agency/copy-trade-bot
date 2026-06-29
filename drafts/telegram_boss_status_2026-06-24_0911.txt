@@ -1,0 +1,14 @@
+สรุป Sprint เสร็จ — Copy-Trade Bot (2026-06-24 09:11 Asia/Bangkok)
+
+1) ทำถึง Sprint ไหน
+- เสร็จ Sprint 5: Payment Adapter (รองรับทั้ง on-chain และ server-side)
+
+2) ปัญหา/ข้อจำกัด
+- ไม่มีปัญหาเชิงโค้ด — build และ unit tests ผ่าน (481 passed, 1 skipped)
+- การส่งอัตโนมัติไป Telegram ถูกบล็อก: ขาด BOT_TOKEN และ BOSS_CHAT_ID ในไฟล์ .env ของโปรเจค
+
+3) Push code แล้วหรือยัง
+- ใช่ — โค้ดถูก push ไปที่ branch: dev/sprint-5-payment-adapter (origin)
+- Repo: https://github.com/grit-web3-agency/copy-trade-bot
+
+ต้องการให้ผมส่งข้อความนี้ให้บอสไหม? หากต้องการ: เพิ่ม BOT_TOKEN และ BOSS_CHAT_ID ลงใน /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/.env แล้วสั่ง: "send telegram <chat_id>" หรือบอกผมให้ส่งตอนนี้

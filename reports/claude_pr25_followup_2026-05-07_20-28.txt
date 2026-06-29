@@ -1,0 +1,18 @@
+Claude follow-up review (2026-05-07 20:28 Asia/Bangkok)
+
+SUMMARY
+- Re-reviewed PR #25 for quick safe fixes.
+- Confirmed .env.example was updated locally; PR itself might not include it.
+
+SAFE_PATCHES suggested:
+1) Remove accidental submodule references (git rm --cached) if present in PR
+2) Add getPaymentMode export to src/payment.ts (simple wrapper using process.env.PAYMENT_MODE)
+3) Fix activateSubscription return type mismatch (wrap boolean into {success, error?} or update webhook handler). 
+
+BLOCKERS needing author input:
+- Duplicate/conflicting subscription schemas across db.ts and payments/service.ts
+- Duplicate createSubscription implementations with incompatible signatures
+- ~260 draft/report files included — confirm whether to exclude or drop from PR
+- 8 submodule references — confirm intent
+
+Next steps: Request author to address blockers; agent can apply SAFE_PATCHES on approval.

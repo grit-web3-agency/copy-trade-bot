@@ -1,120 +1,92 @@
 import Database from 'better-sqlite3';
+import { PaymentAdapter, PaymentMode } from './payments/adapter';
+import StripeMock from './payments/stripeMock';
+import * as service from './payments/service';
 
-export interface SubscriptionPlan {
-  id: string;
-  name: string;
-  maxWhales: number;
-  maxTradesPerDay: number;
-  priceSolMonthly: number;
+// Determine adapter based on environment vars. Default: mock (no real money)
+function selectAdapter(): PaymentAdapter {
+  const mode = (process.env.PAYMENT_MODE || 'mock') as PaymentMode;
+  if (mode === 'stripe') {
+    // For now, only StripeMock exists — in future, replace with real Stripe adapter.
+    return StripeMock;
+  }
+  return StripeMock;
 }
 
-export const PLANS: Record<string, SubscriptionPlan> = {
-  free: {
-    id: 'free',
-    name: 'Free',
-    maxWhales: 1,
-    maxTradesPerDay: 5,
-    priceSolMonthly: 0,
-  },
-  basic: {
-    id: 'basic',
-    name: 'Basic',
-    maxWhales: 5,
-    maxTradesPerDay: 50,
-    priceSolMonthly: 0.1,
-  },
-  pro: {
-    id: 'pro',
-    name: 'Pro',
-    maxWhales: 20,
-    maxTradesPerDay: 500,
-    priceSolMonthly: 0.5,
-  },
-};
+const adapter = selectAdapter();
 
-export interface Subscription {
-  id: number;
-  telegram_id: string;
-  plan_id: string;
-  status: string;
-  tx_signature: string | null;
-  started_at: string;
-  expires_at: string;
+export const PLANS = service.PLANS;
+export type Subscription = service.Subscription;
+
+export const initPaymentSchema = service.initPaymentSchema;
+export const getActiveSubscription = service.getActiveSubscription;
+export const getUserPlan = service.getUserPlan;
+export const createSubscription = service.createSubscription;
+export const formatPlansMessage = service.formatPlansMessage;
+
+// Backwards-compatible exports expected by bot/scripts
+export function formatPlans(): string {
+  return service.formatPlansMessage();
 }
 
-export function initPaymentSchema(database: Database.Database): void {
-  database.exec(`
-    CREATE TABLE IF NOT EXISTS subscriptions (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      telegram_id TEXT NOT NULL,
-      plan_id TEXT NOT NULL DEFAULT 'free',
-      status TEXT NOT NULL DEFAULT 'active',
-      tx_signature TEXT,
-      started_at TEXT DEFAULT (datetime('now')),
-      expires_at TEXT DEFAULT (datetime('now', '+30 days')),
-      FOREIGN KEY (telegram_id) REFERENCES users(telegram_id)
-    );
-  `);
+export function formatSubscriptionStatus(database: Database.Database, telegramId: string): string {
+  const sub = service.getActiveSubscription(database, telegramId);
+  if (!sub) return `You are currently on the Free plan.`;
+  const plan = service.PLANS[sub.plan_id] || service.PLANS.free;
+  return `Subscription: ${plan.name} (expires ${sub.expires_at})`;
 }
 
-export function getActiveSubscription(database: Database.Database, telegramId: string): Subscription | null {
-  const row = database.prepare(
-    `SELECT * FROM subscriptions
-     WHERE telegram_id = ? AND status = 'active' AND expires_at > datetime('now')
-     ORDER BY expires_at DESC LIMIT 1`
-  ).get(telegramId) as Subscription | undefined;
-  return row || null;
+export function checkWhaleLimit(database: Database.Database, telegramId: string, currentCount: number): { allowed: boolean; limit: number } {
+  const plan = service.getUserPlan(database, telegramId);
+  const limit = plan.maxWhales;
+  const allowed = currentCount < limit;
+  return { allowed, limit };
 }
 
-export function getUserPlan(database: Database.Database, telegramId: string): SubscriptionPlan {
-  const sub = getActiveSubscription(database, telegramId);
-  if (!sub) return PLANS.free;
-  return PLANS[sub.plan_id] || PLANS.free;
+export function checkDailyTradeLimit(database: Database.Database, telegramId: string): { allowed: boolean; limit: number } {
+  const plan = service.getUserPlan(database, telegramId);
+  const limit = plan.maxTradesPerDay;
+  return { allowed: limit === -1 ? true : limit > 0, limit };
 }
 
-export function createSubscription(
-  database: Database.Database,
-  telegramId: string,
-  planId: string,
-  txSignature: string | null
-): Subscription {
-  if (!PLANS[planId]) {
-    throw new Error(`Unknown plan: ${planId}`);
+export function getTreasuryAddress(): string {
+  return process.env.PAYMENT_TREASURY || 'TREASURY_WALLET_PLACEHOLDER';
+}
+
+export function getPaymentMode(): string {
+  return process.env.PAYMENT_MODE || 'mock';
+}
+
+export async function verifyPayment(txSignature: string, expectedAmountSol: number, treasuryWallet: string): Promise<boolean> {
+  // Support both adapter shapes: new-style verifyPaymentTx or legacy verifyPayment.
+  if (typeof (adapter as any).verifyPaymentTx === 'function') {
+    return (adapter as any).verifyPaymentTx(txSignature, expectedAmountSol, treasuryWallet);
   }
 
-  database.prepare(
-    `UPDATE subscriptions SET status = 'replaced' WHERE telegram_id = ? AND status = 'active'`
-  ).run(telegramId);
+  if (typeof (adapter as any).verifyPayment === 'function') {
+    // Legacy form may expect a Connection as first arg and return a PaymentVerification.
+    try {
+      const res = await (adapter as any).verifyPayment(undefined, txSignature, expectedAmountSol, treasuryWallet);
+      if (typeof res === 'object' && 'valid' in res) return Boolean(res.valid);
+      return Boolean(res);
+    } catch (err) {
+      console.warn('[payment] Legacy verifyPayment threw:', err);
+      return false;
+    }
+  }
 
-  database.prepare(
-    `INSERT INTO subscriptions (telegram_id, plan_id, status, tx_signature) VALUES (?, ?, 'active', ?)`
-  ).run(telegramId, planId, txSignature);
-
-  return database.prepare(
-    'SELECT * FROM subscriptions WHERE telegram_id = ? ORDER BY id DESC LIMIT 1'
-  ).get(telegramId) as Subscription;
-}
-
-export async function verifyPayment(
-  _txSignature: string,
-  _expectedAmountSol: number,
-  _treasuryWallet: string
-): Promise<boolean> {
-  // Mocked for devnet — always returns true
-  console.log(`[Payment] Mock verify: tx=${_txSignature}, amount=${_expectedAmountSol} SOL`);
+  // Default to true in mock mode
   return true;
 }
 
-export function formatPlansMessage(): string {
-  const lines = ['Subscription Plans:', ''];
-  for (const plan of Object.values(PLANS)) {
-    const price = plan.priceSolMonthly === 0 ? 'Free' : `${plan.priceSolMonthly} SOL/month`;
-    lines.push(
-      `${plan.name} — ${price}`,
-      `  Whales: ${plan.maxWhales} | Trades/day: ${plan.maxTradesPerDay}`,
-      ''
-    );
+export async function activateSubscription(database: Database.Database, telegramId: string, planId: string, txSignature?: string | null): Promise<boolean> {
+  // If payments are disabled, still allow mock activation
+  if (typeof (adapter as any).activateSubscription === 'function') {
+    return (adapter as any).activateSubscription(database, telegramId, planId, txSignature);
   }
-  lines.push('Usage: /subscribe <free|basic|pro> [tx_signature]');
-  return lines.join('\n');
+  // No-op default
+  return true;
 }
+
+// Expose adapter utilities for tests
+export const _adapter = adapter;

@@ -1,0 +1,19 @@
+Telegram summary (internal) — 2026-04-09 06:49 (Asia/Bangkok)
+
+1) Copy-Trade Bot ทำถึง Sprint ไหน
+• Sprint 3 (dev/sprint-3) และ Sprint 12 (dev-sprint12) ถูกตรวจสอบโดย Claude และ verified (unit tests + E2E dry-run ผ่าน)
+• มี PR เพิ่มเติม: PR #10 (dev/auto-sprint-whale-ws-1775690329) ถูกประมวลผลโดย Claude แล้ว (exec เสร็จ)
+
+2) มีปัญหาอะไร
+• Kimi API / DeepSeek: ตอบ 401 Unauthorized — แต่สำหรับ sprints นี้การทดสอบรันใน dry-run/mock mode จึงไม่จำเป็นต้องใช้ credentials
+• Dashboard API: พยายาม PATCH job/21/stage → ได้ HTTP 422 (schema/payload ไม่ถูกต้อง) — ต้องอัปเดตด้วยมือหรือแก้ API contract
+• ต้องการคำสั่งจากบอสว่าจะ merge PR ใดบ้าง (ผมยังไม่ merge อัตโนมัติ)
+
+3) Push code แล้วหรือยัง
+• Branches ที่เกี่ยวข้องถูก push ขึ้น origin แล้ว (ตัวอย่าง: origin/dev-sprint12, origin/dev/sprint-3, origin/dev/auto-sprint-whale-ws-1775690329)
+• PRs ที่เปิดอยู่บน GitHub: #10, #9, #8 (พร้อมสำหรับ merge หลัง verify)
+
+การส่ง Telegram: ล้มเหลวในการส่งอัตโนมัติ (chat id ยังไม่ได้ตั้งค่า) — รายงานนี้เก็บภายในไว้ที่:
+/Users/m4/.openclaw/workspace/reports/telegram_pending/2026-04-09_0649_status_for_boss.txt
+
+ถ้าต้องการให้ผมส่งจริง ๆ: โปรดระบุ chat id (numeric) หรือยืนยันการตั้งค่า Telegram channel ครับ

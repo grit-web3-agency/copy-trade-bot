@@ -1,0 +1,20 @@
+สรุปสถานะ Copy-Trade Bot (อัพเดต 2026-06-23 01:45 Asia/Bangkok)
+
+1) ทำถึง Sprint ไหน
+- ปัจจุบันโครงการพัฒนาเสร็จถึง Sprint 5: Payment Adapter (branch: dev/sprint-5-payment-adapter)
+
+2) มีปัญหาอะไร
+- PR #25 (dev/sprint-4-payment-stub -> main) ยังคงเปิดอยู่และต้องการการรีวิว/แก้ไขก่อน merge (ดู reports/claude_pr25_review_2026-05-07.txt)
+- Automated Telegram cannot be sent from this machine because BOT_TOKEN and target chat_id are not configured in project environment (.env)
+- Payments remain behind feature-flag (ENABLE_PAYMENTS=false by default); real-money trading disabled by PROJECT_SPEC
+
+3) Push code แล้วหรือยัง
+- โค้ดสำหรับ Sprint 5 ถูก push ขึ้น origin/dev/sprint-5-payment-adapter เรียบร้อย
+- ไม่มีการเปลี่ยนแปลงโลคอลค้างที่ยังไม่ได้ commit/push
+
+Next steps (options):
+- Open PR from dev/sprint-5-payment-adapter -> dev (recommended) for team review; suggest reviewers: Claude, Jack
+- Run full test suite locally (npm ci && npm test) before opening PR
+- Provide BOT_TOKEN and BOSS_CHAT_ID to allow me to send this message to the boss via Telegram
+
+(ข้อความนี้เป็นร่าง — ยังไม่ได้ส่งจริง)

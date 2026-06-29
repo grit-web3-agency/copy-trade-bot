@@ -1,0 +1,14 @@
+Hi Jack,
+
+Sprint update — Copy-Trade Bot (MVP) — Sprint 4 (polish)
+
+- Status: Must-have features complete. Payment module implemented as a stub on branch dev/sprint-4-payment-stub.
+- Tests: All unit tests passed locally (244 tests).
+- Repo: Branch dev/sprint-4-payment-stub is up-to-date and pushed to remote (origin).
+- Next: Ready for cross-review and demo dry-run if you want a walkthrough.
+
+Notes:
+- Automatic Telegram send is currently disabled: BOT_TOKEN not configured in .env and your chat id not provided. To send this now, add BOT_TOKEN to the project .env and run: send telegram <chat_id>
+
+— Automated report (OpenClaw)
+Timestamp: 2026-05-05 03:45 Asia/Bangkok

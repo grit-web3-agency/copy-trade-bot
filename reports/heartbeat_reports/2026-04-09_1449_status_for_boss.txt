@@ -1,0 +1,18 @@
+รายงานสถานะ (อัตโนมัติ) — 2026-04-09 14:49 (Asia/Bangkok)
+
+1) Copy-Trade Bot ทำถึง Sprint ไหน
+• Core Must-Have: เสร็จแล้ว
+• Nice-to-Have: PnL tracking เสร็จ (PR #16) — นอกนั้นยังมี PRs สำหรับ real-devnet, payment
+
+2) ปัญหา
+• Kimi/DeepSeek: 401 Unauthorized (ไม่สามารถรัน DeepSeek QA)
+• Telegram: ช่องทางยังไม่ตั้งค่า (ต้องการ numeric chat id)
+• Dashboard: ตอนนี้ Job #21 ตั้งเป็น review แล้ว (สำเร็จ)
+
+3) Push code
+• PR #16 ถูกเปิด: https://github.com/grit-web3-agency/copy-trade-bot/pull/16
+• รายการ PR ที่เปิด: #16, #15, #14, #13, #12
+
+บันทึก: รายงานนี้บันทึกเป็นไฟล์ใน workspace
+
+/Users/m4/.openclaw/workspace/reports/heartbeat_reports/2026-04-09_1449_status_for_boss.txt

@@ -1,0 +1,21 @@
+Claude review (2026-05-07 19:12 Asia/Bangkok)
+
+SUMMARY
+
+PR #25 adds a payment/subscription stub module with adapter/service/facade, webhook handler, env validation, and tests. Key concerns:
+- Conflicting adapter resolution (payment.ts vs payments/index.ts)
+- Interface/signature mismatches between providers and StripeMock
+- PAYMENT_PROVIDER not validated
+- Missing tests for webhook/env validation
+
+ACTIONS
+
+1) Unify adapter resolution to a single path and env var
+2) Align PaymentAdapter interface (add activateSubscription, unify verifyPayment signature)
+3) Add PAYMENT_PROVIDER validation in env-validation.ts and tests
+
+PATCH
+
+Claude suggests a small safe patch to env-validation.ts to validate PAYMENT_PROVIDER when ENABLE_PAYMENTS=true. Structural fixes require author intervention.
+
+(Full machine-friendly sections suppressed; saved in NOTIFICATIONS and reports.)

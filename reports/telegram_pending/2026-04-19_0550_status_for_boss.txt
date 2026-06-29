@@ -1,0 +1,31 @@
+Telegram summary (internal) — 2026-04-19 05:50 (Asia/Bangkok)
+
+โปรเจค: Copy-Trade Bot (grit-web3-agency/copy-trade-bot)
+
+1) Copy-Trade Bot ทำถึง Sprint ไหน
+- สถานะ: All Sprints complete — Sprint 4 (Polish + Deploy) เสร็จเรียบร้อย
+- สรุปการตรวจสอบ: READY FOR REVIEW AND MERGE
+- รายงานการตรวจสอบ: /Users/m4/.openclaw/workspace/reports/copy-trade-bot-verification-2026-04-09.md
+
+2) มีปัญหาอะไร
+- สำหรับโหมด MVP / dry-run: ไม่มีบล็อกเกอร์ — unit tests 77/77 ผ่าน, build (tsc) clean, demo dry-run (BUY+SELL) สำเร็จ
+- ข้อจำกัด/สิ่งที่ยังต้องตั้งค่าเพื่อใช้งานจริง (real devnet): HELIUS_API_KEY, BOT_TOKEN (Telegram), funded devnet wallet
+- ประเด็นอื่น: ไม่มี blocker เทียบกับขอบเขต MVP
+
+3) Push code แล้วหรือยัง
+- โค้ดถูก commit & push แล้วในสาขาที่เกี่ยวข้อง และเปิด PR ดังนี้:
+  • PR #10 (dev/auto-sprint-whale-ws-1775690329) — whale-listener websocket implementation — https://github.com/grit-web3-agency/copy-trade-bot/pull/10
+  • PR #11 (dev/mark-must-have-complete) — verification PR — https://github.com/grit-web3-agency/copy-trade-bot/pull/11
+  • ต่อเนื่อง: PR #16 (PnL tracking, dev/auto-sprint-continue...) ถูกเปิด/push (ดูรายงาน heartbeat หากต้องการลิงก์ตรง)
+- Dashboard Job #21 ถูกอัปเดตเป็น stage "review" (PATCH succeeded)
+- รอคำสั่ง merge/approval จากบอส (ผมสามารถ mergeให้ได้เมื่อได้รับอนุญาต)
+
+บันทึกการส่ง Telegram:
+- การส่ง Telegram: ยังไม่ได้ส่งอัตโนมัติ — ช่องทาง Telegram ของบอสยังไม่ได้ตั้งค่า (ต้องระบุ numeric chat id)
+- รายงานฉบับนี้ถูกเก็บไว้เป็นไฟล์ภายในที่:
+  /Users/m4/.openclaw/workspace/reports/telegram_pending/2026-04-19_0550_status_for_boss.txt
+
+ถ้าต้องการให้ผมส่งสรุปนี้ให้บอสทาง Telegram โดยอัตโนมัติ: โปรดระบุ Telegram chat id แบบตัวเลขของบอส (หรืออนุญาตให้ผมใช้ช่องทางที่ตั้งค่าไว้) แล้วผมจะส่งให้ทันทีและบันทึกสถานะการส่ง
+
+---
+(สร้างโดยระบบตามคำสั่ง reminder — handle internally)

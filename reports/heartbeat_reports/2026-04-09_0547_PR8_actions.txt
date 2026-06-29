@@ -1,0 +1,26 @@
+Internal report — 2026-04-09 05:47 (Asia/Bangkok)
+
+Context:
+- Claude finished verification for PR #8: Sprint 3 verified, unit tests + E2E dry-run passed, TS build clean.
+
+Action items from Claude (manual):
+1) Dashboard Job #21 — update status to "Verified / Ready for Review"
+2) Post to Discord #kanban-board — post verification message
+3) Merge PR #8 when ready
+
+Actions I performed:
+- Attempted to PATCH dashboard /api/job/21/stage -> {"stage":"review"}
+  Result: API returned HTTP 422 with JSON body indicating missing/invalid fields. Dashboard update FAILED programmatically; requires manual update via dashboard UI or correct API payload.
+
+- Posted to Discord #kanban-board:
+  Message: "Sprint 3 verified ✅ — tests pass, E2E demo works, PR #8 ready for merge https://github.com/grit-web3-agency/copy-trade-bot/pull/8"
+  Result: Sent successfully (channelId: 1489323036778692822, messageId: 1491570351552069692)
+
+- PR status: PR #8 remains open and marked ready for merge (verification comment added by Claude). PR #9 previously verified and ready.
+
+Next steps / Recommendations:
+- Manually update Dashboard Job #21 to stage 'review' via the dashboard UI (PATCH API returned 422 here).
+- Confirm whether to merge PR #8 now (I can merge if authorized), or wait for any additional manual checks.
+- If you want programmatic dashboard updates, provide the correct API contract or let me know required payload fields for PATCH /api/job/{id}/stage.
+
+File saved: /Users/m4/.openclaw/workspace/reports/heartbeat_reports/2026-04-09_0547_PR8_actions.txt

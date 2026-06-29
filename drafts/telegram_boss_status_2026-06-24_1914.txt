@@ -1,0 +1,12 @@
+DRAFT — not sent (BOT_TOKEN/BOSS_CHAT_ID not configured)
+
+✅ Routine check 2026-06-24 19:14 (Asia/Bangkok)
+
+• PR #25 (Sprint-4: payment stub) — BUILD OK, TESTS OK
+• PR #26 (Sprint-5: payment adapter) — BUILD OK, TESTS OK
+
+Test run: 963 passed, 1 skipped across 112 test files. tsc compiled cleanly.
+
+Notes: Some tests log mocked network errors (expected in test environment). DeepSeek not available; skipped.
+
+All good. No blockers. Merge when reviewers are ready.

@@ -1,0 +1,15 @@
+DRAFT — not sent
+
+Copy-Trade Bot — Sprint update (2026-06-24 22:41 Asia/Bangkok)
+
+1) Sprint status
+- Current: Sprint 5 — Payment Adapter & compatibility shims. Work validated against PROJECT_SPEC.
+
+2) Issues
+- No code blockers. Build and unit tests passed (963 passed, 1 skipped).
+- Automated Telegram send disabled: BOT_TOKEN and BOSS_CHAT_ID not configured in project .env.
+
+3) Push status
+- All changes committed and pushed to dev/sprint-5-payment-adapter. PRs #25 and #26 are green and mergeable.
+
+Next steps: please merge when ready. To enable automatic reporting, add BOT_TOKEN and BOSS_CHAT_ID to project .env and instruct to send.

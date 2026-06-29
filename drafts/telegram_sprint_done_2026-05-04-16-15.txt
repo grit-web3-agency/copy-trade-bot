@@ -1,0 +1,13 @@
+สรุป Sprint Complete — Copy-Trade Bot
+
+เวลา: 2026-05-04 16:15 Asia/Bangkok
+
+1) Sprint: ถึง Sprint 4 (polish) — ตาม PROJECT_SPEC ฟีเจอร์ Must-Have เสร็จเรียบร้อย; Nice-to-Have (devnet trading, PnL, multi-whale) ส่วนใหญ่เสร็จ; payment module เป็น stub บน branch dev/sprint-4-payment-stub
+
+2) ปัญหา/บล็อกเกอร์: ไม่มีปัญหา blocking พบใน repo หรือบน GitHub (ไม่มี issues/PRs เปิดค้าง). Build & unit tests ผ่านทั้งหมด (244 tests passed).
+
+3) Push code: โค้ดถูก commit และ push ไปยัง remote branch dev/sprint-4-payment-stub (grit-web3-agency/copy-trade-bot).
+
+หมายเหตุ: การส่ง Telegram อัตโนมัติยังไม่สามารถทำได้จนกว่า BOT_TOKEN จะตั้งค่าในไฟล์ .env ของโปรเจค และต้องระบุ chat id ของ Jack เพื่อส่ง
+
+— Automated report from agent

@@ -1,0 +1,19 @@
+รายงานสถานะ (อัตโนมัติ) — 2026-04-09 10:50 (Asia/Bangkok)
+
+1) Copy-Trade Bot ทำถึง Sprint ไหน
+• dev-sprint12: Verified (PR #9)
+• Sprint 3 (dev/sprint-3): Verified (PR #8)
+• PR #12 (dev/verification-2026-04-09): กำลังถูกตรวจโดย Claude (session tidy-basil)
+
+2) ปัญหา
+• Kimi/DeepSeek: 401 Unauthorized (ไม่จำเป็นสำหรับ dry-run tests แต่ต้องแก้สำหรับ QA ต่อไป)
+• Dashboard API: PATCH /api/job/21/stage คืนค่า 422 — ต้องอัปเดตด้วยมือหรือแก้ schema
+• Script branch-naming: บางสคริปต์สร้างชื่อ branch ที่มีตัวอักษรพิเศษ (< >) ทำให้เกิด syntax error — ขอแนะนำ sanitize/slugify
+• npm ENOENT: สคริปต์พยายามเรียก npm ในไดเรกทอรีที่ไม่มี package.json — แนะนำแก้ script/CI
+
+3) Push code
+• โค้ดถูก push และมี PRs (PR #12 กำลังตรวจ, PR #9/#8 ก่อนหน้านี้ verified)
+
+การดำเนินการ: รายงานนี้ถูกบันทึกภายใน
+
+ไฟล์: /Users/m4/.openclaw/workspace/reports/heartbeat_reports/2026-04-09_1050_status_for_boss.txt
