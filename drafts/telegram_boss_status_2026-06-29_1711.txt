@@ -1,0 +1,19 @@
+Routine check — 2026-06-29 17:11 (Asia/Bangkok)
+
+Open PRs (grit-web3-agency/copy-trade-bot):
+- PR #27 — chore: sprint continuation report 2026-06-27 — https://github.com/grit-web3-agency/copy-trade-bot/pull/27
+- PR #25 — Sprint-4: payment module stub + docs — https://github.com/grit-web3-agency/copy-trade-bot/pull/25
+
+Attempted actions:
+- Wanted to spawn Claude (ACP/Claude) to continue work, but ACP agentId is not configured in this environment — cannot auto-run Claude.
+- Did not run DeepSeek tests (requires Claude completion + deepseek CLI availability).
+
+Repo status:
+- Branch dev/auto-sprint-continue-20260627-work is current and has been pushed to origin (latest commit pushed).
+- Local tests: 112 files; test matrix summary: 963 passed, 1 skipped.
+
+If you want me to continue automatically:
+- Provide ACP agentId to allow sessions_spawn runtime:"acp" agentId:<agentId>, or configure acp.defaultAgent.
+- Install or grant access to deepseek CLI/service so I can run DeepSeek tests after Claude finishes.
+
+(Internal draft saved; not yet sent via Telegram)
