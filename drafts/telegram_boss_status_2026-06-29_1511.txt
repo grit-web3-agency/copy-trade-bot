@@ -1,0 +1,30 @@
+สรุปสถานะ Copy-Trade Bot — 2026-06-29 15:11 (Asia/Bangkok)
+
+1) ทำถึง Sprint ไหน
+- ปัจจุบันทำงานถึง Sprint 5 (Payment Adapter). โค้ดของ Sprint 5 ได้รับการพัฒนาและทดสอบเรียบร้อยในเครื่อง: 112 test files → 963 passed, 1 skipped (tests green).
+
+2) มีปัญหาอะไร
+- ไม่มีบั๊กวิกฤติที่ขัดขวางการ merge/deploy ขณะนี้.
+- ข้อจำกัดเชิงปฏิบัติการ:
+  - ไม่สามารถสั่ง Claude (ACP) ให้อัตโนมัติได้ในสภาพแวดล้อมนี้ เพราะไม่มี ACP agentId ที่คอนฟิกไว้ (agents_list คืนค่า agent 'main' ไม่ได้ถูก configured).
+  - DeepSeek tests ไม่ได้รัน — deepseek CLI/service ไม่พร้อมใช้งานใน environment นี้.
+  - การรันทดสอบในเครื่องจะแสดง warning เกี่ยวกับการเชื่อมต่อเครือข่าย (mocked: no network in tests และ Poster dashboard/discord POST errors) ซึ่งเป็น expected ในสภาพแวดล้อมทดสอบแบบออฟไลน์.
+- มีไฟล์ worktree metadata (.claude/worktrees/*) ถูกแก้ไข — เป็น metadata เท่านั้น ไม่ใช่การเปลี่ยนแปลงฟังก์ชันการทำงาน.
+
+3) Push code แล้วหรือยัง
+- ใช่: สาขา dev/auto-sprint-continue-20260627-work เป็นสาขาปัจจุบัน และโค้ดล่าสุดถูก push ขึ้น origin (รวม commit บันทึกรันเตือน/ร่างข้อความแล้ว).
+
+Open PRs ที่พบใน repo:
+- PR #27 — chore: sprint continuation report 2026-06-27 — https://github.com/grit-web3-agency/copy-trade-bot/pull/27
+- PR #25 — Sprint-4: payment module stub + docs — https://github.com/grit-web3-agency/copy-trade-bot/pull/25
+
+ถ้าต้องการให้ผมส่งสรุปนี้ให้บอส:
+- ใส่ BOT_TOKEN และ BOSS_CHAT_ID ลงใน /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/.env (ตัวอย่าง: BOT_TOKEN=xxx\nBOSS_CHAT_ID=123456789) แล้วสั่งผมส่ง หรือ
+- สั่งตรง ๆ ว่า: send telegram <chat_id> — ผมจะใช้ BOT_TOKEN จาก .env (ถ้ามี) แล้วส่งข้อความให้ พร้อมบันทึกผลการส่ง
+
+ข้อเสนอแนะ/ถัดไป:
+- หากต้องการให้ Claude ดำเนินงานต่ออัตโนมัติ: ระบุ ACP agentId ที่ต้องการ (ผมจะเรียก sessions_spawn runtime:"acp" agentId:<agentId>)
+- หากต้องการให้ผมรัน DeepSeek tests: ติดตั้ง/ให้การเข้าถึง deepseek CLI ใน environment หรือสั่งให้รันหลังจาก Claude ทำงานเสร็จ
+- หรือต้องการให้ผม review/merge PR ใด ให้บอกหมายเลข PR และ action ที่ต้องการ
+
+(ข้อความนี้เป็นร่างภายใน; ยังไม่ได้ส่งทาง Telegram โดยอัตโนมัติ)
