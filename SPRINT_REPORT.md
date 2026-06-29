@@ -70,3 +70,25 @@ Files updated/checked:
 - SPRINT_REPORT.md (this file) — appended entry (this note)
 
 ---
+
+(Automated append) Reminder handled: 2026-06-29 21:35 (Asia/Bangkok)
+
+Actions performed:
+- Read PROJECT_SPEC and confirmed sprint scope and rules (Copy-Trade Bot MVP, Sprint plan, Payment Adapter info).
+- Attempted to continue stalled sprint work automatically, but environment constraints prevented automated continuation:
+  - No ACP/Claude agentId configured (sessions_spawn runtime:"acp" requires agentId).
+  - deepseek CLI not installed (deepseek not found) — cannot run DeepSeek tests.
+- Ran local test-suite (npm test): 112 test files collected, 112 passed in this local run; aggregate summary: 963 passed, 1 skipped.
+- Prepared Telegram draft summarizing status and blockers: drafts/telegram_boss_status_2026-06-29_2135.txt (not sent automatically).
+- Committed reminder-run notes and pushed SPRINT_REPORT updates and draft to origin (branch dev/auto-sprint-continue-20260627-work).
+
+Notes / Next steps:
+- To proceed automatically with Claude: provide ACP agentId or configure acp.defaultAgent in environment; I will spawn an ACP/Claude session and continue backlog tasks per PROJECT_SPEC/PENDING_WORK.md.
+- To run DeepSeek tests after Claude: install deepseek CLI or provide access to DeepSeek service.
+- To send Telegram summary to boss: add BOT_TOKEN and BOSS_CHAT_ID (numeric) into /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/.env or instruct me to send to a specific chat id: send telegram <chat_id>.
+
+Files updated/checked:
+- SPRINT_REPORT.md (this file) — appended entry
+- drafts/telegram_boss_status_2026-06-29_2135.txt — created
+
+---
