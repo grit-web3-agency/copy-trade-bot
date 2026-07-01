@@ -442,11 +442,7 @@ export function createBot(token: string, database: Database.Database, rpcUrl?: s
 
       const result = await activateSubscription(database, telegramId, planId, txSig);
 
-      // Support both boolean (legacy) and object result shapes
-      const ok = typeof result === 'boolean' ? result : (result && (result as any).success);
-      const err = typeof result === 'boolean' ? undefined : (result && (result as any).error);
-
-      if (ok) {
+      if (result.success) {
         const plan = PLANS[planId];
         await ctx.reply(
           `Subscription activated!\n\n` +
@@ -456,7 +452,7 @@ export function createBot(token: string, database: Database.Database, rpcUrl?: s
           { parse_mode: 'Markdown' }
         );
       } else {
-        await ctx.reply(`Subscription failed: ${err || 'unknown error'}`);
+        await ctx.reply(`Subscription failed: ${result.error || 'unknown error'}`);
       }
     } catch (err: any) {
       console.error('[Bot] /subscribe error:', err?.message || err);

@@ -345,3 +345,27 @@ Last 5 trades:
 
 
 - 2026-05-05: Implemented pluggable payment adapter (mock + stripe-mock). Tests: vitest run — all tests passed (247 passed). Branch: dev/sprint-5-payment-adapter. Commit: feat(payments): add pluggable payment adapter + stripe-mock provider; enable via ENABLE_PAYMENTS/PAYMENT_PROVIDER (SHA recorded in git).
+
+---
+
+## Sprint 4 (continued): Payment Module Stub
+
+### What changed
+- **Payment adapter interface** (`src/payments/adapter.ts`): Defines `PaymentAdapter` with `activateSubscription`, optional `verifyPayment`, and optional `generateTestWebhookEvent`.
+- **Subscription plans** (`src/payments/service.ts`): Three tiers — free (1 whale, 0 SOL), basic (5 whales, 0.1 SOL), pro (unlimited whales, 0.5 SOL). DB functions: `initPaymentSchema`, `createSubscription`, `getActiveSubscription`, `getUserPlan`, `formatPlansMessage`.
+- **Mock provider** (`src/payments/providers/mock.ts`): Always returns `true` — used for dev/test.
+- **Stripe-mock provider** (`src/payments/providers/stripe-mock.ts`): Simulates Stripe webhook flow; `verifyPayment` returns `true` only for `"stripe-"` prefixed signatures.
+- **StripeMock class** (`src/payments/stripeMock.ts`): Class-based adapter with DB writes and fake webhook event generation.
+- **Feature flag** (`src/payments/index.ts`): `isPaymentsEnabled()` reads `ENABLE_PAYMENTS` env var (`'1'`, `'true'`, `'yes'`). `getPaymentAdapter()` selects provider by `PAYMENT_PROVIDER`.
+- **Facade module** (`src/payment.ts`): Re-exports service + adapter; selects adapter via `PAYMENT_MODE` env var.
+- **Webhook handler** (`src/api/payments/webhook.ts`): `handlePaymentWebhook` processes `payment.confirmed`/`payment.failed` events, records to `payment_history` table.
+- **Payment history DB** (`src/db.ts`): `payment_history` table with `recordPaymentEvent`, `getPaymentHistory`, `updatePaymentEventStatus`.
+- **Bot commands** (`src/bot.ts`): `/plans` shows subscription tiers; `/subscribe [plan] [tx_signature]` activates a subscription.
+- **Env validation** (`src/env-validation.ts`): When `ENABLE_PAYMENTS=true`, requires valid `PAYMENT_MODE`; blocks `stripe` mode on non-devnet.
+- **E2E demo** (`scripts/e2e-payment-demo.ts`): Full payment flow demo — user creation, plan display, subscription, webhook, history.
+- **Tests**: `payment.test.ts` (16 tests), `payment-adapter.test.ts` (3 tests).
+
+### Test run — 2026-06-30 (Sprint 4 payment module verification)
+- Command: npm ci && npm test && npm run build
+- Result: Build clean (tsc, no errors). Test Files: 28 passed (28) — Tests: 241 passed (241) — Duration: 1.22s.
+- Notes: Payment module fully implemented with mock/stripe-mock providers, subscription plans, webhook handler, bot commands, and feature flag. All tests passing, no regressions.

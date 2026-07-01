@@ -1,10 +1,12 @@
-import type { PaymentAdapter, PaymentVerification } from '../adapter';
-import type { Connection } from '@solana/web3.js';
+import type { PaymentAdapter } from '../adapter';
 
 const mockAdapter: PaymentAdapter = {
-  async verifyPayment(_connection: Connection | undefined, _txSignature: string, _expectedSol: number, _payerPubkey: string) {
+  async activateSubscription(_database, _telegramId, _planId, _txSignature) {
+    return true;
+  },
+  async verifyPayment(_txSignature: string, _expectedSol: number, _treasuryWallet: string) {
     // Mock provider: always return valid. Useful for tests and local development.
-    return { valid: true } as PaymentVerification;
+    return true;
   },
 };
 

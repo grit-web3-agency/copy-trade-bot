@@ -60,6 +60,8 @@ npm run build    # Compile TypeScript
 | `/mode dry-run\|devnet` | Switch trading mode (per-user) |
 | `/balance` | Check wallet balance |
 | `/pnl` | View profit & loss summary (realized, unrealized, positions) |
+| `/plans` | Show subscription tiers and pricing |
+| `/subscribe [plan] [tx_signature]` | Activate a subscription (requires `ENABLE_PAYMENTS`) |
 | `/settings [max <SOL>] [slippage <bps>]` | View or update user settings |
 | `/settings set-mode dry-run\|devnet` | Alias to switch trading mode |
 | `/help` | Show help message |
@@ -152,6 +154,37 @@ Last 5 trades:
 - Tracks positions per token with entry price, quantity, and fees
 - PnL snapshots are persisted in SQLite for fast retrieval
 
+## Payment Module (Subscription)
+
+The payment module provides membership/subscription tiers, gated behind the `ENABLE_PAYMENTS` feature flag. **Devnet/mock only — no real payment processing.**
+
+### Environment Variables
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `ENABLE_PAYMENTS` | `false` | Set to `true`, `1`, or `yes` to enable payment commands |
+| `PAYMENT_MODE` | `mock` | Payment adapter: `mock` (always succeeds) or `stripe` (stripe-mock) |
+| `PAYMENT_PROVIDER` | `mock` | Provider selection: `mock` or `stripe-mock` |
+
+### Subscription Plans
+
+| Plan | Whale Limit | Price (SOL) |
+|------|-------------|-------------|
+| free | 1 | 0 |
+| basic | 5 | 0.1 |
+| pro | unlimited | 0.5 |
+
+### Usage
+
+```
+/plans                          # view available plans
+/subscribe basic tx_sig_here    # activate basic plan
+```
+
+### Webhook API
+
+The webhook handler at `src/api/payments/webhook.ts` processes `payment.confirmed` and `payment.failed` events, recording them to the `payment_history` table.
+
 ## Copy Policy
 
 When a whale trade is detected:
@@ -223,7 +256,7 @@ pm2 logs --lines 50 # recent output
 - [x] Sprint 1: Scaffold + Listener
 - [x] Sprint 2: Wallet + Executor
 - [x] Sprint 3: Copy Logic + Demo
-- [x] Sprint 4: Polish + Deploy
+- [x] Sprint 4: Polish + Deploy + Payment Module Stub
 - [x] Sprint 6: PnL Tracking
 
 ## Payments

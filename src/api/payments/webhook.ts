@@ -83,19 +83,15 @@ export async function handlePaymentWebhook(
     payload.tx_signature,
   );
 
-  // Support boolean or object result shapes
-  const ok = typeof result === 'boolean' ? result : (result && (result as any).success);
-  const err = typeof result === 'boolean' ? undefined : (result && (result as any).error);
-
-  if (ok) {
+  if (result.success) {
     recordPaymentEvent(db, payload.telegram_id, 'subscription_activated_via_webhook', payload.plan, payload.amount_sol, payload.tx_signature, 'completed');
     console.log(`[Webhook] Subscription activated for user=${payload.telegram_id} plan=${payload.plan}`);
     return { success: true, message: `Subscription activated: ${payload.plan}`, event };
   }
 
-  recordPaymentEvent(db, payload.telegram_id, 'webhook_activation_failed', payload.plan, payload.amount_sol, payload.tx_signature, 'failed', { error: err });
-  console.log(`[Webhook] Activation failed for user=${payload.telegram_id}: ${err}`);
-  return { success: false, message: err || 'Activation failed', event };
+  recordPaymentEvent(db, payload.telegram_id, 'webhook_activation_failed', payload.plan, payload.amount_sol, payload.tx_signature, 'failed', { error: result.error });
+  console.log(`[Webhook] Activation failed for user=${payload.telegram_id}: ${result.error}`);
+  return { success: false, message: result.error || 'Activation failed', event };
 }
 
 export function getWebhookHistory(db: Database.Database, telegramId: string): PaymentEvent[] {
