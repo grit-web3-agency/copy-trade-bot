@@ -1,0 +1,23 @@
+สวัสดีบอส (อัตโนมัติ)
+
+สรุปสถานะปัจจุบัน — Copy-Trade Bot (อัปเดต 2026-07-02 06:10 Asia/Bangkok)
+
+1) ทำถึง Sprint ไหน
+- ตาม PROJECT_SPEC: Sprint 1–4 เสร็จเรียบร้อย (Scaffold, Listener, Wallet/Executor, Copy Logic, Polish + Deploy notes) — ฟีเจอร์หลักทั้งหมดที่ระบุใน MVP ถูก implement และมี unit tests ครอบคลุม
+- รายละเอียด: branch ทำงานปัจจุบันคือ dev/auto-sprint-continue-20260627-work — ใช้เพื่อรันงานต่อและบันทึกเอกสาร/ไดรฟ์ราฟท์อัตโนมัติ
+
+2) ปัญหา / Blockers
+- ไม่มี ACP/Claude agent ที่กำหนดไว้ในสภาพแวดล้อม (agents_list คืนค่าเฉพาะ 'main' ที่ไม่ได้ configure) — จึงไม่สามารถสั่ง sub-agent ให้ทำงานต่ออัตโนมัติได้
+- ไม่มีไฟล์ .env ในโปรเจคสำหรับ BOT_TOKEN และ BOSS_CHAT_ID ดังนั้นระบบไม่สามารถส่ง Telegram ให้บอสโดยตรงได้
+- DeepSeek CLI ไม่พบใน PATH — ถ้าต้องรัน DeepSeek-based tests ต้องติดตั้งเครื่องมือนั้นก่อน
+- มีไฟล์ metadata ของ .claude worktrees (งานของ sub-agents) ที่แก้ไขท้องถิ่น — เป็น metadata เท่านั้น จึงไม่ได้ commit เป็นโค้ด
+
+3) Push code แล้วหรือยัง
+- Commit ล่าสุด (chore(sprint) a84858e) บันทึกการอัปเดตเอกสารและร่างข้อความ Telegram และ push ขึ้น origin ที่ branch dev/auto-sprint-continue-20260627-work เรียบร้อย
+- ไม่มีการเปลี่ยนแปลงของโค้ดฟังก์ชันหลักที่ต้อง push — ทุก test ผ่าน (112 test files, 963 passed, 1 skipped)
+
+หมายเหตุการส่ง Telegram:
+- ร่างข้อความนี้เก็บในไฟล์: drafts/telegram_boss_status_2026-07-02_0610.txt
+- หากต้องการให้ส่งจริง: ต้องเพิ่ม BOT_TOKEN และ numeric BOSS_CHAT_ID ลงใน /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/.env หรือส่งคำสั่ง: send telegram <chat_id>
+
+ขอบคุณ — รายงานอัตโนมัติ
