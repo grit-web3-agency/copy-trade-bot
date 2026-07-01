@@ -20,3 +20,11 @@ Recorded by assistant (automated reminder handler).
 (Automated) Draft telegram committed and pushed to branch dev/auto-sprint-continue-20260627-work: commit 1f455fb
 
 (Previous entries preserved.)
+
+---
+
+(Automated append) Reminder handled: 2026-07-02 04:10 Asia/Bangkok
+- Action: Prepared and saved Telegram draft: drafts/telegram_boss_status_2026-07-02_0410.txt
+- Summary: includes current sprint status, blockers, and push status. Branch dev/auto-sprint-continue-20260627-work is up-to-date and pushed.
+- Could not send Telegram automatically: BOT_TOKEN and/or BOSS_CHAT_ID not configured in project .env. To send now, either add these to .env or instruct: "send telegram <chat_id>".
+
