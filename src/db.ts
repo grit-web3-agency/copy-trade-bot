@@ -79,11 +79,14 @@ function initSchema(database: Database.Database) {
     CREATE TABLE IF NOT EXISTS subscriptions (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       telegram_id TEXT NOT NULL,
+      plan TEXT NOT NULL DEFAULT 'free',
       plan_id TEXT NOT NULL DEFAULT 'free',
       status TEXT NOT NULL DEFAULT 'active',
       tx_signature TEXT,
+      paid_sol REAL DEFAULT 0,
       started_at TEXT DEFAULT (datetime('now')),
       expires_at TEXT DEFAULT (datetime('now', '+30 days')),
+      active INTEGER DEFAULT 1,
       FOREIGN KEY (telegram_id) REFERENCES users(telegram_id)
     );
 

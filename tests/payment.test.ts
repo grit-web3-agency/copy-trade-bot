@@ -107,8 +107,8 @@ describe('payment module', () => {
   describe('adapter activateSubscription & webhooks (mock)', () => {
     it('adapter can activate a subscription and DB is updated', async () => {
       // use the adapter-level activation helper
-      const result = await (await import('../src/payment')).activateSubscription(db, telegramId, 'basic', 'sig-activate-1');
-      expect(result.success).toBe(true);
+      const ok = await (await import('../src/payment')).activateSubscription(db, telegramId, 'basic', 'sig-activate-1');
+      expect(ok).toBe(true);
       const active = getActiveSubscription(db, telegramId);
       expect(active).not.toBeNull();
       expect(active!.plan_id).toBe('basic');

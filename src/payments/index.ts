@@ -1,6 +1,6 @@
 import mockAdapter from './providers/mock';
 import stripeMock from './providers/stripe-mock';
-import type { PaymentAdapter } from './adapter';
+import type PaymentAdapter from './adapter';
 
 export function isPaymentsEnabled(): boolean {
   const v = process.env.ENABLE_PAYMENTS;
