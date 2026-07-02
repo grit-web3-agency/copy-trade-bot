@@ -14,7 +14,6 @@ Next steps:
 - If reviewers prefer a stricter single adapter shape, consolidate providers to the chosen API and remove compatibility shims.
 - Add end-to-end demo/runbook for payment flows when integrating a real provider (Stripe) and CI checks for build/tests.
 
-<<<<<<< HEAD
 Change-log summary (files touched):
 - src/payments/adapter.ts — unified adapter interface
 - src/payment.ts — compatibility wrappers & helpers
@@ -23,7 +22,6 @@ Change-log summary (files touched):
 - src/bot.ts, src/api/payments/webhook.ts — made robust to result shapes
 
 Report generated on: 2026-06-24 04:14 (Asia/Bangkok)
-=======
 Notes:
 - I resolved merge conflicts and committed changes on branch dev/sprint-4-payment-stub.
 - Next steps: create/update PR and run repository-wide checks as requested.
@@ -48,4 +46,14 @@ Next steps (manual/optional):
 - Update Discord #kanban-board and Dashboard Job #21 per PROJECT_SPEC (requires external APIs/credentials).
 
 If you want, I can create the PR, update Discord and Dashboard, or run the e2e demo (requires network/devnet access).
->>>>>>> ca43c1d (docs: automated sprint continuation report (2026-07-03))
+
+---
+
+Automated reminder handled (2026-07-03 06:10 Asia/Bangkok)
+
+- Received scheduled reminder to prepare status report and send Telegram to boss.
+- Prepared draft message at drafts/telegram_copy_trade_boss_2026-07-03_0610.txt.
+- Did NOT send Telegram: BOT_TOKEN or BOSS_CHAT_ID not found in project .env (safety policy). To enable sending, add BOT_TOKEN and BOSS_CHAT_ID to copy-trade-bot/.env or provide credentials.
+- Kept repository unchanged (no code changes needed). Branches remain synchronized with origin.
+
+Recorded by: automated reminder handler
