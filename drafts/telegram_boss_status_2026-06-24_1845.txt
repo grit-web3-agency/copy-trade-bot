@@ -1,0 +1,19 @@
+DRAFT — not sent (BOT_TOKEN/BOSS_CHAT_ID not configured)
+
+Copy-Trade Bot — Status Update 2026-06-24 18:45 (Asia/Bangkok)
+
+1) Sprint status
+- Current sprint: Sprint 5 — Payment Adapter work completed (compatibility for legacy on-chain and server-side adapters)
+
+2) Issues / blockers
+- No code blockers: build and unit tests passed in recent runs
+- Operational blocker for automated Telegram: BOT_TOKEN and BOSS_CHAT_ID are not configured in project .env; automatic send is blocked
+
+3) Push status
+- Code and reports have been committed and pushed to branch: dev/sprint-5-payment-adapter
+- Latest commit: 9330c2d
+- Repository: https://github.com/grit-web3-agency/copy-trade-bot
+
+Next steps
+- To send this summary to boss automatically: add BOT_TOKEN and BOSS_CHAT_ID to /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/.env and then instruct: "send telegram <chat_id>". I will send the draft and log the event.
+- Otherwise keep as draft in repo.

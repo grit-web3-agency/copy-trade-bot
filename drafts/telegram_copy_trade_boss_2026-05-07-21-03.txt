@@ -1,0 +1,13 @@
+Sprint Update — Copy-Trade Bot
+
+เวลารายงาน: 2026-05-07 21:03 (Asia/Bangkok)
+สาขา: dev/sprint-5-payment-adapter
+commit: f68bde3
+
+สรุป:
+- Sprint 5 (Payment Adapter) work completed locally and pushed to origin/dev/sprint-5-payment-adapter.
+- PR #25 (dev/sprint-4-payment-stub -> main) still open and contains payment-related changes that need blocker fixes before merging (see reports/claude_pr25_review_2026-05-07_20-15.txt).
+- Unit tests run: 247 tests pass locally.
+- DeepSeek test: skipped (deepseek CLI not installed).
+
+Next actions: provide BOT_TOKEN and chat_id to send this to boss, or instruct me to comment on PR #25 or fix blockers directly.

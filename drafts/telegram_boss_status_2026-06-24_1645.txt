@@ -1,0 +1,17 @@
+DRAFT — not sent (BOT_TOKEN/BOSS_CHAT_ID not configured)
+
+Copy-Trade Bot — Routine Reminder 2026-06-24 16:45 (Asia/Bangkok)
+
+1) ทำถึง Sprint ไหน
+- อยู่ที่: Sprint 5 — Payment Adapter (complete). Compatibility adapters added to support legacy on-chain and newer server-side flows.
+
+2) มีปัญหาอะไร
+- ไม่มีบล็อกเชิงโค้ด: build และ unit tests ผ่านเรียบร้อย
+- การส่ง Telegram อัตโนมัติยังถูกบล็อก: โปรเจคไม่มี BOT_TOKEN และ BOSS_CHAT_ID ในไฟล์ .env — จึงเก็บร่างไว้ใน repo
+
+3) Push code แล้วหรือยัง
+- ใช่ — โค้ดถูก commit & push ไปที่ branch: dev/sprint-5-payment-adapter (origin)
+
+Notes / Next steps:
+- หากต้องการให้ส่งอัตโนมัติ: เพิ่ม BOT_TOKEN และ BOSS_CHAT_ID ลงใน /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/.env แล้วสั่ง: "send telegram <chat_id>" หรือบอกให้ผมส่ง
+- PRs are ready for review/merge when the team is ready.

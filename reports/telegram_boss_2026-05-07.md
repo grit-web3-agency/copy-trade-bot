@@ -1,0 +1,19 @@
+Sprint Update — Copy-Trade Bot
+
+เวลารายงาน: 2026-05-07 06:17 (Asia/Bangkok)
+สาขา: dev/sprint-5-payment-adapter
+commit: 0c781f06e4e11dbc37bfe382fa62e2c3ccf6d5e2
+
+สรุป:
+- ความคืบหน้า: ทำงานถึง "Sprint 4: Polish & Deploy" เสร็จและต่อยอดด้วยการเพิ่ม Payment Adapter (branch dev/sprint-5-payment-adapter) เพื่อรองรับการทดสอบการชำระเงินในสภาพแวดล้อมทดสอบ (mock provider)
+- การทดสอบ: Unit tests ผ่านทั้งหมด (247 tests passed)
+- ปัญหา/ข้อจำกัด: ไม่มีบั๊กสำคัญที่ขัดขวางการ merge/deploy แต่ไม่มีค่า BOT_TOKEN ใน repo (.env) จึงยังส่ง Telegram สรุปให้อัตโนมัติไม่ได้
+- การส่งโค้ด: Push เรียบร้อย -> origin/dev/sprint-5-payment-adapter (branch ถูกตั้งค่าติดตามแล้ว)
+
+การดำเนินการที่ต้องการจากบอส (เลือกอย่างใดอย่างหนึ่ง):
+1) วาง BOT_TOKEN ใน /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/.env (รูปแบบ: BOT_TOKEN=xxxx) และบอก chat_id ของบอส เพื่อผมจะส่งสรุปให้ทันที
+2) หากต้องการ ผมจะเปิด PR จาก dev/sprint-5-payment-adapter ไปที่ dev หรือ main (บอกเป้าหมาย)
+3) Merge now — ผมสามารถเปิด PR หรือ mergeเมื่อได้รับอนุมัติ
+
+--
+Automated: reminder handled by agent at 2026-05-07 06:17 Asia/Bangkok

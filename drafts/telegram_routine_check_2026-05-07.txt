@@ -1,0 +1,16 @@
+Routine Check — GitHub summary
+
+เวลารายงาน: 2026-05-07 13:43 (Asia/Bangkok)
+
+สรุป:
+- ตรวจพบ PR ค้าง: 1 รายการ
+  - PR #25: "Sprint-4: payment module stub + docs" (head: dev/sprint-4-payment-stub → base: main) — updated: 2026-05-05
+- สถานะโค้ด: Sprint 5 (payment adapter) เสร็จและ push ขึ้น origin/dev/sprint-5-payment-adapter
+- การทดสอบ: Local unit tests ผ่าน (247 tests)
+
+แนะนำการทำงานอัตโนมัติ (ต้องอนุญาต):
+1) ให้รัน Claude CLI เพื่อช่วยรีวิว/merge PR ค้าง (#25)
+2) หาก Claude สำเร็จ ให้รัน DeepSeek test
+3) สรุปผลและส่ง Telegram ให้บอส (ต้องมี BOT_TOKEN ใน .env และ chat_id ของบอส)
+
+หมายเหตุ: ผมจะรอคำสั่งอนุญาตเพื่อรัน Claude CLI และ DeepSeek test และจะไม่ส่ง Telegram จนกว่า BOT_TOKEN และ chat_id จะถูกตั้งค่า.

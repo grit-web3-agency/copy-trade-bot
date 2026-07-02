@@ -1,0 +1,21 @@
+สรุปสถานะ Copy-Trade Bot — 2026-06-22 17:45 (Asia/Bangkok)
+
+1) Sprint: Sprint 5 (Payment Adapter) — เสร็จเรียบร้อยบนสาขา dev/sprint-5-payment-adapter
+
+2) ปัญหา/ข้อจำกัด:
+- ไม่มีบั๊กที่เป็น blocker ตอนนี้
+- PR #25 (dev/sprint-4-payment-stub → main) ยังคงรอรีวิว/merge ถ้าต้องการรวมการปรับปรุงที่เกี่ยวข้อง
+- การใช้งานการชำระเงินถูกปิดโดยค่าเริ่มต้น (ENABLE_PAYMENTS=false) ตาม PROJECT_SPEC — ระบบทำงานบน devnet เท่านั้น
+- ไม่มีค่า BOT_TOKEN หรือ BOSS_CHAT_ID ใน /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/.env จึงยังไม่สามารถส่งสรุปนี้ทาง Telegram อัตโนมัติได้
+
+3) Push status:
+- โค้ดของ Sprint 5 ถูก push ขึ้น origin ไปยังสาขา dev/sprint-5-payment-adapter เรียบร้อยแล้ว
+- Working tree ปัจจุบันไม่มีการเปลี่ยนแปลงที่ยังไม่ได้ commit
+
+ถ้าต้องการให้ผมส่งสรุปนี้ให้บอสทาง Telegram ให้ทำอย่างใดอย่างหนึ่งต่อไปนี้:
+- ใส่ BOT_TOKEN=... และ BOSS_CHAT_ID=... ลงใน /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/.env แล้วสั่ง: send telegram <chat_id>
+- หรือ ส่งมาเฉพาะ chat_id ให้ผมพร้อมอนุญาตใช้ค่า BOT_TOKEN ที่ตั้งค่าใน .env (ผมจะขออนุมัติก่อนส่ง)
+
+ถ้าต้องการ ผมสามารถเปิด PR จาก dev/sprint-5-payment-adapter → dev หรือ main, รัน CI/tests เพิ่มเติม หรือแก้ PR #25 ตามความคิดเห็น reviewer ได้ (ต้องการอนุญาตก่อนทำงานอัตโนมัติ)
+
+(บันทึกภายใน: รายละเอียดอ้างอิง PROJECT_SPEC และสถานะ git ล่าสุด)

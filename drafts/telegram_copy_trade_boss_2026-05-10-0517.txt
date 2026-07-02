@@ -1,0 +1,21 @@
+สรุปความคืบหน้า Copy-Trade Bot (ย่อ)
+
+1) Sprint: ถึง Sprint 5 — Payment Adapter (เสร็จเรียบร้อย)
+- สาขา: dev/sprint-5-payment-adapter
+- โค้ด: สถานะตรงกับ origin (branch up-to-date)
+- ทดสอบ: unit tests ผ่าน (247 tests)
+- ล่าสุด local HEAD: b97f88d (ไม่มีการเปลี่ยนแปลงที่ยังไม่ถูก commit บน tracked files; มีไฟล์ draft ใหม่เป็น untracked)
+
+2) ปัญหาที่พบ / ข้อสังเกต
+- Unit tests มี warnings เกี่ยวกับ Jupiter quote mocks แต่เป็น non-blocking
+- PR เก่า (จาก sprint ก่อนหน้า) อาจยังต้อง review (ถ้าต้อง merge ให้ระบุ PR ที่ต้องการ)
+- ไม่สามารถส่ง Telegram สรุปให้บอสโดยอัตโนมัติ: โปรเจคไม่มีไฟล์ .env ที่มี BOT_TOKEN และ BOSS_CHAT_ID (ดู .env.example)
+
+3) การส่งโค้ด
+- โค้ดสาขา dev/sprint-5-payment-adapter อยู่บน origin และ branch up-to-date — ไม่มี commits ค้างสำหรับ push
+
+คำแนะนำ/ถัดไป
+- หากต้องการให้ผมส่งข้อความนี้ให้บอสโดยอัตโนมัติ: ใส่ BOT_TOKEN และ BOSS_CHAT_ID ลงใน /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/.env หรือมอบ credentials/อนุญาตให้ผมส่งได้
+- หากต้องการให้ผม commit/เพิ่มไฟล์ draft ลงใน repo แล้ว push โปรดอนุญาตและระบุ commit message
+
+(ฉบับร่างสร้างโดย automated-sprint-agent — 2026-05-10 05:17 Asia/Bangkok)

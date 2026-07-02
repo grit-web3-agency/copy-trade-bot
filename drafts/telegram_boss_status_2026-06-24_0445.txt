@@ -1,0 +1,25 @@
+สรุปสถานะ Copy-Trade Bot — 2026-06-24 04:45 (Asia/Bangkok)
+
+1) ทำถึง Sprint ไหน
+- ปัจจุบันอยู่ที่ Sprint 5: งานด้าน Payment Adapter (รวมการรองรับทั้งรูปแบบเก่า on-chain และรูปแบบใหม่ server-side)
+- เปลี่ยนแปลงหลัก: รวมอินเทอร์เฟซ adapter, เพิ่ม compatibility wrappers, ปรับ Stripe mock ให้เข้ากับ API ใหม่
+
+2) มีปัญหาอะไร
+- ไม่มีบล็อกเกอร์เชิงโค้ด — การ build และ unit tests ผ่านเรียบร้อย (241 tests)
+- ที่ยังทำให้การรายงานอัตโนมัติไม่สมบูรณ์: ขาดค่าคอนฟิกสำหรับส่ง Telegram อัตโนมัติ (BOT_TOKEN และ BOSS_CHAT_ID) ในไฟล์ .env ของโปรเจค จึงไม่สามารถส่งข้อความให้บอสทาง Telegram ได้จากเครื่องนี้
+- รายงาน/ร่างข้อความถูกเก็บไว้ใน repo (ด้านล่าง)
+
+3) Push code แล้วหรือยัง
+- โค้ดถูก commit และ push ขึ้น remote บน branch: dev/sprint-5-payment-adapter
+- Commit (short): 5bc3f77
+- Remote repo: https://github.com/grit-web3-agency/copy-trade-bot.git
+
+Next steps (recommended)
+- ถ้าต้องการให้ผมส่ง Telegram ให้บอสอัตโนมัติ: เพิ่ม BOT_TOKEN และ BOSS_CHAT_ID ลงใน /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/.env แล้วแจ้งผมได้ — ผมจะส่งร่างนี้ให้ทันที
+- เปิด PR จาก dev/sprint-5-payment-adapter → dev/main (หรือ branch ที่ทีมกำหนด) และขอรีวิว
+- หากทีมต้องการ ลดความซับซ้อน: เลือก API adapter เดียว แล้วลบ compatibility shims
+
+ไฟล์ร่างฉบับนี้ถูกบันทึกไว้ที่:
+- drafts/telegram_boss_status_2026-06-24_0445.txt
+
+(รายงานนี้ถูกสร้างโดยระบบอัตโนมัติ — หากต้องการแก้ไขข้อความก่อนส่ง บอกผมให้ปรับได้)

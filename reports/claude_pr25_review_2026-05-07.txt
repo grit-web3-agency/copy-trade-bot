@@ -1,0 +1,19 @@
+Claude review output (2026-05-07 18:34 Asia/Bangkok)
+
+SUMMARY
+
+PR #25 (dev/sprint-4-payment-stub -> main) summary and findings:
+- Adds payments adapter architecture, webhook handler, env validation, bot command updates, tests.
+- Critical issues: missing exports in src/payment.ts, return type mismatch in activateSubscription, duplicate Subscription types, ENABLE_PAYMENTS flag not gating adapter, .env.example missing flags, noisy draft commits.
+
+ACTIONS
+
+1) Fix missing exports in src/payment.ts (blocking)
+2) Fix activateSubscription return type to { success: boolean, error?: string } or update webhook to expect boolean
+3) Squash-merge after cleaning drafts/reports or add to .gitignore
+
+PATCH
+
+Claude suggested a safe minimal patch to .env.example to add ENABLE_PAYMENTS and PAYMENT_MODE entries. Structural fixes require author input.
+
+--- End of Claude output
