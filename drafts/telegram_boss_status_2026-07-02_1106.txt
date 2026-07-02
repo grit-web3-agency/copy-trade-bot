@@ -1,0 +1,18 @@
+Boss,
+
+Automated sprint heartbeat — 2026-07-02 11:06 (Asia/Bangkok)
+
+Summary:
+- Project: copy-trade-bot
+- Action: Routine sprint continuation check per scheduled reminder.
+- Tests: Ran local test subset: 28 test files passed (241 tests) in the subproject run. No failing tests observed.
+- Git: branch dev/auto-sprint-continue-20260627-work is current and up-to-date with origin.
+
+Notes / Next steps:
+- No ACP/Claude agent actions required (previous Claude merge completed earlier).
+- DeepSeek CLI still not found in PATH — DeepSeek-based end-to-end tests not executed.
+- Telegram send blocked: BOT_TOKEN placeholder and BOSS_CHAT_ID not configured in .env.
+
+If you want this sent via Telegram, provide BOSS_CHAT_ID or add BOT_TOKEN+BOSS_CHAT_ID to project .env.
+
+— automated heartbeat generated 2026-07-02 11:06 (Asia/Bangkok)
