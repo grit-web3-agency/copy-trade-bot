@@ -1,0 +1,11 @@
+สรุปงาน Copy-Trade Bot — 2026-05-09
+
+- ทำตาม PROJECT_SPEC: อ่านและยืนยัน scope (devnet only, push ไปยัง grit-web3-agency/copy-trade-bot)
+- สถานะ repo: branch dev/sprint-5-payment-adapter — commit 942ceca (reports added)
+- Build: `npm run build` — สำเร็จ
+- Tests: `npm test` — 247 tests passed ✅
+- การเปลี่ยนแปลง: เพิ่มรายงานการตรวจรอบ (reports/*) และ push ขึ้น origin
+
+ถ้าต้องการให้ผมส่งสรุปนี้ให้บอสทาง Telegram ให้วาง BOT_TOKEN และ chat_id ใน .env หรืออนุญาตให้ผมใช้โทเค็นตอนนี้
+
+(งานทั้งหมดเป็นไปตาม PROJECT_SPEC — ไม่มีงานค้างเพิ่มเติมที่ต้องทำ ณ ตอนนี้)

@@ -1,0 +1,41 @@
+Sprint update - Payment adapter (2026-05-05)
+
+Sprint reached:
+- Implemented a pluggable payment adapter with a Stripe-style mock provider.
+- Added ENV configuration: ENABLE_PAYMENTS (default: disabled) and PAYMENT_PROVIDER (default: mock).
+- Integrated adapter into subscription activation and webhook handling.
+
+Files/changes:
+- src/payments/adapter.ts, src/payments/index.ts, src/payments/providers/mock.ts, src/payments/providers/stripe-mock.ts
+- src/payment.ts (adapted to use payment adapter)
+- src/api/payments/webhook.ts (uses adapter webhook verification)
+- tests/payment.test.ts (updated to enable payments in tests)
+- tests/payment-adapter.test.ts (new)
+- PROJECT_SPEC.md, README.md, PROOFS.md updated with notes
+
+Commits pushed:
+- 6db1324 feat(payments): add pluggable payment adapter + stripe-mock provider; enable via ENABLE_PAYMENTS/PAYMENT_PROVIDER
+- 0c781f0 docs: note payment adapter and feature flags (dev/sprint-5-payment-adapter)
+
+Branch and PR:
+- Branch pushed: dev/sprint-5-payment-adapter
+- Create PR: https://github.com/grit-web3-agency/copy-trade-bot/pull/new/dev/sprint-5-payment-adapter
+
+Tests:
+- Ran full test suite (vitest). Result: 247 tests passed, 0 failed.
+- Output available in CI / local logs.
+
+DeepSeek / integration harness:
+- DeepSeek tests not available in workspace. Ran project's vitest suite instead.
+
+Blockers / Notes:
+- Payments feature defaults to disabled (ENABLE_PAYMENTS not set). Tests enable it via env to exercise adapter behavior.
+- Could not create GitHub PR programmatically (no API token). PR can be created at the URL above.
+- Telegram send skipped: BOT_TOKEN / chat_id not present in environment.
+
+Next steps / recommendations:
+- Review adapter implementation and provider interface; consider adding a real Stripe adapter and signing verification.
+- Add CI step to run vitest on PRs and validate ENABLE_PAYMENTS variations.
+- Merge PR after review; then run DeepSeek tests if available.
+
+Prepared by: automated subagent

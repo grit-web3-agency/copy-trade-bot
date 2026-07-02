@@ -1,0 +1,20 @@
+สรุปรายงานสถานะ Copy-Trade Bot — 2026-05-09 17:58 (Asia/Bangkok)
+
+1) ตอนนี้ทำถึง Sprint: Sprint 4 เสร็จเรียบร้อย (กำลังทำงานบน Sprint 5 - branch dev/sprint-5-payment-adapter)
+
+2) ปัญหา/อุปสรรคที่พบ:
+- ไม่มีปัญหาเชิงเทคนิคที่เป็นอุปสรรคสำคัญในสเตจนี้
+- Unit tests และ build ผ่านเรียบร้อย (vitest: 247 tests ผ่านทั้งหมด)
+- ในการรันทดสอบในเครื่องมี warnings เกี่ยวกับการ mock ของ Jupiter (no network in tests) — ข้อความเป็นแบบ non-blocking
+- หากต้องส่งรายงานให้บอสอัตโนมัติ จำเป็นต้องมี BOT_TOKEN และ target chat_id (ไม่พบค่าใน workspace .env)
+
+3) โค้ดถูก push หรือยัง:
+- โค้ดและรายงานถูก commit & pushed ไปยัง remote: origin/dev/sprint-5-payment-adapter
+  - ล่าสุด: commit 942ceca "chore(reports): add reminder-handled reports 2026-05-09"
+  - สถานะ: ไม่มี commits ค้างส่ง (branch up-to-date with origin)
+
+Next steps (แนะนำ):
+- ถ้าต้องการให้ผมส่ง Telegram ให้บอสได้จริง ๆ: เพิ่ม BOT_TOKEN และ BOSS_CHAT_ID ในไฟล์ .env ของโปรเจค หรืออนุญาตให้ผมเข้าถึง credential store
+- หากต้องการ PR/merge เข้าสู่ main โปรดแจ้งขั้นตอนและผู้อนุมัติ — ผมจะเตรียม PR draft
+
+ส่งโดย: automated reminder handler

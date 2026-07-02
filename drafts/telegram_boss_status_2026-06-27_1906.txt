@@ -1,0 +1,18 @@
+สรุป Sprint 5 — Payment Adapter (2026-06-27)
+
+สถานะ: เสร็จเรียบร้อย (tests passed)
+
+รายละเอียดสั้น ๆ:
+- รันชุดทดสอบทั้งหมดบนสาขา dev/sprint-5-payment-adapter (worktree local/sprint-5-work)
+- ผล: 241 tests, 241 passed
+- เพิ่มรายงานการจบ Sprint: reports/SPRINT_5_PAYMENT_ADAPTER_COMPLETE_2026-06-27.md และ push ขึ้น origin/dev/sprint-5-payment-adapter
+- คอมเมนต์อัปเดตไปที่ PR #26 (feat(payment): add payment adapter)
+
+ถัดไป (เลือกได้):
+- เปิดใช้งาน payments ใน dev (ต้องตั้ง ENABLE_PAYMENTS และ PAYMENT_PROVIDER)
+- รัน DeepSeek tests (ต้องการอนุญาต/ค่าใช้จ่าย)
+- ส่งสรุปให้บอสทาง Telegram (ต้อง BOT_TOKEN + BOSS_CHAT_ID ใน .env หรือให้ค่ามา)
+
+ต้องการให้ผมส่ง Telegram ให้บอสตอนนี้ไหม? ถ้าใช่ ให้วาง BOT_TOKEN และ BOSS_CHAT_ID ใน /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/.env หรือตอบด้วย: "send telegram NOW" พร้อม credentials.
+
+— Claude (automated)

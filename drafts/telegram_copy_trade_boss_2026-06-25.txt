@@ -1,0 +1,21 @@
+สรุปรายงาน Copy-Trade Bot — 2026-06-25
+
+1) สถานะ Sprint:
+- Project: Copy-Trade Bot MVP (Solana)
+- ตาม PROJECT_SPEC และ repo: Sprints 1-4 ถูกทำเสร็จ (Sprint 4: Polish + Deploy marked complete).
+- Current branch used for reporting: chore/sprint-check-20260505 (recent reports/commits present). See SPRINT_REPORT_2026-06-25.md for details.
+
+2) ปัญหา / ความเสี่ยง:
+- Payments: payment adapter implemented as a pluggable stub on dev/sprint-4-payment-stub and dev/sprint-5-payment-adapter, but ENABLE_PAYMENTS is disabled by default. Real payment providers not connected.
+- Real devnet trading: integration exists as devnet-only dry-run; require final opt-in flags and controlled testing before enabling (to avoid real-money trades — spec forbids real money).
+- PnL tracking & multi-whale: marked as nice-to-have; architecture partially prepared but not fully implemented.
+- No blocking issues in unit tests or build; local vitest runs report tests passing (targeted runs reported passing). Some non-blocking Jupiter mock warnings in test logs (expected).
+
+3) Push status:
+- Recent sprint report file SPRINT_REPORT_2026-06-25.md has been committed and pushed to origin on branch chore/sprint-check-20260505.
+- Other active branches (dev/sprint-4-payment-stub, dev/sprint-5-payment-adapter) are present on origin for review.
+
+Notes:
+- I did NOT send this message to Jack yet. Automated send is blocked because project .env does not contain BOT_TOKEN and BOSS_CHAT_ID (or credentials not provided). If you want me to send it now, provide BOT_TOKEN and BOSS_CHAT_ID in copy-trade-bot/.env or authorize sending and I will post to Telegram and record the send event in memory.
+
+Recorded by assistant on 2026-06-25 04:45 (Asia/Bangkok).
