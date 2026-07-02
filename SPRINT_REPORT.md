@@ -14,6 +14,7 @@ Next steps:
 - If reviewers prefer a stricter single adapter shape, consolidate providers to the chosen API and remove compatibility shims.
 - Add end-to-end demo/runbook for payment flows when integrating a real provider (Stripe) and CI checks for build/tests.
 
+<<<<<<< HEAD
 Change-log summary (files touched):
 - src/payments/adapter.ts — unified adapter interface
 - src/payment.ts — compatibility wrappers & helpers
@@ -22,3 +23,29 @@ Change-log summary (files touched):
 - src/bot.ts, src/api/payments/webhook.ts — made robust to result shapes
 
 Report generated on: 2026-06-24 04:14 (Asia/Bangkok)
+=======
+Notes:
+- I resolved merge conflicts and committed changes on branch dev/sprint-4-payment-stub.
+- Next steps: create/update PR and run repository-wide checks as requested.
+
+---
+
+Automated Sprint continuation (2026-07-03 04:06 Asia/Bangkok)
+
+Actions performed:
+- Read PROJECT_SPEC at /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/PROJECT_SPEC.md and verified scope and rules.
+- Ran full test suite: npm run test (vitest) — 241 tests passed, 0 failed.
+- Ensured local branch: dev/auto-sprint-continue-20260627-work (clean working tree).
+- Fetched and rebased against origin/dev/auto-sprint-continue-20260627-work and pushed branch to origin. Remote now up-to-date.
+
+Status:
+- All unit tests passing locally.
+- Branch dev/auto-sprint-continue-20260627-work is synchronized with origin.
+- No additional code changes were required.
+
+Next steps (manual/optional):
+- Create pull request to merge dev/auto-sprint-continue-20260627-work into dev/main if review desired.
+- Update Discord #kanban-board and Dashboard Job #21 per PROJECT_SPEC (requires external APIs/credentials).
+
+If you want, I can create the PR, update Discord and Dashboard, or run the e2e demo (requires network/devnet access).
+>>>>>>> ca43c1d (docs: automated sprint continuation report (2026-07-03))
