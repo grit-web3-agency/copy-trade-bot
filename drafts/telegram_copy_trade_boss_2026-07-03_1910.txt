@@ -1,0 +1,21 @@
+สรุปรายงานสถานะ Copy-Trade Bot — 2026-07-03 19:10 (Asia/Bangkok)
+
+1) ตอนนี้ทำถึง Sprint:
+- Sprints 1–4 เสร็จเรียบร้อยตาม PROJECT_SPEC
+- ปัจจุบันโค้ดอยู่ที่สาขา dev/sprint-4-payment-stub (branch updated and pushed)
+
+2) ปัญหา/อุปสรรคที่พบ:
+- ไม่มีปัญหาเชิงเทคนิคที่เป็นอุปสรรคสำคัญในสเตจนี้
+- Unit tests ทดสอบผ่านทั้งหมดในเครื่อง (vitest: 241 tests passed)
+- Runtime/unit test logs แสดง warnings เกี่ยวกับการ mock ของ Jupiter/Poster (no network in tests) — เป็นสิ่งที่คาดไว้และไม่เป็นบล็อกเกอร์
+- โมดูลการชำระเงินยังเป็น mock/stub ตามค่าเริ่มต้น (ENABLE_PAYMENTS=false). หากต้องการเชื่อมผู้ให้บริการจริง ต้องเพิ่ม credentials และทดสอบบน devnet ด้วยความระมัดระวัง
+
+3) โค้ดถูก push หรือยัง:
+- ใช่ — สาขา dev/sprint-4-payment-stub ถูก synchronized กับ origin และไม่มี commits ค้าง
+
+Next steps (แนะนำ):
+- หากต้องการผมจะส่งสรุปนี้ให้บอสทาง Telegram อัตโนมัติ แต่ต้องมี BOT_TOKEN และ BOSS_CHAT_ID ใน copy-trade-bot/.env หรือให้ผมรับค่าจากคุณโดยตรง
+- หากต้องการผมเปิด PR: ให้ PR title และรายชื่อ reviewers ผมจะสร้าง PR ให้
+- หากต้องการรัน e2e demo บน devnet: ให้ HELIUS_API_KEY และตั้ง ENABLE_LIVE_DEVNET=true
+
+ส่งโดย: automated reminder handler
