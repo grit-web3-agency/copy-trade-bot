@@ -9,7 +9,3 @@ const mockAdapter: PaymentAdapter = {
 };
 
 export default mockAdapter;
-<<<<<<< HEAD
-=======
-
->>>>>>> 41c3e58 (chore: save reminder drafts and sprint report (auto))
