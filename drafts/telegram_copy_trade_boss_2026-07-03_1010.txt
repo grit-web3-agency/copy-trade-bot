@@ -1,0 +1,19 @@
+สรุปรายงานสถานะ Copy-Trade Bot — 2026-07-03 10:10 (Asia/Bangkok)
+
+1) ตอนนี้ทำถึง Sprint: Sprints 1–4 เสร็จเรียบร้อยตาม PROJECT_SPEC; งาน payment adapter / polishing อยู่บน branch dev/sprint-4-payment-stub และมี branch dev/auto-sprint-continue-20260627-work สำหรับงานต่อเนื่อง
+
+2) ปัญหา/อุปสรรคที่พบ:
+- ไม่มีปัญหาเชิงเทคนิคที่เป็นบล็อกเกอร์สำคัญ ณ ตอนนี้
+- Unit tests รันผ่านทั้งหมด (locally: vitest 241 tests passed)
+- Logs ในการทดสอบมี warnings เกี่ยวกับการ mock ของ Jupiter / Poster (no network in tests) — เป็น expected และ non-blocking
+- การส่ง Telegram อัตโนมัติยังไม่ได้ทำได้เพราะไม่มี BOT_TOKEN และ BOSS_CHAT_ID ในไฟล์ .env ของโปรเจค (ความปลอดภัย)
+
+3) โค้ดถูก push หรือยัง:
+- สาขา dev/sprint-4-payment-stub และ dev/auto-sprint-continue-20260627-work ถูกซิงค์กับ origin และ pushed (ไม่มี commits ค้างส่ง)
+
+Next steps:
+- หากต้องการให้ส่ง Telegram ให้บอสโดยอัตโนมัติ: เพิ่ม BOT_TOKEN และ BOSS_CHAT_ID ลงใน copy-trade-bot/.env หรือมอบ credentials ให้ฉัน
+- ต้องการ PR/merge ไปยัง dev/main หรือ reviewers บอกชื่อได้ — ฉันจะสร้าง PR draft ให้
+- ถ้าต้องการให้ฉันทดสอบ e2e บน devnet หรือรัน demo: เตรียม HELIUS_API_KEY และ DEVNET RPC/keys
+
+ส่งโดย: automated reminder handler
