@@ -23,7 +23,3 @@ export function getPaymentAdapter(): PaymentAdapter {
 }
 
 export default getPaymentAdapter;
-<<<<<<< HEAD
-=======
-
->>>>>>> 41c3e58 (chore: save reminder drafts and sprint report (auto))
