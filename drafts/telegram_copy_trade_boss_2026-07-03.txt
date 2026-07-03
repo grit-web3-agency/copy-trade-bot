@@ -1,0 +1,22 @@
+สรุปรายงานสถานะ Copy-Trade Bot — 2026-07-03 08:10 (Asia/Bangkok)
+
+1) ตอนนี้ทำถึง Sprint:
+- Sprints 1–4 เสร็จเรียบร้อยตาม PROJECT_SPEC (Scaffold, Listener, Wallet/Executor, Copy logic, และ Polish)
+- งานเพิ่มเติม (payment adapter / integrations) เป็นแบบ mock/stub อยู่ในสาขา development; ค่าเริ่มต้นปิดไว้ (ENABLE_PAYMENTS=false)
+
+2) ปัญหา/อุปสรรคที่พบ:
+- ไม่มีปัญหาเชิงเทคนิคที่เป็นบล็อกเกอร์ — unit tests รันผ่านทั้งหมด (locally: vitest รายงาน 241 tests ผ่าน)
+- มี warnings ใน test logs เกี่ยวกับการ mock ของ Jupiter (no network in tests) — เป็นเรื่องที่คาดไว้และไม่ขัดขวางการรัน test
+- การส่งรายงานอัตโนมัติทาง Telegram ถูกระงับเพราะไม่มี BOT_TOKEN และ/หรือ BOSS_CHAT_ID ในไฟล์ .env ของโปรเจค (เพื่อความปลอดภัย)
+- Payment provider ยังเป็น mock — หากต้องการเชื่อมจริง ต้องเพิ่ม credentials และทดสอบบน devnet โดยระวัง
+
+3) โค้ดถูก push หรือยัง:
+- branch dev/auto-sprint-continue-20260627-work ถูก synchronized และ pushed ขึ้น origin (ล่าสุด: no local commits pending)
+- รายงานและเอกสารบางส่วนได้ commit ไว้ใน repository/workspace (drafts และ SPRINT_REPORT)
+
+Next steps (ถ้าต้องการให้ผมทำต่อ):
+- หากต้องการให้ผมส่ง Telegram ให้บอส: เพิ่ม BOT_TOKEN และ BOSS_CHAT_ID ใน copy-trade-bot/.env หรือส่งค่าเหล่านั้นมาอย่างปลอดภัย (ผมจะส่งและบันทึกการส่ง)
+- ต้องการ PR/Merge: บอก target branch, reviewers และ PR title/body ผมจะเตรียม PR draft
+- รัน e2e บน devnet หรือเชื่อม Jupiter/Helius จริง จำเป็นต้องมี API keys (HELIUS_API_KEY, ENABLE_LIVE_DEVNET=true) และอนุญาตให้เชื่อมเครือข่าย
+
+บันทึกโดย: automated reminder handler
