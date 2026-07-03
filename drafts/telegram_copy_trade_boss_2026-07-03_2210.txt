@@ -1,0 +1,22 @@
+สรุปรายงานสถานะ Copy-Trade Bot — 2026-07-03 22:10 (Asia/Bangkok)
+
+1) ตอนนี้ทำถึง Sprint:
+- Sprint 1–4 เสร็จเรียบร้อยตาม PROJECT_SPEC (ตอนนี้งานหลักอยู่ที่ payment adapter/stubs)
+- ปัจจุบันโค้ดหลักอยู่บนสาขา dev/sprint-4-payment-stub (รวมการแก้ merge conflicts และปรับ mock adapter)
+
+2) ปัญหา/อุปสรรคที่พบ:
+- ไม่มี blocker ทางเทคนิคที่ต้องหยุดงาน — Unit tests รันผ่านทั้งหมด (vitest: 241 tests ผ่าน)
+- ข้อความ warning จากการ mock ของ Jupiter/Poster (no network in tests) เป็น non-blocking ใน unit tests
+- โมดูลชำระเงินเป็น mock/stub ตามค่าเริ่มต้น (ENABLE_PAYMENTS=false). การเชื่อมผู้ให้บริการจริงต้องเพิ่ม credentials และทดสอบบน devnet
+- การส่ง Telegram ให้บอสอัตโนมัติถูกบล็อก: พบว่า BOT_TOKEN และ BOSS_CHAT_ID ไม่ได้ถูกตั้งค่าในไฟล์ .env ของโปรเจค (หรือ workspace) — จึงยังไม่ส่งข้อความออกไปเพื่อความปลอดภัย
+
+3) โค้ดถูก push หรือยัง:
+- ใช่ — สาขา dev/sprint-4-payment-stub ถูก commit และ pushed ขึ้น origin (branch up-to-date)
+- ไม่มี commits ค้างส่งใน working tree
+
+Next steps / ถ้าต้องการให้ผมทำเพิ่มเติม:
+- ถ้าต้องการให้ผมส่ง Telegram ให้บอส: เพิ่ม BOT_TOKEN และ BOSS_CHAT_ID ลงใน copy-trade-bot/.env แล้วบอกผม "ส่ง" — ผมจะส่งและบันทึกการส่ง
+- ถ้าต้องการผมเปิด PR จาก dev/sprint-4-payment-stub → dev/main: ให้ PR title และ reviewers ผมจะเตรียม PR draftและเปิดให้
+- ถ้าต้องการให้ผมรัน e2e devnet demo: ให้ HELIUS_API_KEY และตั้ง ENABLE_LIVE_DEVNET=true (ระมัดระวัง: devnet ติดเครือข่าย)
+
+ส่งโดย: automated reminder handler
