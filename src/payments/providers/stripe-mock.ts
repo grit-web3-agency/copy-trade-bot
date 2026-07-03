@@ -25,7 +25,3 @@ const stripeMock: PaymentAdapter = {
 };
 
 export default stripeMock;
-<<<<<<< HEAD
-=======
-
->>>>>>> 41c3e58 (chore: save reminder drafts and sprint report (auto))
