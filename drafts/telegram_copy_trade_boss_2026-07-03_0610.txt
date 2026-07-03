@@ -1,18 +1,19 @@
 สรุปรายงานสถานะ Copy-Trade Bot — 2026-07-03 06:10 (Asia/Bangkok)
 
-1) ตอนนี้ทำถึง Sprint: Sprints 1–4 เสร็จเรียบร้อยตาม PROJECT_SPEC (Scaffold, Listener, Wallet/Executor, Copy logic และ Polish). ปัจจุบันมีงาน adapter/payment เป็น stub (disabled by default) และงาน polish/รายงานเล็กน้อยบนสาขา development.
+1) ตอนนี้ทำถึง Sprint:
+- Sprints 1–4 เสร็จเรียบร้อยตาม PROJECT_SPEC. Payment adapter / polish work อยู่บนสาขา development (dev/sprint-4-payment-stub และ dev/sprint-5-payment-adapter ตามบันทึก)
 
 2) ปัญหา/อุปสรรคที่พบ:
-- ไม่มีปัญหาเชิงเทคนิคที่เป็นบล็อกเกอร์ — unit tests รันผ่านทั้งหมดในเครื่อง (vitest). 
-- มี warnings จากการ mock ของ Jupiter (no network in tests) แต่เป็น non-blocking ใน unit tests.
-- ยังไม่มี BOT_TOKEN และ BOSS_CHAT_ID ในไฟล์ .env ของโปรเจค ทำให้ไม่สามารถส่ง Telegram อัตโนมัติได้จนกว่าจะให้ credentials/อนุญาต.
-- Payment integration อยู่ในสถานะ mock/stub (ENABLE_PAYMENTS=false) — ต้องเชื่อม provider และทดสอบบน devnet หากต้องการเปิดใช้งานจริง.
+- ไม่มีปัญหาเชิงเทคนิคที่เป็นบล็อกเกอร์ในตอนนี้
+- Unit tests และ build ผ่านเรียบร้อย (vitest: 241 tests ผ่านทั้งหมด)
+- มี warnings ใน logs เกี่ยวกับการ mock ของ Jupiter (no network in tests) — เป็น non-blocking
+- การส่ง Telegram อัตโนมัติถูกปิดไว้เพราะไม่มี BOT_TOKEN/BOSS_CHAT_ID ใน .env
 
 3) โค้ดถูก push หรือยัง:
-- โค้ดในสาขา development ถูก commit และ pushed ขึ้น origin (เช่น branch dev/auto-sprint-continue-20260627-work/ dev/sprint-4-payment-stub ตามบันทึก). ไม่มี commits ค้างส่งบนสาขาเหล่านี้.
+- โค้ดและรายงานถูก commit & pushed ไปยัง remote (branches: dev/sprint-4-payment-stub, dev/sprint-5-payment-adapter, dev/auto-sprint-continue-20260627-work) — ทุก branch ที่ตรวจสอบนั้น up-to-date กับ origin
 
-Next steps (แนะนำ):
-- หากต้องการให้ส่ง Telegram ให้บอสโดยอัตโนมัติ: เพิ่ม BOT_TOKEN และ BOSS_CHAT_ID ลงใน copy-trade-bot/.env หรือให้ credential/อนุญาตแก่ผมเพื่อส่งข้อความและบันทึกการส่ง.
-- หากต้องการผมจะสร้าง PR หรือ merge ตามที่สั่ง และอัปเดต Discord #kanban-board + Dashboard Job #21 (ต้องมี webhook/credentials).
+Next steps:
+- หากต้องการให้ผมส่งรายงานให้บอสอัตโนมัติ: เพิ่ม BOT_TOKEN และ BOSS_CHAT_ID ลงใน copy-trade-bot/.env หรือมอบ credential ให้ผม
+- หากต้องการ PR → main บอกชื่อ reviewer และข้อความ PR ผมจะเตรียมให้
 
 ส่งโดย: automated reminder handler
