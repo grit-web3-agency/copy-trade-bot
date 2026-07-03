@@ -1,0 +1,19 @@
+DRAFT — Telegram status for boss (generated 2026-07-04 06:10 Asia/Bangkok)
+
+สรุปสถานะสั้น ๆ
+
+1) Sprint: ขณะนี้โปรเจคทำถึง Sprint 5 (Payment adapter) — branch dev/sprint-5-payment-adapter มีการอัปเดตล่าสุดและรายงานว่า payment adapter ถูกเพิ่มในรูปแบบ feature-flag (ENABLE_PAYMENTS) พร้อม stripe-mock provider สำหรับทดสอบ
+
+2) ปัญหาที่พบ / ข้อจำกัด
+- ไม่มีบั๊กที่ขัดขวางการ build/tests; ทดสอบทั้งหมดผ่าน (241 tests) และ build สำเร็จ
+- ข้อจำกัดสำคัญ: real-money flows ถูกปิดตามค่าเริ่มต้นตาม PROJECT_SPEC — ต้องมีการตัดสินใจเชิงธุรกิจ (pricing, provider) ก่อนเปิดใช้งานจริง
+- Operational blocker: โปรเจคยังไม่มีค่า BOT_TOKEN และ BOSS_CHAT_ID ใน .env จึงไม่สามารถส่ง Telegram อัตโนมัติจากสคริปต์นี้ได้
+
+3) Push code
+- รายงานและไฟล์ถูก commit + push ไปยัง origin/dev/sprint-5-payment-adapter แล้ว (no local changes remain)
+
+ถ้าต้องการให้ผมส่งข้อความนี้ให้บอสทาง Telegram ให้ทำอย่างใดอย่างหนึ่ง:
+- เพิ่มค่า BOT_TOKEN และ BOSS_CHAT_ID ลงใน /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/.env แล้วตอบกลับว่า "allow send" — ผมจะส่งข้อความอัตโนมัติและบันทึกผลการส่ง
+- หรือให้ token และ chat id แบบชั่วคราวที่นี่ และสั่ง: send telegram <chat_id>
+
+-- บันทึกฉบับร่างถูกบันทึกที่ drafts/telegram_boss_status_2026-07-04_0610.txt
