@@ -1,0 +1,15 @@
+สรุปสถานะ Copy-Trade Bot — รายงานด่วน
+
+1) Sprint ปัจจุบัน: งานอยู่ที่ Branch: dev/sprint-5-payment-adapter — Sprint 5 (payment adapter) ทำเสร็จแล้วในระดับโค้ด (unit tests ผ่านทั้งหมด)
+
+2) ปัญหา/ข้อจำกัด:
+- ไม่มีบั๊กสำคัญที่ขัดขวางการ merge แต่ต้องการรีวิว PR และตัดสินใจเรื่อง shape ของ payment adapter (มี compatibility shims อยู่)
+- การส่งรายงานให้บอสทาง Telegram ยังไม่ทำอัตโนมัติ: โปรเจคไม่มี BOT_TOKEN และ/หรือ BOSS_CHAT_ID ในไฟล์ .env (มีแค่ .env.example)
+
+3) Push code แล้วหรือยัง: ใช่ — โค้ดบน branch dev/sprint-5-payment-adapter ถูก push ไปที่ origin แล้ว (ล่าสุด commit: eadeb0a)
+
+Next steps / ขออนุมัติ:
+- ถ้าต้องการให้ผมเปิด PR: ระบุ target (dev หรือ main) — ผมจะเปิด PR และขอ review
+- ถ้าต้องการส่งสรุปนี้ให้บอสทันที: เพิ่ม BOT_TOKEN และ BOSS_CHAT_ID ลงใน /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/.env หรือส่งค่าแยกมา แล้วตอบว่า "allow send" เพื่ออนุญาตให้ผมส่งข้อความทาง Telegram
+
+(ข้อมูลนี้บันทึกใน repo; หากต้องการให้ผมส่งทันที โปรดอนุญาตด้วยคำสั่งตามด้านบน)
