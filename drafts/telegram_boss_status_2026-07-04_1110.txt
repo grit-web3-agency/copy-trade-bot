@@ -1,0 +1,21 @@
+DRAFT — สรุปสถานะ Copy-Trade Bot (อัตโนมัติ)
+
+เวลา: 2026-07-04 11:10 (Asia/Bangkok)
+
+สรุปสั้น ๆ:
+1) Sprint: ขณะนี้โปรเจคดำเนินมาถึง Sprint 5 (Payment adapter) — มีสาขา dev/sprint-5-payment-adapter และมีรายงาน SPRINT_5_PAYMENT_ADAPTER_COMPLETE_2026-06-27.md ระบุว่า adapter ถูกเพิ่มเป็นแบบ feature-flagged (ENABLE_PAYMENTS) พร้อม mock provider (stripe-mock) สำหรับทดสอบ
+
+2) ปัญหา/ข้อจำกัด:
+- Real-money flows ถูกปิดตามค่าเริ่มต้น (ตาม PROJECT_SPEC) — ต้องการการตัดสินใจเชิงธุรกิจก่อนเปิดใช้งาน (payment provider, pricing, fiat vs crypto)
+- Automated Telegram ส่งให้บอสยังไม่ทำได้จากเครื่องนี้ เพราะโปรเจคไม่มีไฟล์ .env ที่ตั้งค่า BOT_TOKEN และ BOSS_CHAT_ID (มีเฉพาะ .env.example)
+- การทดสอบภายในรันผ่านทั้งหมด (241 tests) แต่บางการทดสอบใช้ network mocks จึงแสดง warnings ที่คาดไว้
+
+3) Push code แล้วหรือยัง:
+- โค้ดและรายงานล่าสุดถูกอัปเดตและ push ไปยัง origin/dev/sprint-5-payment-adapter แล้ว (รวมไฟล์รายงานล่าสุดและร่าง Telegram นี้)
+
+Next steps (ต้องอนุมัติ):
+- หากต้องการให้ผมส่งสรุปนี้ให้บอสทาง Telegram อัตโนมัติ: เพิ่มค่า BOT_TOKEN และ BOSS_CHAT_ID ลงใน /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/.env แล้วตอบกลับว่า "allow send" — ผมจะส่งและบันทึกผลการส่ง
+- หากต้องการเปิดใช้งาน payments ใน environment ทดสอบ: ระบุ PAYMENT_PROVIDER และยืนยันการตั้งค่า ENABLE_PAYMENTS=true เพื่อผมจะตั้งค่าและรัน integration tests ต่อ
+- หากต้องการให้ผมเปิด PR เพื่อ merge สาขา dev/sprint-5-payment-adapter → dev/main (หรือ main): บอกเป้าหมายและผมจะสร้าง PR พร้อมคำอธิบาย
+
+(ร่างนี้บันทึกไว้ใน repo; ยังไม่ได้ส่งจริงจนกว่าจะมี BOT_TOKEN และ chat_id หรือคำสั่งอนุญาต)
