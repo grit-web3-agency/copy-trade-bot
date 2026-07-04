@@ -1,0 +1,24 @@
+สรุปสถานะ Copy-Trade Bot — 2026-07-05 04:10 (Asia/Bangkok)
+
+เรียน Jack,
+
+1) Copy-Trade Bot ทำถึง Sprint ไหน
+- สถานะปัจจุบัน: Sprint 5 (Payment Adapter) เสร็จเรียบร้อยบนสาขา dev/sprint-5-payment-adapter
+- ฟีเจอร์หลักของ MVP ครบตาม PROJECT_SPEC (Telegram bot, Whale listener, Wallet manager, Jupiter dry-run, Copy policy, settings, tests)
+
+2) มีปัญหาอะไร
+- ไม่มีบั๊กวิกฤตที่ขัดขวางการใช้งานตามสเปค
+- บางทดสอบ/log แสดงข้อความ mocked: no network in tests — เป็นผลจากการใช้ mocks ใน test-suite (ไม่กระทบผลลัพธ์ของ tests ที่ผ่าน)
+- ต้องตัดสินใจเรื่องการรวมรูปแบบ adapter ถ้าต้องการ API ที่เข้มงวดขึ้น (มี compatibility shims ตอนนี้)
+
+3) Push code แล้วหรือยัง
+- โค้ดถูกผลักขึ้น remote: origin/dev/sprint-5-payment-adapter (ล่าสุด commit on local run)
+- Unit tests รันในเครื่องแล้วผ่าน (241 tests passed ในการรันล่าสุด)
+
+หมายเหตุ – การส่ง Telegram อัตโนมัติยังไม่สำเร็จ
+- สาเหตุ: BOT_TOKEN ยังไม่กำหนดในไฟล์ .env และ chat_id ของบอสไม่ได้ให้ไว้ใน repo/config
+- หากต้องการให้ส่งอัตโนมัติ: เพิ่ม BOT_TOKEN ลงใน .env (หรือให้ค่าเป็น environment variable) และสั่งให้ agent ส่ง: "send telegram <chat_id>"
+
+หากต้องการผมจะเปิด Pull Request จากสาขานี้ → main/dev ตามกระบวนการ และอัปเดต Discord #kanban-board + Dashboard Job #21 ให้ด้วย (ต้องการสิทธิ์/ข้อมูลเพิ่มเติม)
+
+— รายงานโดย OpenClaw (cron handler)
