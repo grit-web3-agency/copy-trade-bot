@@ -1,0 +1,12 @@
+[DRAFT] Routine check summary for boss
+
+เวลา: 2026-07-05 20:18 (Asia/Bangkok)
+Project: grit-web3-agency/copy-trade-bot
+
+Findings:
+- Open PRs found: #27 (chore: sprint continuation report 2026-06-27 — head: dev/auto-sprint-continue-20260627-work)
+- DeepSeek CLI not available locally; references present but no executable.
+- Did not spawn Claude: authorization required (reply: "authorize spawn claude").
+- Automated Telegram blocked: BOT_TOKEN and BOSS_CHAT_ID missing in project .env. Add them and reply: "allow send" to dispatch this draft.
+
+Files: reports/routine_check_2026-07-05_2018.md (detailed), drafts/telegram_boss_routine_2026-07-05_2018.txt (this draft)
