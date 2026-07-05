@@ -1,0 +1,18 @@
+[DRAFT] Routine check summary for boss
+
+เวลา: 2026-07-05 18:48 (Asia/Bangkok)
+Project: grit-web3-agency/copy-trade-bot
+
+Findings:
+- Open PRs found:
+  - PR #27 "chore: sprint continuation report 2026-06-27 — tests green" (head: dev/auto-sprint-continue-20260627-work)
+- DeepSeek tests: deepseek CLI not installed locally; references exist in NOTIFICATIONS.md and prior reports but no executable present.
+- I did not auto-run Claude to continue work because no ACP agentId was provided/authorized.
+- Automated Telegram send is blocked: project .env missing BOT_TOKEN and BOSS_CHAT_ID.
+
+Recommended actions:
+- To proceed with Claude automatically: reply: "authorize spawn claude" (or other agentId)
+- To run DeepSeek tests after Claude: install deepseek CLI or authorize spawn deepseek/deepseek-chat
+- To send this summary to boss now: add BOT_TOKEN and BOSS_CHAT_ID to project .env and reply: "allow send"
+
+Files: reports/routine_check_2026-07-05_1848.md (detailed), drafts/telegram_boss_routine_2026-07-05_1848.txt (this draft)
