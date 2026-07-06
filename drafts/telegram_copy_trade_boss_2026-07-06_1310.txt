@@ -1,0 +1,24 @@
+สรุปสถานะ Copy-Trade Bot — รายงานถึงบอส
+
+เวลารายงาน: 2026-07-06 13:10 (Asia/Bangkok)
+สาขา: dev/sprint-5-payment-adapter
+
+1) ทำถึง Sprint ไหน
+- ตาม PROJECT_SPEC: Sprints 1–4 (Scaffold, Listener, Wallet+Executor, Copy Logic+Demo, Polish+Deploy) เสร็จสมบูรณ์สำหรับ MVP
+- งานล่าสุด: การผสาน Payment Adapter และ compatibility shims บน branch dev/sprint-5-payment-adapter
+
+2) ปัญหาหรือข้อกังวล
+- รูปแบบ adapter: รองรับทั้ง legacy และ new adapter shapes ด้วย compatibility shims — อาจจำเป็นต้อง consolidate เป็น API เดียวตามผลการรีวิว
+- ยังไม่มีค่า BOT_TOKEN / BOSS_CHAT_ID ในไฟล์ .env ทำให้ระบบส่ง Telegram อัตโนมัติไม่ได้ (ไม่เพิ่ม credentialsเองเพื่อความปลอดภัย)
+- การทดสอบปัจจุบันใช้ mocking สำหรับ Jupiter/Helius — ควรรัน E2E บน devnet ก่อนเปิด Live devnet trading
+
+3) Push code แล้วหรือยัง
+- Branch dev/sprint-5-payment-adapter ถูก commit และ pushed → origin/dev/sprint-5-payment-adapter
+- ผลการทดสอบ: รัน vitest ท้องถิ่นแล้ว — 241 tests passed
+
+คำแนะนำ / คำสั่งถัดไป (เลือกหนึ่ง):
+- วาง BOT_TOKEN และ BOSS_CHAT_ID ลงใน /projects/copy-trade-bot/.env เพื่อให้ฉันส่งข้อความนี้ให้บอสโดยอัตโนมัติ (เมื่อไฟล์มี ฉันจะส่งและบันทึกการส่ง)
+- ให้ฉันเปิด PR จาก dev/sprint-5-payment-adapter → main (หรือ dev) และระบุ reviewers (กรุณาระบุรายชื่อ)
+- ให้ฉันรัน E2E บน devnet (ต้องมี Helius API key / DEVNET_RPC ใน .env) และเก็บผลเป็น PROOFS.md
+
+หมายเหตุ: ฉันเก็บร่างข้อความนี้ไว้ที่ drafts/telegram_copy_trade_boss_2026-07-06_1310.txt และรายงานสถานะที่ reports/TELEGRAM_ATTEMPT_2026-07-06_1310.md
