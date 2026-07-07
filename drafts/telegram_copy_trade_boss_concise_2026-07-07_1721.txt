@@ -1,0 +1,15 @@
+Sprint: Sprint 5 — Payment adapter work (branch: dev/sprint-5-payment-adapter).
+
+Status:
+- What we’ve done: Payment-adapter compatibility shims implemented, build OK, unit tests all passing locally (241 tests).
+- Problems/blocks: Payments are feature-flagged (disabled by default). No BOT_TOKEN or BOSS_CHAT_ID in .env, so I cannot send this message automatically.
+- Code pushed: Yes — branch dev/sprint-5-payment-adapter has been committed and pushed to origin.
+
+Next actions (need your explicit approval):
+- To open a PR: reply exactly: allow open-pr to main  (or: allow open-pr to dev).
+- To send this summary now via Telegram: add BOT_TOKEN and BOSS_CHAT_ID to the project .env (or /Users/m4/Web3_AI_Agency/.env) and reply exactly: allow send
+
+Files/refs:
+- PR draft: drafts/PR_body_dev_sprint-5-payment-adapter_2026-07-07_1721.md
+- Draft reports: reports/SPRINT_COMPLETE_2026-07-06_2236.md (and others in reports/)
+- .env example: .env.example (contains BOT_TOKEN placeholder)
