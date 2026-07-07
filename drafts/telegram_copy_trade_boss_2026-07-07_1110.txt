@@ -1,0 +1,23 @@
+Sprint status update — Copy-Trade Bot
+เวลา: 2026-07-07 11:10 (Asia/Bangkok)
+
+1) สถานะ Sprint
+- ปัจจุบันอยู่ที่ Sprint 5 (branch: dev/sprint-5-payment-adapter)
+- เนื้องานหลัก: payment adapter compatibility / consolidation (payment adapter implemented as pluggable stub)
+
+2) ปัญหา / ข้อสังเกต
+- Payments: implemented as a pluggable adapter with stripe-mock, but ENABLE_PAYMENTS default: disabled. Real payment providers not connected.
+- Unit tests: 241 tests passed locally. Test logs show expected mocked external-service warnings (Jupiter quote retries, Poster dashboard POST errors).
+- WalletManager: decryptSecret error observed in a test that verifies error handling (TypeError received undefined) — test passes and error handling works as intended.
+- Missing credentials: BOT_TOKEN and BOSS_CHAT_ID are NOT present in project .env so I cannot send Telegram automatically.
+
+3) Push status
+- Code pushed to remote branch: dev/sprint-5-payment-adapter
+- Latest pushed commit (HEAD): d05712b (reports & test-run artifacts)
+
+Next steps / Requests
+- If you want me to send this message to you via Telegram: add BOT_TOKEN and BOSS_CHAT_ID to /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/.env and reply: "allow send" — I will send and log the attempt.
+- If you want this merged to main: reply: "allow open-pr to main" (optionally list reviewers).
+- To run DeepSeek tests or continue coding via Claude: reply: "authorize spawn deepseek/deepseek-chat" or "authorize spawn claude".
+
+Prepared by automated reminder handler (internal)
