@@ -1,0 +1,26 @@
+สรุปรายงาน Copy-Trade Bot — 2026-07-03 04:10 (Asia/Bangkok)
+
+1) สถานะ Sprint:
+- Project: Copy-Trade Bot MVP (Solana)
+- ตาม PROJECT_SPEC: Sprints 1-4 (Scaffold, Listener, Wallet/Executor, Copy Logic, Polish+Deploy) ถูกพัฒนาจนเสร็จตามรายการใน PROJECT_SPEC.md
+- รายการทดสอบ: ทั้งชุด unit tests รันผ่านท้องถิ่น (npm run test → 241 tests passed)
+
+2) ปัญหา / ความเสี่ยง:
+- Payments: payment adapter เป็น stub/default mock และ ENABLE_PAYMENTS ถูกปิดไว้ตามค่าเริ่มต้น — ผู้พัฒนาต้องเปิด/เชื่อมต่อ provider เมื่อพร้อม
+- การเทรดจริง: ระบบออกแบบให้ทำงานบน devnet/dry-run เท่านั้น (PROJECT_SPEC ห้ามเทรดด้วยเงินจริง)
+- การทดสอบบางส่วนให้ warning เกี่ยวกับ Jupiter/network mocks ในสภาพแวดล้อม offline — ไม่ใช่บั๊กที่ขัดขวางการ merge
+- บล็อกเกอร์ปฏิบัติการ: ไม่มี BOT_TOKEN และ/หรือ BOSS_CHAT_ID ในไฟล์ copy-trade-bot/.env (มีเฉพาะ .env.example) — จึงไม่สามารถส่งสรุปนี้ไปยัง Telegram โดยอัตโนมัติได้จากสภาพแวดล้อมนี้
+
+3) Push / Branch status:
+- Local branch: dev/auto-sprint-continue-20260627-work (clean working tree)
+- Fetched & rebased with origin/dev/auto-sprint-continue-20260627-work and pushed; remote branch is up-to-date
+- ไม่มีการเปลี่ยนแปลงโค้ดเพิ่มเติมที่จำเป็น ณ ตอนนี้
+
+ถ้าต้องการให้ผมส่งสรุปนี้ให้บอสทาง Telegram ให้ทำอย่างใดอย่างหนึ่ง:
+A) วางค่า BOT_TOKEN และ BOSS_CHAT_ID ลงในไฟล์ /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/.env (รูปแบบ: BOT_TOKEN=xxxx\nBOSS_CHAT_ID=123456789) แล้วตอบกลับด้วยคำว่า: allow send
+หรือ
+B) สั่งตรงนี้: send telegram <chat_id> (ผมจะใช้ BOT_TOKEN จาก .env ถ้ามี) — คุณต้องระบุ chat_id แบบตัวเลข
+
+บันทึก: ร่างนี้ถูกบันทึกเป็นไฟล์ใน repo (copy-trade-bot/drafts/telegram_boss_status_2026-07-03_0410.txt) และจะไม่ถูกส่งจนกว่าจะได้รับข้อมูล/อนุญาตตามข้างต้น.
+
+ลงชื่อ: automated-assistant

@@ -1,0 +1,22 @@
+สรุปสถานะ Copy-Trade Bot — Sprint continuation run — 2026-06-29 12:05 (Asia/Bangkok)
+
+1) ทำถึง Sprint ไหน
+- ปัจจุบันงานอยู่ใน Sprint 5 (Payment Adapter compatibility & fixes). งาน reminder นี้รันบนสาขา dev/auto-sprint-continue-20260627-work เพื่อเก็บสถานะและทดสอบซ้ำ.
+
+2) การดำเนินการที่ทำ
+- อ่าน PROJECT_SPEC และยืนยันขอบเขตการทำงาน
+- รันชุดทดสอบทั้งหมด: 112 test files, 963 passed, 1 skipped — test-suite green
+- ไม่มีการเปลี่ยนแปลงโค้ดฟีเจอร์ในการรอบนี้ (เฉพาะบันทึกสถานะและร่างข้อความ)
+- สร้างร่างข้อความและบันทึกผลลง SPRINT_REPORT.md
+
+3) ปัญหา / ข้อจำกัด
+- Automated continuation (Claude/ACP) ยังไม่ถูกรันอัตโนมัติเพราะไม่มีการกำหนด ACP agentId ใน environment
+- DeepSeek tests ไม่ถูกรัน (ต้องมี deepseek CLI/การเข้าถึง)
+- การส่ง Telegram อัตโนมัติขึ้นอยู่กับค่า BOT_TOKEN และ BOSS_CHAT_ID ในไฟล์ .env ซึ่งยังไม่มีใน repository นี้
+
+4) Push code แล้วหรือยัง
+- ใช่ — branch dev/auto-sprint-continue-20260627-work ถูก push ขึ้น origin; รายงานและร่างข้อความถูก commit และ pushed.
+
+ถ้าต้องการให้ผมส่งสรุปนี้ให้บอส: โปรดวาง BOT_TOKEN และ BOSS_CHAT_ID ลงใน /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/.env หรือสั่ง: send telegram <chat_id>
+
+(ข้อความนี้เป็นร่างภายใน; ยังไม่ได้ส่งทาง Telegram)

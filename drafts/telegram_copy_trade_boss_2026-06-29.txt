@@ -1,0 +1,28 @@
+สรุปสถานะ Copy-Trade Bot — 2026-06-29 (อัตโนมัติ)
+
+1) ทำถึง Sprint ไหน
+- สถานะตาม PROJECT_SPEC: Sprints 1–4 เสร็จสมบูรณ์ (Scaffold, Listener, Wallet/Executor, Copy Logic, Demo, Polish).
+- ระบบอยู่ในสถานะ MVP บน devnet (default: dry-run). ฟีเจอร์หลัก Telegram bot, Whale listener, Wallet manager, Jupiter integration (dry-run) และ unit tests ครบถ้วน
+
+2) ปัญหา / ข้อจำกัด
+- การซื้อขายแบบ real-on-chain บน devnet ต้องเปิด ENABLE_LIVE_DEVNET=true (ปิดเป็นค่าเริ่มต้นเพื่อความปลอดภัย)
+- Payment module: มี payment adapter แบบ mock/stub เป็นค่าดีฟอลต์ (ENABLE_PAYMENTS=false). หากต้องการเก็บค่าสมาชิกจริง ต้องต่อกับ provider และตั้งค่า env (PAYMENT_PROVIDER / credentials)
+- การแจ้งผลภายนอก (Telegram แจ้งบอส, Dashboard Job #21, Discord Kanban) ต้องการความลับ/คีย์ (BOT_TOKEN, BOSS_CHAT_ID, DASHBOARD API KEY, DISCORD_WEBHOOK) — ค่าเหล่านี้ไม่มีใน repo/.env ตอนนี้ จึงยังไม่ได้ส่งข้อความให้บอสอัตโนมัติ
+- ในการทดสอบ local มี log warnings เกี่ยวกับ mocked network (คาดเป็น expected when offline)
+
+3) Push code แล้วหรือยัง
+- ทดสอบ: npm test — ผล: 964 tests (963 passed, 1 skipped)
+- สาขาปัจจุบัน: dev/auto-sprint-continue-20260627-work
+- สถานะ git: สาขาถูกตั้งค่าให้ track origin/dev/auto-sprint-continue-20260627-work และ push แล้ว ("Everything up-to-date").
+- เปลี่ยนแปลงที่ไม่ถูก commit: .claude worktree metadata (worktree state) — ไม่ได้เป็นโค้ดฟังก์ชันหลัก
+
+คำขอถัดไป / คำแนะนำ
+- ให้ผมส่ง Telegram สรุปให้บอสอัตโนมัติ: เพิ่ม BOT_TOKEN และ BOSS_CHAT_ID ลงในไฟล์ .env ของโปรเจค แล้วตอบกลับที่นี่ด้วยคำสั่ง: send telegram <chat_id>
+- ต้องการให้ผมเปิดงานถัดไปจาก backlog และสร้าง branch dev/sprint-6-... ให้เริ่มทำ feature ใด ให้บอกชื่อ task หรืออนุญาตให้ผมเลือกตาม PRIORITY ใน PENDING_WORK.md
+
+ลิงก์ที่เกี่ยวข้อง:
+- Repo: https://github.com/grit-web3-agency/copy-trade-bot (origin)
+- Current branch: dev/auto-sprint-continue-20260627-work
+- PROJECT_SPEC: /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/PROJECT_SPEC.md
+
+ลงชื่อ: assistant (automated reminder handler)

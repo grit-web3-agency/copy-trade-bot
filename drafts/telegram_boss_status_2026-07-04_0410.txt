@@ -1,0 +1,24 @@
+สรุปสถานะ Copy-Trade Bot — 2026-07-04 04:10 (Asia/Bangkok)
+
+1) Sprint ปัจจุบัน
+- โปรเจคถึง Sprint 4 (Polish + Deploy) — ตาม PROJECT_SPEC ฟีเจอร์หลักของ MVP (Telegram bot, Whale listener, Wallet manager, Copy policy, Trade executor (dry-run)) ถูกพัฒนาเรียบร้อยและเครื่องมือทดสอบ/เอกสารมีครบ
+- สาขาที่ทำงานหลัก: dev/auto-sprint-continue-20260627-work (ล่าสุดถูกอัปเดตและ push ขึ้น origin)
+
+2) ปัญหา/ข้อจำกัด
+- โมดูลการชำระเงินยังเป็น stub / adapter อยู่ (ENABLE_PAYMENTS default: disabled). หากต้องการรับชำระเงินจริง ต้องเปิด/เชื่อม PAYMENT_PROVIDER และทดสอบเพิ่มเติม (priority: medium).
+- Automated Telegram send ถูกบล็อกเพราะไฟล์โปรเจคไม่มีค่า BOT_TOKEN และ BOSS_CHAT_ID ใน .env — จึงยังไม่สามารถส่งข้อความให้บอสโดยอัตโนมัติได้
+- การเทรดจริงอยู่บน devnet เท่านั้นตามสเปค (ห้ามใช้เงินจริงใน MVP)
+
+3) Push code แล้วหรือยัง
+- ใช่: รายงาน/ไฟล์และร่างสรุปถูก commit และ push ไปยัง grit-web3-agency/copy-trade-bot บนสาขา dev/auto-sprint-continue-20260627-work
+- ไฟล์ร่างสรุปนี้เก็บไว้ที่: drafts/telegram_boss_status_2026-07-04_0410.txt (repo)
+
+ถ้าต้องการให้ผมส่ง Telegram ให้บอสจริง ๆ ให้ดำเนินการหนึ่งในสองข้อ:
+A) เพิ่มค่า BOT_TOKEN และ BOSS_CHAT_ID ลงใน /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/.env และตอบกลับว่า "allow send" — ผมจะขออนุมัติก่อนส่ง
+B) หรือส่งคำสั่ง: "send telegram <chat_id>" (ผมจะใช้ BOT_TOKEN จาก workspace หากมีและส่งข้อความร่างให้)
+
+แหล่งข้อมูลอ้างอิงที่ผมตรวจสอบก่อนสรุป:
+- PROJECT_SPEC: /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/PROJECT_SPEC.md
+- ความคืบหน้า/ร่างก่อนหน้า: memory/2026-06-25.md (Sprint 1-4 complete)
+
+(ข้อความนี้ถูกบันทึกเป็นร่างใน repo — ยังไม่ส่งอัตโนมัติ)

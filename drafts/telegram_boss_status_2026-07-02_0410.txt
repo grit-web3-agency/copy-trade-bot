@@ -1,0 +1,20 @@
+สรุปสถานะ Copy-Trade Bot (อัตโนมัติ)
+
+1) ทำถึง Sprint: สรุปเสร็จสิ้น Sprint 5 (Payment Adapter) และ Sprint 4 ได้นำไปสู่การปรับปรุงระบบโดยรวม — ปัจจุบันโค้ดครบตาม MVP (ตาม PROJECT_SPEC):
+   - Telegram bot commands, Whale listener, Wallet manager, Jupiter dry-run integration, Copy policy, Settings, Tests all implemented.
+   - Branch currently active: dev/auto-sprint-continue-20260627-work (no outstanding commits to push).
+
+2) ปัญหาที่พบ:
+   - ไม่มี ACP/Claude agent ที่อนุญาตให้รันอัตโนมัติเพื่อทำงานต่อ (ต้องการ acp.defaultAgent หรือ agentId เพื่อ spawn subagent)
+   - DeepSeek CLI ไม่พบใน PATH — ไม่สามารถรัน DeepSeek-based test suite
+   - โปรเจคไม่มีค่า BOT_TOKEN และ BOSS_CHAT_ID ใน .env ทำให้ไม่สามารถส่ง Telegram อัตโนมัติได้จากเครื่องนี้
+   - มีไฟล์ metadata ของ .claude worktrees ที่แก้ไขใน working tree (เป็น metadata เท่านั้น) — จงระวังอย่า commit ไฟล์เหล่านี้
+
+3) Push code แล้วหรือยัง:
+   - Branch dev/auto-sprint-continue-20260627-work ถูก push ขึ้น origin เรียบร้อย (Everything up-to-date).
+
+คำขอ/แนะนำ:
+- ถ้าต้องการให้ผมส่งข้อความนี้ให้บอสอัตโนมัติ: เพิ่ม BOT_TOKEN และ BOSS_CHAT_ID ลงใน /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/.env หรือสั่ง: "send telegram <chat_id>" ข้อความจะถูกส่งทันที
+- ถ้าต้องการให้ผมต่อเนื่องด้วย Claude ให้มอบ ACP agentId หรือตั้ง acp.defaultAgent แล้วบอกผมให้ spawn subagent
+
+(รายงานอัตโนมัติ ณ 2026-07-02 04:10 Asia/Bangkok)

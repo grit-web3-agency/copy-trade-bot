@@ -1,0 +1,14 @@
+บอส,
+
+Routine heartbeat (อัตโนมัติ) — 2026-07-03 01:44 (Asia/Bangkok)
+
+สรุปสั้น:
+- ตรวจสอบ repos ใน grit-web3-agency: มี PR เปิดใน copy-trade-bot (#27)
+- รัน Claude CLI ให้ตรวจ PR #27 → ผล: noop (PR เป็นไฟล์รายงาน/ร่าง ไม่มีโค้ดฟังก์ชันค้าง)
+- รันชุดทดสอบ: 28 files → 241 tests passed (green)
+- DeepSeek CLI ไม่ได้ติดตั้งใน environment นี้ → DeepSeek tests ไม่ได้รัน
+- Telegram auto-send ถูกบล็อก: ไม่มีค่า BOSS_CHAT_ID ใน .env → เก็บร่างไว้แต่ยังไม่ส่งจริง
+
+หากต้องการให้ผมส่งข้อความนี้ให้บอส: พิมพ์: send telegram <chat_id> หรือเพิ่ม BOT_TOKEN และ BOSS_CHAT_ID ลงใน /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/.env แล้วตอบว่า "allow send"
+
+— automated draft

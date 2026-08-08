@@ -1,0 +1,16 @@
+Routine check: 2026-06-29 08:10 (Asia/Bangkok)
+
+Found open PRs across grit-web3-agency repos (checked listed repos):
+- grit-web3-agency/copy-trade-bot: PRs #27, #26, #25 (details in SPRINT_REPORT.md and drafts)
+- other repos: no open PRs found in core, mimictrade, mimictrade-app, mimictrade-api, mimictrade-vault, rustchain-bounties (empty)
+
+Attempted automated continuation:
+- Claudectl/ACP spawn: blocked (no acp.defaultAgent / agentId configured) — cannot auto-run Claude
+- DeepSeek: not run (depends on Claude output + deepseek CLI availability)
+
+Action items suggested:
+- Provide ACP agentId to allow automated Claude runs, or instruct me to open PRs/merge manually
+- Provide deepseek CLI or allow me to run remote tests after Claude completes
+- Provide BOT_TOKEN/BOSS_CHAT_ID if you want these reports sent automatically via Telegram
+
+(Internal draft saved: drafts/telegram_boss_status_2026-06-29_0810.txt)

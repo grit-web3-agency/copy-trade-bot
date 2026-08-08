@@ -1,0 +1,11 @@
+[อัปเดตอัตโนมัติ 2026-06-28 11:36]
+
+สรุปสถานะ Copy-Trade Bot
+
+1) Sprint: Sprints 1–4 เสร็จสมบูรณ์ตาม PROJECT_SPEC. งาน payment adapter ยังเป็น mock/adapter ในสาขา dev/sprint-5-payment-adapter (disabled by default).
+
+2) ปัญหา: ไม่มีบั๊กที่บล็อกการส่งมอบ แต่มีการแจ้งเตือน mocked network ขณะรันเทสต์ (expected). บางไฟล์ worktree (.claude) เปลี่ยนสถานะเป็น modified — git ไม่ได้เพิ่มอัตโนมัติ (submodule-like).
+
+3) Push: โค้ดบนสาขา dev/auto-sprint-continue-20260627-work อัปเดตและตรงกับ origin (ล่าสุด tests passed: 964 collected, 963 passed, 1 skipped).
+
+หมายเหตุ: รายงานนี้ยังไม่ได้ส่งทาง Telegram — ต้องตั้งค่า BOT_TOKEN และ BOSS_CHAT_ID ในไฟล์ .env หรือให้คำสั่ง "send telegram <chat_id>" พร้อม credential

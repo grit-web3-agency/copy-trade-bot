@@ -1,0 +1,28 @@
+สรุปรอบเช็คงาน (routine check) — 2026-06-30 01:11 (Asia/Bangkok)
+
+1) สถานะ Sprint
+- ปัจจุบันทำถึง Sprint 5 (Payment Adapter). โค้ด Sprint 5 ผ่านการทดสอบในเครื่อง: 112 test files — local run green. Aggregate test matrix: 963 passed, 1 skipped.
+
+2) ปัญหา/ข้อจำกัด
+- ไม่มีบั๊กวิกฤติที่ขัดขวางการ merge/deploy ขณะนี้.
+- ข้อจำกัดเชิงปฏิบัติการ:
+  • ไม่มี ACP/Claude agentId คอนฟิกใน environment → ไม่สามารถ spawn Claude อัตโนมัติ (sessions_spawn runtime:"acp" ต้องการ agentId).
+  • deepseek CLI ไม่ติดตั้ง (deepseek not found) → ไม่สามารถรัน DeepSeek tests.
+  • ไม่มีไฟล์ .env กับ BOT_TOKEN/BOSS_CHAT_ID → การส่ง Telegram อัตโนมัติจาก workspace ถูกปิดใช้งาน.
+  • มีไฟล์ worktree metadata (.claude/worktrees/*) ที่แก้ไขเป็น modified — เป็น metadata/state ไม่ใช่การเปลี่ยนโค้ดฟังก์ชัน.
+
+3) Push code แล้วหรือยัง
+- ใช่: สาขา dev/auto-sprint-continue-20260627-work ถูก push ขึ้น origin และสถานะล่าสุดคือ Everything up-to-date สำหรับ commit ที่รวมโค้ดฟังก์ชัน. Worktree metadata ยังอยู่ใน working tree (modified).
+
+4) Open PRs ที่พบ
+- PR #27: chore: sprint continuation report 2026-06-27 — https://github.com/grit-web3-agency/copy-trade-bot/pull/27
+- PR #25: Sprint-4: payment module stub + docs — https://github.com/grit-web3-agency/copy-trade-bot/pull/25
+
+ถ้าต้องการให้ผมทำงานต่ออัตโนมัติ:
+- ให้ agentId ของ ACP/Claude หรือตั้งค่า acp.defaultAgent แล้วผมจะ spawn sessions_spawn runtime:"acp" agentId:<agentId> ให้ Claude ทำงานต่อบน backlog
+- ให้ติดตั้ง deepseek CLI (หรือบอกวิธีเข้าถึงบริการ DeepSeek) แล้วผมจะรัน DeepSeek testsเมื่อ Claude เสร็จ
+
+ถ้าต้องการให้ผมส่งสรุปนี้ให้บอสทันที:
+- ให้ BOT_TOKEN และ BOSS_CHAT_ID (ตัวเลข) ใน /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/.env หรือสั่ง: send telegram <chat_id> — ผมจะส่งข้อความจาก draft และบันทึกผลการส่งใน repo
+
+(ข้อความนี้เป็นร่างภายใน — ยังไม่ได้ส่งทาง Telegram)

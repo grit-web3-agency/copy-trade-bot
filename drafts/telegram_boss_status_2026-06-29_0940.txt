@@ -1,0 +1,14 @@
+สรุปรอบเช็คงาน (routine check) — 2026-06-29 09:40 (Asia/Bangkok)
+
+ผลการตรวจ repo grit-web3-agency:
+- copy-trade-bot: พบ PR ค้าง #27 (dev/auto-sprint-continue-20260627-work) และ #25 (dev/sprint-4-payment-stub)
+- repos อื่นๆ (mimictrade, mimictrade-app, mimictrade-api, mimictrade-vault, rustchain-bounties, core): ไม่มี PR ค้าง
+
+การกระทำที่ทำไป:
+- ตรวจ PRs และบันทึกรายงาน (routine_checks/2026-06-29-0940.md)
+- พยายามสั่ง Claude CLI แต่ไม่สามารถ spawn ได้เพราะไม่มี ACP agentId ใน environment
+- ยังไม่ได้รัน DeepSeek tests (ต้องรันหลัง Claude เสร็จหรือถ้ามี deepseek CLI)
+
+ถ้าต้องการให้ผมทำต่ออัตโนมัติ: โปรดให้ agentId สำหรับ ACP/Claude หรืออนุญาตให้ผม spawn agentId ที่มีอยู่.
+
+(ข้อความนี้เป็นร่าง; ยังไม่ได้ส่งทาง Telegram)

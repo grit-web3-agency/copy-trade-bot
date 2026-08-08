@@ -1,0 +1,16 @@
+สรุปสถานะ Copy-Trade Bot — 2026-06-29 20:06 (Asia/Bangkok)
+
+1) ทำถึง Sprint ไหน
+- ปัจจุบันทำงานถึง Sprint 5 (Payment Adapter). โค้ด Sprint 5 และงานต่อเนื่องผ่านชุดทดสอบในเครื่อง (112 test files; latest run green).
+
+2) มีปัญหาอะไร
+- ไม่มีบั๊กวิกฤติที่ขัดขวางการ merge/deploy ขณะนี้.
+- ข้อจำกัดเชิงปฏิบัติการ: Automated Claude/DeepSeek continuation ยังไม่สามารถทำได้อัตโนมัติใน environment นี้ (ต้องมี ACP agentId สำหรับ Claude และ deepseek CLI สำหรับการรัน DeepSeek tests).
+- Working tree contains modified .claude worktree metadata files (.claude/worktrees/*) — metadata/state only, not functional code.
+
+3) Push code แล้วหรือยัง
+- ใช่: สาขา dev/auto-sprint-continue-20260627-work ถูกตั้งให้ track origin and is up-to-date. No functional code changes in this run.
+
+Open PRs: #27, #25 (see repo)
+
+(ข้อความนี้เป็นร่างภายใน; ยังไม่ได้ส่งทาง Telegram โดยอัตโนมัติ)
