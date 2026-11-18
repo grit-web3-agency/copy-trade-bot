@@ -1,0 +1,28 @@
+สรุปสถานะ Copy-Trade Bot — 2026-11-19 (Automated)
+
+1) ทำถึง Sprint ไหน
+- สถานะ: ถึง Sprint 4 (Polish + Deploy) — ฟีเจอร์หลักครบตาม PROJECT_SPEC
+- รายละเอียด: Branch ปัจจุบัน dev/sprint-4-payment-stub (HEAD -> origin/dev/sprint-4-payment-stub). มี branch เพิ่มเติมสำหรับ payment adapter: remotes/origin/dev/sprint-5-payment-adapter
+- Unit tests: รันผ่านทั้งหมด — 241 tests passed
+
+2) มีปัญหาอะไร
+- ไม่มีบั๊กเชิงเทคนิคที่บล็อกงานใน repo (unit tests ผ่าน)
+- ข้อจำกัดการทดสอบ/การสาธิต: ไม่มี HELIUS_API_KEY / RPC credentials จึงยังไม่ได้รัน e2e devnet demo (ต้องเปิด ENABLE_LIVE_DEVNET=true + ใส่ HELIUS_API_KEY เพื่อรันจริงบน devnet)
+- การสื่อสาร: ไม่มี BOT_TOKEN และ BOSS_CHAT_ID ใน .env จึงยังไม่สามารถส่ง Telegram สรุปให้บอสโดยอัตโนมัติ
+- Payments: ฟีเจอร์ payment ถูกติดตั้งเป็น mock/stub; ENABLE_PAYMENTS=false เป็นค่าเริ่มต้น (ต้องการคอนฟิกและคีย์จริงเพื่อเปิด)
+
+3) Push code แล้วหรือยัง
+- ใช่: อัปเดตล่าสุดถูก push ไปที่ origin/dev/sprint-4-payment-stub (รวมรายงาน sprint completion 2026-11-18)
+
+ข้อเสนอแนะ / next steps (ต้องการอนุมัติหรือคีย์จากบอส):
+- ต้องการให้ผมสร้าง PR จาก dev/sprint-4-payment-stub → dev/main หรือ main/branch ใด ให้ระบุหัวข้อ PR และ reviewers ผมจะเปิดให้
+- หากต้องการให้ผมส่งสรุปนี้ให้บอสทาง Telegram — โปรดใส่ BOT_TOKEN และ BOSS_CHAT_ID ลงใน copy-trade-bot/.env หรืออนุมัติให้ผมใช้ credential ที่ปลอดภัย
+- หากต้องการรัน e2e devnet demo: ให้เพิ่ม HELIUS_API_KEY และตั้ง ENABLE_LIVE_DEVNET=true (ผมจะรัน demo และบันทึกหลักฐาน)
+
+บันทึกทางเทคนิค:
+- Remote repo: https://github.com/grit-web3-agency/copy-trade-bot.git
+- Branch ที่อ้างอิง: dev/sprint-4-payment-stub (ล่าสุดถูก push)
+- รายงานการทดสอบ: tests passed = 241/241
+
+บันทึกโดย: automated reminder handler
+Timestamp: 2026-11-19 00:22:00 (Asia/Bangkok)
