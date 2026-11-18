@@ -1,0 +1,23 @@
+สรุปสถานะ Copy-Trade Bot — 2026-11-18
+
+1) สถานะ Sprint:
+- จบ Sprint 1-4 (สโคปตาม PROJECT_SPEC): Scaffold, Listener, Wallet, Executor, Copy Logic, Demo (dry-run), และ Polish/Deploy work ถูกทำครบถ้วนบนสาขา dev/sprint-4-payment-stub
+- Payment adapter work มีอยู่บนสาขา dev/sprint-5-payment-adapter (พร้อมสำหรับ PR)
+
+2) ปัญหาหรือข้อจำกัดที่ต้องทราบ:
+- ขาดข้อมูลสำหรับส่ง Telegram ให้บอส: BOT_TOKEN และ BOSS_CHAT_ID ยังไม่ตั้งค่าใน .env → ไม่สามารถส่งข้อความอัตโนมัติได้
+- สำหรับรัน E2E devnet demo ต้องมี HELIUS_API_KEY และต้องตั้ง ENABLE_LIVE_DEVNET=true (ปัจจุบันเป็น dry-run เพื่อความปลอดภัย)
+- Payment providers ถูกเก็บเป็น mock/adapter (ENABLE_PAYMENTS=false โดยดีฟอลต์) หากต้องการทดสอบจริงต้องเพิ่ม credentials
+- ไม่มี blocker ทางเทคนิคสำคัญ — unit tests ผ่านทั้งหมด (241/241)
+
+3) โค้ดถูก push แล้วหรือยัง:
+- สาขา dev/sprint-4-payment-stub อยู่ที่ origin และล่าสุด (รวมรายงานสรุปนี้แล้ว)
+- สาขา dev/sprint-5-payment-adapter อยู่ที่ origin (พร้อมสำหรับ PR)
+
+Next steps (action items):
+- ถ้าต้องการให้ผมเปิด PR: ส่งชื่อ PR และ reviewers ผมจะสร้าง PR จาก dev/sprint-4-payment-stub → dev/main
+- หากต้องการรัน E2E devnet demo: ให้ตั้งค่า HELIUS_API_KEY และ ENABLE_LIVE_DEVNET=true ใน .env
+- หากต้องการส่ง Telegram สรุปให้บอส: ตั้งค่า BOT_TOKEN และ BOSS_CHAT_ID ในไฟล์ copy-trade-bot/.env หรือให้ผมคีย์ค่าสัญญาณเหล่านี้ตอนนี้
+
+-- รายงานโดย automated reminder handler
+Timestamp: 2026-11-18 20:21:30 (Asia/Bangkok)
