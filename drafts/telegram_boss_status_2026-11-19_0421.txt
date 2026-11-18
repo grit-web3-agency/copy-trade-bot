@@ -1,0 +1,21 @@
+สรุปสถานะ Copy-Trade Bot — 2026-11-19 04:21 (Asia/Bangkok)
+
+1) ทำถึง Sprint ไหน
+- ปัจจุบันงานอยู่ที่ Sprint 5 (branch: dev/sprint-5-payment-adapter)
+- ฟีเจอร์หลักของ MVP (Sprint 1-4) เสร็จเรียบร้อยตาม PROJECT_SPEC (Telegram bot commands, whale listener, wallet manager, Jupiter dry-run, copy policy, settings)
+
+2) มีปัญหาอะไร
+- ไม่มีบั๊กเชิงบล็อกเกอร์ (unit tests ทั้งหมดผ่าน: 241 tests passed)
+- ข้อจำกัดเชิงปฏิบัติการ: การส่งสรุปถึงบอสทาง Telegram อัตโนมัติยังไม่สามารถทำได้ เพราะไฟล์ .env ใน repo ไม่มีค่า BOT_TOKEN และ/หรือ BOSS_CHAT_ID (มีเพียง .env.example)
+- PR/merge: ไม่มี PR ค้างที่ต้องบล็อกการทำงาน (หากต้องการผมจะตรวจเช็ค PR ที่เปิดอยู่เพิ่มเติม)
+
+3) Push code แล้วหรือยัง
+- โค้ดใน branch dev/sprint-5-payment-adapter ถูก commit และ push ไปยัง origin (remote)
+- รายงานผลการทดสอบและเอกสารถูกเพิ่มใน reports/ และ drafts/
+
+Next steps (action items):
+- หากต้องการให้ผมส่งสรุปนี้ทาง Telegram ให้บอสโดยอัตโนมัติ: เพิ่มค่า BOT_TOKEN และ BOSS_CHAT_ID ลงใน /projects/copy-trade-bot/.env แล้วตอบกลับที่นี่ด้วยข้อความ: allow send
+- หรือให้ผมส่งครั้งเดียวโดยใช้ token/chat_id ชั่วคราว: ส่ง BOT_TOKEN และ numeric chat_id ให้ผม (แนะนำใช้ .env ทางปลอดภัย) — ผมจะขอยืนยันก่อนส่งและจะไม่เก็บ token ไว้
+- ต้องการให้ผมเปิด PR จาก dev/sprint-5-payment-adapter → dev/main หรือ main ให้แจ้ง: open pr to dev (หรือ open pr to main)
+
+ขอรับทราบและรอคำสั่งถัดไป
