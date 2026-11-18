@@ -1,0 +1,25 @@
+สรุปสถานะ Copy-Trade Bot — 2026-11-19 (Asia/Bangkok)
+
+1) สถานะ Sprint
+- ผลงานตาม PROJECT_SPEC: Sprint 1–4 ครบ (มุ่งเป้า MVP บน devnet, Telegram bot, whale listener, wallet manager, Jupiter dry-run executor, copy policy, settings, unit tests)
+- เวอร์ชันปัจจุบัน: branch dev/sprint-4-payment-stub (HEAD -> origin/dev/sprint-4-payment-stub)
+- Unit tests: 241/241 ผ่าน (local vitest run)
+
+2) ปัญหาหรือข้อจำกัด
+- ไม่มีบั๊กสำคัญที่บล็อกการพัฒนาใน repo; test suite ผ่านทั้งหมด
+- ข้อจำกัดสำหรับงานต่อไป:
+  - ยังไม่มี HELIUS_API_KEY / DEVNET RPC config ถ้าต้องการรัน e2e devnet demo ต้องตั้งค่า ENV
+  - ยังไม่ได้ตั้งค่า BOT_TOKEN และ BOSS_CHAT_ID ใน copy-trade-bot/.env — จึงยังส่ง Telegram สรุปรายงานให้บอสโดยอัตโนมัมิไม่ได้
+  - ENABLE_PAYMENTS เพื่อเปิดใช้งานจริงต้องตั้งค่าพารามิเตอร์ พร้อมผู้ให้บริการ (เมื่อใช้จริงต้องระวังไม่ใช้เงินจริงใน MVP)
+
+3) Push code แล้วหรือยัง
+- ใช่: เพิ่มรายงาน sprint และผลการทดสอบ → commit & push ไปที่ origin/dev/sprint-4-payment-stub (ล่าสุด)
+- สาขาอื่นที่เกี่ยวข้อง: remotes/origin/dev/sprint-5-payment-adapter (payment adapter work)
+
+คำแนะนำ / next steps (ให้ผมทำต่อได้เมื่ออนุมัติ):
+- ถ้าต้องการให้ผมเปิด PR จาก dev/sprint-4-payment-stub → dev/main หรือ → main ให้บอกชื่อ PR และ reviewers ผมจะสร้าง PR ให้
+- ถ้าต้องการรัน e2e devnet demo ให้เพิ่ม HELIUS_API_KEY และตั้ง ENABLE_LIVE_DEVNET=true — ผมจะรัน demo และอัพโหลด PROOFS.md update
+- ถ้าต้องการผมส่งข้อความ Telegram ให้บอส: กรุณาเพิ่ม BOT_TOKEN และ BOSS_CHAT_ID ใน copy-trade-bot/.env หรือมอบโทเค็นชั่วคราวให้ผม
+
+บันทึกโดย: automated reminder handler
+Timestamp: 2026-11-19 01:21:30 (Asia/Bangkok)
