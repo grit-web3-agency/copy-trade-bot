@@ -1,0 +1,24 @@
+สรุปสถานะ Copy-Trade Bot — 2026-11-19 03:50 (Asia/Bangkok)
+
+1) สถานะ Sprint
+- ตาม PROJECT_SPEC: Sprint 1–4 ครบ (MVP devnet, Telegram bot, whale listener, wallet manager, Jupiter dry-run executor, copy policy, settings, unit tests)
+- เวอร์ชันปัจจุบัน: branch dev/sprint-4-payment-stub (HEAD -> origin/dev/sprint-4-payment-stub)
+- Unit tests: 241/241 ผ่าน (local vitest run)
+
+2) ปัญหา/ข้อจำกัด
+- ไม่มีบั๊กที่บล็อกการพัฒนาใน repo; test suite ผ่านทั้งหมด
+- ข้อจำกัดสำหรับงานต่อไป:
+  - HELIUS_API_KEY / DEVNET RPC ต้องตั้งค่าเพื่อรัน e2e devnet demo
+  - BOT_TOKEN และ BOSS_CHAT_ID ไม่ได้ตั้งค่าใน copy-trade-bot/.env — จึงยังไม่สามารถส่ง Telegram รายงานให้อัตโนมัติได้
+  - ENABLE_PAYMENTS ถูกปิดโดยค่าเริ่มต้น (mocked)
+
+3) Push code แล้วหรือยัง
+- ใช่: รายงานและร่างข้อความได้ถูก commit & pushed → origin/dev/sprint-4-payment-stub
+
+Next steps (ให้ผมทำต่อได้เมื่ออนุมัติ):
+- ผมจะเปิด PR ให้เมื่อได้รับชื่อ PR และผู้ตรวจ
+- ผมจะรัน e2e devnet demo เมื่อได้รับ HELIUS_API_KEY และค่า ENABLE_LIVE_DEVNET=true
+- ผมจะส่ง Telegram ให้บอสเมื่อได้รับ BOT_TOKEN และ BOSS_CHAT_ID
+
+บันทึกโดย: automated reminder handler
+Timestamp: 2026-11-19 03:50:00 (Asia/Bangkok)
