@@ -1,0 +1,18 @@
+DRAFT — Sprint status for Copy-Trade Bot (auto-generated 2026-11-20 06:58 Asia/Bangkok)
+
+สรุปสถานะ (สั้น):
+1) Sprint: Sprint 5 — Payment Adapter (สถานะ: เสร็จสมบูรณ์)
+2) ปัญหา/ข้อจำกัด: ไม่มีบั๊กวิกฤตในชุดทดสอบ หน่วยทดสอบรันผ่านท้องถิ่น (241 tests ผ่าน) — มีการใช้ม็อกสำหรับบริการภายนอกซึ่งเป็นพฤติกรรมตามออกแบบ
+3) Push: โค้ดถูก push ไปยัง remote: origin/dev/sprint-5-payment-adapter แล้ว
+
+รายละเอียดเพิ่มเติม:
+- อ่าน PROJECT_SPEC.md เพื่อตรวจสอบขอบเขตแล้ว
+- ตรวจสอบ branch ท้องถิ่นและ remote ให้ตรงกัน (dev/sprint-5-payment-adapter)
+- รัน test suite: npm run test — ผ่านท้องถิ่น (241 passed)
+- เปลี่ยนแปลงล่าสุดถูกผลักไปที่ https://github.com/grit-web3-agency/copy-trade-bot (branch: dev/sprint-5-payment-adapter)
+
+หมายเหตุการดำเนินการอัตโนมัติ:
+- ระบบอัตโนมัติไม่สามารถส่งสรุปนี้ให้บอสทาง Telegram ได้เพราะไฟล์ .env ของโปรเจคไม่มีค่า BOT_TOKEN และ/หรือ BOSS_CHAT_ID (ดู .env.example)
+- หากต้องการให้ผมส่งให้อัตโนมัติ: เพิ่มค่า BOT_TOKEN=... และ BOSS_CHAT_ID=... ลงใน /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/.env แล้วตอบกลับด้วยคำว่า: allow send
+
+ไฟล์ฉบับร่างถูกบันทึกไว้ใน repo (drafts/) และรายงานการรันจะถูกบันทึกใน reports/ เมื่อเสร็จ
