@@ -1,0 +1,10 @@
+(Draft) Message to Boss — Copy-Trade Bot status
+
+สรุปสั้น ๆ:
+1) Sprint: Sprint 5 (Payment Adapter) เสร็จแล้ว
+2) ปัญหา: ไม่มีบั๊กวิกฤติ แต่มีบางจุดเป็น technical debt (adapter shape) และเทสต์บางอัน log ว่า mocked: no network แต่ไม่ล้ม
+3) Push: โค้ด push แล้วที่ branch dev/sprint-5-payment-adapter (https://github.com/grit-web3-agency/copy-trade-bot)
+
+หมายเหตุ: ระบบอัตโนมัติไม่สามารถส่ง Telegram ให้ได้เพราะไฟล์ .env ไม่มี BOT_TOKEN และ BOSS_CHAT_ID. ถ้าต้องการให้ผมส่งให้ทันที โปรดเพิ่มค่าเหล่านี้ใน .env หรือสั่ง "send telegram <chat_id>" พร้อม BOT_TOKEN ผ่านวิธีที่ปลอดภัย
+
+รายละเอียดเพิ่มเติมและไฟล์รายงาน: reports/telegram_boss_2026-11-20.md
