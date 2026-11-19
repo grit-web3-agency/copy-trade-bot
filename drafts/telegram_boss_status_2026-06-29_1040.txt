@@ -1,0 +1,14 @@
+สรุปรอบเช็คงาน (routine check) — 2026-06-29 10:40 (Asia/Bangkok)
+
+สถานะสั้นๆ:
+- ปัจจุบัน project อยู่ที่ Sprint 5 (Payment Adapter). ทดสอบหน่วยทั้งหมดผ่าน (local tests green).
+- พบ PR ค้าง: #27 (dev/auto-sprint-continue-20260627-work) และ #25 (dev/sprint-4-payment-stub).
+- Automated continuation not executed: ไม่มี ACP/Claude agentId ในสภาพแวดล้อม และไม่มี deepseek CLI สำหรับรัน DeepSeek tests.
+- ข้อจำกัดการส่ง Telegram อัตโนมัติ: ไม่มี .env ที่มี BOT_TOKEN/BOSS_CHAT_ID — ต้องให้ credentials หรือสั่งส่งแบบ explicit.
+
+ข้อเสนอแนะสั้น ๆ:
+- ให้ agentId ของ ACP/Claude เพื่อให้ผม spawn Claude และให้ทำงานต่ออัตโนมัติ
+- หรือสั่งผม merge/รีวิว PR ที่ต้องการ (ระบุหมายเลข PR)
+- ถ้าต้องการส่งสรุปนี้ให้บอส: วาง BOT_TOKEN และ BOSS_CHAT_ID ลงใน /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/.env หรือสั่ง: send telegram <chat_id>
+
+(บันทึกฉบับร่างถูกเก็บใน drafts/telegram_boss_status_2026-06-29_1040.txt)

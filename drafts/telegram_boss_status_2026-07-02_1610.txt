@@ -1,0 +1,22 @@
+บอส,
+
+อัพเดตสถานะ (อัตโนมัติ) — 2026-07-02 16:10 (Asia/Bangkok)
+
+1) Copy-Trade Bot ทำถึง Sprint ไหน
+- ตาม PROJECT_SPEC: Sprints 1–4 เสร็จเรียบร้อย
+- Sprint 5 (payment adapter) ถูกผสานและทดสอบบน branch dev/auto-sprint-continue-20260627-work
+- PR เปิดอยู่: #27 (dev/auto-sprint-continue-20260627-work) — PR เป็นรายงาน/ร่างข้อความเท่านั้น (ไม่มีโค้ดฟังก์ชันค้าง)
+
+2) ปัญหา / ข้อจำกัด
+- DeepSeek CLI ไม่ได้ติดตั้งใน environment นี้ — ไม่สามารถรัน DeepSeek e2e ได้
+- Telegram auto-send ไม่สามารถทำได้เพราะ .env ไม่มี BOSS_CHAT_ID (BOT_TOKEN เป็น placeholder)
+
+3) Push status
+- Branch dev/auto-sprint-continue-20260627-work อยู่บน origin และเป็นปัจจุบัน
+- ชุดทดสอบปัจจุบันผ่านทั้งหมด: 28 files, 241 tests passed
+
+Draft saved (not sent): drafts/telegram_boss_status_2026-07-02_1610.txt
+
+หากต้องการส่ง: เพิ่ม BOSS_CHAT_ID ใน .env หรือสั่ง: send telegram <chat_id>
+
+— automated draft

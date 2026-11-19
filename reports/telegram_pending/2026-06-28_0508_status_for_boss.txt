@@ -1,0 +1,29 @@
+รายงานสถานะ Copy-Trade Bot — 2026-06-28 05:08 (Asia/Bangkok)
+
+1) ทำถึง Sprint ไหน
+- ปัจจุบันทำเสร็จ Sprint 5 (Payment adapter).
+- การเปลี่ยนแปลงหลัก: รวม API ของ payment adapter ให้รองรับทั้ง legacy on-chain verification และ server-side adapters, ปรับปรุง mock ของ Stripe, เพิ่ม compatibility wrappers ใน src/payment.ts และแก้ไข handler ที่เกี่ยวข้อง
+- สาขาที่อัพโหลด: dev/sprint-5-payment-adapter (งานหลัก) และ dev/auto-sprint-continue-20260627-work (งานต่อเนื่อง/สถานะ worktree)
+
+2) มีปัญหาอะไร
+- ไม่มีบั๊กหรือข้อผิดพลาดสำคัญที่บล็อกการทำงาน — ชุดทดสอบรันผ่าน (test-suite green).
+- ข้อจำกัดด้านการส่งรายงานอัตโนมัติ: Workspace ไม่มีค่า BOT_TOKEN / Telegram chat id จึงไม่สามารถส่งข้อความ Telegram ให้บอสได้โดยตรง (เก็บเป็น draft ไว้ใน repo ตามไฟล์นี้).
+- รายการงานที่ควรทำต่อ: เปิด PR จาก dev/sprint-5-payment-adapter → develop/main (หรือตามกระบวนการ), พิจารณารวมรูปแบบ adapter หาก reviewer ต้องการ API เดียว, เพิ่ม runbook/CI สำหรับ flow การชำระเงินจริง
+
+3) Push code แล้วหรือยัง
+- ใช่: มีการ push ล่าสุดไปยัง remote repository (origin: https://github.com/grit-web3-agency/copy-trade-bot.git)
+  - สาขา: dev/auto-sprint-continue-20260627-work (ล่าสุด)
+  - สาขา: dev/sprint-5-payment-adapter (งาน Sprint 5)
+- Commit ล่าสุด (local): e51b246 chore: docs: sprint continuation report 2026-06-27 — tests green
+
+การดำเนินการถัดไป (ถ้าต้องการให้ผมทำต่อ)
+- ให้สิทธิ์/วางค่า BOT_TOKEN และ chat id ใน workspace (.env) — ผมจะส่ง Telegram สรุปให้บอสทันที
+- หรือสั่งให้ผมเปิด PR จากสาขาที่กล่าวถึงและเพิ่ม reviewers
+- ผมสามารถรัน e2e/demo flow กับ Stripe mock หรือ environment ที่ใส่ creds ให้ เพื่อยืนยัน end-to-end
+
+ไฟล์บันทึกภายใน:
+- SPRINT_REPORT.md (สรุปการทำงานล่าสุด)
+- รายงานฉบับนี้ถูกเก็บไว้ที่: reports/telegram_pending/2026-06-28_0508_status_for_boss.txt
+
+--
+อัตโนมัติ: รายงานนี้ถูกเตรียมและบันทึกโดย agent (handled internally). หากต้องการผมจะส่งข้อความให้บอสเมื่อได้รับข้อมูลการเชื่อมต่อ Telegram (BOT_TOKEN + chat id).

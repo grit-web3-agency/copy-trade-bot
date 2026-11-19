@@ -1,0 +1,23 @@
+สรุปสถานะ Copy-Trade Bot — 2026-07-01 12:10 (Asia/Bangkok)
+
+1) Sprint ที่ทำถึง:
+- พัฒนาเสร็จตาม PROJECT_SPEC ถึง Sprint 4 (Polish + Deploy): Telegram bot, Whale listener, Wallet manager, Copy policy, Trade executor (dry-run/devnet), settings และ unit tests ครบถ้วน
+
+2) ปัญหา / ข้อสังเกต:
+- ไม่มีปัญหาเชิงบล็อกเกอร์: ชุดทดสอบผ่านทั้งหมด (112 test files — 963 tests passed, 1 skipped)
+- มี log เตือนเรื่อง network-mocks / Jupiter quote retries ในชุดเทสต์ (คาดไว้ในสภาพแวดล้อมทดสอบ) — ไม่กระทบผลการทดสอบ
+- ไม่สามารถส่ง Telegram อัตโนมัติได้ ณ ตอนนี้ เพราะไฟล์ .env ของโปรเจคไม่มี BOT_TOKEN และ BOSS_CHAT_ID
+- Claude/ACP automated continuation ยังไม่สามารถรันได้ (ต้องตั้งค่าสำหรับ acp agent)
+
+3) Push code แล้วหรือยัง:
+- โค้ดและรายงานถูก commit และ push ขึ้น GitHub ที่ grit-web3-agency/copy-trade-bot บนสาขา dev/auto-sprint-continue-20260627-work
+- Commit ล่าสุดในสาขานี้: fc9e3a2 — "docs(reports): sprint completion 2026-07-01 06:05 (auto reminder)"
+
+ถ้าต้องการให้ผมส่งข้อความนี้ให้บอสผ่าน Telegram โดยอัตโนมัติ:
+- เพิ่มค่าต่อไปนี้ลงใน /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/.env แล้วแจ้งผมให้ส่ง
+  - BOT_TOKEN="<Telegram Bot Token>"
+  - BOSS_CHAT_ID="<numeric chat id>"
+- หรือ ให้ผมส่งไปที่ chat_id ที่คุณระบุโดยตรง (ตอบกลับ: send telegram <chat_id>) — ผมจะส่งให้เมื่อได้รับการยืนยัน
+
+บันทึกโดย: assistant (automated reminder handler)
+Timestamp: 2026-07-01 12:10 (Asia/Bangkok)

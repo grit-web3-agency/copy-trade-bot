@@ -1,0 +1,9 @@
+Boss,
+
+Automated status for Copy-Trade Bot — PR #27 (dev/auto-sprint-continue-20260627-work):
+- HEAD: 978ff5f
+- Ran CI locally: see logs in branch tmp workspace. Tests/build completed.
+- If you want this pushed to main or merged, instruct me.
+
+Note: Automated Telegram sends require BOT_TOKEN and BOSS_CHAT_ID in project .env or explicit send command.
+

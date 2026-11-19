@@ -1,0 +1,17 @@
+สรุปสถานะ Copy-Trade Bot — 2026-06-29 10:05 (Asia/Bangkok)
+
+1) ทำถึง Sprint ไหน
+- ปัจจุบันทำงานถึง Sprint 5 (Payment Adapter compatibility & fixes). โค้ดของ Sprint 5 ถูกพัฒนาและตรวจสอบจนผ่านชุดทดสอบหน่วยในเครื่อง (test-suite green: 963 passed, 1 skipped).
+
+2) มีปัญหาอะไร
+- ไม่มีบั๊กวิกฤติที่ขัดขวางการ merge/deploy ณ เวลานี้.
+- ข้อจำกัดเชิงปฏิบัติการ: automated Claude/DeepSeek ไม่สามารถรันอัตโนมัติจากสภาพแวดล้อมนี้เพราะไม่มีการกำหนด ACP agentId และไม่มี deepseek CLI.
+- มีไฟล์ worktree metadata (.claude/worktrees/*) ที่ถูกแก้ไข — เป็น metadata เท่านั้น ไม่ใช่การเปลี่ยนแปลงฟังก์ชันการทำงาน.
+
+3) Push code แล้วหรือยัง
+- ใช่: สาขา dev/auto-sprint-continue-20260627-work ถูก push ขึ้น origin ล่าสุด (รอบนี้รันทดสอบและบันทึกผลแล้ว).
+
+เพิ่มเติม:
+- ผลการทดสอบล่าสุด: 112 test files → 963 passed, 1 skipped (total tests: 964). ระยะเวลา run ประมาณ 4.7s.
+
+ถ้าต้องการให้ผมส่งสรุปนี้ให้บอสทันที: โปรดวาง BOT_TOKEN และ BOSS_CHAT_ID ลงใน /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/.env หรือสั่งตรงๆ ว่า: send telegram <chat_id> (ผมจะใช้ BOT_TOKEN จาก .env หากมีและส่งให้ พร้อมบันทึกผลการส่ง).

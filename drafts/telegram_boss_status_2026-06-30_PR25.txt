@@ -1,0 +1,12 @@
+Boss,
+
+Quick status update for Copy-Trade Bot (dev/sprint-4-payment-stub / PR #25):
+- Tests: all unit tests passed locally.
+- Build: TypeScript build succeeded with no errors.
+- Files changed: none required.
+- PR #25 is ready for review and merge.
+
+Note: Automated Telegram sends are disabled in the project because BOT_TOKEN and BOSS_CHAT_ID are not configured in the project .env. To enable, add BOT_TOKEN and BOSS_CHAT_ID to the project .env or instruct me to send to a numeric chat id.
+
+Regards,
+Automated build bot

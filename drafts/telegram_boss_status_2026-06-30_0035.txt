@@ -1,0 +1,27 @@
+สรุปสถานะ Copy-Trade Bot — 2026-06-30 00:35 (Asia/Bangkok)
+
+1) ทำถึง Sprint ไหน
+- ปัจจุบันทำงานถึง Sprint 5 (Payment Adapter). โค้ด Sprint 5 และงานต่อเนื่องผ่านชุดทดสอบในเครื่อง (112 test files — local run green). Aggregate test matrix: 963 passed, 1 skipped.
+
+2) มีปัญหาอะไร
+- ไม่มีบั๊กวิกฤติที่ขัดขวางการ merge/deploy ณ ขณะนี้.
+- ข้อจำกัดเชิงปฏิบัติการที่ยังไม่แก้:
+  • ไม่มี ACP/Claude agentId กำหนดใน environment → ไม่สามารถ spawn Claude อัตโนมัติ (sessions_spawn runtime:"acp" ต้องการ agentId).
+  • deepseek CLI ไม่ติดตั้ง (deepseek not found) → ไม่สามารถรัน DeepSeek tests ได้.
+  • ไฟล์ worktree .claude/worktrees/* ถูกแก้ไขเป็น metadata (modified) แต่เป็น metadata/state ของ worktrees — ยังไม่ได้ถูก staged/committed เนื่องจากเป็น worktree metadata.
+  • ไม่มี BOT_TOKEN/BOSS_CHAT_ID ใน .env → การส่ง Telegram อัตโนมัติจาก workspace ถูกปิดใช้งาน.
+
+3) Push code แล้วหรือยัง
+- สาขาปัจจุบัน: dev/auto-sprint-continue-20260627-work — ถูกตั้งให้ track origin and Everything up-to-date for committed code. Worktree metadata changes remain unstaged.
+
+Open PRs (checked earlier today):
+- PR #27 — chore: sprint continuation report 2026-06-27
+- PR #25 — Sprint-4: payment module stub + docs
+
+Next steps I can take (pick one):
+1) If you provide ACP agentId: I will spawn sessions_spawn runtime:"acp" agentId:<agentId> to run Claude on the backlog, then run DeepSeek (if available) and report results.
+2) I can pick the top item from PENDING_WORK.md and implement it locally: open a dev branch, code, test, commit, push, and open a PR.
+3) Provide BOT_TOKEN and numeric BOSS_CHAT_ID in .env (or instruct: send telegram <chat_id>) and I will send this draft to the boss and record the send result in repo.
+4) If you want me to commit worktree metadata forcibly, I can attempt a forced add/commit (may be undesirable). Recommend leaving worktree metadata as-is unless you want it versioned.
+
+(นี้เป็นร่างภายใน; ยังไม่ได้ส่งทาง Telegram)

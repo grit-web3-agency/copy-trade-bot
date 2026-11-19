@@ -1,0 +1,13 @@
+บอส,
+
+Routine heartbeat (อัตโนมัติ) — 2026-07-02 14:14 (Asia/Bangkok)
+
+สรุป (อัตโนมัติ):
+- สแกน PRs ใน org: พบ PR เดียวคือ grit-web3-agency/copy-trade-bot#27 (dev/auto-sprint-continue-20260627-work)
+- Claude ถูกสั่งให้ตรวจ PR #27 → ผล: noop (ไฟล์รายงาน/ร่างเท่านั้น ไม่มีโค้ดค้าง)
+- DeepSeek CLI ไม่ได้ติดตั้งใน env นี้ → ไม่ได้รัน DeepSeek tests
+- Branch dev/auto-sprint-continue-20260627-work อยู่บน origin และผ่านการทดสอบในเครื่อง (241/241 tests pass)
+
+หากต้องการส่งข้อความนี้ให้บอส: วาง BOSS_CHAT_ID ลงใน .env หรือสั่ง: send telegram <chat_id>
+
+— automated draft saved

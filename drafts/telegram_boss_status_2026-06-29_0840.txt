@@ -1,0 +1,12 @@
+Routine check — 2026-06-29 08:40 (Asia/Bangkok)
+
+Found PRs in grit-web3-agency/copy-trade-bot:
+- PR #27: chore: sprint continuation report 2026-06-27 — branch dev/auto-sprint-continue-20260627-work
+- PR #26: feat(payment): add payment adapter (sprint-5)
+- PR #25: Sprint-4: payment module stub + docs
+
+Tried to spawn Claude to continue the work automatically, but no ACP/Claude agent configured in environment (need agentId or acp.defaultAgent). DeepSeek not run (no deepseek CLI).
+
+Repo status: dev/auto-sprint-continue-20260627-work up-to-date; local tests green (112 test files -> 963 passed, 1 skipped).
+
+Next steps: provide ACP agentId or allow manual PR actions (merge/review) if you want me to proceed.

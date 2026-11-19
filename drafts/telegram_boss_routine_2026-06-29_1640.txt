@@ -1,0 +1,23 @@
+Routine check summary — 2026-06-29 16:40 (Asia/Bangkok)
+
+Repo: grit-web3-agency/copy-trade-bot
+1) Open PRs found:
+- #27: chore: sprint continuation report 2026-06-27 — branch dev/auto-sprint-continue-20260627-work
+  https://github.com/grit-web3-agency/copy-trade-bot/pull/27
+- #25: Sprint-4: payment module stub + docs — branch dev/sprint-4-payment-stub
+  https://github.com/grit-web3-agency/copy-trade-bot/pull/25
+
+2) Actions attempted:
+- Attempted to spawn Claude (ACP/Claude) to continue work automatically, but no ACP agent is configured in this environment (agents_list shows no configured ACP agent).
+- DeepSeek CLI check: not found in PATH — cannot run DeepSeek tests here.
+
+3) Current status:
+- Local tests: 112 test files → 963 passed, 1 skipped (green).
+- Current branch: dev/auto-sprint-continue-20260627-work (pushed to origin; up-to-date).
+
+4) Recommendations / next steps:
+- Provide an ACP agentId to allow me to spawn Claude (sessions_spawn runtime:"acp" agentId:<agentId>) to continue automated work.
+- Install/configure deepseek CLI (or provide remote DeepSeek service) to run DeepSeek tests after Claude finishes.
+- If you'd like immediate human-approved actions: specify PR number(s) to review/merge, or authorize me to pick the top item from PENDING_WORK.md and implement it.
+
+Note: I saved this draft at drafts/telegram_boss_routine_2026-06-29_1640.txt. I did NOT send Telegram because BOT_TOKEN/BOSS_CHAT_ID are not present in project .env.

@@ -1,0 +1,19 @@
+Boss,
+
+Automated sprint heartbeat — 2026-07-02 08:06 (Asia/Bangkok)
+
+Summary:
+- Project: copy-trade-bot
+- Action: Routine sprint continuation check
+- Tests: 112 test files — local run passed; 963 passed, 1 skipped
+- Git: branch dev/auto-sprint-continue-20260627-work — working tree has modified .claude worktree metadata only (not staged for commit)
+- PRs: Open PRs found: #27, #25
+
+Notes / Blockers:
+- No ACP/Claude agent configured in agents_list for automated spawning (only 'main' present and not configured). I can run claude CLI locally if you want me to continue merging/implementing.
+- DeepSeek CLI not installed in PATH — DeepSeek-based tests cannot be run automatically from this environment.
+- Telegram BOT_TOKEN in .env appears to be a placeholder; BOSS_CHAT_ID not set — cannot send this automatically.
+
+If you want me to send this now, provide a numeric BOSS_CHAT_ID or add BOT_TOKEN+BOSS_CHAT_ID to the project .env. If you'd like me to run Claude to continue work, confirm and I'll run it.
+
+— automated report generated 2026-07-02 08:06 (Asia/Bangkok)

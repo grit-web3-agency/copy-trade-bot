@@ -1,0 +1,16 @@
+บอส,
+
+Routine heartbeat (อัตโนมัติ) — 2026-07-02 17:44 (Asia/Bangkok)
+
+Summary:
+- Observed commit a6b8edbd: "fix: convert poster.test.ts from jest to vitest mock syntax" — applies test syntax fix only (file: projects/copy-trade-bot/src/__tests__/poster.test.ts).
+- Inspected PR #27 (dev/auto-sprint-continue-20260627-work): PR is documentation/heartbeat drafts only; no functional code changes required.
+- Ran tests locally: 28 test files — 241 tests passed (green).
+
+Blockers/Notes:
+- DeepSeek CLI not installed here — cannot run DeepSeek e2e tests.
+- Telegram auto-send blocked: .env contains BOT_TOKEN placeholder and lacks BOSS_CHAT_ID — I saved draft but did not send.
+
+If you want me to send this now, provide BOSS_CHAT_ID or add BOT_TOKEN+BOSS_CHAT_ID to project .env and reply "allow send" or run: send telegram <chat_id>
+
+— automated draft (saved)

@@ -1,0 +1,25 @@
+สรุปรอบเช็คงาน (routine check) — 2026-06-30 03:41 (Asia/Bangkok)
+
+1) งานค้างที่พบ (grit-web3-agency/copy-trade-bot):
+- PR #27: chore: sprint continuation report 2026-06-27 — branch dev/auto-sprint-continue-20260627-work
+  https://github.com/grit-web3-agency/copy-trade-bot/pull/27
+- PR #25: Sprint-4: payment module stub + docs — branch dev/sprint-4-payment-stub
+  https://github.com/grit-web3-agency/copy-trade-bot/pull/25
+
+2) การกระทำที่พยายามทำตามกฎ:
+- พยายามสั่ง Claude (ACP) ให้ทำงานต่อ แต่ไม่มี ACP/Claude agent ที่คอนฟิกไว้ใน environment (agents_list returned only 'main' and it's not configured). ต้องระบุ agentId หรือเซ็ต acp.defaultAgent.
+- เนื่องจาก Claude ยังไม่ถูกรัน จึงไม่ได้สั่ง DeepSeek tests (deepseek CLI not found in PATH).
+
+3) สถานะ repo/CI (copy-trade-bot):
+- สาขา dev/auto-sprint-continue-20260627-work ถูกอัปเดตและ push ขึ้น origin (docs/drafts commits). Local tests green: 112 test files (local run passed); aggregate: 963 passed, 1 skipped.
+
+4) ปัญหา/ข้อจำกัด:
+- ไม่มี BOT_TOKEN และ BOSS_CHAT_ID ใน project .env — การส่ง Telegram อัตโนมัติจาก workspace ถูกปิดใช้งาน.
+- .claude worktree metadata (.claude/worktrees/*) ถูกแก้ไขใน working tree — เป็น metadata/state เท่านั้น.
+
+5) ถัดไป (ต้องการคำสั่ง):
+- หากต้องการให้ผมสั่ง Claude ให้ทำงานต่อ: โปรดให้ ACP agentId หรือกำหนด acp.defaultAgent ใน environment
+- หากต้องการให้รัน DeepSeek: ติดตั้ง deepseek CLI ใน PATH หรือให้วิธีการเข้าถึง DeepSeek
+- หากต้องการให้ผมส่งสรุปนี้ให้บอส: วาง BOT_TOKEN และ BOSS_CHAT_ID ลงใน /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/.env หรือสั่ง: send telegram <chat_id>
+
+(ข้อความนี้เป็นร่างภายใน; ผมยังไม่ได้ส่งทาง Telegram เนื่องจากไม่มี credentials ใน workspace)

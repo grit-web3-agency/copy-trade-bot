@@ -1,0 +1,20 @@
+สรุปสถานะ Copy-Trade Bot — 2026-06-30 02:10 UTC (Asia/Bangkok 09:10)
+
+1) ทำถึง Sprint ไหน
+- ขณะนี้โค้ดอยู่ระหว่าง Sprint-4 (payment module stub) และมีงานต่อเนื่องในงาน sprint continuation
+- สาขาหลักสำหรับงานต่อเนื่อง: dev/auto-sprint-continue-20260627-work (HEAD: 6dfd218)
+- ยังมี PR ที่รอรีวิว: #25 (dev/sprint-4-payment-stub) และ #27 (chore: sprint continuation report) — #27 ถูกทดสอบและ build แล้ว (tests/build green)
+
+2) ปัญหาหรือบล็อกเกอร์
+- ไม่มีปัญหาทางเทคนิคสำคัญ: การทดสอบและการ build สำหรับสาขาตรวจสอบผ่านแล้ว
+- ตัวบล็อกเกอร์เชิงปฏิบัติการ: โปรเจคไม่มีการตั้งค่า BOT_TOKEN และ BOSS_CHAT_ID ในไฟล์ .env ของโปรเจค จึงยังไม่สามารถส่งสรุปให้บอสผ่าน Telegram โดยอัตโนมัติได้ (ผมเก็บร่างข้อความไว้แล้ว)
+
+3) Push code แล้วหรือยัง
+- ใช่: ผมได้สร้าง/commit รายงาน sprint และไฟล์ร่าง (อย่างน้อย docs/SPRINT_REPORT_2026-06-30.md ถูก commit & push และร่างนี้ถูกบันทึกใน drafts/)
+- สาขาที่ทำงานปัจจุบัน: dev/auto-sprint-continue-20260627-work (HEAD: 6dfd218)
+
+ถ้าต้องการให้ผมส่งข้อความนี้ให้บอส ให้ทำหนึ่งในตัวเลือกต่อไปนี้:
+- เพิ่ม BOT_TOKEN และ BOSS_CHAT_ID ใน /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/.env แล้วบอกผม "send telegram <chat_id>" (chat_id เป็นตัวเลข)
+- หรือสั่งให้ผมใช้ค่า BOT_TOKEN จาก workspace-level /Users/m4/Web3_AI_Agency/.env โดยตอบว่า "send telegram <chat_id>" (ผมจะตรวจสอบว่ามี token อยู่หรือไม่ก่อนส่ง)
+
+บันทึกอัตโนมัติโดยผู้ช่วย (automated reminder handler)

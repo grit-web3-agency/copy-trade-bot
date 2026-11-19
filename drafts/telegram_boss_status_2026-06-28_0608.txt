@@ -1,0 +1,20 @@
+สรุปสถานะ Copy-Trade Bot — 2026-06-28 06:08 (Asia/Bangkok)
+
+1) ทำถึง Sprint ไหน
+- ปัจจุบันทำงานถึง Sprint 5 (Payment Adapter). โค้ดของ Sprint 5 ถูกพัฒนาจนผ่านชุดทดสอบหน่วยในเครื่อง (test-suite green).
+
+2) มีปัญหาอะไร
+- ไม่มีบั๊กวิกฤติที่ขัดขวางการ merge/deploy ณ เวลานี้.
+- ข้อจำกัดเชิงปฏิบัติการ: การส่งสรุปไปหาบอสทาง Telegram อัตโนมัติยังไม่สามารถทำได้ เพราะไฟล์ .env ในโปรเจคไม่มีค่า BOT_TOKEN และ BOSS_CHAT_ID (มีแค่ .env.example เท่านั้น).
+- มี PR ค้างบนรีโมทที่ต้องรีวิว/merge หากต้องการรวมการเปลี่ยนแปลงเข้าช่องทางหลัก (ตรวจสอบ PRs ในองค์กรถ้าต้องการรายละเอียด).
+
+3) Push code แล้วหรือยัง
+- ใช่: 
+  - สาขา dev/sprint-5-payment-adapter ถูกผลักขึ้นรีโมทในงานก่อนหน้า (Sprint 5).
+  - ในรอบนี้ ได้ commit เล็ก ๆ เพื่ออัพเดตสถานะ worktree ("chore: update .claude worktree state (auto)") และ push ไปที่สาขา dev/auto-sprint-continue-20260627-work (origin).
+
+ถ้าต้องการให้ผมส่งสรุปนี้ให้บอสทันที: โปรดให้ BOT_TOKEN และ BOSS_CHAT_ID โดยวางลงใน /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/.env (ตัวอย่าง: BOT_TOKEN=xxx\nBOSS_CHAT_ID=123456789) หรือสั่งตรง ๆ ว่า: send telegram <chat_id> — ผมจะใช้ BOT_TOKEN จาก .env ถ้ามีและส่งข้อความให้ พร้อมบันทึกผลการส่งใน repo.
+
+ถ้าต้องการให้ผมเปิด PR หรือ merge ให้เลย ให้สั่ง OPEN_PR หรือ MERGE_PR พร้อมระบุเป้าหมาย (develop/main).
+
+(ข้อความนี้เป็นร่างภายใน; การส่งทาง Telegram ยังไม่ได้ทำโดยอัตโนมัติเนื่องจากไม่มี credentials ใน workspace)

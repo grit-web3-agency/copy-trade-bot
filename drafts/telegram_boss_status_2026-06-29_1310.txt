@@ -1,0 +1,20 @@
+สรุปรอบเช็คงาน (routine check) — 2026-06-29 13:10 (Asia/Bangkok)
+
+PRs ค้าง (grit-web3-agency/copy-trade-bot):
+- #27 chore: sprint continuation report 2026-06-27 — dev/auto-sprint-continue-20260627-work
+- #25 Sprint-4: payment module stub + docs — dev/sprint-4-payment-stub
+
+การกระทำที่พยายามทำ:
+- พยายามสั่ง Claude CLI ให้ทำต่ออัตโนมัติ แต่ environment นี้ยังไม่มีการกำหนด ACP agentId ที่สามารถใช้ได้ (ต้องการ agentId หรือ acp.defaultAgent ใน config)
+- หาก Claude เสร็จ จะสั่ง DeepSeek tests (แต่ต้องมี deepseek CLI/การเข้าถึง)
+
+สถานะ repo/การทดสอบ:
+- สาขา dev/auto-sprint-continue-20260627-work อัปเดตและ push ขึ้น origin ล่าสุด
+- ทดสอบในเครื่อง: 112 files, 963 passed, 1 skipped (green)
+
+ต้องการให้ผมทำอะไรต่อไหม? (ตัวอย่าง):
+- ระบุ agentId ที่จะใช้กับ sessions_spawn runtime:"acp" เพื่อให้ผมสั่ง Claude ทำต่อ
+- หรือสั่งผม merge/รีวิว PR ใด PR หนึ่ง
+- หรือวาง BOT_TOKEN/BOSS_CHAT_ID ใน /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/.env เพื่อให้ผมส่ง Telegram โดยอัตโนมัติ
+
+(ร่างนี้บันทึกใน drafts/ และยังไม่ได้ส่งทาง Telegram โดยอัตโนมัติ)

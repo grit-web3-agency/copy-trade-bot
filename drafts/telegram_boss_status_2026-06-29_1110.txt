@@ -1,0 +1,23 @@
+สรุปสถานะ Copy-Trade Bot — 2026-06-29 11:10 (Asia/Bangkok)
+
+1) ทำถึง Sprint ไหน
+- ปัจจุบันทำงานถึง Sprint 5 (Payment Adapter). โค้ดของ Sprint 5 ถูกพัฒนาและทดสอบเรียบร้อย (local tests green).
+
+2) มีปัญหาอะไร
+- ไม่มีบั๊กวิกฤติที่ขัดขวางการ merge/deploy ในขณะนี้.
+- ข้อจำกัดเชิงปฏิบัติการ: การสั่งให้ Claude/DeepSeek ทำงานต่ออัตโนมัติยังไม่สามารถทำได้จากสภาพแวดล้อมนี้โดยไม่มีการกำหนด ACP agentId หรือการติดตั้ง deepseek CLI.
+- ไม่มีไฟล์ .env ที่มี BOT_TOKEN/BOSS_CHAT_ID ใน workspace — การส่ง Telegram อัตโนมัติจำเป็นต้องมีค่าเหล่านี้.
+
+3) Push code แล้วหรือยัง
+- ใช่: สาขา dev/auto-sprint-continue-20260627-work ถูก push ขึ้น origin ล่าสุด (รวม commit บันทึกการรันเตือน/ร่างข้อความแล้ว).
+
+Open PRs ที่พบ (grit-web3-agency/copy-trade-bot):
+- PR #27 — chore: sprint continuation report 2026-06-27 — https://github.com/grit-web3-agency/copy-trade-bot/pull/27
+- PR #25 — Sprint-4: payment module stub + docs — https://github.com/grit-web3-agency/copy-trade-bot/pull/25
+
+Next steps (requires authorization/config):
+- Provide ACP agentId to spawn Claude (sessions_spawn runtime:"acp" agentId:<agentId>) and I will continue the top PR work automatically.
+- Install/configure DeepSeek CLI (or provide access) to run DeepSeek tests after Claude finishes.
+- Or instruct me to review/merge any PRs manually (specify PR number and action).
+
+(ข้อความนี้เป็นร่างภายใน; ยังไม่ได้ส่งทาง Telegram โดยอัตโนมัติ)
