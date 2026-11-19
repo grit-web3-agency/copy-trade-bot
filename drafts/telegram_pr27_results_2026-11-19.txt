@@ -1,0 +1,18 @@
+PR #27 (dev/auto-sprint-continue-20260627-work) — test run summary
+
+I checked out the branch and ran the full test suite locally (npm ci, build, tests).
+
+Summary:
+- Many unit tests passed (payment, policy, poster, devnet safety, pnl, watchers, etc.).
+- Integration/core tests failed in these areas: relay, provider, consumer, e2e, network. Failures show `mocked: no network in tests` in the output and missing expected WebSocket messages (provider_ack / forwarded request).
+
+Blockers and recommended next steps:
+1) The failures appear to come from integration tests that expect network mocks or deterministic relay startup. Please run a focused test run on the failing files and ensure network clients (Jupiter, Poster, Anthropic mock) are stubbed in test setup.
+2) If tests are flaky due to timing, consider making startRelay return a ready promise / bound port so tests don't use setTimeout hacks.
+3) I didn't change production code to avoid risky fixes; I recorded findings in SPRINT_REPORT.md and left this draft.
+
+If you want, I can:
+- Run focused vitest runs for the failing files and iterate on small test fixes (increase timeouts / add readiness checks), or
+- Attempt to add shallow test mocks to stop external network attempts (e.g. mock HTTP clients) and re-run.
+
+— automated test runner (subagent)
