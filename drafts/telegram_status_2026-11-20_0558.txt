@@ -1,0 +1,22 @@
+Telegram summary to: Jack (Manager)
+
+Timestamp: 2026-11-20 05:58 Asia/Bangkok
+
+1) Sprint status
+- Current progress: Completed through Sprint 5 (Payment Adapter compatibility & fixes). All core MVP sprints (1–5) marked complete in repo (see SPRINT_COMPLETE.md and reports/auto-sprint-report-2026-11-20.md).
+- Branch: dev/sprint-5-payment-adapter (latest changes pushed)
+
+2) Known issues / blockers
+- No critical open code issues. Test suite passes locally (241+ tests passed in last run).
+- Automated Claude CLI runs are not configured in this environment; any work requiring Claude/ACP must be run manually or provide an acp agentId.
+- Telegram sending not configured: repository expects a bot token in env (BOT_TOKEN or TELEGRAM_BOT_TOKEN). No .env or bot token found in workspace, so automated Telegram delivery is NOT possible from this machine.
+
+3) Push status
+- Code: latest report file reports/auto-sprint-report-2026-11-20.md committed and pushed to origin/dev/sprint-5-payment-adapter.
+
+Action requested / How you can send this now
+- To send this summary automatically, provide either:
+  • BOT_TOKEN (or TELEGRAM_BOT_TOKEN) + target chat_id in project config or via environment, OR
+  • Ask me to open a PR / create a GitHub release draft and I'll attach this report.
+
+Delivery log: NOT SENT — missing Telegram credentials in environment.
