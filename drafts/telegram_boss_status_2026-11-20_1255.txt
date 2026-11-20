@@ -1,0 +1,21 @@
+สรุปสถานะ Copy-Trade Bot — 2026-11-20 12:55 (Asia/Bangkok)
+
+1) Sprint ที่ทำถึง: Sprint 5 — Payment Adapter (สถานะ: เสร็จเรียบร้อยใน workspace; โปรดตรวจ PR #28 สำหรับการ merge)
+
+2) ปัญหา/บันทึกสำคัญ:
+- พบ PRs ที่รอรีวิว/merge: #28 และ #27 (ดูรายละเอียดใน GitHub repo)
+- ชุดทดสอบรันผ่านบนเครื่อง local: npm run test → 241 passed, 0 failed
+- Claude/ACP CLI ไม่ได้ถูกตั้งค่าในสภาพแวดล้อมนี้ (ไม่มี agentId) — จึงไม่สามารถสั่งให้ Claude ทำต่อ PR อัตโนมัติได้
+- DeepSeek test runner จะถูกรันหลังจากขั้นตอนของ Claude เสร็จ (หากต้องการให้ผมสั่งให้รัน ให้ตั้งค่า ACP agent)
+
+3) Push code แล้วหรือยัง:
+- บางงานถูก push ไปที่ origin (เช่น branch dev/sprint-5-payment-adapter และ commit อื่น ๆ)
+- รายงานและร่างข้อความได้ถูกเพิ่มและ push แล้ว
+
+ถ้าต้องการให้ผมส่ง Telegram นี้ให้บอสอัตโนมัติ ให้เพิ่มค่าในไฟล์ .env ของโปรเจค (path: /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/.env):
+
+BOT_TOKEN=<your_bot_token_here>
+BOSS_CHAT_ID=<chat_id_here>
+
+จากนั้นตอบกลับด้วยคำว่า: allow send
+ผมจะส่งข้อความสรุปให้ทันทีเมื่อได้รับคอนฟิกและอนุญาต
