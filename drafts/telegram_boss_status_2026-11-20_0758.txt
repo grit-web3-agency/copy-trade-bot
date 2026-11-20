@@ -1,0 +1,15 @@
+เรียน Jack (บอส)
+
+สรุปสถานะ Copy-Trade Bot (อัตโนมัติ)
+1) ทำถึง Sprint: Sprint 5 — Payment Adapter (สถานะ: เสร็จ, branch: dev/sprint-5-payment-adapter)
+2) ปัญหา/บล็อกเกอร์: ไม่มีบล็อกเกอร์สำคัญในโค้ด; ชุดทดสอบรันผ่านท้องถิ่น (241 passed, 0 failed). หมายเหตุ: ระบบออโต้บางงาน (เช่นเรียกใช้งาน Claude CLI / DeepSeek) ยังไม่ได้ตั้งค่าในสภาพแวดล้อมนี้
+3) Push: โค้ดถูก push ไปที่ origin/dev/sprint-5-payment-adapter เรียบร้อย
+
+หมายเหตุการส่งอัตโนมัติ: ระบบไม่สามารถส่ง Telegram ให้โดยตรงได้เพราะค่าคอนฟิก BOT_TOKEN และ/หรือ BOSS_CHAT_ID ยังไม่ถูกตั้งค่าในไฟล์ .env ของโปรเจค หากต้องการให้ส่งอัตโนมัติ ให้เพิ่ม:
+  BOT_TOKEN=<telegram-bot-token>
+  BOSS_CHAT_ID=<chat-id>
+ใน /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/.env แล้วตอบกลับด้วยคำว่า: allow send
+
+ไฟล์รายงานและบันทึกถูกเก็บไว้ใน repo (reports/) และ drafts/ ครับ
+
+อัปเดตโดยระบบอัตโนมัติ: 2026-11-20 07:58 Asia/Bangkok
