@@ -1,0 +1,24 @@
+สรุปการรันอัตโนมัติ — Copy-Trade Bot — 2026-11-20 20:25 (Asia/Bangkok)
+
+สรุปสั้น:
+- Sprint ที่ทำถึง: Sprint 5 — Payment Adapter (branch: dev/sprint-5-payment-adapter)
+- ขณะนี้มี PR ค้างบน GitHub: #27 และ #28 (รายละเอียดด้านล่าง)
+- ผมพยายามสั่ง Claude CLI ให้ดำเนินงานต่อ แต่การรันล้มเหลวเพราะโทเค็น OAuth หมดอายุ — ต้อง re-authenticate
+
+PRs ค้าง:
+- #28 — chore(sprint-5): Payment adapter compatibility & fixes — branch: dev/sprint-5-payment-adapter
+- #27 — chore: sprint continuation report 2026-06-27 — tests green — branch: dev/auto-sprint-continue-20260627-work
+
+การกระทำที่ผมทำ:
+- อ่าน PROJECT_SPEC.md และตรวจสอบสถานะ repo
+- รันชุดทดสอบท้องถิ่น (npm run test) — ผล: 241 passed, 0 failed
+- สร้างรายงานอัตโนมัติและร่างข้อความ Telegram (นี่คือไฟล์ draft)
+
+สิ่งที่ต้องการจากบอส/ทีม:
+- หากต้องการให้ผมสั่ง Claude ทำงานต่อแบบอัตโนมัติ: re-authenticate `claude` CLI ในเครื่องนี้ จากนั้นตอบกลับผมด้วย: "allow auto-continue"
+- หรือสั่งผมให้ทำการตรวจ PR ด้วยตนเอง/เปิด PR → main / หรือให้ผมเตรียม PR merge checklist
+
+หมายเหตุ: การส่ง Telegram อัตโนมัติยังไม่เปิดใช้งานในสภาพแวดล้อมนี้ (ต้องใส่ BOT_TOKEN และ BOSS_CHAT_ID ใน .env ของโปรเจค)
+
+--
+แจ้งผมเมื่อพร้อมให้ผมลองรันอีกครั้ง (re-auth หรืออนุญาตแบบ manual)
