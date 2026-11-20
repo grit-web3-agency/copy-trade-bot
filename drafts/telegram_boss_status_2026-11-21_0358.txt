@@ -1,0 +1,18 @@
+สรุปสถานะ Copy-Trade Bot — 2026-11-21 03:58 (Asia/Bangkok)
+
+1) Sprint ที่ทำถึง: Sprint 5 — Payment Adapter (สถานะ: เสร็จเรียบร้อย)
+
+2) ปัญหา/บันทึกสำคัญ:
+- ชุดทดสอบรันผ่านบนเครื่อง local (npm run test → 241 passed, 0 failed)
+- ข้อความเตือนบางรายการเกิดจากการจำลองเครือข่าย (mock warnings) และเป็นพฤติกรรมที่คาดไว้สำหรับสภาพแวดล้อม local
+- PENDING_WORK.md ระบุว่าการรัน Claude CLI / DeepSeek ยังไม่ได้ตั้งค่าในสภาพแวดล้อมนี้
+
+3) Push code แล้วหรือยัง: 
+- ใช่ — รายงานและร่างถูกคอมมิตและ push ไปที่ origin/dev/sprint-5-payment-adapter
+
+การส่งอัตโนมัติ (Telegram): ยังไม่ทำได้ — ต้องเพิ่มในไฟล์ .env ของโปรเจค:
+BOT_TOKEN=<your_bot_token_here>
+BOSS_CHAT_ID=<chat_id_here>
+
+ถ้าต้องการให้ผมส่งข้อความนี้ให้บอสแบบอัตโนมัติ ให้ตอบกลับด้วยคำว่า: allow send
+ผมจะส่งให้ทันทีเมื่อได้รับคอนฟิกและอนุญาต
