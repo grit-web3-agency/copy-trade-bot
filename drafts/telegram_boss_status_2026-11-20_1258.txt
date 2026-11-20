@@ -1,0 +1,19 @@
+สรุปสถานะ Copy-Trade Bot — 2026-11-20 12:58 (Asia/Bangkok)
+
+1) Sprint ที่ทำถึง: Sprint 5 — Payment Adapter (สถานะ: เสร็จเรียบร้อย)
+
+2) ปัญหา/บันทึกสำคัญ:
+- ไม่มีบั๊กหรือตัวชี้ขัดขวางสำคัญในโค้ดหลัก
+- ชุดทดสอบรันผ่านบนเครื่อง local (npm run test → 241 passed, 0 failed)
+- การรัน Claude CLI อัตโนมัติ / DeepSeek ยังไม่ได้ตั้งค่าในสภาพแวดล้อมนี้ (ถูกบันทึกใน PENDING_WORK.md)
+
+3) Push code แล้วหรือยัง: 
+- ใช่ — โค้ด/รายงานล่าสุดถูก push ไปที่ origin/dev/sprint-5-payment-adapter
+
+ข้อกำหนดการส่ง Telegram อัตโนมัติ:
+- เพิ่มค่าในไฟล์ .env ของโปรเจค (path: /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/.env):
+  BOT_TOKEN=<your_bot_token_here>
+  BOSS_CHAT_ID=<chat_id_here>
+- แล้วตอบกลับข้อความนี้ด้วยคำว่า: allow send
+
+ผมจะส่งข้อความให้ทันทีเมื่อได้รับคอนฟิก + คำอนุญาต
