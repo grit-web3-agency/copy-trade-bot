@@ -1,0 +1,20 @@
+สวัสดี Jack,
+
+นี่คือสรุปสถานะอัตโนมัติ (routine check) — 2026-11-22 06:18 (Asia/Bangkok)
+
+สรุปสั้น ๆ:
+- Copy-Trade Bot: ไม่มีงานค้างสำคัญใน repo นี้ (branch automation/resume-sprint-20261122-0158 อัปเดตเรียบร้อย)
+- งานค้างที่พบบริเวณ workspace:
+  • mimictrade-api: มีไฟล์ .DS_Store ที่ยังไม่ commit — แนะนำลบและเพิ่มใน .gitignore
+  • mimictrade-dev: มีไฟล์ที่แก้ไขจำนวนมากเป็น build outputs (out/) — ตรวจสอบก่อน commit หรือเพิ่มเป็น ignored artifacts
+  • rustchain-bounties: Branch dev/copy-trade-solana กำลัง track upstream ที่ถูกลบ — ต้องตรวจสอบย้อนหลังและตัดสินใจว่าจะสร้าง PR ใหม่หรือ rebase ไปยัง branch ที่มีอยู่
+
+ผมยังไม่ได้สั่งให้ Claude ทำงานต่ออัตโนมัติ เพราะสิ่งที่พบนั้นเป็นงาน housekeeping ที่ต้องการการตัดสินใจจากมนุษย์ก่อนทำการ commit/push
+
+ถ้าต้องการให้ผมทำต่อโดยอัตโนมัติ:
+- ตอบกลับที่นี่ด้วย: allow claude — ผมจะรัน Claude CLI ในแต่ละ repo ที่มีงานค้าง (จะรายงานก่อน/หลังแต่ละการเปลี่ยนแปลง)
+
+ถ้าต้องการให้ส่งข้อความนี้ไปยัง Telegram ให้บอสทันที:
+- เพิ่ม BOT_TOKEN และ BOSS_CHAT_ID ลงใน /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/.env แล้วตอบกลับ: allow send
+
+อัตโนมัติสรุปโดยระบบ
