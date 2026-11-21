@@ -1,0 +1,23 @@
+สวัสดี Jack,
+
+สรุปสถานะล่าสุดของโปรเจค Copy-Trade Bot (โดยอัตโนมัติ) — 2026-11-22 05:58 (Asia/Bangkok)
+
+1) ทำถึง Sprint ไหน:
+- ฟีเจอร์ Must-Have ทั้งหมดเสร็จเรียบร้อย (Telegram bot, whale listener, wallet management, Jupiter dry-run executor, copy logic, /settings, ฯลฯ)
+- Sprint 1-4 ถูกทำและผ่านการทดสอบแล้ว
+- งานเพิ่มเติม (Payment adapter / Sprint 5) อยู่บน branch `dev/sprint-5-payment-adapter` (มีการพัฒนาและพร้อมตรวจสอบ)
+
+2) ปัญหา/ข้อสังเกต:
+- ไม่มี blocker สำคัญ ณ ขณะนี้; ชุดทดสอบทั้งหมดผ่าน (241 tests passed locally)
+- บางข้อความ log แสดง "mocked: no network in tests" ซึ่งเป็น expected (tests ใช้ network mocks)
+- อัตโนมัติรายงานไปยัง Discord/Dashboard ถูกข้าม เพราะรันเนอร์ไม่มี credentials/API tokens
+- การส่ง Telegram อัตโนมัติถูกข้าม — ไฟล์ .env ไม่มี BOT_TOKEN และ/หรือ BOSS_CHAT_ID ถ้าต้องการให้ส่งอัตโนมัติ กรุณาเพิ่มค่าเหล่านี้ใน /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/.env (รูปแบบ: BOT_TOKEN=xxx\nBOSS_CHAT_ID=123456789) แล้วตอบกลับด้วย: allow send
+
+3) Push code แล้วหรือยัง:
+- โค้ดและรายงานล่าสุดถูก commit ลง branch `automation/resume-sprint-20261122-0158` (รายงาน: reports/automation-sprint-resume-20261122.md)
+- สาขาหลักพัฒนาเช่น `dev/sprint-5-payment-adapter` มีอยู่และสอดคล้องกับ remote (origin)
+- หากต้องการให้ผม push/force-push สาขาใดเพิ่มเติม ให้ตอบกลับอนุมัติ
+
+ถ้าต้องการ ผมจะ: (A) เพิ่ม/อัปเดตรายงานบน repo และ/หรือ (B) ส่ง Telegram สรุปให้บอสทันที เมื่อได้รับอนุญาต (ต้องมี BOT_TOKEN+BOSS_CHAT_ID ใน .env หรืออนุมัติให้ผมดึงค่าอื่น)
+
+อัตโนมัติสรุปโดยระบบ ณ เวลาทำงาน
