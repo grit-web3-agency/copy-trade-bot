@@ -1,0 +1,21 @@
+สวัสดี Jack,
+
+สรุปสถานะโปรเจค Copy-Trade Bot — 2026-11-22 06:25 (Asia/Bangkok)
+
+1) ทำถึง Sprint ไหน:
+- Sprint 1–4: เสร็จเรียบร้อย
+- Sprint 5 (Payment adapter): เสร็จเรียบร้อยและอยู่บน branch `dev/sprint-5-payment-adapter`
+
+2) ปัญหา/ข้อสังเกต:
+- ไม่มี blocker สำคัญ; ชุดทดสอบทั้งหมดผ่าน (241 tests passed locally)
+- บาง log ในการทดสอบแสดงข้อความเกี่ยวกับ network mocks ซึ่งเป็น expected behaviour
+- Automation ยังไม่สามารถอัปเดต Discord/Dashboard อัตโนมัติ (ไม่มี credentials)
+- การส่ง Telegram อัตโนมัติถูกข้ามเพราะ .env ไม่มี BOT_TOKEN และ/หรือ BOSS_CHAT_ID
+
+3) Push code แล้วหรือยัง:
+- โค้ดบน branch `dev/sprint-5-payment-adapter` อยู่บน remote (origin)
+- รายงานและร่างข้อความถูก commit และ push ไปยัง branch `automation/resume-sprint-20261122-0158` (audit trail)
+
+ถ้าต้องการให้ผมส่งข้อความนี้ให้ทันที: เพิ่ม BOT_TOKEN และ BOSS_CHAT_ID ใน /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/.env และตอบกลับด้วย: allow send
+
+อัตโนมัติ
