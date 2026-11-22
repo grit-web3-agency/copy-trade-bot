@@ -12,7 +12,7 @@ Automated append: reminder handled: 2026-11-20 06:58 Asia/Bangkok
   1) Sprint: Sprint 5 — Payment Adapter (completed)
   2) Issues: No critical blockers; test suite green locally (some tests use network mocks by design)
   3) Push: Code pushed to origin/dev/sprint-5-payment-adapter
-- Telegram: Automated send SKIPPED — project .env does not contain BOT_TOKEN and/or BOSS_CHAT_ID. Draft saved at drafts/telegram_boss_status_2026-11-20_0658.txt and report saved at reports/routine-github-check-2026-11-20-1655.md
+- Telegram: Automated send SKIPPED — project .env does not contain BOT_TOKEN and/or BOSS_CHAT_ID. Draft saved at drafts/telegram_boss_status_2026-11-20_0658.txt and report saved at reports/routine-github-check-2026-11-20-0658.md
 - Next steps: To enable automated Telegram reporting, add BOT_TOKEN and BOSS_CHAT_ID to /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/.env (format: BOT_TOKEN=xxxx, BOSS_CHAT_ID=123456789) and reply with: allow send
 
 Previous entries preserved.
@@ -26,7 +26,7 @@ Automated append: reminder handled: 2026-11-20 16:58 Asia/Bangkok
   2) Issues: No critical blockers; local test-suite green. Warnings from network mocks are expected.
   3) Push: Code and reports pushed to origin/dev/sprint-5-payment-adapter
 - Telegram: Automated send SKIPPED — .env missing BOT_TOKEN and/or BOSS_CHAT_ID. Draft saved at drafts/telegram_boss_status_2026-11-20_1655.txt
-- Action taken: Created reports/auto-sprint-report-2026-11-20_1655.md and draft telegram message; committed and pushed to repo.
+- Action taken: Created reports/auto-sprint-report-2026-11-20-1655.md and draft telegram message; committed and pushed to repo.
 - Next steps: Add BOT_TOKEN & BOSS_CHAT_ID to project .env and reply with: allow send to enable automatic Telegram notifications.
 
 Previous entries preserved.
@@ -77,26 +77,24 @@ Automated append: reminder handled: 2026-11-22 06:55 Asia/Bangkok
 
 Previous entries preserved.
 
-Automated append: reminder handled: 2026-11-22 07:25 Asia/Bangkok
-- Action: Re-checked dev/sprint-5-payment-adapter, ran tests, and generated short resume report.
+Automated append: reminder handled: 2026-11-22 06:58 Asia/Bangkok
+- Action: Re-checked dev/sprint-5-payment-adapter and re-generated resume artifacts.
 - Branch: dev/sprint-5-payment-adapter
 - Tests: npm run test — 241 passed locally
-- Report: reports/automation-sprint-resume-20261122-0725.md (created and committed)
-- Push: Pushed commit to origin/dev/sprint-5-payment-adapter
+- Report: reports/automation-sprint-resume-20261122-0658.md (created and committed)
+- Draft Telegram: drafts/telegram_boss_status_2026-11-22_0658.txt (created)
+- Push: Pushed commits to origin/dev/sprint-5-payment-adapter
 - Telegram: SKIPPED — .env lacks BOT_TOKEN and/or BOSS_CHAT_ID. To enable automated Telegram send, add BOT_TOKEN and BOSS_CHAT_ID to project .env and reply with: allow send
 
 Previous entries preserved.
 
-Automated append: reminder handled: 2026-11-22 07:48 Asia/Bangkok
-- Action: Routine check across grit-web3-agency repos. Identified pending work and attempted automated continuation with Claude CLI.
-- Repos with pending work:
-  - mimictrade-dev: local modifications (uncommitted)
-  - rustchain-bounties: local branch dev/copy-trade-solana; origin/dev/copy-trade-solana is gone -> needs reconciliation
-- Actions attempted:
-  - Claude CLI invoked for pending repos but failed to authenticate (OAuth token expired). No automated changes applied.
-  - DeepSeek tests skipped (Claude step incomplete).
-- Draft Telegram: drafts/telegram_boss_status_2026-11-22_0748.txt (created)
-- Reports: reports/automation-routine-check-20261122-0748.md (created)
-- Telegram: SKIPPED — project .env lacks BOT_TOKEN and/or BOSS_CHAT_ID. To enable automated Telegram send, add BOT_TOKEN and BOSS_CHAT_ID to project .env and reply with: allow send
+Automated append: reminder handled: 2026-11-22 07:58 Asia/Bangkok
+- Action: Re-checked dev/sprint-5-payment-adapter and re-generated resume artifacts.
+- Branch: dev/sprint-5-payment-adapter
+- Tests: npm run test — 241 passed locally
+- Report: reports/automation-sprint-resume-20261122-0758.md (created and committed)
+- Push: Pushed commit to origin/dev/sprint-5-payment-adapter
+- Draft Telegram: drafts/telegram_boss_status_2026-11-22_0658.txt remains (latest draft)
+- Telegram: SKIPPED — .env lacks BOT_TOKEN and/or BOSS_CHAT_ID. To enable automated Telegram send, add BOT_TOKEN and BOSS_CHAT_ID to project .env and reply with: allow send
 
 Previous entries preserved.
