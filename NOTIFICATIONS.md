@@ -109,3 +109,23 @@ Automated append: reminder handled: 2026-11-22 08:18 Asia/Bangkok
 - Next steps: Re-authenticate Claude CLI and/or manually instruct assistant to proceed. To enable Telegram sends, add BOT_TOKEN and BOSS_CHAT_ID to project .env and reply with: allow send
 
 Previous entries preserved.
+
+Automated append: reminder handled: 2026-11-22 09:18 Asia/Bangkok
+- Action: Routine org scan for open PRs across grit-web3-agency
+- Repos with open PRs:
+  • grit-web3-agency/copy-trade-bot: PR #28 (dev/sprint-5-payment-adapter), PR #27 (dev/auto-sprint-continue-20260627-work)
+- Action attempted: invoked Claude CLI to continue work on the detected PRs, but Claude CLI failed to authenticate (OAuth token expired). No automated code changes were made.
+- DeepSeek tests: SKIPPED — Claude did not complete
+- Telegram: draft created at drafts/telegram_boss_routine_2026-11-22_0918.txt (not sent)
+- Next steps: Re-authenticate Claude CLI and/or manually instruct assistant to proceed. To enable Telegram sends, add BOT_TOKEN and BOSS_CHAT_ID to project .env and reply with: allow send
+
+Previous entries preserved.
+
+Automated append: reminder handled: 2026-11-22 09:25 Asia/Bangkok
+- Action: Read PROJECT_SPEC and confirmed scope; re-checked dev/sprint-5-payment-adapter
+- Tests: npm run test — 241 passed locally
+- Report: reports/automation-sprint-resume-20261122-0925.md (created and committed)
+- Push: Pushed commit to origin/dev/sprint-5-payment-adapter
+- Telegram: SKIPPED — .env lacks BOT_TOKEN and/or BOSS_CHAT_ID
+
+Previous entries preserved.
