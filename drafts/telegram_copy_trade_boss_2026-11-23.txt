@@ -1,18 +1,15 @@
-สรุปสถานะ Copy-Trade Bot — 2026-11-23 02:00 (Asia/Bangkok)
+สรุปสถานะ Copy-Trade Bot — 2026-11-23 03:00 (Asia/Bangkok)
 
-1) Sprint: ขณะนี้อยู่ที่ Sprint 5 — "payment-adapter"
-   - สาขา: dev/sprint-5-payment-adapter
-   - ล่าสุด: commit e035318 ("docs: automated sprint continuation report (2026-11-23 01:55)")
+1) ทำถึง Sprint: Sprint 4 — "Polish / Deploy" (branch: dev/sprint-4-payment-stub)
 
-2) ปัญหา/ความเสี่ยง:
-   - ชุดทดสอบอัตโนมัติผ่านทั้งหมด (241 tests passed).
-   - โมดูลการชำระเงินกำลังพัฒนาเป็น adapter — ยังต้องเชื่อมระบบชำระเงินจริงและทดสอบการจ่ายก่อนเปิดใช้งาน live.
+2) ปัญหา/ข้อสังเกต:
+- โมดูลการชำระเงินยังเป็น stub — ต้อง implement/เชื่อมระบบจ่ายจริง (priority: medium).
+- ไม่มี BOT_TOKEN ใน workspace (.env ไม่มีค่าที่จำเป็น) จึงยังไม่สามารถส่งสรุปให้บอสทาง Telegram ได้ (อ้างอิงการตรวจสอบก่อนหน้านี้: memory/2026-04-28.md#L47-L69).
 
-3) Push code:
-   - โค้ดถูก commit และ pushed (working tree clean).
+3) Push code: สาขา dev/sprint-4-payment-stub ถูกผลักขึ้น origin และทำงานบน branch ดังกล่าว (ไม่มี commits ที่ยังไม่ได้ push ตามบันทึกล่าสุด). Unit tests/build ที่บันทึกไว้ก่อนหน้านี้ผ่านเรียบร้อย (ดู memory/2026-07-03.md และ memory/2026-04-19.md สำหรับผลการทดสอบล่าสุด).
 
-หมายเหตุ:
-- ไม่พบไฟล์ .env ในโปรเจค (ไม่มี BOT_TOKEN / chat_id) — ผมยังไม่สามารถส่งข้อความ Telegram ให้บอสได้โดยอัตโนมัติ.
-- หากต้องการให้ผมส่งจริง ๆ กรุณาวาง BOT_TOKEN และ chat_id ลงใน /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/.env แล้วตอบกลับ "send telegram" หรืออนุญาตให้ผมส่งให้ตอนนี้.
+คำขอสำหรับการส่ง:
+- หากต้องการให้ส่งตอนนี้: วาง BOT_TOKEN ลงใน /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/.env และแจ้ง chat_id ของผู้รับ (หรือบอก "send telegram <chat_id>").
+- หากต้องการให้ผมแสดงร่างข้อความก่อนส่ง: ตอบ "show draft".
 
-(ข้อความถูกจัดเตรียมโดยระบบอัตโนมัติ)
+บันทึก: ข้อความนี้ถูกสร้างเป็นร่างภายใน workspace; ยังไม่ได้ส่งออกไปภายนอก (ตามข้อกำหนดความปลอดภัย).
