@@ -1,0 +1,18 @@
+สรุปสถานะ Copy-Trade Bot — 2026-11-23 02:00 (Asia/Bangkok)
+
+1) Sprint: ขณะนี้อยู่ที่ Sprint 5 — "payment-adapter"
+   - สาขา: dev/sprint-5-payment-adapter
+   - ล่าสุด: commit e035318 ("docs: automated sprint continuation report (2026-11-23 01:55)")
+
+2) ปัญหา/ความเสี่ยง:
+   - ชุดทดสอบอัตโนมัติผ่านทั้งหมด (241 tests passed).
+   - โมดูลการชำระเงินกำลังพัฒนาเป็น adapter — ยังต้องเชื่อมระบบชำระเงินจริงและทดสอบการจ่ายก่อนเปิดใช้งาน live.
+
+3) Push code:
+   - โค้ดถูก commit และ pushed (working tree clean).
+
+หมายเหตุ:
+- ไม่พบไฟล์ .env ในโปรเจค (ไม่มี BOT_TOKEN / chat_id) — ผมยังไม่สามารถส่งข้อความ Telegram ให้บอสได้โดยอัตโนมัติ.
+- หากต้องการให้ผมส่งจริง ๆ กรุณาวาง BOT_TOKEN และ chat_id ลงใน /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/.env แล้วตอบกลับ "send telegram" หรืออนุญาตให้ผมส่งให้ตอนนี้.
+
+(ข้อความถูกจัดเตรียมโดยระบบอัตโนมัติ)
