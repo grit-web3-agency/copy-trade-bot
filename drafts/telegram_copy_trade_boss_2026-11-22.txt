@@ -1,0 +1,15 @@
+Sprint update — Copy-Trade Bot
+
+เวลารายงาน: 2026-11-22 22:55 (Asia/Bangkok)
+สาขา: dev/sprint-5-payment-adapter
+
+สรุป:
+- อ่าน PROJECT_SPEC แล้วทำงานต่อตาม sprint ที่ค้างอยู่
+- สถานะโค้ด: ทำงานเรียบร้อย, ทดสอบหน่วย (vitest) ผ่าน 241/241, build สำเร็จ
+- โมดูล payment-adapter (branch: dev/sprint-5-payment-adapter) ถูกพัฒนาเป็น mock/stripe-mock for local testing (ENABLE_PAYMENTS default disabled)
+
+Action items:
+- หากต้องการให้ผมส่งรายงานนี้ทาง Telegram: โปรดวาง BOT_TOKEN ใน repo .env และแจ้ง chat_id หรือบอกให้ส่ง
+- Deployment: ยังไม่มี (local/devnet) — ให้สั่งเมื่อพร้อม
+
+รายงานโดย: automated agent
