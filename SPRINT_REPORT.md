@@ -22,3 +22,25 @@ Change-log summary (files touched):
 - src/bot.ts, src/api/payments/webhook.ts — made robust to result shapes
 
 Report generated on: 2026-06-24 04:14 (Asia/Bangkok)
+
+---
+
+Automated sprint continuation report
+
+- Run by: automated reminder handler
+- Time (Asia/Bangkok): 2026-11-23 03:55
+- Actions performed:
+  - Read PROJECT_SPEC.md and confirmed scope & rules (dev-only, devnet-only, no external repos).
+  - Confirmed current branch: dev/sprint-5-payment-adapter
+  - Ran test suite: vitest → 241 tests passed (no failures)
+  - Ran build: npm run build → success
+  - No code changes required during this automated continuation step.
+
+- Git:
+  - Local branch dev/sprint-5-payment-adapter is in sync with origin (no ahead/behind commits).
+
+Notes / Next steps:
+- If you want me to open a PR or notify reviewers, tell me and provide target branch and reviewer list.
+- To send the routine Telegram report to the boss automatically, place BOT_TOKEN and chat_id into the repo .env or instruct me to send now and provide credentials.
+
+Report appended by automated process.
