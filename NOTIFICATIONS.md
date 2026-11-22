@@ -129,3 +129,4 @@ Automated append: reminder handled: 2026-11-22 09:25 Asia/Bangkok
 - Telegram: SKIPPED — .env lacks BOT_TOKEN and/or BOSS_CHAT_ID
 
 Previous entries preserved.
+Automated: posted PR #28 comment (draft: drafts/telegram_boss_status_2026-11-22_1355.txt) — Sun Nov 22 15:35:05 UTC 2026
