@@ -1,0 +1,28 @@
+สรุปสถานะ Copy-Trade Bot — 23 พ.ย. 2026 12:00 (ICT)
+
+1) Sprint ปัจจุบัน
+- อยู่ในสายงาน: dev/continue-sprint-20261123
+- เป้าหมายตาม PROJECT_SPEC: Sprint 4 (Polish/Deploy) + งาน payment adapter tracked on dev branches
+
+2) ปัญหา / ความเสี่ยง
+- ปัญหาเชิงเทคนิคที่พบ: ไม่มีปัญหาเชิงฟังก์ชันที่สำคัญในการทดสอบหน่วย (unit tests ผ่านทั้งหมด)
+- หมายเหตุ: โมดูลเชื่อมจ่ายเงินเป็น adapter (ENABLE_PAYMENTS default: false) – ระวังการเปิดใช้งานด้วย keys จริง
+- ข้อควรระวัง: การทดสอบบางส่วน mock เครือข่าย (Jupiter/Poster) — ถ้าต้องการทดสอบ devnet จริง ต้องจัดคีย์ Helius/Jupiter และเปิดการเชื่อมต่อเครือข่ายสำหรับ demo
+
+3) Push code แล้วหรือยัง
+- สาขาปัจจุบัน (dev/continue-sprint-20261123) ถูก push ขึ้น origin แล้ว
+- Latest commit (short): b5506fb
+- สถานะ working tree: clean, ไม่มีการเปลี่ยนแปลงค้าง
+- Unit tests: 241 passed, 0 failed
+- Build: TypeScript build สำเร็จ (หากต้องการ ผมสามารถรัน build ผล/อัปโหลด artifact เพิ่มเติม)
+
+หมายเหตุการส่ง Telegram
+- โปรเจกต์ไม่มีไฟล์ .env ที่ /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/.env ดังนั้นไม่มี BOT_TOKEN/BOSS_CHAT_ID ในที่นี้
+- มี botToken เก็บอยู่ใน global config (~/.openclaw/openclaw.json) — หากอนุญาตให้ใช้ token นั้น โปรดระบุ chat id ของบอสเพื่อผมจะส่งสรุปให้
+
+Next steps (ถ้าต้องการให้ผมทำต่อโดยอัตโนมัติ)
+- เปิด PR เพื่อ merge สาขานี้เข้า main (แจ้ง target branch และ reviewers ผมจะสร้าง PR ให้)
+- เปิดการทดสอบ devnet จริง (ให้ Helius/Jupiter keys และอนุญาตเครือข่าย)
+- หากต้องการให้ผมส่งข้อความนี้ให้บอสทาง Telegram: ระบุ BOSS_CHAT_ID หรือวาง .env ที่โปรเจกต์แล้วบอกผม
+
+บันทึกโดยผู้ช่วย (internal automated handler)
