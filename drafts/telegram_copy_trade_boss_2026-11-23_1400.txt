@@ -1,0 +1,25 @@
+สรุปสถานะ Copy-Trade Bot — 23 พ.ย. 2026 14:00 (ICT)
+
+1) Sprint ปัจจุบัน
+- อยู่ที่: dev/continue-sprint-20261123 (ต่อเนื่องจาก Sprint 4/5 per PROJECT_SPEC)
+- Latest commit: 27f5de2 (local HEAD)
+
+2) ปัญหา / ความเสี่ยง
+- ไม่มีปัญหาเชิงบล็อก ณ ขณะนี้: unit tests ทั้งหมดผ่าน (241 passed)
+- Payment adapter อยู่ในสาขา dev/sprint-5-payment-adapter หรือ continued dev branches; by default ENABLE_PAYMENTS=false (ไม่เปิดใช้งานจริง)
+- External integrations (Jupiter/Helius) ถูก mocked in tests — ต้องระวังเมื่อนำไปรันกับเครือข่ายจริง (ต้องมี API keys และ safety flags)
+
+3) Push code แล้วหรือยัง
+- Branch dev/continue-sprint-20261123 ถูก push ขึ้น origin (grit-web3-agency/copy-trade-bot)
+- Build: TypeScript build สำเร็จ
+- Tests: 241 passed, 0 failed
+
+หมายเหตุ: รายงานฉบับนี้เป็นร่าง — ยังไม่ได้ส่งทาง Telegram เพราะไม่มี target chat id (BOSS_CHAT_ID) ใน project .env. หากต้องการให้ส่งให้บอสตอนนี้: กรุณาให้ chat id ของบอส หรือวาง .env ที่โปรเจกต์ (BOT_TOKEN/BOSS_CHAT_ID) หรืออนุญาตให้ผมใช้ bot token ที่ตั้งไว้ใน ~/.openclaw/openclaw.json
+
+ต้องการให้ผมทำอะไรต่อ?
+- (A) ส่งฉบับนี้ให้บอสทาง Telegram ตอนนี้ (provide chat id / .env or authorize)
+- (B) เปิด PR เพื่อ merge สาขานี้เข้า main (ยืนยัน target & reviewers)
+- (C) ทำ deployment demo บน devnet (ต้อง Helius/Jupiter keys)
+- (D) แค่บันทึกและหยุด (ผมเก็บร่างไว้ใน repo)
+
+บันทึกโดย: automated reminder handler
