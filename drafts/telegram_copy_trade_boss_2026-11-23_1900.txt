@@ -1,0 +1,22 @@
+สรุปสถานะ Copy-Trade Bot — 23 พ.ย. 2026 19:00 (ICT)
+
+1) Sprint ปัจจุบัน
+- ขณะนี้งานถูกดำเนินต่อบนสาขา: dev/continue-sprint-20261123 (HEAD: 24103a7)
+- ตาม PROJECT_SPEC: Sprint 4 (Polish / Deploy) และมีงาน adapter การชำระเงินที่แยกเป็น Sprint 5 หากต้องเปิดใช้งานต้องตั้ง ENABLE_PAYMENTS=true พร้อม provider
+
+2) ปัญหา / ความเสี่ยง
+- ขณะนี้ไม่มีบั๊กยืนหยัดที่ทำให้การทดสอบล้มเหลว (Unit tests: 241 passed, 0 failed)
+- Build ผ่านแล้ว
+- Payment adapter ถูกเก็บเป็นส่วนแยกและปิดการใช้งานตามค่าเริ่มต้น (แนะนำให้ใช้ ENABLE_PAYMENTS=false ใน demo/devnet)
+- ไม่มีข้อมูล credential สำหรับส่ง Telegram ในโปรเจกต์ (.env ไม่พบ) — จึงยังไม่ได้ส่งสรุปให้บอส
+
+3) Push code แล้วหรือยัง
+- ใช่: สาขา dev/continue-sprint-20261123 ถูก push ขึ้น origin แล้ว (commit 24103a7)
+- รายงาน/เอกสารถูกเพิ่มที่: reports/sprint-continue_2026-11-23_1825.md
+
+สรุปสั้น ๆ:
+- Sprint continuation เสร็จเรียบร้อยบนสาขา dev/continue-sprint-20261123 — tests & build ผ่าน, รายงานถูก push แล้ว
+
+ถ้าต้องการให้ผมส่งข้อความนี้ให้บอสทาง Telegram: โปรดวาง BOT_TOKEN และ BOSS_CHAT_ID ลงในไฟล์ /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/.env หรือแจ้ง chat id แล้วอนุญาตให้ผมใช้ botToken จาก ~/.openclaw/openclaw.json
+
+(ข้อความนี้เป็นร่าง — ยังไม่ได้ส่งทาง Telegram)
