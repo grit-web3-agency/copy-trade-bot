@@ -44,3 +44,18 @@ Notes / Next steps:
 - To send the routine Telegram report to the boss automatically, place BOT_TOKEN and chat_id into the repo .env or instruct me to send now and provide credentials.
 
 Report appended by automated process.
+
+Maintenance update (automated continuation):
+
+- Time (Asia/Bangkok): 2026-11-24 04:55
+- Actions performed:
+  - Created maintenance branch: dev/continue-sprint-20261124 (from dev/sprint-4-payment-stub)
+  - Ran full test suite (vitest) → 241 tests passed
+  - Built project (npm run build) → success
+  - Created a small maintenance commit (runs tests/build and appends this note) and pushed branch to origin
+
+Notes:
+- No must-have sprint work remained in PROJECT_SPEC; this commit is purely maintenance to record continuation and ensure tests/build are green.
+- Automated Telegram delivery remains disabled: BOT_TOKEN and BOSS_CHAT_ID are not configured in project .env (see .env.example).
+
+Report appended by automated continuation handler.
