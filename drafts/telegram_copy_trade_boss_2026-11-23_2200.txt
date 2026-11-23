@@ -1,0 +1,19 @@
+Sprint status — Copy-Trade Bot
+
+1) Sprint status
+- Current sprint/branch: dev/continue-sprint-20261123 (HEAD: f130242)
+- Scope per PROJECT_SPEC: Sprint 4/5 (polish + payment adapter). Core MVP features implemented (Telegram bot, listener, copy logic, dry-run). Payment adapter available but disabled by default.
+
+2) Issues / blockers
+- No critical blockers found in current run. Unit tests all pass (241/241). Build succeeded.
+- Payments: payment adapter present; ENABLE_PAYMENTS=false recommended for devnet/demo. Real-money trading out of scope.
+- No GH_TOKEN available in automation environment; I cannot run organization-wide GitHub issue scans or open PRs automatically without credentials.
+
+3) Push / commits
+- Branch dev/continue-sprint-20261123 pushed to origin (commit f130242). Report file created: reports/sprint-continue_2026-11-23_1825.md and committed.
+
+Notes:
+- I did NOT send this message to the boss. To send via Telegram, provide BOSS_CHAT_ID or place BOT_TOKEN and BOSS_CHAT_ID in the project .env and confirm send.
+- If you want me to open a PR to merge into main, authorize GH access (GH_TOKEN) and specify target branch and reviewers.
+
+Recorded by automated reminder handler at 2026-11-23 22:00 (Asia/Bangkok).
