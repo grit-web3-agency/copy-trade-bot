@@ -1,7 +1,27 @@
-ร่างสรุป 3 ข้อ (สั้น) — สถานะ Copy-Trade Bot
+สรุปสถานะ Copy-Trade Bot — 2026-11-24 (อัตโนมัติ)
 
-1) Sprint สรุป: Sprint ล่าสุด (Sprint 5 / งาน Payment Adapter) ถูกตรวจสอบแล้วและสถานะเรียบร้อย — โค้ดถูกทดสอบและ build ผ่าน
-2) สิ่งที่ทำ: รันชุดทดสอบแบบเต็ม (241 tests ผ่าน) และ build TypeScript สำเร็จ (ไม่มีข้อผิดพลาด)
-3) ถัดไป: ไม่มีบล็อกเกอร์สำคัญ — หากต้องการให้ผมเปิด PR/แจ้งรีวิว กรุณาระบุ target branch และ reviewer
+1) ทำถึง Sprint ไหน
+- สถานะ: Sprint ต่อเนื่อง — งานที่ค้างอยู่ถูกดำเนินการและอัปเดตบนสาขา `dev/continue-sprint-20261124` แล้ว
+- รายการที่เสร็จ: รันชุดทดสอบครบ (unit tests), ปรับเอกสารร่าง (docs/drafts), อัปเดตรายงาน sprint
 
-หมายเหตุ: การส่ง Telegram อัตโนมัติถูกปิดไว้เพราะ BOT_TOKEN และ BOSS_CHAT_ID ไม่ได้ตั้งค่าในไฟล์ .env ของโปรเจค (มีเฉพาะ .env.example)
+2) มีปัญหาอะไร
+- ขณะรัน unit tests พบข้อความล็อกของโมดูลที่พยายามเชื่อมต่อเครือข่าย (mocked/no network) แต่การทดสอบออกแบบให้รอ fallback — ไม่มีบั๊กที่ทำให้ทดสอบล้มเหลว
+- ข้อจำกัดที่ต้องทราบ:
+  • การส่ง Telegram อัตโนมัติยังไม่ทำเพราะไม่มี BOT_TOKEN/BOSS_CHAT_ID ใน copy-trade-bot/.env (ดู .env.example)
+  • การรัน e2e live devnet ต้องมี HELIUS_API_KEY และเปิด ENABLE_LIVE_DEVNET=true
+
+3) Push code แล้วหรือยัง
+- ใช่: ทุกการเปลี่ยนแปลงถูก commit และสาขา `dev/continue-sprint-20261124` ถูก push ขึ้น remote origin (grit-web3-agency/copy-trade-bot)
+  • Branch: dev/continue-sprint-20261124
+  • Commit ตัวล่าสุด (local): 19327ea docs(drafts): telegram boss status 2026-11-24
+
+ผลการทดสอบ
+- Unit tests: 241/241 passed
+
+ถัดไป (ถ้าต้องการให้ส่งให้บอสทาง Telegram):
+- ให้ค่า BOT_TOKEN และ BOSS_CHAT_ID ในไฟล์ copy-trade-bot/.env หรือส่งค่าเหล่านี้มา ผมจะส่งข้อความสรุปนี้ให้ทันที
+- ถ้าต้องการเปิด PR ให้: ระบุชื่อ PR, รายชื่อ reviewers, และเป้าหมายสาขาที่ต้องการ merge (main/dev)
+- หากต้องการรัน e2e devnet live demo: ส่ง HELIUS_API_KEY และอนุญาต ENABLE_LIVE_DEVNET=true
+
+บันทึกโดย: automated reminder handler
+เวลา: 2026-11-24 05:56 Asia/Bangkok

@@ -1,0 +1,27 @@
+สรุปสถานะ Copy-Trade Bot — 2026-11-24 06:00 (อัตโนมัติ)
+
+1) ทำถึง Sprint ไหน
+- สถานะ: Sprint 4 (Polish + payment stub) เสร็จตาม PROJECT_SPEC.
+- ฟีเจอร์หลัก (Telegram bot, whale listener, wallet manager, dry-run executor, copy policy, settings) ถูกพัฒนาและมี unit tests ครบตามรายการใน SPRINT_REPORT.md
+
+2) มีปัญหาอะไร
+- ไม่พบบั๊กในชุด unit tests (ผลล่าสุดเมื่ออัตโนมัติรัน: 241 tests ผ่าน — รายงานก่อนหน้า).
+- ข้อจำกัดสำคัญ:
+  • Payment module ยังเป็น mock/stub โดยค่าเริ่มต้น (ENABLE_PAYMENTS=false) — ต้องใส่ credentials หากต้องการเปิดใช้งาน provider จริง
+  • การรัน e2e live devnet ต้องมี HELIUS_API_KEY และเปิด ENABLE_LIVE_DEVNET=true
+  • การส่งสรุปทาง Telegram อัตโนมัติยังไม่สามารถทำได้เพราะไม่มี BOT_TOKEN และ BOSS_CHAT_ID ในไฟล์ .env ของโปรเจกต์ (โปรดเติมค่าใน copy-trade-bot/.env หรือส่งค่าให้ผม)
+
+3) Push code แล้วหรือยัง
+- ใช่: โค้ดล่าสุดถูก commit และ push ไปที่สาขา: dev/sprint-4-payment-stub
+  • Commit ล่าสุด (local): 102f673 2026-11-19 03:50:31 +0700 — chore(report): sprint completion 2026-11-19 03:50 (automated)
+  • สาขาเทียบกับ remote: up-to-date (HEAD กับ origin/dev/sprint-4-payment-stub ไม่มีความต่าง)
+
+ถัดไปที่แนะนำ (หากต้องการให้ผมส่ง Telegram ให้บอส):
+- เติมค่า BOT_TOKEN และ BOSS_CHAT_ID ลงในไฟล์ copy-trade-bot/.env หรือส่งค่าเหล่านี้มา ผมจะส่งข้อความนี้ให้ทันที.
+- หากต้องการเปิด PR ให้: ระบุชื่อ PR, reviewers และ target branch (ผมจะสร้าง PR ให้และใส่รายละเอียด).
+- หากต้องการรัน e2e devnet live demo: ให้ HELIUS_API_KEY และอนุญาต ENABLE_LIVE_DEVNET=true (ผมจะรัน demo และรายงานผลพร้อม PROOFS.md)
+
+บันทึกโดย: automated reminder handler
+เวลา: 2026-11-24 06:00 Asia/Bangkok
+
+หมายเหตุ: ร่างนี้บันทึกไว้ที่ copy-trade-bot/drafts/telegram_boss_status_2026-11-24_0600.txt — ยังไม่ได้ส่งทาง Telegram (ขาด BOT_TOKEN/BOSS_CHAT_ID)
