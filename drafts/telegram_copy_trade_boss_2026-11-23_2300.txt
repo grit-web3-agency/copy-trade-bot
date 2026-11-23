@@ -1,0 +1,23 @@
+สรุปรายงานสถานะ Copy-Trade Bot — 2026-11-23 23:00 (Asia/Bangkok)
+
+1) Sprint ปัจจุบัน
+- อยู่ที่: Sprint 4/5 (polish + payment adapter tracked on dev branches). Project SPEC indicates Sprint 4: Polish + Deploy; payments adapter tracked on dev/sprint-5-payment-adapter. Current working branch: dev/continue-sprint-20261123.
+
+2) ปัญหา / ข้อสังเกต
+- Tests/build: All unit tests passed (241 passed, 0 failed). Build succeeded.
+- Payment module: payment adapter available; ENABLE_PAYMENTS=false recommended for devnet/demo. Real-money trading is out-of-scope.
+- No critical issues detected in automated checks. Some test logs show mocked network errors (expected in unit tests that mock external APIs like Jupiter/Poster).
+
+3) Push / Repo status
+- Branch: dev/continue-sprint-20261123 (HEAD: 8103209)
+- Working tree: clean; branch is pushed to origin (up-to-date).
+- Reports updated: reports/sprint-continue_2026-11-23_1825.md and reports/sprint-continue_2026-11-23_2300.md (automated).
+
+Next actions available
+- (A) Open PR to merge dev/continue-sprint-20261123 → main for cross-review (requires GH_TOKEN to use GitHub API or manual PR).
+- (B) Deploy demo to devnet (requires Helius/Jupiter keys and PM2 target credentials).
+- (C) Enable payments (set ENABLE_PAYMENTS=true and PAYMENT_PROVIDER to a real provider) — careful: out-of-scope for MVP until tested.
+
+ถ้าต้องการผมส่งข้อความนี้ให้บอสทาง Telegram ให้บอก BOSS_CHAT_ID หรือวาง .env ที่โปรเจกต์ (BOT_TOKEN/BOSS_CHAT_ID) และยืนยันอนุญาตให้ส่ง ผมจะอัปเดตข้อความให้มี commit hash และ test counts ล่าสุดก่อนส่ง
+
+ลงชื่อ: Assistant (automated reminder handler)
