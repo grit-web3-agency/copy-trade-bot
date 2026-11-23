@@ -1,0 +1,8 @@
+Sprint update — 2026-11-23
+
+Branch: dev/continue-sprint-20261123
+Status: Tests ✅, Build ✅, E2E devnet - partial (no Jupiter quote / faucet closed)
+
+All unit tests (241) passed and TypeScript build succeeded. Ran E2E devnet dry-run: flow executed; Jupiter had no quote on devnet and faucet airdrop failed due to closed faucet. DB records created. No code changes required now.
+
+Next: continue sprint-5 payment adapter tasks. Ping if you want me to push a PR.
