@@ -15,4 +15,5 @@ Next steps:
 - Continue sprint tasks from dev/sprint-5-payment-adapter as planned.
 - If a full devnet E2E is needed, provide funded devnet wallet or alternate RPC/faucet.
 
-(Commit SHA will be added after committing.)
+Commit SHA: 18c0b8e60c81f755ec05b74256101e9bb1afd4ab
+Pushed: not yet
