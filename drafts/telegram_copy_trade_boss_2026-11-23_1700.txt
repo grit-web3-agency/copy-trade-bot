@@ -1,0 +1,22 @@
+บอสครับ สรุปสถานะ Copy-Trade Bot (อัปเดต: 2026-11-23 17:00 ICT)
+
+1) ทำถึง Sprint ไหน
+- ปัจจุบันพัฒนาอยู่บน branch: dev/continue-sprint-20261123 (commit: 9639ce3)
+- ตาม PROJECT_SPEC: ฟีเจอร์หลักครบ (Telegram bot, Whale listener, Wallet, Copy logic, Executor)
+- งาน payment adapter ถูกแยกไว้เป็นงานต่อ (dev/sprint-5-payment-adapter). โดยค่าเริ่มต้นการจ่ายเงินปิดไว้ (ENABLE_PAYMENTS=false)
+
+2) มีปัญหาอะไร
+- ไม่มีปัญหาด้าน unit/E2E tests — ชุดทดสอบรันผ่านทั้งหมด: 241 tests passed
+- ข้อจำกัดที่ต้องรู้: การเชื่อมต่อกับผู้ให้บริการภายนอก (Jupiter/Helius/ Dashboard) ถูก mock ใน tests — ในสภาพแวดล้อมจริงต้องมี API keys
+- Payment module ใช้ mock/adapter สำหรับทดสอบ; อย่าเปิดใช้งาน payments กับ provider จริงจนกว่าจะพร้อม
+
+3) Push code แล้วหรือยัง
+- ใช่: branch dev/continue-sprint-20261123 ถูก push ขึ้น origin (grit-web3-agency/copy-trade-bot). Latest commit: 9639ce3 — "docs: add sprint telegram draft (2026-11-23 16:55)"
+
+เพิ่มเติม / ข้อเสนอแนะ
+- ถ้าต้องการผมจะเปิด PR จาก dev/continue-sprint-20261123 → main เพื่อให้ Claude / บอสตรวจ review ก่อน merge
+- ถ้าต้องการ demo devnet หรือ enable payments สำหรับทดสอบ จะต้องจัดเตรียม API keys (Helius, Jupiter) และตั้ง ENABLE_PAYMENTS appropriately
+
+ต้องการให้ผมส่งสรุปนี้ให้บอสทาง Telegram ตอนนี้ไหมครับ? (ยังไม่ได้ส่ง — รอ BOSS_CHAT_ID หรือ .env ที่มี BOT_TOKEN/BOSS_CHAT_ID หรืออนุญาตให้ใช้ botToken ของระบบ)
+
+— รายงานโดย automated assistant
