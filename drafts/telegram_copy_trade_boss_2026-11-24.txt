@@ -1,13 +1,21 @@
-Sprint status — Copy-Trade Bot
+สรุปสถานะ Copy-Trade Bot — รายงานอัตโนมัติ
 
-1) Sprint: Sprint 4 (Polish / Deploy) — continued on branch dev/continue-sprint-20261123
-2) Issues / blockers: None blocking the sprint per PROJECT_SPEC. Payment adapter present but disabled by default (ENABLE_PAYMENTS=false). Tests indicate no failures; some test suites simulate network errors for external services (Jupiter/Dashboard) which is expected in CI mocks.
-3) Push status: Branch dev/continue-sprint-20261123 (HEAD 615e67c) committed and pushed to grit-web3-agency/copy-trade-bot. Latest reports added to reports/ and pushed.
+1) ทำถึง Sprint ไหน
+- ปัจจุบันทำต่อบนสาขา: dev/continue-sprint-20261123 (HEAD: 92f7620)
+- ตาม PROJECT_SPEC: Sprint 4 = Polish & Deploy; payments adapter tracked on dev branches. งานหลัก (bot, listener, copy logic, tests) เสร็จใน MVP; ตอนนี้เป็นการต่อยอด/ปรับปรุงและเตรียมการ deploy (polish)
 
-Tests: 241 passed, 0 failed. Build: success.
+2) มีปัญหาอะไร
+- ขณะนี้ไม่มีข้อบกพร่องที่บล็อกการทำงาน: unit tests ผ่านทั้งหมด (241 passed, 0 failed)
+- พบจุดเตือนเล็กน้อยใน test logs (mocked network errors for external services like Jupiter/dashboard) — เป็นผลจากการรันในสภาพแวดล้อมทดสอบ (mocked/no-network) ไม่ใช่ปัญหาในโค้ดหลัก
+- Payment adapter มีอยู่และถูกทดสอบในโหมด mock/devnet; เปิดใช้งานจริงเฉพาะเมื่อตั้งค่า ENABLE_PAYMENTS และตั้งค่า PAYMENT_PROVIDER ที่เหมาะสม
 
-Notes:
-- No external sends performed. To notify boss via Telegram, provide BOSS_CHAT_ID (or place BOT_TOKEN and BOSS_CHAT_ID in project .env) and confirm send.
+3) Push code แล้วหรือยัง
+- สาขา dev/continue-sprint-20261123 ถูก commit และ push ขึ้น origin แล้ว (commit 24103a7 / local HEAD 92f7620)
+- รายงาน sprint ถูกสร้างที่: reports/sprint-continue_2026-11-23_1825.md และ reports/sprint-4-report_2026-11-23.md
 
-Regards,
-Automated build & test runner
+สรุป/คำแนะนำ:
+- สถานะ: Sprint continuation เสร็จเรียบร้อยบน branch dev/continue-sprint-20261123 — พร้อมให้รีวิว/merge ตามต้องการ
+- หากต้องการผมจะเปิด PR ไปยัง main (หรือเป้าหมายอื่น) ให้เมื่อมีการอนุญาตและ GH_TOKEN
+- หากต้องการผมจะส่งสรุปนี้ให้บอสทาง Telegram — โปรดวาง BOSS_CHAT_ID ในโปรเจกต์ .env หรือยืนยันให้ผมใช้ bot token ที่กำหนดใน ~/.openclaw/openclaw.json และให้ chat id ของบอส
+
+บันทึก: รายงานนี้ถูกจัดทำโดย automated reminder handler — ยังไม่ได้ส่งข้อความภายนอก (Telegram) และได้บันทึกการทำงานใน reports/ และ memory/ เรียบร้อย
