@@ -1,0 +1,20 @@
+สรุปรายงานสถานะ Copy-Trade Bot — 2026-11-23 20:00 (Asia/Bangkok)
+
+1) ทำถึง Sprint ไหน
+- ปัจจุบันงานอยู่บนสาขา: dev/continue-sprint-20261123 (commit: 234f67a)
+- ตาม PROJECT_SPEC: Sprint 4/5 — Polish + Payment adapter (dev branches)
+- สถานะ: ฟีเจอร์หลักครบ (Telegram bot, listener, copy logic, wallet manager, dry-run executor). Payment adapterพร้อมเป็น mock/adapter (ยังปิดโดยค่าเริ่มต้น)
+
+2) มีปัญหาอะไร
+- ไม่มีบั๊กวิกฤติที่ทำให้ tests fail — test suite: 241 passed, 0 failed
+- ข้อจำกัดที่ต้องทราบ:
+  - Payment adapterใช้ mock provider โดยดีฟอลต์ (ENABLE_PAYMENTS=false recommended)
+  - Integration tests that call external services (Jupiter, Dashboard) are mocked—real network connectivity not present in CI-like test runs
+  - No outstanding blocking issues detected locally; for full cross-team review consider opening PR to main
+
+3) Push code แล้วหรือยัง
+- ใช่ — branch dev/continue-sprint-20261123 ถูก push ขึ้น origin (commit 234f67a). Working tree clean.
+
+ถ้าต้องการให้ผมส่งข้อความนี้ไปหาบอสทาง Telegram ให้ส่ง BOSS_CHAT_ID หรือวางไฟล์ .env ที่โปรเจกต์มี BOT_TOKEN/BOSS_CHAT_ID แล้วอนุญาตการส่ง (ผมมี bot token ใน ~/.openclaw/openclaw.json แต่ไม่ส่งโดยพลการ)
+
+บันทึก: รายงานนี้ถูกสร้างโดยระบบอัตโนมัติและบันทึกใน repo (reports/) หากต้องการปรับข้อความก่อนส่ง บอกผมได้เลย
