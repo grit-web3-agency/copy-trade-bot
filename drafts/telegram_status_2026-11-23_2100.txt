@@ -1,0 +1,21 @@
+Sprint status — Copy-Trade Bot
+
+เวลารายงาน: 2026-11-23 21:00 (Asia/Bangkok)
+
+1) Sprint status:
+- Current branch: dev/continue-sprint-20261123 (HEAD: 90d52e4)
+- Sprint: continuation per PROJECT_SPEC (Polish / payment adapter work tracked on dev branches). Considered complete for current dev tasks (tests & build pass).
+
+2) Issues / blockers:
+- No code-blocking issues found in local checks. Unit tests: 241 passed, 0 failed. Build: success.
+- Payment adapter present; ENABLE_PAYMENTS is disabled by default. Real-money trading is out of scope (devnet only).
+- External network calls in tests are mocked (Jupiter/Poster) — integration with live services requires API keys and network access for full E2E.
+
+3) Push status:
+- Branch dev/continue-sprint-20261123 pushed to origin (up-to-date).
+
+Next steps / requests:
+- If you want a PR merged to main, confirm target and reviewers and I will create the PR (requires GH_TOKEN if not configured globally).
+- If you want me to notify the boss now via Telegram, provide BOSS_CHAT_ID or add BOT_TOKEN/BOSS_CHAT_ID to project .env and confirm authorization to send.
+
+Recorded by automated handler. No external messages sent.
