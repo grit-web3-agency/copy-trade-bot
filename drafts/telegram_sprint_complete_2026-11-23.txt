@@ -1,26 +1,26 @@
-สรุปการทำงาน Copy-Trade Bot — Sprint continuation (automated)
+สรุปรายงาน Sprint — Copy-Trade Bot
 
-เวลาที่ทำ: 2026-11-23 06:55 (Asia/Bangkok)
+เวลาทำงาน: 2026-11-23 08:55 (ICT)
 
-1) อ่าน: PROJECT_SPEC.md — ยืนยันขอบเขตงานและกฎ (dev-only, devnet, ห้าม PR ไป repo อื่น)
+1) อ่าน PROJECT_SPEC และยืนยันขอบเขต
+- ยืนยันตาม PROJECT_SPEC.md (devnet-only, no external repos, follow spec)
 
-2) สถานะ Sprint
-- ปัจจุบัน branch ที่ใช้งาน: dev/sprint-5-payment-adapter
-- Sprint ที่ค้าง: payment adapter / payment integration (dev/sprint-5-payment-adapter)
+2) งานที่ทำ (Sprint continuation)
+- ทำงานบนสาขา: dev/continue-sprint-20261123
+- ล่าสุด commit: b016569 — "docs: add sprint continuation summary (2026-11-23)"
+- ข้อแก้/อัปเดต: อัปเดตเอกสาร sprint report และสรุปรายการงานที่เสร็จ
 
-3) การดำเนินการที่ทำโดยอัตโนมัติ
-- รันชุดทดสอบ (vitest): ผลลัพธ์: 241 tests passed
-- รัน build (npm run build): ผลลัพธ์: build สำเร็จ
-- ตรวจสอบสถานะ git: working tree สะอาด, สาขา dev/sprint-5-payment-adapter อยู่ในสถานะ sync กับ origin (no commits to push)
-- ไม่มีการเปลี่ยนแปลงโค้ดเพิ่มเติมที่จำเป็นในรอบนี้ (ตามข้อกำหนดใน PROJECT_SPEC และผลทดสอบ)
+3) สถานะการทดสอบและ build
+- Build: npm run build → สำเร็จ (no errors)
+- Unit tests (vitest): 241 tests passed, 0 failed
 
-4) ผลลัพธ์
-- Sprint ที่ค้าง: ถือว่าเสร็จในระดับ "payment adapter (local/mock)" บนสาขา dev/sprint-5-payment-adapter
-- โค้ดถูก push ไปยัง remote แล้ว (branch dev/sprint-5-payment-adapter ถูก push ขึ้น origin)
+4) Push code
+- สาขา dev/continue-sprint-20261123 ถูก push ขึ้น remote origin (https://github.com/grit-web3-agency/copy-trade-bot)
+- สถานะ remote: up-to-date (Everything up-to-date)
 
-5) ข้อเสนอแนะ / ขั้นตอนถัดไป (หากต้องการให้ผมดำเนินการเพิ่มเติม)
-- หากต้องการให้ผมเปิด Pull Request จาก dev/sprint-5-payment-adapter → develop/main: ยืนยันชื่อสาขาเป้าหมายและ reviewer list (ผมจะเปิด PR ให้โดยใช้ GitHub API)
-- หากต้องการให้ผมส่งสรุปนี้ไปยังบอสผ่าน Telegram: โปรดระบุ chat_id ของบอส (หรือวางค่าใน .env) — ขณะนี้ยังไม่ได้ส่งข้อความภายนอก
-- หากต้องการให้ผมรัน integration test บน DeepSeek/อื่น ๆ โปรดอนุญาตและจัดการคีย์/credentials ที่จำเป็น
+5) สรุป / next steps
+- Sprint continuation เสร็จเรียบร้อยในระดับที่กำหนด (docs + minor updates)
+- หากต้องการเปิด PR ให้เป้าหมายเป็น branch: dev → หรือ main ตามนโยบาย ทีมสามารถเปิด PR จาก dev/continue-sprint-20261123 ไปยัง dev/main ตามที่บอก
+- หากต้องการให้ผมเปิด PR และแจ้ง reviewer ให้บอกชื่อ reviewer / target branch และผมจะดำเนินการ
 
-บันทึก: งานนี้ดำเนินการเป็นแบบอัตโนมัติภายในเครื่อง (no external network writes except verifying origin push status). หากต้องการให้ผมทำงานต่อ (PR, notify, deploy) โปรดยืนยันและมอบสิทธิที่จำเป็น
+หมายเหตุ: ยังไม่ได้ส่งข้อความนี้ให้บอส — ต้องการ chat id หรืออนุญาตให้ใช้ Telegram BOT_TOKEN/target chat id ที่ตั้งไว้ในระบบก่อนส่ง
