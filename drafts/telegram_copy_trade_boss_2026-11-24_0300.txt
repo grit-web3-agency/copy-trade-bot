@@ -1,0 +1,22 @@
+Sprint status — Copy-Trade Bot
+
+เวลารายงาน: 2026-11-24 03:00 (Asia/Bangkok)
+
+1) Sprint status
+- Current sprint per PROJECT_SPEC: Sprint 4 completed (Polish + Deploy). Payment adapter tracked on dev branches (dev/sprint-5-payment-adapter / dev/continue-sprint-20261123).
+- Active development branch: dev/continue-sprint-20261123 (HEAD: 6bcb1df)
+
+2) Issues / Risks
+- Payment module is implemented as a pluggable adapter; real-money providers disabled by default (ENABLE_PAYMENTS=false). If you want real payments, provide provider keys and QA.
+- No blocking defects found in unit tests. Integration with external services (Jupiter/Helius) is mocked in tests; network connectivity required for live quotes.
+
+3) Push status
+- Branch dev/continue-sprint-20261123 is pushed to grit-web3-agency/copy-trade-bot (origin).
+- Latest commit: 6bcb1df — docs: sprint continuation report (2026-11-24 02:55)
+
+Notes:
+- Tests: 241 passed, 0 failed (vitest)
+- Build: successful (npm run build)
+- No BOT_TOKEN/BOSS_CHAT_ID in project .env — cannot send Telegram automatically. Global bot token present in OpenClaw config; provide chat id or .env to send.
+
+If you want me to send this to the boss now, provide BOSS_CHAT_ID or add .env with BOT_TOKEN and BOSS_CHAT_ID to project root, and confirm send.
