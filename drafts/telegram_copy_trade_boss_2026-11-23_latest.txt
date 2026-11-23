@@ -1,0 +1,24 @@
+สรุปสถานะ Copy-Trade Bot — 23 พ.ย. 2026 16:00 (ICT)
+
+1) Sprint ปัจจุบัน
+- Sprint: ตาม PROJECT_SPEC งานหลักอยู่ที่ Sprint 4-5 (Polish + Payments adapter). Current working branch: dev/continue-sprint-20261123 — ongoing continuation/completion work on polish and docs.
+
+2) ปัญหา / ความเสี่ยง
+- ไม่มีปัญหาเชิงบั๊กสำคัญจากชุดทดสอบ (unit/E2E dry-run ผ่านทั้งหมด). รายการความเสี่ยงที่ควรสังเกต:
+  - Payment adapter: ได้รับการเพิ่มเป็น adapter (dev/sprint-5-payment-adapter) แต่ค่า ENABLE_PAYMENTS ควรยังปิดในสภาพแวดล้อมการทดสอบ/production จนกว่าจะได้ provider keys.
+  - Network-dependent integrations (Jupiter/Helius) ถูก mocked in tests — ต้องทดสอบบน devnet with real keys before pushing live.
+
+3) Push code แล้วหรือยัง
+- Branch: dev/continue-sprint-20261123
+- Latest commit: 6fa48e7 (short)
+- Working tree: clean
+- Uncommitted/untracked: drafts/telegram_copy_trade_boss_2026-11-23_latest.txt (draft created)
+- Remote sync: branch tracking origin/dev/continue-sprint-20261123; no unpushed commits (up-to-date).
+- Tests: 241 passed, 0 failed (local test run at 16:01 ICT)
+- Build: TypeScript build succeeded (last automated build earlier)
+
+หมายเหตุ
+- รายงานฉบับนี้เป็นร่างและยังไม่ได้ส่งทาง Telegram: ไม่มีโปรเจกต์ .env ที่มี BOT_TOKEN/BOSS_CHAT_ID ดังนั้นผมยังไม่ส่งให้บอส (ต้องการ chat id หรืออนุญาตใช้ botToken ที่กำหนดใน ~/.openclaw/openclaw.json)
+- หากต้องการให้ผมส่งสรุปนี้ให้บอสทันที: โปรดระบุ BOSS_CHAT_ID หรือวาง .env ที่โปรเจกต์ที่มี BOT_TOKEN และ BOSS_CHAT_ID แล้วบอกผมจะส่งให้
+
+บันทึกโดยผู้ช่วย (automated reminder handler)
