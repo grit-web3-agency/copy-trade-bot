@@ -1,17 +1,16 @@
-สรุปสถานะ Copy-Trade Bot (อัปเดต 2026-11-25)
+สรุปสถานะ Copy-Trade Bot — 2026-11-25
 
-1) Sprint ที่ทำถึง: Sprint 4 — "Polish / Deploy" (ตาม PROJECT_SPEC: Sprints 1–4 เสร็จเรียบร้อย, MVP พร้อม)
+1) Sprint progress:
+- สรุป: Sprints 1–4 เสร็จเรียบร้อย (Sprint 4: Polish/Deploy — MVP complete)
 
-2) ปัญหา/ข้อสังเกต:
-- Payment adapter ถูกเก็บเป็น mock/disabled ตามค่าเริ่มต้น (ENABLE_PAYMENTS=false). ต้องการค่า credentials และการเปิดใช้งานเพื่อทดสอบการชำระเงินจริง (ไม่บังคับสำหรับ MVP, priority: medium).
-- บางเทสมีการ retry กับ Jupiter mock (no network) ใน logs — เป็นพฤติกรรมที่คาดหมายในสภาพแวดล้อมทดสอบ (non-blocking).
+2) ปัญหา/ความเสี่ยง:
+- Payment adapter ถูกตั้งเป็น mock/disabled (ENABLE_PAYMENTS=false) ตามสเปค — ต้องการ credentials และการอนุญาตถ้าต้องการเปิดใช้งานจริง แต่สำหรับ MVP ใช้ mock/devnet เท่านั้น
+- เทสมีการแจ้งเตือน Jupiter mock/network warnings ซึ่งเป็น non-blocking (expected in test environment)
 
 3) Push code:
-- สาขาปัจจุบัน: dev/auto-continue-20261125
-- สถานะ: branch อยู่บน origin (up-to-date). commit ล่าสุด: f8a6475 (docs: automated sprint continuation notes (2026-11-25)).
+- สาขา dev/auto-continue-20261125 ถูกอัปเดตและ push ขึ้น GitHub แล้ว (commit: e3d780f)
+- ไม่มี commit ท้องถิ่นค้างอยู่
 
-ถ้าบอสต้องการให้ผมส่ง Telegram สรุปนี้ให้: ให้อนุญาต BOT_TOKEN และ BOSS_CHAT_ID หรือสั่ง "send telegram <chat_id>" (assistant จะส่งทันทีเมื่อได้รับสิทธิ์)
+ถ้าต้องการให้ผมส่งข้อความนี้ทาง Telegram ให้บอส: กรุณาเพิ่ม BOT_TOKEN และ BOSS_CHAT_ID ในไฟล์ copy-trade-bot/.env หรือสั่ง "send telegram <chat_id>" ผมจะส่งให้ทันที
 
-หากต้องการ PR / merge ไปยัง main ให้สั่งชื่อ PR และรายชื่อ reviewer (ผมจะสร้าง PR ให้ตามนั้น)
-
-— automated assistant
+— Automated assistant
