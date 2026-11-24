@@ -1,0 +1,19 @@
+สรุปสถานะ Copy-Trade Bot — 2026-11-24 16:00 (อัตโนมัติ)
+
+1) ทำถึง Sprint ไหน
+- สถานะ: Sprint 5 — Payment adapter compatibility (branch: dev/sprint-5-payment-adapter)
+
+2) มีปัญหาอะไร
+- ไม่มีบั๊กใน test-suite: ทุก unit tests ผ่าน (241 tests passed).
+- ข้อจำกัด: Payment feature ถูกปิดโดยค่าเริ่มต้น (ENABLE_PAYMENTS=false). การเปิดใช้งาน provider จริงต้องเพิ่มค่า PAYMENT_MODE และ credentials ใน .env.
+- ไม่มี BOT_TOKEN / BOSS_CHAT_ID ในโปรเจค .env — จึงยังไม่สามารถส่งสรุปทาง Telegram อัตโนมัติได้
+
+3) Push code แล้วหรือยัง
+- ใช่: รายงานและร่าง Telegram ถูก commit และ push ไปยัง branch dev/sprint-5-payment-adapter
+
+ถัดไปที่แนะนำ:
+- หากต้องการให้ผมส่งข้อความนี้ให้บอส: กรุณาเพิ่ม BOT_TOKEN และ BOSS_CHAT_ID ใน copy-trade-bot/.env หรือส่งค่ามาอย่างปลอดภัย
+- หากต้องการผมเปิด PR → ระบุชื่อ PR และ reviewer ที่ต้องการ
+
+บันทึกโดย: automated sprint handler
+เวลา: 2026-11-24 16:00 Asia/Bangkok
