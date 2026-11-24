@@ -1,0 +1,19 @@
+สรุปสถานะ Copy-Trade Bot — 2026-11-24 08:25 (อัตโนมัติ)
+
+1) ทำถึง Sprint ไหน
+- สถานะ: Sprint 5 (Payment adapter compatibility) — ปรับเข้ากับ adapter ใหม่และ mock provider เรียบร้อย
+
+2) มีปัญหาอะไร
+- ไม่มีบั๊กใน test-suite: ทุก unit tests ผ่านแล้ว (241 tests passed).
+- ข้อจำกัด: การส่งสรุปทาง Telegram อัตโนมัติยังไม่ทำได้เพราะไม่มี BOT_TOKEN และ BOSS_CHAT_ID ในไฟล์ .env ของโปรเจค.
+
+3) Push code แล้วหรือยัง
+- ใช่: รายงานนี้และการเปลี่ยนแปลงที่เกี่ยวข้องถูก commit และ push ไปที่ branch: dev/sprint-5-payment-adapter
+  • Remote: https://github.com/grit-web3-agency/copy-trade-bot.git
+
+ถัดไปที่แนะนำ:
+- หากต้องการผมสามารถเปิด PR จาก dev/sprint-5-payment-adapter → dev/main (หรือ branchที่ต้องการ) และระบุ reviewers
+- หากต้องการให้ผมส่งข้อความนี้ให้บอส: ให้ค่า BOT_TOKEN และ BOSS_CHAT_ID ใน copy-trade-bot/.env หรือส่งค่าเหล่านี้มาอย่างปลอดภัย
+
+บันทึกโดย: automated sprint handler
+เวลา: 2026-11-24 08:25 Asia/Bangkok
