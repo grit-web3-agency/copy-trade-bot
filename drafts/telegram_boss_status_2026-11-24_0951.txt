@@ -1,0 +1,25 @@
+สรุปสถานะอัตโนมัติ — routine check 2026-11-24 09:51 (Asia/Bangkok)
+
+ผลการตรวจสอบ:
+- พบ Pull Requests เปิดใน org grit-web3-agency (เฉพาะ repo: copy-trade-bot):
+  • #28 dev/sprint-5-payment-adapter — chore(sprint-5): Payment adapter compatibility & fixes
+  • #27 dev/auto-sprint-continue-20260627-work — chore: sprint continuation report 2026-06-27
+
+การสั่งงานอัตโนมัติ:
+- พยายามสั่ง Claude CLI ให้ "ทำต่อ" เพื่อสรุป PR และแนะนำการ merge แต่ล้มเหลว: Claude CLI ต้อง re-authenticate (OAuth token หมดอายุ).
+  • ข้อความข้อผิดพลาด: "OAuth access token has expired. Re-authenticate to continue."
+- ตรวจสอบ DeepSeek: ไม่พบ binary (deepseek not found) — ยังไม่สามารถรัน DeepSeek tests ได้.
+
+การกระทำที่ผมทำตอนนี้:
+- เตรียมร่างข้อความสรุปนี้ในไฟล์ drafts/telegram_boss_status_2026-11-24_0951.txt (ยังไม่ได้ส่ง)
+
+ข้อเสนอการทำต่อ (เลือกอย่างใดอย่างหนึ่งแล้วบอกผม):
+1) Re-authenticate Claude CLI บนเครื่อง (ผมสามารถช่วยรันคำสั่งถ้าคุณอนุมัติ)
+2) ติดตั้ง DeepSeek (ผมจะแจ้งคำสั่งติดตั้งหรือรัน installer ถ้าคุณอนุมัติ)
+3) หรือต้องการให้ผมรัน unit tests เป็นตัวแทนของ DeepSeek (fallback) — ตอบ “รัน local tests”
+4) หากต้องการส่งสรุปให้บอสทาง Telegram: ให้ค่า BOT_TOKEN และ BOSS_CHAT_ID หรือเพิ่มลงใน copy-trade-bot/.env แล้วบอกผม
+
+ต้องการให้ผมทำข้อไหนต่อครับ (หรืออนุมัติให้ผมทำหลายข้อพร้อมกัน)?
+
+บันทึกโดย: automated routine checker
+เวลา: 2026-11-24 09:51 Asia/Bangkok
