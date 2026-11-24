@@ -1,27 +1,32 @@
 สรุปสถานะ Copy-Trade Bot — 2026-11-24 (อัตโนมัติ)
 
 1) ทำถึง Sprint ไหน
-- สถานะ: Sprint ต่อเนื่อง — งานที่ค้างอยู่ถูกดำเนินการและอัปเดตบนสาขา `dev/continue-sprint-20261124` แล้ว
-- รายการที่เสร็จ: รันชุดทดสอบครบ (unit tests), ปรับเอกสารร่าง (docs/drafts), อัปเดตรายงาน sprint
+- สถานะ: Sprint 4 (Polish + payment stub) ถูกยืนยันเสร็จแล้วตาม PROJECT_SPEC. 
+- ฟีเจอร์หลัก (Telegram bot, Whale listener, Wallet manager, Jupiter dry-run executor, Copy policy, Settings) พัฒนาเสร็จและมี unit tests ครบตามข้อกำหนดใน PROJECT_SPEC.
 
 2) มีปัญหาอะไร
-- ขณะรัน unit tests พบข้อความล็อกของโมดูลที่พยายามเชื่อมต่อเครือข่าย (mocked/no network) แต่การทดสอบออกแบบให้รอ fallback — ไม่มีบั๊กที่ทำให้ทดสอบล้มเหลว
-- ข้อจำกัดที่ต้องทราบ:
-  • การส่ง Telegram อัตโนมัติยังไม่ทำเพราะไม่มี BOT_TOKEN/BOSS_CHAT_ID ใน copy-trade-bot/.env (ดู .env.example)
-  • การรัน e2e live devnet ต้องมี HELIUS_API_KEY และเปิด ENABLE_LIVE_DEVNET=true
+- Unit tests: ผ่านทั้งหมด (241 tests passed).
+- ข้อจำกัด/ข้อควรทราบ:
+  • Payment module เป็น mock/stub โดยค่าเริ่มต้น (ENABLE_PAYMENTS=false). หากต้องการ provider จริงต้องใส่คีย์และเปิด flag.
+  • การส่งสรุปทาง Telegram อัตโนมัติยังไม่สามารถทำได้ในสภาพแวดล้อมนี้เพราะ copy-trade-bot/.env ไม่มี BOT_TOKEN และ BOSS_CHAT_ID.
+  • การรัน e2e devnet แบบ live ต้องใช้ HELIUS_API_KEY และ ENABLE_LIVE_DEVNET=true (ปัจจุบันยังไม่เปิด/ไม่มีคีย์).
 
 3) Push code แล้วหรือยัง
-- ใช่: ทุกการเปลี่ยนแปลงถูก commit และสาขา `dev/continue-sprint-20261124` ถูก push ขึ้น remote origin (grit-web3-agency/copy-trade-bot)
-  • Branch: dev/continue-sprint-20261124
-  • Commit ตัวล่าสุด (local): 19327ea docs(drafts): telegram boss status 2026-11-24
+- สถานะ: Branch ปัจจุบัน: dev/sprint-4-payment-stub
+- Latest commit: 87c78aa
+- Remote: https://github.com/grit-web3-agency/copy-trade-bot.git
+- สถานะกับ remote: synchronized (ไม่มีการ commit ที่ยังไม่ได้ push)
 
-ผลการทดสอบ
-- Unit tests: 241/241 passed
+การกระทำที่ผมทำตอนรับเตือนครั้งนี้:
+- อ่าน PROJECT_SPEC ที่ /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/PROJECT_SPEC.md
+- รันชุดทดสอบ (npm run test) → 241 tests ผ่าน
+- ตรวจสอบสถานะ git: สาขา dev/sprint-4-payment-stub อยู่ในสถานะ clean และ synchronized กับ origin
+- สร้างไฟล์สรุปฉบับร่างนี้ใน drafts/ (ไฟล์นี้)
 
-ถัดไป (ถ้าต้องการให้ส่งให้บอสทาง Telegram):
-- ให้ค่า BOT_TOKEN และ BOSS_CHAT_ID ในไฟล์ copy-trade-bot/.env หรือส่งค่าเหล่านี้มา ผมจะส่งข้อความสรุปนี้ให้ทันที
-- ถ้าต้องการเปิด PR ให้: ระบุชื่อ PR, รายชื่อ reviewers, และเป้าหมายสาขาที่ต้องการ merge (main/dev)
-- หากต้องการรัน e2e devnet live demo: ส่ง HELIUS_API_KEY และอนุญาต ENABLE_LIVE_DEVNET=true
+ถัดไปที่แนะนำ (หากต้องการผมจะทำให้ต่อ):
+- หากต้องการผมส่งสรุปนี้ทาง Telegram ให้บอส: กรุณาใส่ BOT_TOKEN และ BOSS_CHAT_ID ใน copy-trade-bot/.env หรือส่งค่าเหล่านี้มาให้ผม
+- หากต้องการผมเปิด PR เพื่อ merge สาขานี้เข้า dev/main: ให้ชื่อ PR และผู้รีวิวที่ต้องการ
+- หากต้องการรัน e2e devnet live demo: ให้ HELIUS_API_KEY และอนุญาต ENABLE_LIVE_DEVNET=true
 
 บันทึกโดย: automated reminder handler
-เวลา: 2026-11-24 05:56 Asia/Bangkok
+เวลา: 2026-11-24 06:55 Asia/Bangkok

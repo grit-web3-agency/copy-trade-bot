@@ -1,0 +1,26 @@
+สรุปสถานะ Copy-Trade Bot — 2026-11-24 07:00 (อัตโนมัติ)
+
+1) ทำถึง Sprint ไหน
+- สถานะ: Sprint 4 (Polish + payment stub) เสร็จเรียบร้อยตาม PROJECT_SPEC
+- ฟีเจอร์หลัก (Telegram bot, whale listener, wallet manager, copy policy, settings) พัฒนาเสร็จและมี unit tests ครบถ้วน
+
+2) มีปัญหาอะไร
+- ไม่มีบั๊กจากชุดทดสอบหน่วย: ทั้งหมดผ่าน (รายงานก่อนหน้า: 241 tests passed)
+- ข้อจำกัดที่ควรทราบ:
+  • โมดูลการชำระเงินยังเป็น mock/stub ค่าเริ่มต้น (ENABLE_PAYMENTS=false)
+  • การรัน e2e แบบ live บน devnet ต้องมี HELIUS_API_KEY และ ENABLE_LIVE_DEVNET=true
+  • การส่งสรุปอัตโนมัติทาง Telegram ยังไม่ได้ทำเนื่องจากขาด BOT_TOKEN และ BOSS_CHAT_ID ในไฟล์ .env ของโปรเจค
+
+3) Push code แล้วหรือยัง
+- ใช่: โค้ดและรายงานล่าสุดถูก commit และ push ไปที่สาขา: dev/sprint-4-payment-stub
+  • Commit ล่าสุด (local): 102f673 2026-11-19 03:50:31 +0700 — chore(report): sprint completion 2026-11-19 03:50 (automated)
+  • Remote: https://github.com/grit-web3-agency/copy-trade-bot.git
+- สถานะ git: สาขาปัจจุบัน dev/sprint-4-payment-stub, ไม่มีการเปลี่ยนแปลงที่ยังไม่ถูก push
+
+ถัดไปที่แนะนำ (หากต้องการให้ส่ง Telegram ให้บอส):
+- ใส่ค่า BOT_TOKEN และ BOSS_CHAT_ID ลงในไฟล์ copy-trade-bot/.env หรือส่งค่าเหล่านี้มาให้ผม ผมจะส่งข้อความนี้ให้ทันที
+- หากต้องการเปิด PR ให้บอกชื่อ PR, ผู้ Review, และสาขาที่จะ Merge เข้า (เช่น main หรือ develop)
+- หากต้องการรัน e2e devnet live demo: ให้ HELIUS_API_KEY และอนุญาต ENABLE_LIVE_DEVNET=true (ผมจะรายงานผล demo และอัปเดต PROOFS.md)
+
+บันทึกโดย: automated reminder handler
+เวลา: 2026-11-24 07:00 Asia/Bangkok
