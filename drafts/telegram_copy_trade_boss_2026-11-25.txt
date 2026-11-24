@@ -1,0 +1,17 @@
+สรุปสถานะ Copy-Trade Bot (อัปเดต 2026-11-25)
+
+1) Sprint ที่ทำถึง: Sprint 4 — "Polish / Deploy" (ตาม PROJECT_SPEC: Sprints 1–4 เสร็จเรียบร้อย, MVP พร้อม)
+
+2) ปัญหา/ข้อสังเกต:
+- Payment adapter ถูกเก็บเป็น mock/disabled ตามค่าเริ่มต้น (ENABLE_PAYMENTS=false). ต้องการค่า credentials และการเปิดใช้งานเพื่อทดสอบการชำระเงินจริง (ไม่บังคับสำหรับ MVP, priority: medium).
+- บางเทสมีการ retry กับ Jupiter mock (no network) ใน logs — เป็นพฤติกรรมที่คาดหมายในสภาพแวดล้อมทดสอบ (non-blocking).
+
+3) Push code:
+- สาขาปัจจุบัน: dev/auto-continue-20261125
+- สถานะ: branch อยู่บน origin (up-to-date). commit ล่าสุด: f8a6475 (docs: automated sprint continuation notes (2026-11-25)).
+
+ถ้าบอสต้องการให้ผมส่ง Telegram สรุปนี้ให้: ให้อนุญาต BOT_TOKEN และ BOSS_CHAT_ID หรือสั่ง "send telegram <chat_id>" (assistant จะส่งทันทีเมื่อได้รับสิทธิ์)
+
+หากต้องการ PR / merge ไปยัง main ให้สั่งชื่อ PR และรายชื่อ reviewer (ผมจะสร้าง PR ให้ตามนั้น)
+
+— automated assistant
