@@ -1,0 +1,25 @@
+สรุปสถานะ Copy-Trade Bot — รายงานอัตโนมัติ
+
+1) Sprint ที่ทำถึงไหน
+- ตาม PROJECT_SPEC: Sprints 1–4 เสร็จเรียบร้อย (Sprint 4: Polish & Deploy เสร็จ)
+- ขณะนี้งานต่อเนื่องบน branch: dev/auto-continue-20261125 (ใช้สำหรับ automated continuation)
+
+2) มีปัญหาอะไรหรือไม่
+- E2E (devnet) พบว่า Jupiter ไม่มี liquidity บน devnet → ทำให้ไม่มี route ในบางการเทรด (expected for devnet). Flow ถูกดำเนินการและบันทึกใน DB (บันทึก: no-quote / pending)
+- Payment module ถูกปิดเป็นค่าเริ่มต้น (ENABLE_PAYMENTS=false). หากต้องการทดสอบ payments จริง ให้ตั้ง env และให้ credentials (stripe-mock โหมดทดสอบมีอยู่)
+- ไม่มีบั๊กทดสอบที่ล้มเหลวในชุด unit test ปัจจุบัน (vitest → 241 tests ผ่าน)
+
+3) Push code แล้วหรือยัง
+- Branch dev/auto-continue-20261125 อยู่บน origin และ synced — ไม่มี local commits ที่ต้อง push (git push -> Everything up-to-date)
+
+สรุปการกระทำที่ผมทำ (automated)
+- อ่าน PROJECT_SPEC.md
+- รัน unit tests (vitest) และ e2e:devnet (dry-run)
+- รัน build (tsc)
+- ตรวจสอบ git status และ push (ไม่มีการเปลี่ยนแปลงที่ต้อง push)
+- ร่างข้อความสรุปนี้ไว้ที่ drafts/telegram_boss_routine_2026-11-25_2055.txt แต่ยังไม่ได้ส่ง
+
+หากต้องการให้ผมส่งสรุปนี้ให้บอสโดยอัตโนมัติ: กรุณาเพิ่ม BOT_TOKEN และ BOSS_CHAT_ID ลงใน repo .env หรือมอบข้อมูลให้ผมตอนนี้
+
+ผู้ส่ง: automated reminder handler
+เวลา (Asia/Bangkok): 2026-11-25 20:55
