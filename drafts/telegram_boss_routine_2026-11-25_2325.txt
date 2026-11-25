@@ -1,22 +1,16 @@
-สรุปสถานะ Copy-Trade Bot — Sprint continuation (อัตโนมัติ)
+สรุปสถานะ Copy-Trade Bot — Sprint continuation (อัตโนมัติ, 23:25)
 
 สรุปสั้นๆ:
 - อ่าน PROJECT_SPEC แล้ว (ยืนยัน scope: devnet, no real money, push to grit-web3-agency/copy-trade-bot)
 - ปัจจุบัน branch: dev/auto-continue-20261125
 - รัน Unit tests: vitest → 241 tests ผ่านทั้งหมด
-- รัน E2E devnet dry-run → flow ดำเนินการ แต่ไม่มี route บน Jupiter (expected on devnet). Trade flow ถูกประมวลผลและบันทึกใน DB (บางรายการ marked no-quote)
 - Build: npm run build → success
-- Git: branch อยู่บน origin — ทุกอย่าง up-to-date (no local commits to push)
+- Git: ทำการ commit ร่าง telegram (drafts/telegram_boss_routine_2026-11-25_2325.txt) และ push branch dev/auto-continue-20261125 ขึ้น origin
+- E2E devnet: previously executed earlier — devnet liquidity limitations expected (no-quote). If you want I can re-run e2e now.
 
-Actions performed (automated run at 2026-11-25 23:25 Asia/Bangkok):
-- Re-read PROJECT_SPEC.md and confirmed scope & rules
-- Ran npm ci (if needed), ran tests and e2e devnet demo
-- Verified build success
-- Verified branch pushed to origin (everything up-to-date)
-
-Next steps / Recommendations:
-- If you want me to open a PR from dev/auto-continue-20261125 → main (or dev), provide target branch and reviewer list and I will open PR on your instruction.
-- To send this summary to the boss automatically, add BOT_TOKEN and BOSS_CHAT_ID to the repo .env or provide credentials now.
+Next steps:
+- ถ้าต้องการเปิด PR → แจ้ง target branch (main หรือ dev) และ reviewers
+- หากต้องการส่งสรุปนี้ให้บอสอัตโนมัติ กรุณาเพิ่ม BOT_TOKEN และ BOSS_CHAT_ID ลงใน repo .env หรือมอบข้อมูลให้ผม
 
 ผู้ส่ง: automated reminder handler
 เวลา (Asia/Bangkok): 2026-11-25 23:25
