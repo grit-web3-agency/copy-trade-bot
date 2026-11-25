@@ -1,0 +1,20 @@
+สรุปสถานะ Copy-Trade Bot — รายงานอัตโนมัติ
+
+1) Sprint ที่ทำถึง: Sprints 1–4 เสร็จเรียบร้อยตาม PROJECT_SPEC; งานเพิ่มเติม (payment adapter) อยู่บน branch dev/sprint-5-payment-adapter และการทำงานอัตโนมัติปัจจุบันบน branch dev/auto-continue-20261125
+
+2) ปัญหาที่พบ:
+- Devnet: Jupiter มีสภาพคล่องจำกัด — E2E devnet dry-run มักจะรายงาน "no route / no-quote" (expected) แต่ flow ถูกดำเนินการและบันทึกผลใน DB
+- Payment module ถูกปิดเป็นค่าเริ่มต้น (ENABLE_PAYMENTS=false) — ต้องการ credentials เพื่อทดสอบ end-to-end
+- ไม่มีปัญหาเชิงเทคนิคที่สำคัญจากชุดทดสอบ (unit tests ผ่านทั้งหมด)
+
+3) Push status:
+- Branch dev/auto-continue-20261125 อยู่บน origin และ sync แล้ว (ไม่มี local commits ค้าง)
+- Unit tests: 241 passed
+- Build: success
+
+ต่อจากนี้:
+- หากต้องการให้ผมเปิด PR: ระบุ target branch (main หรือ dev) และรายชื่อ reviewers
+- หากต้องการให้ผมส่งสรุปนี้ให้บอสตอนนี้: เพิ่ม BOT_TOKEN และ BOSS_CHAT_ID ลงใน repo .env หรือมอบข้อมูลให้ผม (ผมจะส่งเมื่อได้รับอนุญาต)
+
+ผู้ส่ง: automated reminder handler
+เวลา (Asia/Bangkok): 2026-11-26 02:00
