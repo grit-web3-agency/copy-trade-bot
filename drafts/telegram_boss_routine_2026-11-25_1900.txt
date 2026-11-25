@@ -1,0 +1,23 @@
+สรุปสถานะ Copy-Trade Bot — รายงานเวลา 2026-11-25 19:00 (Asia/Bangkok)
+
+1) ทำถึง Sprint ไหน:
+- ตาม PROJECT_SPEC: Sprints 1–4 เสร็จสมบูรณ์ (MVP). งานเสริมเกี่ยวกับ payment adapter มีบนสาขา dev/sprint-5-payment-adapter (และสาขาย่อย dev/auto-continue-20261125 สำหรับงานต่อเนื่อง)
+
+2) ปัญหาที่พบ:
+- โมดูลชำระเงินยังปิดเป็นค่าเริ่มต้น (ENABLE_PAYMENTS=false); ใช้ stripe-mock/adapter สำหรับการทดสอบภายใน
+- Devnet: liquidity บน Jupiter มีจำกัด — E2E devnet อาจคืนสถานะ "no-quote" (เป็น expected behavior)
+- โดยรวมไม่มีบั๊กบล็อกเกอร์ที่พบจาก test/build ล่าสุด
+
+3) Push code แล้วหรือยัง:
+- สาขา dev/auto-continue-20261125 อยู่บน origin และซิงค์แล้ว (ไม่มี local commits ค้าง)
+- สาขา dev/sprint-5-payment-adapter ถูกพุชไปที่ origin ในระหว่างการพัฒนา
+
+สรุปการทดสอบ/การดำเนินการ:
+- Unit tests: vitest → 241 tests ผ่าน
+- E2E (devnet dry-run): ดำเนิน flow ได้ แต่บาง trade ถูกบันทึกเป็น no-quote เนื่องจาก devnet liquidity
+- Build: npm run build → success
+
+หากต้องการให้ส่งสรุปนี้ให้บอสอัตโนมัติ โปรดเพิ่ม BOT_TOKEN และ BOSS_CHAT_ID ใน repo .env หรืออนุญาตให้ผมส่งครั้งนี้
+
+ผู้ส่ง: automated reminder handler
+เวลา: 2026-11-25 19:00 (Asia/Bangkok)
