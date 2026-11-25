@@ -1,0 +1,29 @@
+สรุปสถานะ Copy-Trade Bot — 2026-11-26 04:25 (อัตโนมัติ)
+
+การกระทำที่ทำ: อ่าน PROJECT_SPEC.md และตรวจสอบสถานะ Sprint ที่ค้างอยู่
+
+1) ทำถึง Sprint ไหน
+- ตรวจสอบ PROJECT_SPEC: เป้าหมายและแผนงานจนถึง Sprint 4 ระบุไว้ (Sprint 1-4) โดยมีงานเสริม (payment adapter) ที่ถูกพัฒนาเป็น Sprint 5 บนสาขา `dev/sprint-5-payment-adapter`.
+- สถานะปัจจุบัน: Sprint 5 (Payment Adapter) รายงานว่าเสร็จสมบูรณ์และโค้ดถูก commit + push ไปยัง remote branch `origin/dev/sprint-5-payment-adapter` (ดู: reports/SPRINT_COMPLETE_2026-11-22_dev-sprint-5.md). ไม่มี Sprint ค้างที่ต้องทำตาม PROJECT_SPEC ณ จุดนี้.
+
+2) มีปัญหาอะไร
+- ไม่มีบั๊กสำคัญหรือ blocker ที่รายงานใน SPRINT_COMPLETE — unit tests ผ่าน (241 tests reported).
+- ข้อจำกัด/ต้องทราบ:
+  • Payment feature ถูกปิดเป็นค่าเริ่มต้น (ENABLE_PAYMENTS=false) — ต้องตั้งค่า .env เพื่อเปิดใช้งาน provider จริง
+  • ระบบอัตโนมัติที่สั่งงาน Claude/DeepSeek ยังต้องการการยืนยัน/ติดตั้งเพิ่มเติมหากต้องการให้รันอัตโนมัติ
+  • การส่ง Telegram อัตโนมัติยังไม่ทำได้เพราะไม่มี BOT_TOKEN และ BOSS_CHAT_ID ใน .env ของโปรเจค
+
+3) Push code แล้วหรือยัง
+- ใช่: Branch `dev/sprint-5-payment-adapter` มีการ push ไปยัง remote: https://github.com/grit-web3-agency/copy-trade-bot.git (origin/dev/sprint-5-payment-adapter แสดงอยู่ใน remote branches)
+
+ผลการดำเนินการเพิ่มเติม
+- อ่านไฟล์: copy-trade-bot/PROJECT_SPEC.md (ยืนยันว่าทำงานตาม spec)
+- ตรวจสอบ git: branch ปัจจุบัน `dev/sprint-5-payment-adapter` ตรงกับ origin
+- สร้างบันทึกนี้และรายงานการเตรียมส่ง
+
+ถัดไปที่แนะนำ
+- ถ้าต้องการให้ผมรันงานต่อ (เช่น merge ไปยัง dev, deploy demo, หรือรัน e2e): อนุญาตให้ผม push/merge และมอบสิทธิ์หากต้องการให้อัตโนมัติ
+- หากต้องการให้ Telegram ส่งอัตโนมัติ: เพิ่ม BOT_TOKEN และ BOSS_CHAT_ID ใน copy-trade-bot/.env หรือให้ chat_id เป้าหมายพร้อมคำสั่งให้ส่ง
+
+บันทึกโดย: automated reminder handler
+เวลา: 2026-11-26 04:25 Asia/Bangkok
