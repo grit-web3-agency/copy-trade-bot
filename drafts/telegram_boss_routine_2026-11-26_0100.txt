@@ -1,0 +1,19 @@
+สรุปสถานะ Copy-Trade Bot — รายงานอัตโนมัติ
+
+1) ทำถึง Sprint ไหน
+- ตาม PROJECT_SPEC: Sprint 4 — "Polish / Deploy" (MVP เสร็จเรียบร้อย). ปัจจุบัน branch ทำงานอัตโนมัติ: dev/auto-continue-20261125
+
+2) มีปัญหาอะไรไหม
+- Unit tests: ทั้งหมดผ่าน (vitest → 241 tests ผ่าน)
+- E2E (devnet dry-run): Flow ดำเนินการได้ แต่ Devnet มักจะไม่มี liquidity บน Jupiter (no-quote) — จึงมี trade ที่ถูกบันทึกเป็น no-quote/failed แต่เป็นพฤติกรรมที่คาดหมายได้บน devnet
+- Payment module: ปิดเป็นค่าเริ่มต้น (ENABLE_PAYMENTS=false). หากต้องการทดสอบ payments จริง ต้องตั้งค่า env และให้ credentials (ใช้ stripe-mock สำหรับ local testing ได้)
+- ไม่มีปัญหา blocking ด้านโค้ดหรือ build — build ผ่าน
+
+3) Push code แล้วหรือยัง
+- Branch dev/auto-continue-20261125 อยู่บน origin และ working tree สะอาด (ไม่มี local commits ขัดแย้ง)
+- ร่างสรุปนี้ถูกบันทึกไว้ที่ drafts/telegram_boss_routine_2026-11-26_0100.txt
+
+ถ้าต้องการให้ส่ง Telegram ให้บอสอัตโนมัติ: กรุณาเพิ่ม BOT_TOKEN และ BOSS_CHAT_ID ลงใน repo .env หรืออนุญาตให้ผมส่งข้อความครั้งนี้ (ตอบ: send telegram)
+
+ผู้ส่ง: automated reminder handler
+เวลา (Asia/Bangkok): 2026-11-26 01:00
