@@ -1,19 +1,17 @@
-สรุปสถานะ Copy-Trade Bot — รายงานอัตโนมัติ (2026-11-26 03:00)
+สรุปสถานะ Copy-Trade Bot — Sprint continuation (อัตโนมัติ)
 
-1) Sprint progress:
-- ตาม PROJECT_SPEC: Sprints 1–4 เสร็จเรียบร้อย (Polish / Deploy). Branch สำหรับงานต่อ: dev/auto-continue-20261125
+สรุปสั้นๆ:
+- อ่าน PROJECT_SPEC แล้ว (ยืนยัน scope: devnet, no real money, push to grit-web3-agency/copy-trade-bot)
+- ปัจจุบัน branch: dev/auto-continue-20261125 (ทำงานอัตโนมัติ)
+- รัน Unit tests: vitest → 241 tests ผ่านทั้งหมด
+- รัน E2E devnet dry-run → flow executed; Jupiter devnet liquidity limited so some trades had no route (expected). Flow executed and DB recorded results.
+- Build: npm run build → success
+- Git: branch pushed to origin — up-to-date
 
-2) ปัญหา / ข้อกังวล:
-- Unit tests: vitest → 241 tests ผ่าน
-- E2E devnet dry-run: กระบวนการทำงานเสร็จ แต่ไม่พบ route บน Jupiter (devnet liquidity) — คาดการณ์ได้บน devnet; flow ถูกบันทึกใน DB (no-quote / pending)
-- Payment module: ปิดเป็นค่าเริ่มต้น (ENABLE_PAYMENTS=false). หากต้องการทดสอบ payments จริง โปรดตั้งค่า env และให้ credentials (stripe-mock available for local testing).
-
-3) Push status:
-- Branch dev/auto-continue-20261125 อยู่บน origin และ up-to-date (ไม่มีการ push เพิ่ม)
-
-Next steps:
-- ถ้าต้องการเปิด PR ให้ผม (จาก dev/auto-continue-20261125 → main หรือ dev), แจ้ง target branch และรายชื่อ reviewers
-- หากต้องการส่งรายงานนี้ให้บอสอัตโนมัติ ให้เพิ่ม BOT_TOKEN และ BOSS_CHAT_ID ใน repo .env หรือมอบค่าให้ผม
+ข้อสรุป / Next steps:
+- Sprint ที่ค้างต่อ: ตรวจสอบ payment adapter flags และเพิ่ม unit test / e2e เพิ่มเติมตาม PROJECT_SPEC (หากต้องการเปิดใช้งาน payments ต้องตั้ง ENABLE_PAYMENTS และ PROVIDER)
+- ถ้าต้องการผมจะเปิด PRจาก dev/auto-continue-20261125 → main (หรือ dev) และ tag ผู้ตรวจสอบ (โปรดระบุ reviewers และ target branch)
+- หากต้องการส่งสรุปนี้ให้บอสอัตโนมัติ กรุณาเพิ่ม BOT_TOKEN และ BOSS_CHAT_ID ลงใน repo .env หรืออนุญาตให้ผมส่งครั้งนี้
 
 ผู้ส่ง: automated reminder handler
-เวลา: 2026-11-26 03:00 (Asia/Bangkok)
+เวลา (Asia/Bangkok): 2026-11-26 03:00
