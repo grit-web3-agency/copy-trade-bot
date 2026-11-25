@@ -1,0 +1,17 @@
+สรุปสถานะ Copy-Trade Bot — รายงานประจำ (อัตโนมัติ)
+
+1) Sprint ที่ทำถึง: Sprint 4 — "Polish / Deploy" (ตาม PROJECT_SPEC). Branch ปัจจุบันสำหรับ continuation: dev/auto-continue-20261125
+
+2) ปัญหาที่พบ:
+- การทดสอบ E2E บน devnet ไม่สามารถหา route บน Jupiter (no-quote) — เป็นพฤติกรรมปกติของ devnet (limited liquidity). Flow ดำเนินการครบและบันทึกใน DB
+- Payment module ถูกปิดตามค่าเริ่มต้น (ENABLE_PAYMENTS=false). หากต้องการทดสอบ payments จริง ต้องตั้งค่า env และให้ credentials
+
+3) Push code:
+- Branch dev/auto-continue-20261125 ถูก push ขึ้น origin แล้ว (Everything up-to-date). ไม่มี local commits ค้าง
+
+แอ็กชันที่สามารถทำต่อได้:
+- เปิด PR จาก dev/auto-continue-20261125 → main (หรือ dev): โปรดระบุ target branch และ reviewers
+- ส่งสรุปนี้ให้บอสทันที: ต้องมี BOT_TOKEN + BOSS_CHAT_ID ใน repo .env หรือมอบค่าให้กับผม
+
+ผู้ส่ง: automated handler
+เวลา: 2026-11-25 12:00 (Asia/Bangkok)
