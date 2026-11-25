@@ -1,0 +1,21 @@
+สรุปสถานะ Copy-Trade Bot — รายงานเวลาประจำ 17:00
+
+1) Sprint ปัจจุบัน:
+- ตาม PROJECT_SPEC: Sprints 1–4 เสร็จ (Sprint 4: Polish / Deploy)
+- ปัจจุบัน branch ทำงาน: dev/auto-continue-20261125 — อัตโนมัติ
+
+2) ปัญหาที่พบ:
+- ไม่มีปัญหาเชิงบล็อกในโค้ดหลัก (unit tests ผ่านทั้งหมด)
+- E2E (devnet) พบว่าบางเทรดไม่มี route บน Jupiter (devnet liquidity) — เป็นพฤติกรรมปกติของ devnet ไม่ใช่บั๊ก
+- Payment module ปิดเป็นค่าเริ่มต้น (ENABLE_PAYMENTS=false) — หากต้องการทดสอบ payments ต้องเปิดและใส่ credentials
+
+3) Push/Repo:
+- Branch dev/auto-continue-20261125 ถูก sync ขึ้น origin (ไม่มี local commits ค้าง)
+- หากต้องการผมจะเปิด PR ให้ (ระบุ target branch และ reviewers)
+
+สรุปสั้น ๆ: ระบบพร้อม — tests ผ่าน, build เรียบร้อย, branch อยู่บน remote. ไม่มีงานค้างใน repo ที่ต้อง push ตอนนี้.
+
+หากต้องการให้ส่งสรุปนี้ให้บอสทาง Telegram ให้อนุญาตและมอบ BOT_TOKEN + BOSS_CHAT_ID หรือเพิ่มข้อมูลใน repo .env แล้วบอกผมให้ส่ง
+
+ผู้ส่ง: automated reminder handler
+เวลา: 2026-11-25 17:00 (Asia/Bangkok)
