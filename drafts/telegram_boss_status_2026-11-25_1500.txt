@@ -1,0 +1,20 @@
+สรุปสถานะ Copy-Trade Bot — รายงาน (อัปเดต 2026-11-25 15:00)
+
+1) ทำถึง Sprint ไหน
+- ตาม PROJECT_SPEC: Sprints 1–4 เสร็จเรียบร้อย (Sprint 4: Polish / Deploy)
+- ปัจจุบัน branch ที่ทำงาน: dev/auto-continue-20261125 (งานต่อเนื่องอัตโนมัติ)
+
+2) มีปัญหาอะไร
+- Devnet: ขาด liquidity / no route บน Jupiter ทำให้ E2E real-trade ล้มเหลวด้วยเหตุผลที่คาดไว้ (ผลเป็น no-quote) — ไม่ใช่บั๊กของระบบ
+- Payment module: ถูกตั้งให้ disabled เป็นค่าเริ่มต้น (ENABLE_PAYMENTS=false). หากต้องการทดสอบ payments จริง ต้องตั้ง env และให้ credentials (stripe-mock available for local testing).
+- Minor: test logs show mocked network errors for poster/dashboard calls in tests (expected in offline test environment)
+
+3) Push code แล้วหรือยัง
+- Branch dev/auto-continue-20261125 ถูก push ขึ้น origin และอยู่ในสถานะ up-to-date (ไม่มี local commits ที่ยังไม่ได้ push)
+
+สรุปสั้น ๆ / Next actions
+- หากต้องการผมเปิด PR จาก dev/auto-continue-20261125 → main (หรือ dev) โปรดบอก target branch และชื่อ reviewers
+- หากต้องการส่งสรุปนี้ให้บอสอัตโนมัติ กรุณาเพิ่ม BOT_TOKEN และ BOSS_CHAT_ID ใน repo .env หรือตอบอนุญาตให้ผมส่งครั้งนี้
+
+ผู้ส่ง: automated reminder handler
+เวลา (Asia/Bangkok): 2026-11-25 15:00
