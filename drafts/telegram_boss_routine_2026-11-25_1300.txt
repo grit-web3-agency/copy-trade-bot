@@ -1,0 +1,22 @@
+สรุปรายงานสถานะ Copy-Trade Bot — (อัตโนมัติ)
+
+1) ทำถึง Sprint ไหน
+- Sprints 1–4 เสร็จสมบูรณ์ (Sprint 4: Polish/Deploy — MVP เสร็จ)
+- งาน payment adapter พัฒนาเพิ่มเติมบน branch dev/sprint-5-payment-adapter (compatibility + stripe-mock)
+- กิจกรรมตรวจต่อเนื่องกำลังรันบน branch dev/auto-continue-20261125
+
+2) ปัญหา / ข้อสังเกต
+- Payment module ถูกปิดเป็นค่าเริ่มต้น (ENABLE_PAYMENTS=false). ต้องตั้งค่า env และให้ credentials หากต้องการทดสอบ payments จริง
+- E2E devnet: Jupiter บน devnet มักไม่มี liquidity → บาง trade จะได้ "no-quote" (เป็น expected behavior บน devnet)
+- ยังไม่มี BOT_TOKEN / BOSS_CHAT_ID ใน repo ดังนั้นข้อความนี้ยังไม่ได้ส่งอัตโนมัติ
+
+3) Push code แล้วหรือยัง
+- Branch dev/auto-continue-20261125: อยู่บน origin, up-to-date (ไม่มี local commits ค้าง)
+- Branch dev/sprint-5-payment-adapter: มีการ commit และ push ขึ้น remote ตาม SPRINT_REPORT
+
+Next steps (please instruct):
+- เปิด PR จาก dev/auto-continue-20261125 → main (หรือ target อื่น) และระบุ reviewers → ผมจะเปิด PRให้เมื่อได้รับ target + reviewers
+- ต้องการให้ผมส่งสรุปนี้ทาง Telegram ให้บอสตอนนี้หรือไม่? หากต้องการ กรุณาเพิ่ม BOT_TOKEN และ BOSS_CHAT_ID ใน repo .env หรือส่ง credentials/อนุญาตให้ผม
+
+ผู้ส่ง: automated reminder handler
+เวลา (Asia/Bangkok): 2026-11-25 13:00
