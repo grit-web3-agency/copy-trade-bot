@@ -1,0 +1,16 @@
+สรุปสถานะ Copy-Trade Bot — Sprint continuation (อัตโนมัติ) — 15:55
+
+สรุปสั้นๆ:
+- อ่าน PROJECT_SPEC เรียบร้อย (ยืนยัน scope: devnet, no real money, push ไป grit-web3-agency/copy-trade-bot)
+- ปัจจุบัน branch: dev/auto-continue-20261125
+- รัน Unit tests: vitest → 241 tests ผ่านทั้งหมด
+- Build: npm run build → success
+- Git: branch อยู่บน origin — up-to-date (ไม่มี commits ใหม่ต้อง push)
+
+ข้อสรุป / Next steps:
+- Sprint ที่ค้างต่อ: documentation + payment adapter polishing (payments disabled by default)
+- หากต้องการผมจะเปิด PR จาก dev/auto-continue-20261125 → main (หรือ dev) และ tag ผู้ตรวจสอบ (โปรดระบุ reviewers และ target branch)
+- หากต้องการส่งสรุปนี้ให้บอสอัตโนมัติ กรุณาเพิ่ม BOT_TOKEN และ BOSS_CHAT_ID ลงใน repo .env หรืออนุญาตให้ผมส่งครั้งนี้
+
+ผู้ส่ง: automated reminder handler
+เวลา (Asia/Bangkok): 2026-11-25 15:55
