@@ -4,9 +4,9 @@
 - อ่าน PROJECT_SPEC แล้ว (ยืนยัน scope: devnet, no real money, push to grit-web3-agency/copy-trade-bot)
 - ปัจจุบัน branch: dev/auto-continue-20261125 (ทำงานอัตโนมัติ)
 - รัน Unit tests: vitest → 241 tests ผ่านทั้งหมด
-- รัน E2E devnet dry-run → กระบวนการทำงานแต่ไม่พบ route บน Jupiter (expected on devnet). Flow ถูกดำเนินการและบันทึกผลใน DB (บาง trade marked no-quote)
+- รัน E2E devnet dry-run → flow ดำเนินการ แต่ไม่มี route บน Jupiter (expected); trade flow ถูกประมวลผลและบันทึกใน DB (บาง trade marked no-quote)
 - Build: npm run build → success
-- Git: branch อยู่บน origin — ทุกอย่าง up-to-date (no local commits to push)
+- Git: เพิ่ม draft telegram และ push branch dev/auto-continue-20261125 (commit 17748c8)
 
 ข้อสรุป / Next steps:
 - Sprint ที่ค้างต่อ: ตรวจสอบ payment adapter flags และเพิ่ม unit test / e2e เพิ่มเติมตาม PROJECT_SPEC (หากต้องการเปิดใช้งาน payments ต้องตั้ง ENABLE_PAYMENTS และ PROVIDER)

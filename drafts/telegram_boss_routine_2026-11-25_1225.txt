@@ -1,0 +1,20 @@
+สรุปสถานะ Copy-Trade Bot — Sprint continuation (อัตโนมัติ) — 2026-11-25 12:25 (Asia/Bangkok)
+
+สรุปสั้นๆ:
+- อ่าน PROJECT_SPEC และยืนยันขอบเขต (devnet, no real money, push ไป grit-web3-agency/copy-trade-bot)
+- ปัจจุบัน branch: dev/auto-continue-20261125
+- รัน Unit tests: vitest → 241 tests ผ่านทั้งหมด
+- Build: npm run build → success
+- Git: มีการเพิ่ม draft telegram ใหม่และ push ไปที่ origin/dev/auto-continue-20261125 (commit afb91d0)
+
+รายละเอียดเพิ่มเติม:
+- E2E devnet: ไม่ได้รันในรอบนี้ (ถ้าต้องการให้รันบอกผมได้)
+- Payments: ENABLE_PAYMENTS = false (default). ถ้าต้องการทดสอบ payments จริงต้องตั้งค่าสภาพแวดล้อมและ credentials
+
+Next steps (เลือกหนึ่ง):
+- เปิด PR จาก dev/auto-continue-20261125 → main/dev (โปรดแจ้ง target และ reviewers)
+- ส่งสรุปนี้ให้บอสทันที (ต้องมี BOT_TOKEN และ BOSS_CHAT_ID หรืออนุญาตให้ผมใช้ credentials ที่เก็บไว้)
+- หยุดที่นี่ (hold)
+
+ผู้ส่ง: automated reminder handler
+เวลา: 2026-11-25 12:25 (Asia/Bangkok)
