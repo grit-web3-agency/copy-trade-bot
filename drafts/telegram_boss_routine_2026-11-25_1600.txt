@@ -1,0 +1,21 @@
+สรุปสถานะ Copy-Trade Bot — รายงานอัตโนมัติ 2026-11-25 16:00 (Asia/Bangkok)
+
+1) Sprint ปัจจุบัน:
+- ตาม PROJECT_SPEC: Sprints 1–4 เสร็จเรียบร้อย
+- Payment adapter ถูกพัฒนาในสาขา dev/sprint-5-payment-adapter (งานบางส่วนอยู่ก่อนหน้านี้)
+- ขณะนี้งานต่อเนื่องอยู่ที่ branch: dev/auto-continue-20261125
+
+2) ปัญหา / ข้อสังเกต:
+- ไม่มีปัญหาเชิงบล็อก (blocking) ในซอร์สโค้ด
+- Payment module ปิดเป็นค่าเริ่มต้น (ENABLE_PAYMENTS=false)
+- E2E บน devnet มักจะไม่พบ route บน Jupiter (no-quote) — เกิดจากสภาพ devnet (expected). ระบบจัดการสถานะและบันทึกผลใน DB แล้ว
+
+3) สถานะการ push:
+- Branch dev/auto-continue-20261125 ถูกพุชไปยัง origin และอัพเดตเรียบร้อย (no local commits)
+
+ถ้าต้องการให้ผมทำต่อ:
+- เปิด PR: โปรดระบุ target branch (main หรือ dev) และรายชื่อ reviewers
+- ส่งสรุปให้บอสตอนนี้: กรุณาเพิ่ม BOT_TOKEN และ BOSS_CHAT_ID ใน repo .env หรือมอบข้อมูลให้ผม ผมจะส่งให้ทันที
+
+ผู้ส่ง: automated reminder handler
+เวลา: 2026-11-25 16:00 (Asia/Bangkok)
