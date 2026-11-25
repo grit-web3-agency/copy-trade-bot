@@ -1,0 +1,16 @@
+สรุปสถานะ Copy-Trade Bot — Sprint continuation (อัตโนมัติ) — 2026-11-25 19:25
+
+สรุปสั้น ๆ:
+- อ่าน PROJECT_SPEC แล้ว (ยืนยัน scope: devnet, no real money, push ไป grit-web3-agency/copy-trade-bot)
+- ปัจจุบัน branch: dev/auto-continue-20261125 (working tree clean)
+- Unit tests: vitest → 241 tests ผ่านทั้งหมด
+- E2E devnet dry-run → Flow executed; ไม่มี route บน Jupiter (expected) — trade flow ถูกดำเนินการแต่ไม่สามารถหา quote บน devnetได้; บันทึกใน DB (no-quote/pending)
+- Build: npm run build → success
+- Git: branch อยู่บน origin — Everything up-to-date
+
+Next steps:
+- เปิด PR จาก dev/auto-continue-20261125 → main (หรือ dev) ถ้าต้องการ (แจ้ง target branch + reviewers)
+- หากต้องการส่งสรุปให้บอสอัตโนมัติ: เพิ่ม BOT_TOKEN และ BOSS_CHAT_ID ลงใน repo .env หรือให้ข้อมูลให้ผม
+
+ผู้ส่ง: automated reminder handler
+เวลา (Asia/Bangkok): 2026-11-25 19:25
