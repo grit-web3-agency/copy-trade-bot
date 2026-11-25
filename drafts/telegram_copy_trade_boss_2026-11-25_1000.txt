@@ -1,0 +1,19 @@
+สรุปรายงานสถานะ Copy-Trade Bot (อัตโนมัติ)
+
+1) Sprint ปัจจุบัน:
+- Sprints 1–4 เสร็จเรียบร้อยตาม PROJECT_SPEC
+- ขณะนี้ branch สำหรับดำเนินต่อ: dev/auto-continue-20261125
+
+2) มีปัญหา/ข้อสังเกต:
+- Payment module ถูกปิดเป็นค่าเริ่มต้น (ENABLE_PAYMENTS=false). หากต้องการทดสอบ payments จริง ต้องตั้งค่า env และให้ credentials
+- E2E devnet: Jupiter บน devnet ไม่มี liquidity จึงมักไม่พบ route (no-quote). Flow ถูกดำเนินการและบันทึกใน DB — ถือเป็นพฤติกรรมคาดหมายสำหรับ devnet
+
+3) Push code:
+- สาขา dev/auto-continue-20261125 ถูก push ขึ้น origin แล้ว (up-to-date). ไม่มี local commits คงค้าง
+
+Next steps:
+- หากต้องการให้ผมเปิด PR จาก dev/auto-continue-20261125 → main (หรือ dev) โปรดระบุ target branch และรายชื่อ reviewers
+- หากต้องการให้ส่งสรุปนี้ให้บอสอัตโนมัติ กรุณาเพิ่ม BOT_TOKEN และ BOSS_CHAT_ID ลงใน repo .env หรือมอบค่าให้ผมตอนนี้
+
+ผู้ส่ง: automated reminder handler
+เวลา: 2026-11-25 10:00 (Asia/Bangkok)
