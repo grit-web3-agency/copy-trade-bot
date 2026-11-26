@@ -1,0 +1,23 @@
+Sprint 4 — Copy-Trade Bot (สถานะล่าสุด)
+
+เวลารายงาน: 2026-11-27 04:00 (Asia/Bangkok)
+สาขา: dev/sprint-4-payment-stub
+
+สรุปสั้น ๆ:
+- Sprint: ปัจจุบันพัฒนาไปถึง Sprint 4 (Polish / payment integration as dev stub).
+- ปัญหา/ข้อสังเกต: โมดูลการจ่ายเงินยังเป็น "stub" สำหรับ dev/test; ในอดีตมี merge conflicts ตอนรวม payment module แต่ทีมแก้ไขแล้ว (เพิ่ม compatibility wrappers ใน db)
+- การส่งโค้ด: โค้ดถูก push ขึ้น origin บนสาขา dev/sprint-4-payment-stub (ล่าสุดในบันทึก commit 4ba5610 / 2a3aaad ตามบันทึก)
+- การทดสอบ: unit tests รายงานว่าผ่านทั้งหมด (บันทึกล่าสุดระบุ 244 tests หรือ 241 tests ขึ้นกับช่วงเวลา — รายละเอียดในบันทึกแนบท้าย)
+
+Next steps ที่ต้องการเพื่อส่ง Telegram ให้บอส:
+1) เพิ่ม BOT_TOKEN และ chat_id ของบอสในไฟล์โปรเจค .env (หรือแจ้งค่าให้ฉัน) — ตอนนี้ไม่มีข้อมูลนี้ใน workspace จึงส่งข้อความต่อไปยัง Telegram ไม่ได้
+2) หากต้องการ ฉันจะส่งข้อความนี้ให้ทันทีเมื่อได้รับ BOT_TOKEN และ chat_id
+
+อ้างอิงบันทึกภายใน:
+- memory/2026-05-02_reminder_06-14-54.md (สรุปและเหตุผลที่ยังไม่ได้ส่ง): memory/2026-05-02_reminder_06-14-54.md#L1-L32
+- memory/2026-04-28.md (ฉบับร่าง Telegram ก่อนหน้า): memory/2026-04-28.md#L1-L31
+
+ไฟล์ฉบับร่างนี้ถูกบันทึกที่:
+/Users/m4/Web3_AI_Agency/projects/copy-trade-bot/drafts/telegram_copy_trade_boss_2026-11-27.txt
+
+Logged by: OpenClaw assistant (cron reminder handler)
