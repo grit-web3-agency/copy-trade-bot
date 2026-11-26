@@ -1,0 +1,30 @@
+สรุปสถานะ Copy-Trade Bot — 2026-11-27 01:00 (อัตโนมัติ)
+
+1) ทำถึง Sprint ไหน
+- สถานะ: Sprint 5 (Payment adapter) — พัฒนาจนมีการบันทึก sprint และมี PR เกี่ยวข้อง (PR #28). มีการแก้ไขเพิ่มเติมเพื่อป้องกันช่องโหว่การยืนยันการชำระเงิน (ดู change branches: fix/payment-verify-20261126)
+
+2) มีปัญหาอะไร
+- ประเด็นสำคัญที่พบและแก้ไขชั่วคราว:
+  • ปัญหา: ระบบเดิมยอมรับการเปิดใช้งานแพลนแบบชำระเงินโดยไม่ตรวจสอบการชำระจริง (tx_signature) → เสี่ยงให้ผู้ใช้ได้สิทธิ์ Pro โดยไม่จ่าย
+  • การแก้ไข: เพิ่มการตรวจสอบ verifyPayment ก่อน activateSubscription สำหรับแพลนที่มีค่าใช้จ่าย; ในโหมดที่ไม่ใช่ mock จะ "fail closed" หากไม่มีการยืนยัน
+  • เพิ่มดัชนี unique partial บน subscriptions(tx_signature) และทำให้ createSubscription ทำงานภายใน transaction เพื่อป้องกัน replay และ race condition
+  • บังคับใช้แฟลก ENABLE_PAYMENTS: /subscribe และ webhook จะปฏิเสธการเปิดใช้งานเมื่อปิดการใช้งาน
+- ข้อจำกัด: DeepSeek tests ยังไม่ได้รัน (CLI ไม่ได้ติดตั้งในเครื่องนี้)
+
+3) Push code แล้วหรือยัง
+- ใช่: การแก้ไขถูก commit และ push ไปยัง remote branches:
+  • fix/payment-verify-20261126 (แก้ไข payment validation, เรียกใช้ transaction, index)
+  • dev/auto-report-20261127 (งานรายงานอัตโนมัติและบันทึก)
+- ชุดทดสอบ: รันแล้วผ่านทั้งหมด (241 tests passed)
+
+ถัดไปที่แนะนำ
+- เปิด PR จาก fix/payment-verify-20261126 → dev/sprint-5-payment-adapter (หรือตาม workflow) เพื่อขอรีวิวและ merge
+- ทำ migration/dedupe สำหรับ DB ก่อนเปิดใช้งาน partial unique index บน production ถ้าจำเป็น
+- ต่อยอดรายการจากรีวิว Claude: รวม adapter shape, คืนค่าข้อผิดพลาดจาก activateSubscription เป็น object พร้อม error message, เพิ่ม CI (typecheck + tests)
+
+การส่ง Telegram ให้บอส
+- ยังไม่ได้ส่งอัตโนมัติ: ไม่มี BOT_TOKEN และ/หรือ BOSS_CHAT_ID ใน copy-trade-bot/.env (มีแต่ .env.example)
+- หากต้องการให้ผมส่งให้บอสโดยอัตโนมัติ: เพิ่ม BOT_TOKEN และ BOSS_CHAT_ID ลงใน .env หรือส่ง chat_id แล้วสั่ง "send telegram <chat_id>"
+
+บันทึกโดย: automated reminder handler
+เวลา: 2026-11-27 01:00 Asia/Bangkok
