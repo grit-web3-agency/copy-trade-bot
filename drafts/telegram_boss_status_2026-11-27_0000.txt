@@ -1,0 +1,22 @@
+สรุปสถานะ Copy-Trade Bot — 2026-11-27 00:00 (อัตโนมัติ)
+
+1) ทำถึง Sprint ไหน
+- สถานะ: Sprint 5 (Payment adapter) — Implementations and hardening applied; see PR #28 and branch fix/payment-verify-20261126. Recent fixes for payment verification and DB safety were pushed to origin/fix/payment-verify-20261126.
+
+2) มีปัญหาอะไร
+- ปัญหาหลักที่พบ:
+  • PR #28 ต้องการการแก้ไขเชิงสถาปัตยกรรม (consolidate adapter shape, enforce verification, webhook auth, CI) — Claude review saved in reports/CLAUDE_REVIEW_PR28_2026-11-26_2054.md
+  • DeepSeek tests not run: deepseek CLI not installed on this machine
+  • Telegram auto-send disabled: BOT_TOKEN and BOSS_CHAT_ID not present in project .env
+
+3) Push code แล้วหรือยัง
+- ใช่: การเปลี่ยนแปลงที่สำคัญ (verify/guard + uniqueness + webhook gating) ถูกคอมมิตและ push ไปที่:
+  • Branch: fix/payment-verify-20261126 → origin/fix/payment-verify-20261126
+
+ถัดไปที่แนะนำ
+- เปิด PR สำหรับ fix/payment-verify-20261126 → dev/sprint-5-payment-adapter (ผมสามารถทำให้ได้ถ้าต้องการ)
+- อนุมัติรายการจากรีวิว Claude เพื่อให้ผมดำเนินการต่อเป็นชุด (ผมจะแชร์ PRs ย่อยแต่ละชุด)
+- หากต้องการส่งสรุปนี้ให้บอสโดยอัตโนมัติ: เพิ่ม BOT_TOKEN และ BOSS_CHAT_ID ใน copy-trade-bot/.env หรือให้ chat_id แล้วสั่ง "send telegram <chat_id>" ผมจะส่งและบันทึกผลการส่ง
+
+บันทึกโดย: automated reminder handler
+เวลา: 2026-11-27 00:00 Asia/Bangkok
