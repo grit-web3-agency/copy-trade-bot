@@ -428,6 +428,7 @@ export function createBot(token: string, database: Database.Database, rpcUrl?: s
         return;
       }
 
+      // If payments are disabled globally, inform the user and do not accept paid subscriptions
       if (planId !== 'free' && !txSig) {
         const plan = PLANS[planId];
         const treasury = getTreasuryAddress();
@@ -437,6 +438,19 @@ export function createBot(token: string, database: Database.Database, rpcUrl?: s
           `Then run: /subscribe ${planId} [tx_signature]`,
           { parse_mode: 'Markdown' }
         );
+        return;
+      }
+
+      // Enforce global payments feature flag: if disabled, block paid subscriptions
+      try {
+        const paymentsEnabled = require('./payment').isPaymentsEnabled();
+        if (planId !== 'free' && !paymentsEnabled) {
+          await ctx.reply('Payments are currently disabled in this deployment. Contact the administrator to enable paid subscriptions.');
+          return;
+        }
+      } catch (e) {
+        // If payment module not available for some reason, fail closed
+        await ctx.reply('Unable to verify payment configuration. Try again later.');
         return;
       }
 

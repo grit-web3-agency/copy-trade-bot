@@ -57,6 +57,10 @@ export function getPaymentMode(): string {
   return process.env.PAYMENT_MODE || 'mock';
 }
 
+export function isPaymentsEnabled(): boolean {
+  return String(process.env.ENABLE_PAYMENTS || 'false').toLowerCase() === 'true';
+}
+
 export async function verifyPayment(txSignature: string, expectedAmountSol: number, treasuryWallet: string): Promise<boolean> {
   // Support both adapter shapes: new-style verifyPaymentTx or legacy verifyPayment.
   if (typeof (adapter as any).verifyPaymentTx === 'function') {
