@@ -1,0 +1,22 @@
+สรุปสถานะ Copy-Trade Bot — 2026-11-27 02:00 (อัตโนมัติ)
+
+1) ทำถึง Sprint ไหน
+- สถานะ: Sprint 5 (Payment adapter) — เปลี่ยนแปลงหลักถูกบันทึกใน branch `dev/sprint-5-payment-adapter` (PR #28) และมีการ hardening ใน `fix/payment-verify-20261126` (PR #29)
+
+2) มีปัญหาอะไร
+- ปัญหา/ข้อสังเกตสำคัญ:
+  • Payment adapter ก่อนหน้านี้ยอมรับการสมัครแบบชำระเงินโดยไม่ตรวจสอบ signature — ผมแก้ให้ require verification สำหรับ paid plans และทำให้ non-mock modes fail-closed
+  • ต้องทำ migration/dedupe ก่อนใช้งาน index tx_signature ใน production (มี partial unique index ถูกสร้างใน initPaymentSchema แต่ต้องตรวจสอบ DB)
+  • DeepSeek tests ยังไม่ได้รันเพราะ CLI ไม่ติดตั้งบนเครื่อง
+  • การส่ง Telegram อัตโนมัติยังไม่สามารถทำได้เนื่องจาก BOT_TOKEN/BOSS_CHAT_ID ไม่ตั้งค่าใน .env
+
+3) Push code แล้วหรือยัง
+- ใช่: ผม committed และ pushed แก้ไขไปยัง branch: fix/payment-verify-20261126 (PR #29) — แนะนำให้ merge เข้า base ที่เหมาะสมหลังทบทวน
+
+ถัดไปที่แนะนำ
+- Merge PR #29 หลัง peer review (หรือให้ผมเปิด PR จาก branch นี้ไปยัง base ที่ต้องการ)
+- หากต้องการผมจะดำเนินการแก้ไขรายการถัดไปจากรายชื่อที่ Claude ให้ไว้ (เช่น consolidate adapter, add CI, webhook verification)
+- ถ้าต้องการให้ผมส่งสรุปนี้ให้บอสทาง Telegram ตอนนี้: ให้ BOT_TOKEN และ BOSS_CHAT_ID ใน .env หรือส่ง chat_id แล้วสั่ง "send telegram <chat_id>"
+
+บันทึกโดย: automated reminder handler
+เวลา: 2026-11-27 02:00 Asia/Bangkok
