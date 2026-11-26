@@ -1,0 +1,19 @@
+Routine check — 2026-11-27 02:55 (automated)
+
+สรุปสั้น:
+- ตรวจสอบ GitHub (org: grit-web3-agency): พบ PR คงค้างใน copy-trade-bot (#29 fix/payment-verify-20261126, #28 dev/sprint-5-payment-adapter, #27 dev/auto-sprint-continue-20260627-work)
+- รัน Claude CLI เพื่อรีวิว PR #29 → ผลการรีวิวสรุปแล้ว (reports/CLAUDE_REVIEW_PR29_2026-11-27_0255.md)
+- ลองเรียก DeepSeek tests → ไม่พบ deepseek CLI บนเครื่อง (deepseek not found)
+
+สิ่งที่ผมทำแล้ว (internal):
+- บันทึกรีวิวและผลการตรวจสอบต่าง ๆ ลงใน repo (reports/CLAUDE_REVIEW_PR29_2026-11-27_0255.md)
+- เก็บร่าง Telegram (copy-trade-bot/drafts/telegram_boss_status_2026-11-27_0255.txt)
+- สร้างรายงานการทำงาน (reports/REMINDER_HANDLED_2026-11-27_0255.md)
+
+ถัดไปที่แนะนำ:
+1) ให้ผมเปิด PR จาก fix/payment-verify-20261126 → dev/sprint-5-payment-adapter เพื่อรีวิวและทดสอบโดยทีม (ผมจะสร้าง PR ถ้าคุณอนุมัติ)
+2) อนุมัติการติดตั้ง DeepSeek บนเครื่องนี้ เพื่อให้ผมรัน DeepSeek tests หลัง Claude เสร็จ
+3) ให้ BOT_TOKEN + BOSS_CHAT_ID หรือสั่ง "send telegram <chat_id>" ถ้าต้องการให้ผมส่งสรุปนี้ให้บอส
+
+บันทึกโดย automated routine-check handler
+เวลา: 2026-11-27 02:55 Asia/Bangkok
