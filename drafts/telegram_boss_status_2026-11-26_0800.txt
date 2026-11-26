@@ -1,0 +1,22 @@
+สรุปสถานะ Copy-Trade Bot — 2026-11-26 08:00 (อัตโนมัติ)
+
+1) ทำถึง Sprint ไหน
+- สถานะ: Sprint 5 (Payment adapter compatibility) — งานถูกบันทึกบนสาขา `dev/sprint-5-payment-adapter` (ดู: reports/SPRINT_COMPLETE_2026-11-22_dev-sprint-5.md)
+
+2) มีปัญหาอะไร
+- สรุป: ไม่มีบั๊กสำคัญที่ขัดขวางการ merge/deploy — unit tests ทั้งหมดผ่าน (241 tests passed)
+- ข้อจำกัด / ต้องทราบ:
+  • Payment feature ถูกปิด (ENABLE_PAYMENTS=false) — ต้องตั้งค่า PAYMENT_* และ credentials ใน .env เพื่อใช้งาน provider จริง
+  • การส่งสรุปทาง Telegram อัตโนมัติยังไม่ทำงานเพราะไม่มี BOT_TOKEN และ/หรือ BOSS_CHAT_ID ในไฟล์ .env ของโปรเจค
+  • หากต้องการให้ Claude/DeepSeek รันงานอัตโนมัติ ต้องเตรียมการยืนยันหรือติดตั้งเพิ่มเติม
+
+3) Push code แล้วหรือยัง
+- ใช่: รายงานและร่างถูก commit และ push ไปยัง branch: dev/auto-continue-20261126 (remote)
+- โค้ดหลักของ Sprint 5 อยู่บนสาขา: dev/sprint-5-payment-adapter — PR ที่เกี่ยวข้อง: #28 (ตามร่างใน repo)
+
+ถัดไปที่แนะนำ
+- หากต้องการส่งข้อความนี้ให้บอสอัตโนมัติ: เพิ่ม BOT_TOKEN และ BOSS_CHAT_ID ลงใน copy-trade-bot/.env หรือส่ง chat_id ให้ผมแล้วสั่ง "send telegram <chat_id>"
+- หากต้องการให้ผมสร้าง PR/merge branch: ยืนยัน และผมจะเปิด PR ให้ (peer review ตาม PROJECT_SPEC)
+
+บันทึกโดย: automated reminder handler
+เวลา: 2026-11-26 08:00 Asia/Bangkok
