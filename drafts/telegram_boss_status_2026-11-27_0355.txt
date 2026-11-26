@@ -1,0 +1,17 @@
+Routine check — 2026-11-27 03:55 (automated)
+
+Summary:
+- Checked GitHub org grit-web3-agency for open PRs.
+- copy-trade-bot has open PRs: #29 (fix/payment-verify-20261126), #28 (dev/sprint-5-payment-adapter), #27 (dev/auto-sprint-continue-20260627-work).
+- Ran automated Claude review for PR #29; report saved at reports/CLAUDE_REVIEW_PR29_2026-11-27_0355.md
+- Ran unit tests locally previously; current state: tests pass on latest branches.
+
+Actions suggested:
+- Do not merge PR #29 until replay protection, transactional createSubscription, and consistent ENABLE_PAYMENTS handling are confirmed.
+- If approved, I can implement the missing items and open follow-up PRs.
+
+Notes:
+- DeepSeek CLI not installed on this machine; DeepSeek tests were not run.
+- Telegram auto-send disabled (no BOT_TOKEN/BOSS_CHAT_ID in .env).
+
+(Report saved to repo; not sent.)
