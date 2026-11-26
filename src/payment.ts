@@ -108,5 +108,9 @@ export async function activateSubscription(database: Database.Database, telegram
   }
 }
 
+export function isPaymentsEnabled(): boolean {
+  return String(process.env.ENABLE_PAYMENTS || '').toLowerCase() === 'true';
+}
+
 // Expose adapter utilities for tests
 export const _adapter = adapter;

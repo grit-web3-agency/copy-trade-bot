@@ -23,6 +23,7 @@ import {
   getUserPlan,
   checkWhaleLimit,
   getTreasuryAddress,
+  isPaymentsEnabled,
 } from './payment';
 import { getActiveSubscription } from './db';
 import type { TradeMode } from './db';
