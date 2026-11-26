@@ -1,6 +1,6 @@
 import Database from 'better-sqlite3';
 import { getOrCreateUser, recordPaymentEvent, getPaymentHistory } from '../../db';
-import { PLANS, activateSubscription, getPaymentMode } from '../../payment';
+import { PLANS, activateSubscription, getPaymentMode, isPaymentsEnabled } from '../../payment';
 import type { PaymentEvent } from '../../db';
 
 export interface WebhookPayload {
@@ -51,15 +51,9 @@ export async function handlePaymentWebhook(
   console.log(`[Webhook] Received ${payload.event} for user=${payload.telegram_id} plan=${payload.plan} mode=${mode}`);
 
   // Block webhook activations if payments are disabled globally
-  try {
-    const paymentsEnabled = require('../../payment').isPaymentsEnabled();
-    if (!paymentsEnabled) {
-      console.log('[Webhook] Payments are disabled; rejecting webhook processing');
-      return { success: false, message: 'Payments are disabled' };
-    }
-  } catch (e) {
-    console.log('[Webhook] Unable to verify payments feature flag; rejecting webhook');
-    return { success: false, message: 'Payment processing not available' };
+  if (!isPaymentsEnabled()) {
+    console.log('[Webhook] Payments are disabled; rejecting webhook processing');
+    return { success: false, message: 'Payments are disabled' };
   }
 
   getOrCreateUser(db, payload.telegram_id);
