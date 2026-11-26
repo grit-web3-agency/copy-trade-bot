@@ -1,0 +1,24 @@
+สรุปสถานะ Copy-Trade Bot — 2026-11-27 03:00 (อัตโนมัติ)
+
+1) ทำถึง Sprint ไหน
+- สถานะ: Sprint 5 (Payment adapter) — งานหลักของ Sprint 5 ถูกดำเนินการและมีการปรับปรุงความปลอดภัยเพิ่มเติมบนสาขา `fix/payment-verify-20261126` และ `fix/payment-webhook-import-20261127` (ดูรายงานใน reports/)
+
+2) มีปัญหาอะไร
+- ภาพรวม: ไม่มีบั๊กบล็อกเกอร์ที่ขัดขวางการทำงานหลัก; ชุดทดสอบ unit tests ผ่านทั้งหมด (241 tests)
+- ข้อจำกัด/ข้อควรระวัง:
+  • ระบบต้องการการยืนยัน webhook (HMAC/shared-secret) และ idempotency สำหรับ tx_signature — ยังไม่ได้ทำ
+  • ต้องทำ migration/dedupe ก่อนสร้าง unique index บน production DB ถ้ามี tx_signature ซ้ำ
+  • การส่ง Telegram อัตโนมัติยังไม่สามารถทำได้จนกว่าจะมี BOT_TOKEN และ BOSS_CHAT_ID ใน .env
+
+3) Push code แล้วหรือยัง
+- ใช่: การแก้ไขล่าสุดถูกคอมมิตและ push ไปยังสาขา:
+  • fix/payment-verify-20261126 (contains verification + DB uniqueness + gating)
+  • fix/payment-webhook-import-20261127 (webhook import/gating)
+
+ถัดไปที่แนะนำ
+- เปิด PR สำหรับแต่ละ branch (fix/payment-verify-20261126 และ fix/payment-webhook-import-20261127) ไปยัง `dev/sprint-5-payment-adapter` และขอ peer review
+- อนุมัติ/สั่งให้ผมทำการ migrate/cleanup ใน DB ก่อนสร้าง index ใน production (ผมสามารถช่วยรันสคริปต์ dedupe ตามที่อนุมัติ)
+- หากต้องการให้ผมส่ง Telegram ให้บอสโดยอัตโนมัติ: เพิ่ม BOT_TOKEN และ BOSS_CHAT_ID ลงใน copy-trade-bot/.env หรือส่ง chat_id และสั่ง "send telegram <chat_id>"
+
+บันทึกโดย: automated reminder handler
+เวลา: 2026-11-27 03:00 Asia/Bangkok
