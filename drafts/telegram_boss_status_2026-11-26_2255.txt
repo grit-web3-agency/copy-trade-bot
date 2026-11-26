@@ -1,0 +1,20 @@
+สรุปสถานะ (routine reminder 2026-11-26 22:55)
+
+1) ทำถึง Sprint ไหน
+- สถานะ: Sprint 5 (Payment adapter compatibility) — สาขา `dev/sprint-5-payment-adapter` เปิด PR (#28) รอ peer review / decision on adapter shape
+
+2) มีปัญหาอะไร
+- PR #28 ต้องแก้ไขจุดสำคัญด้านการยืนยันการชำระเงิน (Claude review รายการแนะนำอยู่ที่ reports/CLAUDE_REVIEW_PR28_2026-11-26_2054.md)
+- DeepSeek tests ยังไม่ได้รันเพราะ CLI ไม่ถูกติดตั้งบนเครื่อง
+- การส่ง Telegram อัตโนมัติยังไม่ทำได้เนื่องจาก BOT_TOKEN/BOSS_CHAT_ID ไม่ได้ตั้งค่าใน .env
+
+3) Push code แล้วหรือยัง
+- ใช่: ไม่มีการเปลี่ยนแปลงโค้ดที่ต้อง push (unit tests ผ่านทั้งหมด). เอกสารและรีวิวถูก commit & push ไปยัง branch: dev/auto-heartbeat-20261126 และ dev/auto-continue-20261126 ขึ้นอยู่กับขั้นตอนก่อนหน้า
+
+ถัดไปที่แนะนำ
+- อนุมัติให้ผมแก้โค้ดตามรายการของ Claude แล้วผมจะสร้าง PR โดยอัตโนมัติ
+- หรือตั้งค่าค่า BOT_TOKEN และ BOSS_CHAT_ID เพื่อให้ผมส่งสรุปนี้ให้บอส
+- อนุมัติการติดตั้ง DeepSeek ถ้าต้องการให้รัน test ต่อ
+
+บันทึกโดย: automated reminder handler
+เวลา: 2026-11-26 22:55 Asia/Bangkok

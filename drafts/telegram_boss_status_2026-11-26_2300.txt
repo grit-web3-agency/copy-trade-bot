@@ -1,0 +1,23 @@
+สรุปสถานะ Copy-Trade Bot — 2026-11-26 23:00 (อัตโนมัติ)
+
+1) ทำถึง Sprint ไหน
+- สถานะ: Sprint 5 (Payment adapter compatibility) — งานหลักอยู่บนสาขา `dev/sprint-5-payment-adapter`. รายงาน completion: reports/SPRINT_COMPLETE_2026-11-22_dev-sprint-5.md
+
+2) มีปัญหาอะไร
+- ผลการทดสอบ (unit tests): ผ่านทั้งหมด — 241 tests passed
+- ข้อจำกัด/ปัญหาเชิงปฏิบัติ:
+  • Payment adapter: PR #28 ยังเปิดอยู่ ต้องตัดสินใจเรื่อง adapter shape และแก้ไขเพื่อป้องกันการใช้งาน signature ปลอม (รีวิวโดย Claude อยู่ที่ reports/CLAUDE_REVIEW_PR28_2026-11-26_2054.md)
+  • DeepSeek tests: ไม่ได้รันเพราะ DeepSeek CLI ไม่ถูกติดตั้งบนเครื่องนี้
+  • การส่ง Telegram อัตโนมัติ: ยังไม่สามารถส่งได้เนื่องจาก BOT_TOKEN และ/หรือ BOSS_CHAT_ID ไม่ถูกตั้งค่าใน copy-trade-bot/.env
+
+3) Push code แล้วหรือยัง
+- การเปลี่ยนแปลงเชิงเอกสารและรีวิวถูก commit และ push ไปยัง branch: dev/auto-continue-20261126-2255 และ dev/auto-heartbeat-20261126 (มีงานอัปโหลดเอกสารและร่าง)
+- PR ที่เกี่ยวข้อง: #28 (dev/sprint-5-payment-adapter) — ยังเปิดสำหรับการ review/merge
+
+ถัดไปที่แนะนำ
+- หากต้องการให้ผมแก้โค้ดตามรายการที่ Claude แนะนำ: อนุมัติ ผมจะสร้าง worktree และรัน coding agent เพื่อสร้าง commits + PR ให้
+- หากต้องการส่งสรุปนี้ให้บอสโดยอัตโนมัติ: เพิ่ม BOT_TOKEN และ BOSS_CHAT_ID ใน copy-trade-bot/.env หรือให้ chat_id แล้วสั่ง: "send telegram <chat_id>"
+- หากต้องการให้ผมรัน DeepSeek tests: อนุมัติการติดตั้ง deepseek บนเครื่องนี้
+
+บันทึกโดย: automated reminder handler
+เวลา: 2026-11-26 23:00 Asia/Bangkok

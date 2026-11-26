@@ -1,0 +1,24 @@
+สรุปสถานะ Copy-Trade Bot — 2026-11-26 22:00 (อัตโนมัติ)
+
+1) ทำถึง Sprint ไหน
+- สถานะ: Sprint 5 (Payment adapter compatibility) — งานหลักบนสาขา `dev/sprint-5-payment-adapter` ถูกพัฒนาและมีรายงานการเสร็จ (ดู: reports/SPRINT_COMPLETE_2026-11-22_dev-sprint-5.md)
+
+2) มีปัญหาอะไร
+- ภาพรวม: ไม่มีบั๊กสำคัญที่ขัดขวางการ merge/deploy ตามรายงาน SPRINT_COMPLETE — ชุดทดสอบหน่วยทั้งหมดผ่าน (241 tests passed)
+- ข้อจำกัด/ต้องทราบ:
+  • Payment feature ถูกปิดตามค่าเริ่มต้น (ENABLE_PAYMENTS=false) — ต้องตั้งค่า PAYMENT_MODE และ credentials ใน .env เพื่อเปิดใช้งาน provider จริง
+  • PR #28 (Payment adapter) ต้องการการตัดสินใจเรื่อง adapter shape และแก้ไขเพิ่มเติมเพื่อยืนยันการจ่ายเงินก่อนเปิดใช้งาน (มีรีวิวจาก Claude เก็บไว้ใน reports/CLAUDE_REVIEW_PR28_2026-11-26_2054.md)
+  • DeepSeek ยังไม่ถูกติดตั้งบนเครื่องนี้ — ไม่สามารถรัน DeepSeek tests อัตโนมัติได้จนกว่าจะติดตั้ง
+  • การส่งสรุปทาง Telegram อัตโนมัติยังไม่ส่งเพราะไม่มี BOT_TOKEN และ BOSS_CHAT_ID ในไฟล์ .env ของโปรเจค
+
+3) Push code แล้วหรือยัง
+- ใช่: เอกสาร รายงาน และร่างถูก commit และ push ไปยัง branch: `dev/auto-heartbeat-20261126` (remote)
+- PR ที่เกี่ยวข้อง: #28 (dev/sprint-5-payment-adapter) — ยังรอการทบทวน/ตัดสินใจก่อน merge
+
+ถัดไปที่แนะนำ
+- หากต้องการให้ผมส่งข้อความนี้ให้บอสโดยอัตโนมัติ: เพิ่ม BOT_TOKEN และ BOSS_CHAT_ID ลงใน copy-trade-bot/.env หรือมอบ chat_id ให้ผมและอนุญาตให้ส่ง — ผมจะส่งร่างนี้ให้ทันทีและบันทึกผลการส่ง
+- หากต้องการให้ผมแก้ไขโค้ดตามรายการที่ Claude แนะนำ: อนุมัติ ผมจะเปิด worktree, สร้าง branch และใช้ coding agent เพื่อทำ commits แล้วเปิด PR ตามกระบวนการ
+- หากต้องการให้ผมติดตั้งและรัน DeepSeek tests: อนุมัติการติดตั้ง deepseek บนเครื่องนี้
+
+บันทึกโดย: automated reminder handler
+เวลา: 2026-11-26 22:00 Asia/Bangkok

@@ -1,0 +1,22 @@
+สรุปงาน (routine check 2026-11-26 21:54)
+
+สรุปสั้นๆ:
+- พบงานค้างที่ GitHub (org: grit-web3-agency): copy-trade-bot มี PR เปิดอยู่ 2 รายการ (#28, #27). PR #28 (dev/sprint-5-payment-adapter) เกี่ยวกับ Payment Adapter — Claude ให้รายการแก้ไขเชิงปฏิบัติ (ดู reports/CLAUDE_REVIEW_PR28_2026-11-26_2054.md)
+
+สิ่งที่ผมทำแล้ว (อัตโนมัติ):
+- ตรวจสอบ PRs (gh pr list)
+- รันชุดทดสอบ (npm run test) — ผล: ทุก unit tests ผ่าน (241 tests)
+- (ถ้าไม่ได้ติดตั้ง) DeepSeek ยังไม่อยู่บนเครื่อง — ไม่ได้รัน
+- สร้างร่างข้อความ Telegram ฉบับนี้และบันทึกไว้ (drafts/telegram_boss_status_2026-11-26_2154.txt)
+- บันทึกผลการทำงานลง reports/ และ push ขึ้น branch สำหรับ heartbeat
+
+ข้อจำกัด/ข้อเสนอแนะ:
+- DeepSeek CLI ไม่ได้ติดตั้ง (deepseek not found) — ถ้าต้องการให้รัน DeepSeek ให้อนุมัติการติดตั้ง
+- ยังไม่ส่ง Telegram ให้บอสเพราะไม่มี BOT_TOKEN/BOSS_CHAT_ID ใน .env ของโปรเจค
+
+ไฟล์อ้างอิง:
+- reports/CLAUDE_REVIEW_PR28_2026-11-26_2054.md
+- drafts/telegram_boss_status_2026-11-26_2154.txt
+
+บันทึกโดย: automated routine-check handler
+เวลา: 2026-11-26 21:54 Asia/Bangkok

@@ -75,17 +75,41 @@ export async function verifyPayment(txSignature: string, expectedAmountSol: numb
     }
   }
 
-  // Default to true in mock mode
-  return true;
+  // Default: only allow automatic verification in mock mode. In non-mock modes, fail closed.
+  if ((process.env.PAYMENT_MODE || 'mock') === 'mock') {
+    return true;
+  }
+  return false;
 }
 
 export async function activateSubscription(database: Database.Database, telegramId: string, planId: string, txSignature?: string | null): Promise<boolean> {
-  // If payments are disabled, still allow mock activation
-  if (typeof (adapter as any).activateSubscription === 'function') {
-    return (adapter as any).activateSubscription(database, telegramId, planId, txSignature);
+  // Require verification for paid plans
+  try {
+    const plan = service.PLANS[planId];
+    if (!plan) throw new Error(`Unknown plan: ${planId}`);
+
+    if (plan.priceSolMonthly > 0) {
+      // Paid plan — require txSignature and successful verification
+      if (!txSignature) return false;
+      const treasury = getTreasuryAddress();
+      const ok = await verifyPayment(txSignature, plan.priceSolMonthly, treasury);
+      if (!ok) return false;
+    }
+
+    if (typeof (adapter as any).activateSubscription === 'function') {
+      return (adapter as any).activateSubscription(database, telegramId, planId, txSignature);
+    }
+
+    // No-op default (only for free plan)
+    return plan.priceSolMonthly === 0;
+  } catch (err) {
+    console.error('[payment] activateSubscription error:', err);
+    return false;
   }
-  // No-op default
-  return true;
+}
+
+export function isPaymentsEnabled(): boolean {
+  return String(process.env.ENABLE_PAYMENTS || '').toLowerCase() === 'true';
 }
 
 // Expose adapter utilities for tests

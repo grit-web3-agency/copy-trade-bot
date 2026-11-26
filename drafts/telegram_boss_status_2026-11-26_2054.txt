@@ -1,0 +1,23 @@
+สรุปงาน (routine check 2026-11-26 20:54)
+
+สรุปสั้นๆ:
+- พบงานค้างที่ GitHub (org: grit-web3-agency): copy-trade-bot มี PR เปิดอยู่ 2 รายการ (#28, #27). PR #28 (dev/sprint-5-payment-adapter) เป็นงานเกี่ยวกับ Payment Adapter — ต้องการการตัดสินใจด้าน adapter shape และการแก้ไขเพื่อป้องกันการเปิดใช้งานแพลนแบบฟรีโดยใช้ signature ปลอม
+
+สิ่งที่ผมทำแล้ว (อัตโนมัติ):
+- ตรวจสอบ PRs (gh pr list)
+- รัน Claude CLI เพื่อรีวิว PR #28 และสร้างรายการแก้ไขเชิงปฏิบัติ (รายงานผลอยู่ที่ reports/CLAUDE_REVIEW_PR28_2026-11-26_2054.md)
+- รันชุดทดสอบ (npm run test) — ผล: ทุก unit tests ผ่าน (241 tests)
+- สร้างร่างข้อความ Telegram ฉบับนี้และบันทึกไว้ (drafts/telegram_boss_status_2026-11-26_2054.txt)
+- บันทึกผลการทำงานและรีวิวลงใน reports/ และ commit → push ไปยัง branch: dev/auto-heartbeat-20261126
+
+สิ่งที่ยังเหลือ / ข้อจำกัด:
+- DeepSeek CLI ไม่ถูกติดตั้งบนเครื่องนี้ (deepseek not found) — จึงยังไม่สามารถรัน DeepSeek tests ได้โดยอัตโนมัติ
+- การส่ง Telegram อัตโนมัติยังไม่สามารถทำได้: ไม่มี BOT_TOKEN และ/หรือ BOSS_CHAT_ID ใน copy-trade-bot/.env (โปรเจคมี .env.example เท่านั้น)
+
+ข้อเสนอแนะถัดไป (ให้บอสอนุมัติ):
+1) ให้อนุญาตให้ผมสร้าง PR แก้ไขตามรายการที่ Claude แนะนำ (เช่น verify tx ก่อน activate, unique tx index, gate ENABLE_PAYMENTS) — ผมจะสร้าง branch + commits ตามรายการ change และเปิด PR
+2) หรือตั้งค่า BOT_TOKEN และ BOSS_CHAT_ID ใน copy-trade-bot/.env แล้วบอกผมให้ส่งข้อความนี้ให้บอส ผมจะส่งและบันทึกผลการส่ง
+3) หากต้องการให้ผมติดตั้งและรัน DeepSeek tests: อนุมัติการติดตั้ง deepseek บนเครื่องนี้ (ผมจะแจ้งขั้นตอนและผลกระทบ)
+
+บันทึกโดย: automated routine-check handler
+เวลา: 2026-11-26 20:54 Asia/Bangkok

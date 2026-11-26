@@ -1,0 +1,23 @@
+สรุปสถานะ Copy-Trade Bot — 2026-11-26 12:25 (อัตโนมัติ)
+
+1) ทำถึง Sprint ไหน
+- สถานะ: Sprint 5 (Payment adapter compatibility) — งานบันทึกไว้บนสาขา `dev/sprint-5-payment-adapter` (ดู: reports/SPRINT_COMPLETE_2026-11-22_dev-sprint-5.md)
+
+2) มีปัญหาอะไร
+- ไม่มีบั๊กสำคัญที่ขัดขวางการ merge/deploy ตามรายงาน SPRINT_COMPLETE และชุดทดสอบหน่วยที่รันเมื่อ 12:25 — 241 tests passed
+- ข้อจำกัด/ต้องทราบ:
+  • Payment feature ปิดตามค่าเริ่มต้น (ENABLE_PAYMENTS=false) — ต้องตั้งค่า PAYMENT_* และ credentials ใน .env เพื่อเปิดใช้งาน provider จริง
+  • การส่งสรุปทาง Telegram อัตโนมัติยังไม่ส่งเพราะไม่มี BOT_TOKEN และ BOSS_CHAT_ID ในไฟล์ .env ของโปรเจค
+  • หากต้องการให้ Claude/DeepSeek ทำงานอัตโนมัติ ต้องเตรียมการยืนยัน/ติดตั้งเพิ่มเติม (ไม่ได้กำหนดไว้ในสภาพแวดล้อมนี้)
+
+3) Push code แล้วหรือยัง
+- ใช่: รายงานและร่างถูก commit และ push ไปยัง branch: dev/auto-continue-20261126
+  • Remote: https://github.com/grit-web3-agency/copy-trade-bot.git
+  • PR ที่เกี่ยวข้อง: (ถ้ามี) — ไม่ได้สร้าง PR สำหรับการเปลี่ยนแปลงนี้เพราะเป็นรายงาน/ร่าง
+
+ถัดไปที่แนะนำ
+- หากต้องการส่งข้อความนี้ให้บอสโดยอัตโนมัติ: เพิ่ม BOT_TOKEN และ BOSS_CHAT_ID ลงใน copy-trade-bot/.env (หรือมอบ chat_id ให้ผมและอนุญาตให้ส่ง) — ผมจะส่งร่างนี้ให้ทันทีและบันทึกผลการส่ง
+- หากต้องการให้ผมเปิด PR / merge `dev/sprint-5-payment-adapter` → `dev`: ยืนยัน และผมจะดำเนินการตามขั้นตอน (peer review อาจจำเป็น)
+
+บันทึกโดย: automated reminder handler
+เวลา: 2026-11-26 12:25 Asia/Bangkok
