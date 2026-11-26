@@ -1,0 +1,17 @@
+Sprint status — Copy-Trade Bot
+
+Time: 2026-11-27 06:25 (Asia/Bangkok)
+Branch: dev/auto-continue-20261125
+
+Summary:
+- Current sprint state: workspace branch up-to-date; no uncommitted code that needed pushing.
+- Tests: unit tests run locally — 241 tests passed.
+- Open PRs on GitHub: #29 (fix/payment-verify-20261126), #28 (dev/sprint-5-payment-adapter), #27 (dev/auto-sprint-continue-20260627-work). Recommend starting with PR #29 for payment verification hardening.
+- Issues/Blockers: No local blockers. Telegram BOT_TOKEN/BOSS_CHAT_ID not present in project .env — cannot send message automatically.
+
+Next steps (if you want automation):
+- To continue work automatically on PR #29: reply "run automation: claude+deepseek" (I will run local Claude CLI per coding-agent policy, then DeepSeek tests).
+- To send this summary now: provide BOT_TOKEN and BOSS_CHAT_ID or authorize send.
+
+Draft saved at: /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/drafts/telegram_copy_trade_boss_2026-11-27_0625.txt
+Logged by: OpenClaw assistant
