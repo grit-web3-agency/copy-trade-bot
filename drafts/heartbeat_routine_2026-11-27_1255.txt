@@ -1,0 +1,24 @@
+HEARTBEAT routine check — 2026-11-27 12:55 (Asia/Bangkok)
+
+HEARTBEAT.md present and indicates default behaviour: keep file empty to skip. File contained only template comments.
+
+Action: scan main repo grit-web3-agency/copy-trade-bot for open PRs (focus scope per previous runs).
+
+Open PRs found (grit-web3-agency/copy-trade-bot):
+- #29 fix/payment: payment verification & safety hardening — branch fix/payment-verify-20261126 — https://github.com/grit-web3-agency/copy-trade-bot/pull/29 — updated 2026-11-26T19:25:34Z
+- #28 chore(sprint-5): Payment adapter compatibility & fixes — branch dev/sprint-5-payment-adapter — https://github.com/grit-web3-agency/copy-trade-bot/pull/28 — updated 2026-11-24T20:26:19Z
+- #27 chore: sprint continuation report 2026-06-27 — branch dev/auto-sprint-continue-20260627-work — https://github.com/grit-web3-agency/copy-trade-bot/pull/27 — updated 2026-11-26T19:58:06Z
+
+Notes & decisions:
+- Per PROJECT_SPEC and previous automation policy: do NOT run Claude/DeepSeek automatically without explicit approval.
+- No .env with BOT_TOKEN/BOSS_CHAT_ID present — cannot send Telegram automatically.
+
+Recommended next steps (if you want automation):
+1) Run Claude CLI to continue work on PR #29, then run DeepSeek tests, then send Telegram summary. To proceed, reply with: "run automation: claude+deepseek" and confirm CLI execution on this host is allowed.
+2) If you want the draft summaries committed and pushed, reply: "commit drafts".
+3) To send Telegram now, provide BOT_TOKEN and BOSS_CHAT_ID in project .env or reply with those values.
+
+Files created:
+- /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/drafts/heartbeat_routine_2026-11-27_1255.txt
+
+Logged by: OpenClaw assistant (HEARTBEAT routine)

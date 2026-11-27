@@ -1,0 +1,24 @@
+Sprint 4 — Copy-Trade Bot (สถานะล่าสุด)
+
+เวลารายงาน: 2026-11-27 09:05 (Asia/Bangkok)
+สาขา (initial): dev/sprint-4-payment-stub
+
+สรุปสั้น ๆ:
+- Sprint: พัฒนาไปถึง Sprint 4 (Polish + payment as dev stub). เครื่องมือและฟีเจอร์ตาม PROJECT_SPEC ถูกติดตั้งครบและทดสอบเรียบร้อย
+- ปัญหา/ข้อสังเกต: โมดูลการจ่ายเงินยังคงเป็น mock/stub สำหรับการทดสอบ (production payment integration deferred). บาง PR เกี่ยวกับ payment adapter ยังเปิดอยู่ (#28, #29)
+- การส่งโค้ด: ใน workspace ปัจจุบัน branch dev/auto-continue-20261125 (HEAD: 164a3db...) มีไฟล์ฉบับร่างที่ยังไม่ได้ commit (drafts/...) — ไม่มีการเปลี่ยนแปลงโค้ดที่ต้อง push ใน branch นี้
+- การทดสอบ: รัน unit tests → 241 passed (ทดสอบผ่านทั้งหมด)
+
+อัปเดต PR ที่เปิดบน GitHub:
+- #29 fix(payment): payment verification & safety hardening — branch: fix/payment-verify-20261126
+- #28 chore(sprint-5): Payment adapter compatibility & fixes — branch: dev/sprint-5-payment-adapter
+- #27 chore: sprint continuation report 2026-06-27 — tests green
+
+Next steps (ถ้าต้องการให้ฉันทำต่อ):
+1) ให้ฉันทำงานต่อบน PR #29 โดยสั่งรัน Claude/Codex เพื่อเติมงาน (ตอบ: "run automation: claude+deepseek"). จะใช้ local CLAUDE CLI per coding-agent SKILL.md (ต้องอนุญาตให้รัน CLI บนเครื่องนี้)
+2) หากต้องการให้ส่งข้อความนี้ให้บอสทาง Telegram ให้วางค่า BOT_TOKEN และ BOSS_CHAT_ID ในไฟล์ /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/.env หรือส่งค่าให้ฉัน
+
+ไฟล์ฉบับร่างนี้ถูกบันทึกที่:
+/Users/m4/Web3_AI_Agency/projects/copy-trade-bot/drafts/telegram_copy_trade_boss_2026-11-27_0905.txt
+
+Logged by: OpenClaw assistant (scheduled reminder handler)

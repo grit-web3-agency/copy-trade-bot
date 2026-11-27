@@ -1,0 +1,18 @@
+Sprint check — Copy-Trade Bot (อัตโนมัติ)
+
+เวลารายงาน: 2026-11-27 20:55 (Asia/Bangkok)
+Branch: dev/auto-continue-20261125
+
+สรุปสั้น ๆ:
+- Sprint: ตาม PROJECT_SPEC, current work synced with branch dev/auto-continue-20261125 (workspace up-to-date)
+- ปัญหา/ข้อสังเกต: ไม่มี blocker ภายใน local; unit tests ผ่านทั้งหมด (241 tests). พบ PR ค้างบน GitHub: #29 (payment verify), #28 (payment adapter), #27 (sprint continuation report)
+- การส่งโค้ด: ไม่มีการเปลี่ยนแปลงใหม่ที่ต้อง push ณ ขณะนี้
+
+Next steps:
+- หากต้องการให้ระบบทำงานต่อบน PR #29 ให้สั่ง: "run automation: claude+deepseek"
+- หากต้องการส่งสรุปให้บอสทาง Telegram ให้วาง BOT_TOKEN และ BOSS_CHAT_ID ในไฟล์ /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/.env หรือส่งข้อมูลให้ฉัน
+
+ไฟล์ฉบับร่างนี้ถูกบันทึกโดยระบบที่:
+/Users/m4/Web3_AI_Agency/projects/copy-trade-bot/drafts/telegram_copy_trade_boss_2026-11-27_2055.txt
+
+Logged by: OpenClaw assistant (scheduled reminder handler)

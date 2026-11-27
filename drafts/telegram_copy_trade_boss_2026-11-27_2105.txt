@@ -1,0 +1,17 @@
+Sprint status — Copy-Trade Bot
+
+Time: 2026-11-27 21:05 (Asia/Bangkok)
+Branch: dev/auto-continue-20261125
+
+Summary:
+- Sprint: Project is developed to the MVP sprints; current working branch is dev/auto-continue-20261125. Historically Sprint 4 covered payment stub; Sprint 5 payment adapter exists as a branch/pr.
+- Issues: No local blockers. Payment module in past was a dev/test stub; merge conflicts were observed previously but resolved. Several PRs are open on GitHub that may require review (#29, #28, #27).
+- Push: Local workspace is up-to-date with origin; there are untracked draft files but no commits to push.
+- Tests: Unit tests: 241 passed (local run just executed).
+
+Next steps:
+- If you want full automation to continue PR #29, confirm: "run automation: claude+deepseek" (I'll run local Claude/Codex CLI per policy).
+- To send this summary to boss via Telegram, provide BOT_TOKEN and BOSS_CHAT_ID in project .env or supply them now. I will not send without credentials/approval.
+
+Saved draft at: drafts/telegram_copy_trade_boss_2026-11-27_2105.txt
+Logged by: OpenClaw assistant (scheduled handler)

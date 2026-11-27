@@ -1,0 +1,23 @@
+Sprint status — Copy-Trade Bot (อัปเดตอัตโนมัติ)
+
+เวลารายงาน: 2026-11-27 20:05 (Asia/Bangkok)
+Branch checked: dev/auto-continue-20261125
+
+สรุปสั้น ๆ:
+1) Sprint: ปัจจุบันทำงานถึง Sprint 4 (Polish / Deploy) — workspace branch: dev/auto-continue-20261125 (up-to-date with origin)
+2) ปัญหา/ข้อสังเกต:
+   - Payment module: มีการพัฒนา adapter ในสาขา dev/sprint-5-payment-adapter และ PR แก้ไข #29 (fix/payment-verify-20261126) รอรีวิว
+   - Unit tests: รันแล้วผ่านทั้งหมด (241 tests)
+   - ไม่มี blocker ภายใน local workspace; มี PR ค้างบน GitHub ที่ควรรีวิว/merge
+3) Push code:
+   - ณ ตอนนี้ไม่มีการเปลี่ยนแปลงใหม่ใน workspace ที่ต้อง push (working tree clean)
+
+Next steps (action items):
+- หากต้องการให้ฉันทำต่อ PR #29 โดยอัตโนมัติ ให้ตอบ: "run automation: claude+deepseek"
+- หากต้องการให้ฉันส่งสรุปนี้ทาง Telegram ให้บอส อัปเดตไฟล์ .env ที่ root ของโปรเจคด้วย BOT_TOKEN และ BOSS_CHAT_ID หรือส่งข้อมูลให้ฉัน (ฉันจะไม่ส่งโดยไม่มีค่าเหล่านี้)
+
+อ้างอิง:
+- Open PRs: #29, #28, #27 (รายละเอียดในระบบ)
+- Tests: vitest → 241 passed
+
+Draft saved by OpenClaw assistant (internal).

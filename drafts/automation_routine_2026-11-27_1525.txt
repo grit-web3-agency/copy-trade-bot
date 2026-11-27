@@ -1,0 +1,56 @@
+Routine automation check — 2026-11-27 15:25 (Asia/Bangkok)
+
+1) GitHub scan (grit-web3-agency/copy-trade-bot)
+- Found open PRs:
+  - #29 fix(payment): payment verification & safety hardening — https://github.com/grit-web3-agency/copy-trade-bot/pull/29 (head: fix/payment-verify-20261126) — updated: 2026-11-26T19:25:34Z
+  - #28 chore(sprint-5): Payment adapter compatibility & fixes — https://github.com/grit-web3-agency/copy-trade-bot/pull/28 (head: dev/sprint-5-payment-adapter) — updated: 2026-11-24T20:26:19Z
+  - #27 chore: sprint continuation report 2026-06-27 — tests green — https://github.com/grit-web3-agency/copy-trade-bot/pull/27 (head: dev/auto-sprint-continue-20260627-work) — updated: 2026-11-26T19:58:06Z
+
+2) Recommended automated next steps (Claude CLI -> DeepSeek -> Telegram summary)
+
+A) Run Claude CLI to continue work on highest-priority PR (suggest PR #29)
+
+Suggested shell steps (run on dev host with repo checked out):
+
+  cd /Users/m4/Web3_AI_Agency/projects/copy-trade-bot
+  gh pr checkout 29
+  cat > ./tmp/claude_task_pr29.md <<'TASK'
+  Continue implementation and safety hardening for payment verification.
+  Tasks:
+  - Review current payment verification code and tests.
+  - Add missing edge-case handling (network timeouts, double-spend prevention, idempotency).
+  - Add/adjust unit tests to cover new cases.
+  - Ensure compatibility wrapper for DB schema remains intact.
+  - Produce a short PR description and list of changes for reviewer.
+  TASK
+
+  claude --permission-mode bypassPermissions --print "$(cat ./tmp/claude_task_pr29.md)" > ./tmp/claude_pr29_result.md
+
+B) On successful Claude run, execute DeepSeek tests (integration/security checks)
+
+  deepseek test --repo /Users/m4/Web3_AI_Agency/projects/copy-trade-bot --branch fix/payment-verify-20261126 --output /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/tmp/deepseek_pr29_report.json
+
+C) Prepare Telegram summary and send to boss
+
+- Draft summary file exists at:
+  /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/drafts/telegram_copy_trade_boss_2026-11-27.txt
+
+- To send automatically, ensure the following are available in project .env (or provide values):
+  BOT_TOKEN=xxx
+  BOSS_CHAT_ID=yyy
+
+- Example send command (bash):
+  source /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/.env
+  python3 scripts/send_telegram.py --token "$BOT_TOKEN" --chat_id "$BOSS_CHAT_ID" --text-file drafts/telegram_copy_trade_boss_2026-11-27.txt
+
+3) Current blockers / notes
+- No .env found in project root with BOT_TOKEN/chat_id — cannot send Telegram automatically.
+- OpenClaw environment does not have an ACP-configured Claude agent available for automatic spawn (agents_list previously showed none). Manual CLAUDE CLI invocation required.
+
+Files created/updated by this automation run
+- /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/drafts/automation_routine_2026-11-27_1525.txt
+- memory/2026-11-27_routine_check.md (appended)
+
+If you want me to run the Claude CLI and DeepSeek tests now, reply with: "run automation: claude+deepseek" and confirm it's OK for me to execute local CLIs. To send Telegram automatically, provide BOT_TOKEN and BOSS_CHAT_ID (or approve sending now if already present).
+
+Logged by: OpenClaw assistant (routine checker)

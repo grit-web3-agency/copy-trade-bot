@@ -1,0 +1,75 @@
+Routine automation check — 2026-11-28 03:26 (Asia/Bangkok)
+
+1) GitHub scan (org: grit-web3-agency)
+- Repos scanned: copy-trade-bot, rustchain-bounties, mimictrade, mimictrade-app, mimictrade-api, mimictrade-vault, core
+- Open PRs found (summary):
+  - grit-web3-agency/copy-trade-bot
+    - #29 fix(payment): payment verification & safety hardening — https://github.com/grit-web3-agency/copy-trade-bot/pull/29 (head: fix/payment-verify-20261126) — updated: 2026-11-26T19:25:34Z
+    - #28 chore(sprint-5): Payment adapter compatibility & fixes — https://github.com/grit-web3-agency/copy-trade-bot/pull/28 (head: dev/sprint-5-payment-adapter) — updated: 2026-11-24T20:26:19Z
+    - #27 chore: sprint continuation report 2026-06-27 — https://github.com/grit-web3-agency/copy-trade-bot/pull/27 (head: dev/auto-sprint-continue-20260627-work) — updated: 2026-11-26T19:58:06Z
+  - No open PRs found in rustchain-bounties, core, or mimictrade-* (private repos checked where permitted)
+
+2) Local tool availability
+- claude CLI: available (/opt/homebrew/bin/claude) — version: 2.1.332 (Claude Code)
+- deepseek CLI: not found on PATH — cannot run DeepSeek tests locally until installed or a remote runner is provided
+- gh (GitHub CLI): available and authenticated for grit-web3-agency account
+
+3) PR #29 inspection
+- Files changed include many draft reports and telegram drafts (see PR view). Likely next work: tidy drafts, apply safety hardening to payment verification, ensure tests cover edge cases.
+
+4) Suggested automated workflow (manual approval required)
+
+A) Run Claude Code to continue work on PR #29 (example):
+
+  cd /Users/m4/Web3_AI_Agency/projects/copy-trade-bot
+  gh pr checkout 29
+  # create task for Claude
+  cat > ./tmp/claude_task_pr29.md <<'TASK'
+  Continue implementation and safety hardening for payment verification (PR #29).
+  Tasks:
+  - Review changes in PR #29 and the drafts included.
+  - Add missing edge-case handling (network timeouts, idempotency, invalid payloads).
+  - Add or adjust unit tests to exercise new edge cases.
+  - Consolidate draft telegram/reports into final report files (reports/ and drafts/cleanup).
+  - Produce a concise PR summary for reviewers and suggested commit patch.
+  TASK
+
+  # Run Claude (non-PTY, print mode as per coding-agent SKILL)
+  claude --permission-mode bypassPermissions --print "$(cat ./tmp/claude_task_pr29.md)" > ./tmp/claude_pr29_result.md
+
+  # Review ./tmp/claude_pr29_result.md and apply patches manually (or generate patch and git apply after review)
+
+B) Run DeepSeek tests (after Claude completes and changes are applied)
+
+  # DeepSeek not installed locally. Example invocation when available:
+  deepseek test --repo /Users/m4/Web3_AI_Agency/projects/copy-trade-bot --branch fix/payment-verify-20261126 --output /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/tmp/deepseek_pr29_report.json
+
+C) Prepare and send Telegram summary to boss
+
+- Draft summary(s) already exist in repo (many drafts found in PR #29). Use the consolidated draft at:
+  /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/drafts/telegram_copy_trade_boss_2026-11-27.txt (or the latest draft)
+
+- To send automatically, add to project .env (in project root):
+  BOT_TOKEN=xxx
+  BOSS_CHAT_ID=yyy
+
+- Example send command (python script):
+  source /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/.env
+  python3 scripts/send_telegram.py --token "$BOT_TOKEN" --chat_id "$BOSS_CHAT_ID" --text-file drafts/telegram_copy_trade_boss_2026-11-27.txt
+
+5) Blockers / Notes
+- DeepSeek CLI not found locally — cannot run DeepSeek tests until it's installed or a remote runner is provided.
+- No BOT_TOKEN/BOSS_CHAT_ID present in project .env — cannot send Telegram automatically.
+- There is a large number of draft files in PR #29 intended as generated reports — recommend human review before bulk commit/push.
+- OpenClaw ACP agents: none configured for automatic Claude spawn; local claude CLI is available and can be run with explicit approval.
+
+6) Files written by this automation run
+- /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/drafts/automation_routine_2026-11-28.txt  (this file)
+- memory/2026-11-28_routine_check.md  (created by assistant)
+
+If you want me to proceed: reply with an explicit command in chat (examples):
+- "run automation: claude+deepseek" — I'll run Claude CLI locally on PR #29, apply patches after review, then run DeepSeek (if available)
+- "install deepseek" — I'll attempt to install DeepSeek CLI (requires network and potential package installation)
+- "send telegram" — provide BOT_TOKEN and BOSS_CHAT_ID in project .env or supply values in reply
+
+Logged by: OpenClaw assistant (routine checker)

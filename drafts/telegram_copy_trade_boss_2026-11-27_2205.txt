@@ -1,0 +1,25 @@
+Sprint status — Copy-Trade Bot
+
+เวลารายงาน: 2026-11-27 22:05 (Asia/Bangkok)
+
+1) Sprint ที่ทำถึง:
+- โครงการพัฒนาอยู่ในช่วง Sprint 4 (Polish + payment integration as dev stub). Branchs in workspace: dev/auto-continue-20261125 (working branch). Previous payment-related branches: dev/sprint-4-payment-stub, dev/sprint-5-payment-adapter (payment adapter exists but default mock provider active).
+
+2) ปัญหา / ข้อสังเกต:
+- Payment module: production payment provider not enabled by default (ENABLE_PAYMENTS=false); payment adapter present but uses mock for local tests.
+- Some integration points are mocked (Jupiter quotes, Dashboard posts) during tests — real network calls are intentionally stubbed in test runs.
+- No critical blockers in local workspace; tests pass (241 unit tests passed). There are open PRs on GitHub that may require review/merge (#29 recommended first).
+
+3) Push code:
+- Local workspace branch dev/auto-continue-20261125 is up-to-date with origin — no new commits to push.
+- Open PRs pending review: #29, #28, #27 (see links). If you want drafts or local changes pushed, confirm and I will commit & push.
+
+Next steps (if you want automation):
+- To continue development on PR #29 automatically: confirm "run automation: claude+deepseek" (I will run local Claude/Codex CLI per policy and then DeepSeek tests).
+- To send this summary to the boss now: provide BOT_TOKEN and BOSS_CHAT_ID in project .env or reply with values/approval.
+
+Reference files:
+- Draft saved at: /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/drafts/telegram_copy_trade_boss_2026-11-27_2205.txt
+- Recent logs: memory/2026-11-27.md, memory/2026-11-27_routine_check.md, memory/2026-11-27_sprint_work.md
+
+Logged by: OpenClaw assistant (scheduled handler)

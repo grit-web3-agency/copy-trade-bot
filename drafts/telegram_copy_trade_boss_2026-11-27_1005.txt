@@ -1,0 +1,33 @@
+Sprint 4 — Copy-Trade Bot (สถานะล่าสุด)
+
+เวลารายงาน: 2026-11-27 10:05 (Asia/Bangkok)
+Branch inspected: dev/auto-continue-20261125
+
+สรุปโดยย่อ:
+1) Sprint: พัฒนาไปถึง Sprint 4 (Polish / payment as dev stub). There is also work on payment adapter in PRs (see below).
+2) ปัญหา/ข้อสังเกต:
+   - โมดูลการชำระเงินหลักยังใช้ mock/stub ในสภาพแวดล้อม dev/test (ตาม PROJECT_SPEC).
+   - ขณะนี้มี PRs ค้างบน GitHub ที่เกี่ยวข้องกับการชำระเงินและความเข้ากันได้ (#29, #28, #27). แนะนำให้เริ่มจาก PR #29 (fix/payment-verify-20261126) เพื่อความปลอดภัยและ hardening.
+   - ใน workspace มีไฟล์ร่าง (drafts/*.txt) ที่ยังเป็นไฟล์ในเครื่อง (untracked) — ไม่ได้ commit/push เป็นส่วนหนึ่งของ repo.
+3) Push code:
+   - สถานะ repo ในเครื่อง: Branch dev/auto-continue-20261125 ตรงกับ origin (ไม่มี commits ที่ต้อง push).
+   - ไม่มีการเปลี่ยนแปลงโค้ดที่ยังไม่ได้ commit/push (ยกเว้นไฟล์ร่างในโฟลเดอร์ drafts ซึ่งเป็น untracked files)
+4) Test status:
+   - รัน unit tests: 241 tests ผ่านทั้งหมด (vitest)
+
+Open PRs ที่ควรพิจารณา (grit-web3-agency/copy-trade-bot):
+- #29 fix(payment): payment verification & safety hardening — branch: fix/payment-verify-20261126
+- #28 chore(sprint-5): Payment adapter compatibility & fixes — branch: dev/sprint-5-payment-adapter
+- #27 chore: sprint continuation report 2026-06-27 — branch: dev/auto-sprint-continue-20260627-work
+
+Next steps (แนะนำ):
+- ถ้าต้องการให้ระบบทำงานต่ออัตโนมัติ: เรียกใช้งาน CLAUDE/Codex บน PR #29 ตาม pattern ใน coding-agent SKILL.md แล้วรัน DeepSeek tests หลังจากนั้นส่งรายงานผลทาง Telegram.
+- หากต้องการให้ฉันส่งข้อความนี้ให้บอสอัตโนมัติ: เพิ่มค่า BOT_TOKEN และ BOSS_CHAT_ID ใน /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/.env หรือส่งค่าให้ฉันโดยตรง (เพื่อความปลอดภัย แนะนำใส่ใน .env และอย่าโพสต์ค่าในที่สาธารณะ).
+
+หมายเหตุเพิ่มเติม:
+- ฉันพบไฟล์ร่างภายในโฟลเดอร์ drafts (ไม่ได้ commit) — หากต้องการให้รวมไฟล์เหล่านี้เป็น commit ให้บอกคำสั่ง (เช่น "commit drafts and push").
+
+ไฟล์ฉบับร่างนี้บันทึกที่:
+/Users/m4/Web3_AI_Agency/projects/copy-trade-bot/drafts/telegram_copy_trade_boss_2026-11-27_1005.txt
+
+Logged by: OpenClaw assistant (scheduled reminder handler)

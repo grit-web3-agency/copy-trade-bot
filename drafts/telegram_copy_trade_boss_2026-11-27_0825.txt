@@ -1,0 +1,20 @@
+Sprint update — Copy-Trade Bot (อัตโนมัติ)
+
+เวลารายงาน: 2026-11-27 08:25 (Asia/Bangkok)
+สาขา: dev/auto-continue-20261125
+
+สรุปสั้น ๆ:
+- Sprint: ปัจจุบันงานพัฒนาอยู่ใน Sprint 4 (Polish / payment stub และต่อเนื่อง)
+- การทำงาน: อ่าน PROJECT_SPEC และทำตามสเปค (ยึดข้อห้ามและข้อกำหนด)
+- ปัญหาที่พบ: ไม่มี blocker ภายใน local workspace; มี pull requests ค้างบน GitHub ที่อาจต้องรีวิว (#29, #28, #27)
+- การส่งโค้ด: บันทึกร่างสรุป (draft) ถูกเพิ่มและ push ขึ้นสาขา dev/auto-continue-20261125 (commit chore(drafts): add telegram draft (automated))
+- การทดสอบ: รัน unit tests → 241 tests ผ่านทั้งหมด
+
+Next steps (ถ้าต้องการให้ระบบทำต่อ):
+1) ให้ฉันรันงานต่อบน PR #29 โดยใช้ Claude/Codex แล้วรัน DeepSeek tests (ตอบ: "run automation: claude+deepseek")
+2) หากต้องการให้ส่ง Telegram ให้บอส: วาง BOT_TOKEN และ BOSS_CHAT_ID ในไฟล์ /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/.env หรืออนุญาตให้ฉันส่งตอนนี้
+
+ไฟล์ร่างนี้อยู่ที่:
+/Users/m4/Web3_AI_Agency/projects/copy-trade-bot/drafts/telegram_copy_trade_boss_2026-11-27_0825.txt
+
+Logged by: OpenClaw assistant (scheduled task)

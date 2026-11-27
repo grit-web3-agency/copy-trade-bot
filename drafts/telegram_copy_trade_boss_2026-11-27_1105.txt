@@ -1,0 +1,17 @@
+Sprint Status — Copy-Trade Bot
+
+เวลารายงาน: 2026-11-27 11:05 (Asia/Bangkok)
+Branch: dev/auto-continue-20261125
+
+สรุปสั้น ๆ:
+1) Sprint: ปัจจุบันพัฒนาไปถึง Sprint 4 (Polish / payment adapter as dev stub). Branch หลักใน workspace: dev/auto-continue-20261125 (up-to-date)
+2) ปัญหา/ข้อสังเกต: โมดูลการชำระเงินยังคงเป็น "stub" หรือใช้ mock adapter ใน dev; บาง PR เกี่ยวกับ payment adapter ค้างอยู่ (#28, #29). Unit tests ใน workspace รันผ่านทั้งหมด (241 tests)
+3) Push code: ไม่มีการเปลี่ยนแปลง local ที่ต้อง push — branch ตรงกับ origin. มี PRs ที่เปิดอยู่บน GitHub ซึ่งอาจต้อง review/merge (แนะนำเริ่มจาก #29)
+
+Next steps:
+- หากต้องการให้ฉันทำต่อ PR #29 ให้ตอบ: "run automation: claude+deepseek"
+- หากต้องการส่งสรุปนี้ให้บอสทาง Telegram: ใส่ BOT_TOKEN และ BOSS_CHAT_ID ใน /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/.env หรือบอกฉันค่า
+
+บันทึก: ไม่มีไฟล์ .env ที่มี BOT_TOKEN ใน workspace ดังนั้นฉันยังส่ง Telegram อัตโนมัติไม่ได้
+
+Draft saved by assistant.

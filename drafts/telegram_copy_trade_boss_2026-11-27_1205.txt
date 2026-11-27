@@ -1,0 +1,21 @@
+Sprint Report — Copy-Trade Bot
+
+เวลารายงาน: 2026-11-27 12:05 (Asia/Bangkok)
+
+1) Sprint: ปัจจุบันพัฒนาไปถึง Sprint 4 (Polish / payment integration as dev stub). Current working branch: dev/auto-continue-20261125. Unit tests: 241 passed.
+
+2) ปัญหา/ข้อสังเกต:
+- Payment module: implemented as a stub for dev/testing. Production payment gateway not integrated (controlled by ENABLE_PAYMENTS flag; PAYMENT_PROVIDER=mock by default).
+- Some open PRs exist on GitHub that may require review/merge: #29 (fix/payment-verify-20261126), #28 (dev/sprint-5-payment-adapter), #27 (dev/auto-sprint-continue-20260627-work).
+- No local blockers; unit tests passed. Draft files exist in repo but are untracked.
+
+3) Push status: Local branch dev/auto-continue-20261125 is up-to-date with origin; there are no commits to push. Drafts are untracked and will not be pushed without explicit approval.
+
+Next steps (action required):
+- To have me work on PR #29 automatically: reply with "run automation: claude+deepseek" (I will run local Claude/Codex CLI then DeepSeek tests after completion).
+- To send this summary to boss via Telegram automatically: provide BOT_TOKEN and BOSS_CHAT_ID in project .env or send the values to me.
+
+Files:
+- Draft saved at: drafts/telegram_copy_trade_boss_2026-11-27_1205.txt
+
+Logged by: OpenClaw assistant (scheduled reminder handler)

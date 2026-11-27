@@ -1,0 +1,22 @@
+Routine heartbeat check — 2026-11-28 02:26 (Asia/Bangkok)
+
+Scope: routine check (check pending work in GitHub grit-web3-agency repos). This run focuses on grit-web3-agency/copy-trade-bot.
+
+Open PRs (checked via gh):
+- #29 fix(payment): payment verification & safety hardening — head: fix/payment-verify-20261126 — https://github.com/grit-web3-agency/copy-trade-bot/pull/29 — updated: 2026-11-26T19:25:34Z
+- #28 chore(sprint-5): Payment adapter compatibility & fixes — head: dev/sprint-5-payment-adapter — https://github.com/grit-web3-agency/copy-trade-bot/pull/28 — updated: 2026-11-24T20:26:19Z
+- #27 chore: sprint continuation report 2026-06-27 — head: dev/auto-sprint-continue-20260627-work — https://github.com/grit-web3-agency/copy-trade-bot/pull/27 — updated: 2026-11-26T19:58:06Z
+
+Automation recipe (what to run if authorized):
+1) Run Claude CLI against highest-priority PR (#29) to continue implementation per coding-agent SKILL.md.
+   - Example steps included in prior drafts/automation_routine_2026-11-27.txt
+2) After Claude completes, run DeepSeek tests on the patched branch and save report to tmp/deepseek_pr29_report.json
+3) Prepare Telegram summary (draft exists at drafts/telegram_copy_trade_boss_2026-11-27.txt) and send to boss (BOT_TOKEN and BOSS_CHAT_ID required in project .env)
+
+Blockers:
+- No ACP/Claude agent configured for automatic spawn — must run local Claude CLI or configure ACP agent
+- BOT_TOKEN and BOSS_CHAT_ID not present in project .env — cannot send Telegram automatically
+
+Saved as: /Users/m4/Web3_AI_Agency/projects/copy-trade-bot/drafts/heartbeat_routine_2026-11-28_0226.txt
+
+Logged by: OpenClaw assistant (heartbeat routine)

@@ -1,0 +1,25 @@
+Sprint Update — Copy-Trade Bot
+
+เวลารายงาน: 2026-11-27 17:05 (Asia/Bangkok)
+Branch checked: dev/auto-continue-20261125
+
+1) Sprint: ปัจจุบันพัฒนาไปถึง Sprint 4 (Polish + payment adapter as dev stub). Branch local is up-to-date with origin.
+
+2) ปัญหา/ข้อสังเกต:
+- Payment module: implemented as dev/test stub; production payment integration deferred (controlled by ENABLE_PAYMENTS flag). There was previous merge work; conflicts were resolved.
+- Tests: Unit tests green (241 tests passed).
+- External network calls in tests are mocked (some retry logs show mocked network errors) — real devnet runs require network credentials.
+- Open PRs pending review: #29 (fix/payment-verify-20261126), #28 (dev/sprint-5-payment-adapter), #27 (dev/auto-sprint-continue-20260627-work)
+
+3) Push status:
+- No local uncommitted changes on branch dev/auto-continue-20261125; nothing to push.
+- There are open PRs on GitHub that may contain new code to merge — see list above.
+
+Notes before sending:
+- Automatic Telegram send requires BOT_TOKEN and BOSS_CHAT_ID in project .env (not present in workspace). Provide them or instruct me to send manually.
+
+References:
+- Drafts and previous logs in project drafts/ and memory/*.md
+
+Regards,
+Copy-Trade Bot CI (automated report)
