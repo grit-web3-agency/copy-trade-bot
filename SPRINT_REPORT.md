@@ -2,7 +2,7 @@ Sprint continuation — 2026-11-28
 
 Branch: dev/sprint-4-payment-stub
 Commits pushed:
-- 659be741f6221569ff3aa6b34b4e532244b8bf2c — fix(payments): resolve merge conflict and TS errors in payment webhook/service (Signed-off-by: OpenClaw assistant <assistant@local>)
+- d2f842d — fix(payments): resolve merge conflicts and typing issues (sprint continuation) (Signed-off-by: OpenClaw assistant <assistant@local>)
 
 Work performed:
 - Read and followed PROJECT_SPEC.md.
