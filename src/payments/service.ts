@@ -9,6 +9,9 @@ export interface Subscription {
   paid_sol: number;
   started_at: string;
   expires_at: string | null;
+  // legacy aliases (may be added at runtime)
+  plan_id?: string;
+  status?: string;
 }
 
 export interface SubscriptionPlan {

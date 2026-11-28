@@ -32,7 +32,8 @@ export function formatPlans(): string {
 export function formatSubscriptionStatus(database: Database.Database, telegramId: string): string {
   const sub = service.getActiveSubscription(database, telegramId);
   if (!sub) return `You are currently on the Free plan.`;
-  const plan = service.PLANS[sub.plan_id] || service.PLANS.free;
+  const planKey = (sub as any).plan_id || sub.plan;
+  const plan = service.PLANS[planKey] || service.PLANS.free;
   return `Subscription: ${plan.name} (expires ${sub.expires_at})`;
 }
 
